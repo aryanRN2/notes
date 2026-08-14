@@ -1,0 +1,153 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,decorations.pathreplacing}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+% Color Palette Definitions
+\definecolor{primarynavy}{RGB}{26, 54, 93}       % #1A365D - Deep Navy
+\definecolor{secondaryteal}{RGB}{13, 148, 136}   % #0D9488 - Teal Accent
+\definecolor{darkslate}{RGB}{45, 55, 72}        % #2D3748 - Body Text
+\definecolor{lightbg}{RGB}{247, 250, 252}        % #F7FAFC - Soft Background
+\definecolor{accentblue}{RGB}{49, 130, 206}      % #3182CE - Bright Blue
+\definecolor{warmgold}{RGB}{214, 158, 46}        % #D69E2E - Gold Highlight
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarynavy,
+    citecolor=secondaryteal,
+    urlcolor=accentblue,
+    pdftitle={Lecture Notes: Multivariable Calculus \& Analysis},
+    pdfauthor={Class Notes}
+}
+
+% Page Setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textbf{\color{primarynavy}Multivariable Calculus \& Real Analysis}}
+\fancyhead[R]{\small \textbf{\color{secondaryteal}MATMJ53}}
+\fancyfoot[L]{\small \textcolor{primarynavy}{\href{https://www.sciqb.com}{\textbf{www.sciqb.com}}}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\small \textcolor{secondaryteal}{\href{https://www.sciqb.com}{\textbf{SCIQB Platform}}}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Custom TColorBox Environments
+\newtcolorbox{defbox}[1]{
+    colback=lightbg,
+    colframe=primarynavy,
+    fonttitle=\bfseries\color{white},
+    title={#1},
+    boxrule=1pt,
+    top=3mm, bottom=3mm, left=4mm, right=4mm
+}
+
+\newtcolorbox{formulabox}[1]{
+    colback=secondaryteal!8!white,
+    colframe=secondaryteal,
+    fonttitle=\bfseries\color{white},
+    title={#1},
+    boxrule=1pt,
+    top=3mm, bottom=3mm, left=4mm, right=4mm
+}
+
+\newtcolorbox{exbox}[1]{
+    colback=white,
+    colframe=accentblue,
+    fonttitle=\bfseries\color{white},
+    title={#1},
+    boxrule=1pt,
+    top=3mm, bottom=3mm, left=4mm, right=4mm
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+% Title Banner
+\begin{center}
+    \tcbset{colframe=primarynavy,colback=primarynavy!5!white,arc=0mm}
+    \begin{tcolorbox}[sharp corners, boxrule=1.5pt]
+        \begin{center}
+            {\Large \bfseries \color{primarynavy} LECTURE NOTES ON MULTIVARIABLE CALCULUS \& ANALYSIS}\\[4pt]
+            {\large \bfseries \color{secondaryteal} Module 1: Functions of Several Variables \& Partial Differentiation \quad|\quad Module 2: Differentiability \& Taylor's Theorem}\\[6pt]
+            {\small \textbf{Course Code:} MATMJ53 \quad|\quad \textbf{Platform:} \href{https://www.sciqb.com}{\color{accentblue}\textbf{www.sciqb.com}}}
+        \end{center}
+    \end{tcolorbox}
+\end{center}
+
+\vspace{0.3cm}
+
+\tableofcontents
+\newpage
+
+\section{Module 1: Functions of Two Variables and Partial Differentiation}
+\textit{Lecture Date: August 06, 2026}
+
+Multivariable calculus extends single-variable calculus concepts to functions defined on $\mathbb{R}^n$.
+
+\subsection{Limits and Continuity}
+
+\begin{defbox}{Definition: Limit of a Function of Two Variables}
+Let $f: D \subset \mathbb{R}^2 \to \mathbb{R}$ be a function. We say $\lim_{(x,y) \to (a,b)} f(x,y) = L$ if for every $\varepsilon > 0$, there exists $\delta > 0$ such that:
+\begin{equation}
+    0 < \sqrt{(x-a)^2 + (y-b)^2} < \delta \implies |f(x,y) - L| < \varepsilon
+\end{equation}
+\end{defbox}
+
+\subsection{Partial Derivatives}
+
+\begin{defbox}{Definitions: Partial Derivatives}
+Let $f(x,y)$ be defined in a neighborhood of $(a,b)$.
+\begin{itemize}
+    \item \textbf{Partial Derivative with respect to $x$ at $(a,b)$:}
+    \begin{equation}
+        f_x(a,b) = \left. \frac{\partial f}{\partial x} \right|_{(a,b)} = \lim_{h \to 0} \frac{f(a+h, b) - f(a,b)}{h}
+    \end{equation}
+    
+    \item \textbf{Partial Derivative with respect to $y$ at $(a,b)$:}
+    \begin{equation}
+        f_y(a,b) = \left. \frac{\partial f}{\partial y} \right|_{(a,b)} = \lim_{k \to 0} \frac{f(a, b+k) - f(a,b)}{k}
+    \end{equation}
+\end{itemize}
+\end{defbox}
+
+\section{Module 2: Differentiability and Total Differentials}
+
+\subsection{Definition of Differentiability}
+
+\begin{formulabox}{Differentiability of $f(x,y)$ at $(a,b)$}
+A function $f(x,y)$ is said to be \textbf{differentiable} at $(a,b)$ if the increment $\Delta f = f(a+h, b+k) - f(a,b)$ can be expressed as:
+\begin{equation}
+    f(a+h, b+k) - f(a,b) = h f_x(a,b) + k f_y(a,b) + h \phi(h,k) + k \psi(h,k)
+\end{equation}
+where $\phi(h,k) \to 0$ and $\psi(h,k) \to 0$ as $(h,k) \to (0,0)$.
+\end{formulabox}
+
+\begin{exbox}{Theorem: Differentiability Implies Continuity}
+\textbf{Theorem:} If a function $f(x,y)$ is differentiable at $(a,b)$, then $f(x,y)$ is continuous at $(a,b)$.
+
+\textbf{Proof:} Taking the limit as $(h,k) \to (0,0)$ in the differentiability increment formula yields:
+$$\lim_{(h,k) \to (0,0)} f(a+h, b+k) = f(a,b)$$
+Thus $f$ is continuous at $(a,b)$. \qed
+\end{exbox}
+
+\subsection{Taylor's Theorem for Functions of Two Variables}
+
+\begin{defbox}{Taylor Series Expansion}
+If $f(x,y)$ and its partial derivatives up to order $n$ are continuous in a neighborhood of $(a,b)$, then:
+\begin{equation}
+    f(a+h, b+k) = f(a,b) + \left( h \frac{\partial}{\partial x} + k \frac{\partial}{\partial y} \right) f(a,b) + \frac{1}{2!} \left( h \frac{\partial}{\partial x} + k \frac{\partial}{\partial y} \right)^2 f(a,b) + \dots + R_n
+\end{equation}
+\end{defbox}
+
+\end{document}

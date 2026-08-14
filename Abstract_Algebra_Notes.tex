@@ -1,0 +1,586 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.85in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,positioning,calc,decorations.pathreplacing}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+% Color Palette Definitions
+\definecolor{primarynavy}{RGB}{26, 54, 93}       % #1A365D - Deep Navy
+\definecolor{secondaryteal}{RGB}{13, 148, 136}   % #0D9488 - Teal Accent
+\definecolor{darkslate}{RGB}{45, 55, 72}        % #2D3748 - Body Text
+\definecolor{lightbg}{RGB}{247, 250, 252}        % #F7FAFC - Soft Background
+\definecolor{accentblue}{RGB}{49, 130, 206}      % #3182CE - Bright Blue
+\definecolor{warmgold}{RGB}{214, 158, 46}        % #D69E2E - Gold Highlight
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primarynavy,
+    citecolor=secondaryteal,
+    urlcolor=accentblue,
+    pdftitle={Lecture Notes: Abstract Algebra (Group Theory)},
+    pdfauthor={Class Notes}
+}
+
+% Page Setup
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small \textbf{\color{primarynavy}Abstract Algebra: Group Theory \& Homomorphisms}}
+\fancyhead[R]{\small \textbf{\color{secondaryteal}MATMJ51}}
+\fancyfoot[L]{\small \textcolor{primarynavy}{\href{https://www.sciqb.com}{\textbf{www.sciqb.com}}}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\small \textcolor{secondaryteal}{\href{https://www.sciqb.com}{\textbf{SCIQB Platform}}}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Custom TColorBox Environments
+\newtcolorbox{defbox}[1]{
+    colback=lightbg,
+    colframe=primarynavy,
+    fonttitle=\bfseries\color{white},
+    title={#1},
+    boxrule=1pt,
+    top=3mm, bottom=3mm, left=4mm, right=4mm
+}
+
+\newtcolorbox{formulabox}[1]{
+    colback=secondaryteal!8!white,
+    colframe=secondaryteal,
+    fonttitle=\bfseries\color{white},
+    title={#1},
+    boxrule=1pt,
+    top=3mm, bottom=3mm, left=4mm, right=4mm
+}
+
+\newtcolorbox{exbox}[1]{
+    colback=white,
+    colframe=accentblue,
+    fonttitle=\bfseries\color{white},
+    title={#1},
+    boxrule=1pt,
+    top=3mm, bottom=3mm, left=4mm, right=4mm
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\begin{document}
+
+% Title Banner
+\begin{center}
+    \tcbset{colframe=primarynavy,colback=primarynavy!5!white,arc=0mm}
+    \begin{tcolorbox}[sharp corners, boxrule=1.5pt]
+        \begin{center}
+            {\Large \bfseries \color{primarynavy} LECTURE NOTES ON ABSTRACT ALGEBRA}\\[4pt]
+            {\large \bfseries \color{secondaryteal} Module 1: Groups, Subgroups \& Cosets \quad|\quad Module 2: Normal Subgroups, Quotient Groups \& Homomorphisms}\\[6pt]
+            {\small \textbf{Course Code:} MATMJ51 \quad|\quad \textbf{Reference Text:} Abstract Algebra (Dummit \& Foote) \quad|\quad \textbf{Platform:} \href{https://www.sciqb.com}{\color{accentblue}\textbf{www.sciqb.com}}}
+        \end{center}
+    \end{tcolorbox}
+\end{center}
+
+\vspace{0.3cm}
+
+\tableofcontents
+\newpage
+
+\section{Module 1: Groups, Subgroups, and Fundamental Examples}
+\textit{Lecture Dates: August 11 -- 12, 2026}
+
+Abstract algebra studies algebraic structures such as groups, rings, and fields. A group is one of the most fundamental algebraic structures, capturing the formal properties of symmetry, transformations, and algebraic operations.
+
+\subsection{Definition of a Group and Axioms}
+
+\begin{defbox}{Definition: Group}
+Let $G$ be a non-empty set and let $*$ be a binary operation defined on $G$. The pair $(G, *)$ is called a \textbf{group} if it satisfies the following four fundamental axioms:
+\begin{enumerate}
+    \item \textbf{Closure Axiom:}
+    \begin{equation}
+        \forall\, a, b \in G, \quad a * b \in G
+    \end{equation}
+    
+    \item \textbf{Associative Axiom:}
+    \begin{equation}
+        \forall\, a, b, c \in G, \quad (a * b) * c = a * (b * c)
+    \end{equation}
+    
+    \item \textbf{Existence of Identity Element:}
+    \begin{equation}
+        \exists\, e \in G \quad \text{such that} \quad \forall\, a \in G, \quad a * e = e * a = a
+    \end{equation}
+    
+    \item \textbf{Existence of Inverse Element:}
+    \begin{equation}
+        \forall\, a \in G, \quad \exists\, a^{-1} \in G \quad \text{such that} \quad a * a^{-1} = a^{-1} * a = e
+    \end{equation}
+\end{enumerate}
+If, in addition, the binary operation satisfies the \textbf{Commutative Property} ($\forall a, b \in G, a * b = b * a$), then $(G, *)$ is called an \textbf{Abelian (or Commutative) Group}.
+\end{defbox}
+
+\subsection{Standard Examples of Groups}
+
+The following collection represents standard examples of infinite and finite groups:
+
+\begin{formulabox}{Fundamental Examples of Groups}
+\begin{enumerate}
+    \item \textbf{Real Numbers under Addition:} $(\mathbb{R}, +)$ with identity element $e = 0$ and inverse of $a$ given by $-a$.
+    \item \textbf{Non-zero Real Numbers under Multiplication:} $(\mathbb{R}^*, \cdot)$ where $\mathbb{R}^* = \mathbb{R} \setminus \{0\}$, identity $e = 1$, and inverse $a^{-1} = 1/a$.
+    \item \textbf{Integers under Addition:} $(\mathbb{Z}, +)$ with identity $e = 0$.
+    \item \textbf{Non-zero Complex Numbers under Multiplication:} $(\mathbb{C}^*, \cdot)$ where $\mathbb{C}^* = \mathbb{C} \setminus \{0\}$.
+    \item \textbf{Integers Modulo $n$ under Addition:} $(\mathbb{Z}_n, +)$ where $\mathbb{Z}_n = \{\bar{0}, \bar{1}, \bar{2}, \dots, \overline{n-1}\}$.
+    \item \textbf{Rational Numbers under Addition:} $(\mathbb{Q}, +)$.
+    \item \textbf{Matrix Group under Addition:} $(M_n(\mathbb{R}), +)$, the set of all $n \times n$ matrices over $\mathbb{R}$ under matrix addition.
+    \item \textbf{Klein 4-Group ($V_4$):} $V_4 = \{e, a, b, c\}$ where $c = ab$, satisfying $a^2 = b^2 = c^2 = e$ and $ab = ba = c, ac = ca = b, bc = cb = a$.
+    \item \textbf{Polynomial Group under Addition:} $(P_n(\mathbb{R}), +)$, polynomials of degree $\le n$ with real coefficients.
+    \item \textbf{Non-zero Rational Numbers under Multiplication:} $(\mathbb{Q}^*, \cdot)$.
+    \item \textbf{Quaternion Group ($Q_8$):} $Q_8 = \{\pm 1, \pm i, \pm j, \pm k\}$ under quaternion multiplication, where $i^2 = j^2 = k^2 = ijk = -1$.
+    \item \textbf{Symmetric Group ($S_n, \circ$):} Permutation group on $n$ symbols.
+    \item \textbf{Group of Units Modulo $n$ ($U(n), \cdot$):} $U(n) = \{ k \in \mathbb{Z}_n \mid \gcd(k, n) = 1 \}$ under multiplication modulo $n$.
+\end{enumerate}
+\end{formulabox}
+
+\subsection{Symmetric Groups \texorpdfstring{$(S_n)$}{(Sn)} and Permutation Analysis}
+
+Let $T_n = \{1, 2, 3, \dots, n\}$ be a set of $n$ distinct elements.
+
+\begin{defbox}{Combinatorial Properties of Mapping Set $T_n$}
+\begin{itemize}
+    \item \textbf{Cardinality of Set:} $|T_n| = n$.
+    \item \textbf{Total Number of Functions} $f: T_n \to T_n$: $n^n$.
+    \item \textbf{Total Number of One-to-One (Injective) Functions:} $n!$.
+    \item \textbf{Total Number of Bijective Functions:} $n!$.
+\end{itemize}
+\textbf{Definition of Symmetric Group:} The set $S_n = \{ f: T_n \to T_n \mid f \text{ is bijective} \}$ under function composition $\circ$ forms a non-abelian group (for $n \ge 3$) of order $|S_n| = n!$, called the \textbf{Symmetric Group} of degree $n$.
+\end{defbox}
+
+\subsection{Group of $n$-th Roots of Unity \texorpdfstring{$(G_n)$}{(Gn)} and Isomorphism with \texorpdfstring{$\mathbb{Z}_n$}{Zn}}
+
+Consider the complex set of $n$-th roots of unity:
+\begin{equation}
+    G_n = \left\{ e^{\frac{2\pi i k}{n}} \;\middle|\; 0 \le k \le n-1 \right\} = \left\{ \cos\left(\frac{2\pi k}{n}\right) + i \sin\left(\frac{2\pi k}{n}\right) \;\middle|\; 0 \le k \le n-1 \right\}
+\end{equation}
+
+\begin{exbox}{Examples of Roots of Unity Groups}
+\begin{itemize}
+    \item \textbf{For $n=1$:} $G_1 = \{1\}$ (Trivial group)
+    \item \textbf{For $n=2$:} $G_2 = \{1, -1\}$
+    \item \textbf{For $n=3$:} $G_3 = \{1, \omega, \omega^2\}$ where $\omega = e^{2\pi i / 3} = -\frac{1}{2} + i\frac{\sqrt{3}}{2}$
+    \item \textbf{For $n=4$:} $G_4 = \{1, -1, i, -i\}$
+\end{itemize}
+\end{exbox}
+
+Define a mapping $f: \mathbb{Z}_n \to G_n$ by:
+\begin{equation}
+    f(\bar{k}) = e^{\frac{2\pi i k}{n}}
+\end{equation}
+Notice that for $\bar{k}_1, \bar{k}_2 \in \mathbb{Z}_n$:
+\begin{equation}
+    f(\bar{k}_1 + \bar{k}_2) = e^{\frac{2\pi i (k_1 + k_2)}{n}} = e^{\frac{2\pi i k_1}{n}} \cdot e^{\frac{2\pi i k_2}{n}} = f(\bar{k}_1) \cdot f(\bar{k}_2)
+\end{equation}
+Since $f$ is a bijective operation-preserving mapping, $(\mathbb{Z}_n, +)$ is isomorphic to $(G_n, \cdot)$, written $\mathbb{Z}_n \cong G_n$.
+
+\newpage
+
+\section{Module 2: Group Homomorphisms and Isomorphisms}
+\textit{Lecture Date: August 12, 2026}
+
+Homomorphisms are structural mappings between algebraic structures that preserve the underlying operations.
+
+\subsection{Formal Definitions}
+
+\begin{defbox}{Definition: Group Homomorphism}
+Let $(G_1, \circ)$ and $(G_2, \cdot)$ be two groups. A mapping $\phi: G_1 \to G_2$ is called a \textbf{group homomorphism} if:
+\begin{equation}
+    \phi(g_1 \circ g_2) = \phi(g_1) \cdot \phi(g_2) \quad \forall\, g_1, g_2 \in G_1
+\end{equation}
+\end{defbox}
+
+\begin{defbox}{Definition: Isomorphism and Isomorphic Groups}
+\begin{itemize}
+    \item A homomorphism $\phi: G_1 \to G_2$ is called an \textbf{isomorphism} if $\phi$ is both \textbf{one-to-one (injective)} and \textbf{onto (surjective)}.
+    \item Two groups $(G_1, \circ)$ and $(G_2, \cdot)$ are said to be \textbf{isomorphic} (denoted $G_1 \cong G_2$) if there exists an isomorphism $\phi: G_1 \to G_2$.
+\end{itemize}
+\end{defbox}
+
+\section{Module 3: Normal Subgroups and Center of a Group}
+\textit{Lecture Date: August 12, 2026}
+
+\subsection{Normal Subgroups}
+
+\begin{defbox}{Definition: Normal Subgroup}
+Let $G$ be a group and let $H$ be a subgroup of $G$ ($H \le G$). We say $H$ is a \textbf{normal subgroup} of $G$ (denoted $H \triangleleft G$) if:
+\begin{equation}
+    g h g^{-1} \in H \quad \forall\, g \in G, \; \forall\, h \in H
+\end{equation}
+Equivalent condition: $gH = Hg$ for all $g \in G$ (left cosets equal right cosets).
+\end{defbox}
+
+\subsection{Center of a Group \texorpdfstring{$Z(G)$}{Z(G)}}
+
+\begin{defbox}{Definition: Center of a Group}
+The \textbf{Center of a Group} $G$, denoted $Z(G)$, is defined as the set of all elements in $G$ that commute with every element of $G$:
+\begin{equation}
+    Z(G) = \{ g \in G \mid gh = hg, \; \forall\, h \in G \}
+\end{equation}
+\end{defbox}
+
+\begin{exbox}{Theorem 3.1: $Z(G)$ is a Subgroup of $G$}
+\textbf{Theorem:} Let $G$ be a group. Then $Z(G)$ is a subgroup of $G$ ($Z(G) \le G$).
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item \textbf{Non-emptiness:} Since the identity $e \in G$ satisfies $eh = he = h$ for all $h \in G$, $e \in Z(G)$. Thus $Z(G) \neq \emptyset$.
+    \item \textbf{One-Step Subgroup Criterion:} Let $g_1, g_2 \in Z(G)$. Then by definition:
+    \begin{align}
+        g_1 h &= h g_1 \quad \forall\, h \in G \\
+        g_2 h &= h g_2 \quad \forall\, h \in G
+    \end{align}
+    From $g_2 h = h g_2$, multiplying on the left and right by $g_2^{-1}$ yields:
+    \begin{equation}
+        g_2^{-1}(g_2 h)g_2^{-1} = g_2^{-1}(h g_2)g_2^{-1} \implies h g_2^{-1} = g_2^{-1} h \quad \forall\, h \in G
+    \end{equation}
+    Now evaluate $(g_1 g_2^{-1}) h$:
+    \begin{align}
+        (g_1 g_2^{-1}) h &= g_1 (g_2^{-1} h) = g_1 (h g_2^{-1}) = (g_1 h) g_2^{-1} \nonumber \\
+        &= (h g_1) g_2^{-1} = h (g_1 g_2^{-1}) \quad \forall\, h \in G
+    \end{align}
+    Therefore, $g_1 g_2^{-1} \in Z(G)$, which proves that $Z(G) \le G$. \qed
+\end{enumerate}
+\end{exbox}
+
+\begin{exbox}{Theorem 3.2: $Z(G)$ is a Normal Subgroup of $G$}
+\textbf{Theorem:} Let $G$ be a group. Then $Z(G)$ is a normal subgroup of $G$ ($Z(G) \triangleleft G$).
+
+\textbf{Proof:}
+Let $h_1 \in Z(G)$ and let $g \in G$. Since $h_1 \in Z(G)$, it commutes with every element of $G$, so $g h_1 = h_1 g$.
+Now examine $g h_1 g^{-1}$:
+\begin{equation}
+    g h_1 g^{-1} = (h_1 g) g^{-1} = h_1 (g g^{-1}) = h_1 e = h_1 \in Z(G)
+\end{equation}
+Since $g h_1 g^{-1} \in Z(G)$ for all $g \in G$ and $h_1 \in Z(G)$, $Z(G)$ is a normal subgroup of $G$. \qed
+\end{exbox}
+
+\newpage
+
+\section{Module 4: Cosets, Equivalence Relations, and Lagrange's Theorem}
+\textit{Lecture Date: August 13, 2026}
+
+\subsection{Left and Right Cosets}
+
+\begin{defbox}{Definition: Cosets}
+Let $G$ be a group, let $H$ be a subgroup of $G$, and let $a \in G$.
+\begin{itemize}
+    \item \textbf{Left Coset of $H$ containing $a$:}
+    \begin{equation}
+        aH = \{ ah \mid h \in H \}
+    \end{equation}
+    \item \textbf{Right Coset of $H$ containing $a$:}
+    \begin{equation}
+        Ha = \{ ha \mid h \in H \}
+    \end{equation}
+\end{itemize}
+Special property: If $a \in H$, then $aH = H = Ha$.
+\end{defbox}
+
+\subsection{Equivalence Relation Induced by a Subgroup}
+
+Let $H \le G$. Define a binary relation $\sim$ on $G$ by:
+\begin{equation}
+    a \sim b \iff b^{-1} a \in H
+\end{equation}
+
+\begin{exbox}{Theorem 4.1: Equivalence Relation Proof}
+\textbf{Theorem:} The relation $\sim$ defined by $a \sim b \iff b^{-1}a \in H$ is an equivalence relation on $G$.
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item \textbf{Reflexivity:} For any $a \in G$, $a^{-1}a = e \in H$ (since $H$ is a subgroup). Thus $a \sim a$.
+    \item \textbf{Symmetry:} Suppose $a \sim b \implies b^{-1}a \in H$. Since $H$ is closed under inverses:
+    \begin{equation}
+        (b^{-1}a)^{-1} = a^{-1}(b^{-1})^{-1} = a^{-1}b \in H \implies b \sim a
+    \end{equation}
+    \item \textbf{Transitivity:} Suppose $a \sim b$ and $b \sim c \implies b^{-1}a \in H$ and $c^{-1}b \in H$.
+    Since $H$ is closed under multiplication:
+    \begin{equation}
+        (c^{-1}b)(b^{-1}a) = c^{-1}(b b^{-1})a = c^{-1} e a = c^{-1}a \in H \implies a \sim c
+    \end{equation}
+\end{enumerate}
+Since $\sim$ is reflexive, symmetric, and transitive, it is an equivalence relation on $G$. \qed
+\end{exbox}
+
+\subsection{Congruence Classes and Partition of $G$}
+
+The equivalence class of an element $a \in G$ under $\sim$ is given by:
+\begin{equation}
+    [a] = \{ b \in G \mid a \sim b \} = \{ b \in G \mid b^{-1}a \in H \} = aH
+\end{equation}
+Key Properties:
+\begin{itemize}
+    \item $[a] = [b] \iff a \sim b \iff aH = bH$.
+    \item Two left cosets $aH$ and $bH$ are either identical or disjoint ($aH \cap bH = \emptyset$).
+    \item The distinct left cosets partition $G$: $G = \bigcup_{aH \in S} aH$.
+\end{itemize}
+
+\subsection{Lagrange's Theorem and Orders of Elements}
+
+\begin{formulabox}{Theorem 4.2: Lagrange's Theorem}
+\textbf{Theorem:} If $G$ is a finite group and $H$ is a subgroup of $G$, then the order of $H$ divides the order of $G$:
+\begin{equation}
+    |H| \;\Big|\; |G|
+\end{equation}
+The ratio $[G : H] = \frac{|G|}{|H|}$ is called the \textbf{index} of $H$ in $G$, representing the number of distinct left cosets.
+
+\textbf{Proof Outline:} Since $G$ is finite, $G$ is partitioned into $k = [G:H]$ distinct disjoint left cosets $a_1 H, a_2 H, \dots, a_k H$. Because $|a_i H| = |H|$ for each $i$, we have:
+$$|G| = |a_1 H| + |a_2 H| + \dots + |a_k H| = k |H| \implies |H| \mid |G| \quad \qed$$
+\end{formulabox}
+
+\begin{defbox}{Corollaries of Lagrange's Theorem}
+\begin{enumerate}
+    \item \textbf{Order of Element Divides Group Order:} For any $a \in G$ in a finite group $G$, $|a| \mid |G|$, where $|a| = |\langle a \rangle|$.
+    \item \textbf{Groups of Prime Order are Cyclic:} If $|G| = p$ where $p$ is a prime number, then $G$ has no non-trivial subgroups and $G \cong \mathbb{Z}_p$.
+\end{enumerate}
+\end{defbox}
+
+\newpage
+
+\section{Module 5: Quotient Groups and Canonical Examples}
+\textit{Lecture Date: August 14, 2026}
+
+\subsection{Definition and Group Structure of Quotient Groups}
+
+\begin{defbox}{Definition: Quotient Group (Factor Group)}
+Let $G$ be a group and $H \triangleleft G$ be a normal subgroup. The set of left cosets:
+\begin{equation}
+    G/H = \{ aH \mid a \in G \}
+\end{equation}
+forms a group under the operation of coset multiplication:
+\begin{equation}
+    (aH) \cdot (bH) = (ab)H \quad \forall\, a, b \in G
+\end{equation}
+The group $(G/H, \cdot)$ is called the \textbf{Quotient Group} (or Factor Group) of $G$ by $H$, with order $|G/H| = [G : H] = |G|/|H|$.
+\end{defbox}
+
+\subsection{The Canonical Quotient Group \texorpdfstring{$\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}_n$}{Z/nZ = Zn}}
+
+Consider the additive group of integers $(\mathbb{Z}, +)$ and the subgroup $n\mathbb{Z} = \{ nk \mid k \in \mathbb{Z} \}$.
+\begin{itemize}
+    \item Since $(\mathbb{Z}, +)$ is abelian, every subgroup is normal ($n\mathbb{Z} \triangleleft \mathbb{Z}$).
+    \item The cosets of $n\mathbb{Z}$ in $\mathbb{Z}$ are:
+    \begin{align}
+        \bar{0} &= 0 + n\mathbb{Z} = \{ \dots, -2n, -n, 0, n, 2n, \dots \} \\
+        \bar{1} &= 1 + n\mathbb{Z} = \{ \dots, -2n+1, -n+1, 1, n+1, 2n+1, \dots \} \\
+        &\vdots \nonumber \\
+        \overline{n-1} &= (n-1) + n\mathbb{Z}
+    \end{align}
+    \item Thus $\mathbb{Z}/n\mathbb{Z} = \{ 0+n\mathbb{Z}, 1+n\mathbb{Z}, \dots, (n-1)+n\mathbb{Z} \} \cong \mathbb{Z}_n$.
+\end{itemize}
+
+\begin{exbox}{Fact vs Counterexample: Normality in Groups}
+\textbf{Fact:} In an abelian group, every subgroup is normal.
+
+\textbf{Counterexample (Non-Normal Subgroup):} Consider $G = S_3$ and $H = \{e, (12)\}$.
+Left coset: $(23)H = \{(23), (23)(12)\} = \{(23), (132)\}$.
+Right coset: $H(23) = \{(23), (12)(23)\} = \{(23), (123)\}$.
+Since $(23)H \neq H(23)$, $H$ is \textbf{not} a normal subgroup of $S_3$.
+\end{exbox}
+
+\newpage
+
+\section{Module 6: Kernels, Images, and Isomorphism Theorems}
+\textit{Lecture Date: August 14, 2026}
+
+\subsection{Kernel of a Homomorphism \texorpdfstring{$\operatorname{Ker} \phi$}{Ker phi}}
+
+\begin{defbox}{Definition: Kernel}
+Let $\phi: (G_1, *) \to (G_2, \circ)$ be a group homomorphism. The \textbf{Kernel} of $\phi$, denoted $\operatorname{Ker} \phi$, is the set of all elements in $G_1$ mapped to the identity element $e_2 \in G_2$:
+\begin{equation}
+    \operatorname{Ker} \phi = \{ g \in G_1 \mid \phi(g) = e_2 \}
+\end{equation}
+\end{defbox}
+
+\begin{exbox}{Fundamental Lemma: Properties of Identity and Inverses under Homomorphism}
+\textbf{Lemma:} Let $\phi: G_1 \to G_2$ be a group homomorphism with identities $e_1 \in G_1$ and $e_2 \in G_2$. Then:
+\begin{enumerate}
+    \item $\phi(e_1) = e_2$
+    \item $\phi(g^{-1}) = (\phi(g))^{-1} \quad \forall\, g \in G_1$
+\end{enumerate}
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item $\phi(e_1) = \phi(e_1 * e_1) = \phi(e_1) \circ \phi(e_1)$. Multiplying both sides by $[\phi(e_1)]^{-1} \in G_2$:
+    \begin{align}
+        e_2 &= [\phi(e_1)]^{-1} \circ \phi(e_1) = [\phi(e_1)]^{-1} \circ (\phi(e_1) \circ \phi(e_1)) \nonumber \\
+            &= ([\phi(e_1)]^{-1} \circ \phi(e_1)) \circ \phi(e_1) = e_2 \circ \phi(e_1) = \phi(e_1) \implies \phi(e_1) = e_2 \quad \qed
+    \end{align}
+    
+    \item $\phi(g) \circ \phi(g^{-1}) = \phi(g * g^{-1}) = \phi(e_1) = e_2$. Multiplying by $(\phi(g))^{-1}$ on the left gives:
+    $$\phi(g^{-1}) = (\phi(g))^{-1} \quad \qed$$
+\end{enumerate}
+\end{exbox}
+
+\begin{exbox}{Theorem 6.1: $\operatorname{Ker} \phi$ is a Subgroup of $G_1$}
+\textbf{Theorem:} Let $\phi: G_1 \to G_2$ be a homomorphism. Then $\operatorname{Ker} \phi$ is a subgroup of $G_1$ ($\operatorname{Ker} \phi \le G_1$).
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item Since $\phi(e_1) = e_2$, $e_1 \in \operatorname{Ker} \phi \implies \operatorname{Ker} \phi \neq \emptyset$.
+    \item Let $a, b \in \operatorname{Ker} \phi \implies \phi(a) = e_2$ and $\phi(b) = e_2$. Evaluate $\phi(a * b^{-1})$:
+    \begin{align}
+        \phi(a * b^{-1}) &= \phi(a) \circ \phi(b^{-1}) = \phi(a) \circ (\phi(b))^{-1} \nonumber \\
+        &= e_2 \circ (e_2)^{-1} = e_2 \circ e_2 = e_2
+    \end{align}
+    Thus $a * b^{-1} \in \operatorname{Ker} \phi$. By the subgroup test, $\operatorname{Ker} \phi \le G_1$. \qed
+\end{enumerate}
+\end{exbox}
+
+\begin{exbox}{Theorem 6.2: $\operatorname{Ker} \phi$ is a Normal Subgroup of $G_1$}
+\textbf{Theorem:} Let $\phi: G_1 \to G_2$ be a homomorphism. Then $\operatorname{Ker} \phi$ is a normal subgroup of $G_1$ ($\operatorname{Ker} \phi \triangleleft G_1$).
+
+\textbf{Proof:}
+Let $g \in G_1$ and $h \in \operatorname{Ker} \phi \implies \phi(h) = e_2$.
+Evaluate $\phi(g * h * g^{-1})$:
+\begin{align}
+    \phi(g * h * g^{-1}) &= \phi(g) \circ \phi(h) \circ \phi(g^{-1}) = \phi(g) \circ e_2 \circ (\phi(g))^{-1} \nonumber \\
+    &= \phi(g) \circ (\phi(g))^{-1} = e_2
+\end{align}
+Since $\phi(g * h * g^{-1}) = e_2$, $g * h * g^{-1} \in \operatorname{Ker} \phi$.
+Thus $\operatorname{Ker} \phi \triangleleft G_1$. \qed
+\end{exbox}
+
+\subsection{Image of a Homomorphism \texorpdfstring{$\operatorname{Im}(\phi)$}{Im(phi)}}
+
+\begin{defbox}{Definition: Image of Homomorphism}
+The \textbf{Image} of $\phi$, denoted $\operatorname{Im}(\phi)$ or $\phi(G_1)$, is:
+\begin{equation}
+    \operatorname{Im}(\phi) = \{ \phi(g) \mid g \in G_1 \} \subseteq G_2
+\end{equation}
+\end{defbox}
+
+\begin{exbox}{Theorem 6.3: $\operatorname{Im}(\phi)$ is a Subgroup of $G_2$}
+\textbf{Theorem:} Let $\phi: G_1 \to G_2$ be a homomorphism. Then $\operatorname{Im}(\phi) \le G_2$.
+
+\textbf{Proof:}
+Let $y_1, y_2 \in \operatorname{Im}(\phi) \implies \exists\, g_1, g_2 \in G_1$ such that $y_1 = \phi(g_1)$ and $y_2 = \phi(g_2)$.
+Evaluate $y_1 \circ y_2^{-1}$:
+\begin{equation}
+    y_1 \circ y_2^{-1} = \phi(g_1) \circ (\phi(g_2))^{-1} = \phi(g_1) \circ \phi(g_2^{-1}) = \phi(g_1 * g_2^{-1})
+\end{equation}
+Since $g_1 * g_2^{-1} \in G_1$, $y_1 \circ y_2^{-1} \in \operatorname{Im}(\phi)$.
+Therefore, \textbf{Image} $\operatorname{Im}(\phi) \le G_2$. \qed
+\end{exbox}
+
+\subsection{Injectivity Criterion}
+
+\begin{exbox}{Theorem 6.4: One-to-One Characterization via Kernel}
+\textbf{Theorem:} A group homomorphism $\phi: G_1 \to G_2$ is one-to-one (injective) if and only if $\operatorname{Ker} \phi = \{e_1\}$.
+
+\textbf{Proof:}
+\begin{itemize}
+    \item ($\implies$) Assume $\phi$ is one-to-one. Let $g \in \operatorname{Ker} \phi \implies \phi(g) = e_2$. Since $\phi(e_1) = e_2$ and $\phi$ is injective, $g = e_1$. Thus $\operatorname{Ker} \phi = \{e_1\}$.
+    
+    \item ($\impliedby$) Assume $\operatorname{Ker} \phi = \{e_1\}$. Let $a, b \in G_1$ such that $\phi(a) = \phi(b)$.
+    Then:
+    \begin{equation}
+        \phi(a) \circ (\phi(b))^{-1} = e_2 \implies \phi(a * b^{-1}) = e_2 \implies a * b^{-1} \in \operatorname{Ker} \phi
+    \end{equation}
+    Since $\operatorname{Ker} \phi = \{e_1\}$, $a * b^{-1} = e_1 \implies a = b$.
+    Thus $\phi$ is one-to-one. \qed
+\end{itemize}
+\end{exbox}
+
+\newpage
+
+\section{Module 7: Master Quick Revision Cheat Sheet}
+
+\begin{formulabox}{1. Group Axioms, Subgroups, and Cyclic Groups}
+\begin{itemize}
+    \item \textbf{Group Axioms $(G, *)$:}
+    \begin{itemize}
+        \item Closure: $\forall a, b \in G \implies a * b \in G$
+        \item Associativity: $\forall a, b, c \in G \implies (a * b) * c = a * (b * c)$
+        \item Identity: $\exists e \in G$ such that $a * e = e * a = a, \forall a \in G$
+        \item Inverse: $\forall a \in G, \exists a^{-1} \in G$ such that $a * a^{-1} = a^{-1} * a = e$
+        \item Abelian (Commutative): $\forall a, b \in G \implies a * b = b * a$
+    \end{itemize}
+    \item \textbf{One-Step Subgroup Criterion:} A non-empty subset $H \subseteq G$ is a subgroup ($H \le G$) if and only if $\forall a, b \in H \implies a * b^{-1} \in H$.
+    \item \textbf{Order of an Element \& Cyclic Groups:}
+    \begin{itemize}
+        \item Order $|a| = \min\{n \in \mathbb{N} \mid a^n = e\}$. If no such $n$ exists, $|a| = \infty$.
+        \item Cyclic Group: $G = \langle a \rangle = \{a^k \mid k \in \mathbb{Z}\}$.
+        \item Order relation: $|a| = |\langle a \rangle|$.
+        \item If $|a| = n$, then $|a^k| = \frac{n}{\gcd(n, k)}$. The number of generators of a finite cyclic group of order $n$ is $\phi(n)$ (Euler's totient function).
+        \item Every subgroup of a cyclic group is cyclic.
+    \end{itemize}
+\end{itemize}
+\end{formulabox}
+
+\vspace{0.2cm}
+
+\begin{defbox}{2. Permutations, Cosets, and Lagrange's Theorem}
+\begin{itemize}
+    \item \textbf{Symmetric Group $S_n$ \& Alternating Group $A_n$:}
+    \begin{itemize}
+        \item Order of $S_n$ is $|S_n| = n!$.
+        \item Disjoint cycles commute: $(a_1 \dots a_k)(b_1 \dots b_m) = (b_1 \dots b_m)(a_1 \dots a_k)$.
+        \item Every permutation is a product of 2-cycles (transpositions).
+        \item Parity is invariant: A permutation is even/odd depending on the parity of transpositions.
+        \item Alternating group $A_n$ consists of all even permutations, with $|A_n| = \frac{n!}{2}$.
+    \end{itemize}
+    \item \textbf{Cosets \& Index:}
+    \begin{itemize}
+        \item Left coset: $aH = \{ah \mid h \in H\}$; Right coset: $Ha = \{ha \mid h \in H\}$.
+        \item Coset partition: Cosets partition $G$ into mutually disjoint subsets of equal cardinality $|H|$.
+        \item Index $[G : H]$: Number of distinct left (or right) cosets of $H$ in $G$.
+    \end{itemize}
+    \item \textbf{Lagrange's Theorem:} If $G$ is a finite group and $H \le G$, then $|H|$ divides $|G|$, and:
+    \begin{equation*}
+        |G| = [G : H] \cdot |H|
+    \end{equation*}
+    \item \textbf{Key Corollaries of Lagrange's Theorem:}
+    \begin{itemize}
+        \item For any $a \in G$, the order $|a|$ divides $|G|$, and $a^{|G|} = e$.
+        \item Every group of prime order $p$ is cyclic and hence abelian ($G \cong \mathbb{Z}_p$).
+        \item Fermat's Little Theorem: If $p$ is prime and $\gcd(a, p) = 1$, then $a^{p-1} \equiv 1 \pmod p$.
+    \end{itemize}
+\end{itemize}
+\end{defbox}
+
+\newpage
+
+\begin{exbox}{3. Normal Subgroups, Quotient Groups, and Homomorphisms}
+\begin{itemize}
+    \item \textbf{Normal Subgroup Characterizations ($N \triangleleft G$):}
+    \begin{itemize}
+        \item $gNg^{-1} = N \quad \forall g \in G$ (or $gng^{-1} \in N \quad \forall g \in G, n \in N$).
+        \item Left and right cosets coincide: $gN = Ng \quad \forall g \in G$.
+        \item Every subgroup of index 2 is normal ($[G : N] = 2 \implies N \triangleleft G$).
+        \item In an abelian group, every subgroup is normal.
+    \end{itemize}
+    \item \textbf{Quotient (Factor) Group $G/N$:}
+    \begin{itemize}
+        \item If $N \triangleleft G$, the set of cosets $G/N = \{gN \mid g \in G\}$ forms a group under the operation $(aN)(bN) = (ab)N$.
+        \item Identity of $G/N$ is $eN = N$; Inverse is $(aN)^{-1} = a^{-1}N$.
+        \item Order: $|G/N| = [G : N] = \frac{|G|}{|N|}$.
+    \end{itemize}
+    \item \textbf{Homomorphisms \& Isomorphism Theorems:}
+    \begin{itemize}
+        \item Homomorphism $\phi: G_1 \to G_2$ preserves operation: $\phi(a * b) = \phi(a) \circ \phi(b)$.
+        \item Kernel: $\operatorname{Ker}\phi = \{g \in G_1 \mid \phi(g) = e_2\} \triangleleft G_1$ (Always a normal subgroup!).
+        \item Image: $\operatorname{Im}\phi = \{\phi(g) \mid g \in G_1\} \le G_2$ (Subgroup of $G_2$).
+        \item Injectivity Test: $\phi$ is one-to-one (injective) $\iff \operatorname{Ker}\phi = \{e_1\}$.
+        \item \textbf{First Isomorphism Theorem (Fundamental Homomorphism Theorem):}
+        \begin{equation*}
+            G_1 / \operatorname{Ker}\phi \cong \operatorname{Im}\phi
+        \end{equation*}
+        If $\phi$ is surjective, then $G_1 / \operatorname{Ker}\phi \cong G_2$.
+    \end{itemize}
+\end{itemize}
+\end{exbox}
+
+\end{document}
