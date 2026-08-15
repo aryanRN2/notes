@@ -58,3 +58,9 @@ pdflatex -interaction=nonstopmode Coordinate_Geometry_Notes.tex
 pdflatex -interaction=nonstopmode Metric_Spaces_Notes.tex
 pdflatex -interaction=nonstopmode Numerical_Analysis_Notes.tex
 ```
+
+---
+
+## 🤝 Contributing & Collaboration
+
+Contributions, corrections, and improvements are welcome! Feel free to open an issue or submit a pull request.
