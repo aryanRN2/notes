@@ -1,0 +1,146 @@
+\chapter{Motion in a Moving Frame of Reference (Dynamics)}
+
+\section{Inertial vs. Non-Inertial Frames}
+
+\begin{defbox}[Frames of Reference]
+A \textbf{frame of reference} is a coordinate system used to specify the position and motion of physical bodies.
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Inertial (Newtonian) Frame}: A reference frame at rest or moving with constant linear velocity (zero acceleration) relative to fixed space. Newton's second law holds strictly in an inertial frame:
+    \begin{equation}
+        m \mathbf{a}_{\text{fixed}} = \mathbf{F}_{\text{external}}
+    \end{equation}
+    \item \textbf{Non-Inertial Frame}: An accelerating or rotating reference frame. Newton's second law is valid in a non-inertial frame only if fictitious (pseudo) forces are introduced.
+\end{enumerate}
+\end{defbox}
+
+\section{Motion in a Linearly Accelerating Frame}
+
+Let $OXY$ be a fixed inertial frame and $O'X'Y'$ be a frame accelerating linearly with acceleration $\mathbf{a}_0$ relative to $OXY$.
+If $\mathbf{r}$ and $\mathbf{r}'$ are position vectors of a particle of mass $m$ in the fixed and moving frames respectively:
+\begin{equation}
+    \mathbf{r} = \mathbf{r}_0 + \mathbf{r}' \implies \mathbf{a} = \mathbf{a}_0 + \mathbf{a}'
+\end{equation}
+Equation of motion in the accelerating frame:
+\begin{equation}
+    m \mathbf{a}' = \mathbf{F}_{\text{external}} - m \mathbf{a}_0
+\end{equation}
+where $-m \mathbf{a}_0$ is the \textbf{fictitious (inertial) force}.
+
+\section{Motion in a Uniformly Rotating Frame}
+
+Consider a frame of reference $Oxy$ rotating with uniform angular velocity $\mathbf{\omega} = \omega \hat{k}$ about an axis through origin $O$, perpendicular to the $xy$-plane, relative to fixed frame $OXY$.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    % Fixed Axes
+    \draw[->, thick, darkslate] (0,0) -- (4,0) node[right] {$X$ (Fixed)};
+    \draw[->, thick, darkslate] (0,0) -- (0,3.5) node[above] {$Y$ (Fixed)};
+    \node[below left] at (0,0) {$O$};
+    
+    % Rotating Axes
+    \draw[->, ultra thick, primaryblue] (0,0) -- (3.6, 1.2) node[right] {$x$ (Rotating)};
+    \draw[->, ultra thick, primaryblue] (0,0) -- (-1.2, 3.6) node[above] {$y$ (Rotating)};
+    
+    % Rotation angle omega t
+    \draw[thick, accentred, ->] (1.0,0) arc (0:18.4:1.0);
+    \node[accentred] at (1.3, 0.25) {$\theta = \omega t$};
+    
+    % Particle P
+    \coordinate (P) at (2.2, 2.4);
+    \filldraw[accentgreen] (P) circle (2.5pt) node[above right] {$P(x,y)$};
+    \draw[dashed, secondaryblue] (0,0) -- (P) node[midway, above left] {$\mathbf{r}$};
+    
+    % Angular velocity arrow
+    \draw[->, ultra thick, accentred] (0,0) circle (0.5cm);
+    \node[accentred] at (-0.7,-0.3) {$\mathbf{\omega}$};
+\end{tikzpicture}
+\caption{Fixed coordinate frame $OXY$ and rotating coordinate frame $Oxy$.}
+\end{figure}
+
+Let $\hat{i}, \hat{j}$ be unit vectors along the rotating $x$ and $y$ axes. The position vector is $\mathbf{r} = x \hat{i} + y \hat{j}$.
+
+\subsection{Transformation of Velocity}
+The rate of change of unit vectors in fixed space is:
+\begin{equation}
+    \frac{d\hat{i}}{dt} = \mathbf{\omega} \times \hat{i} = \omega \hat{j}, \quad \frac{d\hat{j}}{dt} = \mathbf{\omega} \times \hat{j} = -\omega \hat{i}
+\end{equation}
+Velocity in the fixed frame:
+\begin{equation}
+    \mathbf{v}_{\text{fixed}} = \left( \dot{x} - \omega y \right) \hat{i} + \left( \dot{y} + \omega x \right) \hat{j} = \mathbf{v}_{\text{rel}} + \mathbf{\omega} \times \mathbf{r}
+\end{equation}
+where $\mathbf{v}_{\text{rel}} = \dot{x}\hat{i} + \dot{y}\hat{j}$ is the velocity observed in the rotating frame.
+
+\subsection{Transformation of Acceleration}
+Differentiating velocity again in fixed space yields acceleration components along rotating axes:
+\begin{align}
+    a_{x,\text{fixed}} &= \ddot{x} - 2\omega \dot{y} - \omega^2 x \\
+    a_{y,\text{fixed}} &= \ddot{y} + 2\omega \dot{x} - \omega^2 y
+\end{align}
+In vector notation:
+\begin{equation}
+    \mathbf{a}_{\text{fixed}} = \mathbf{a}_{\text{rel}} + 2 \mathbf{\omega} \times \mathbf{v}_{\text{rel}} + \mathbf{\omega} \times (\mathbf{\omega} \times \mathbf{r})
+\end{equation}
+
+\section{Equations of Motion and Pseudo Forces}
+
+\begin{theorembox}{Equations of Motion in Rotating Coordinates}
+The equations of motion for a particle of mass $m$ acted upon by real external force $\mathbf{F} = X \hat{i} + Y \hat{j}$ in the rotating frame are:
+\begin{align}
+    m \ddot{x} &= X + 2 m \omega \dot{y} + m \omega^2 x \label{eq:rot_x} \\
+    m \ddot{y} &= Y - 2 m \omega \dot{x} + m \omega^2 y \label{eq:rot_y}
+\end{align}
+\end{theorembox}
+
+\begin{keybox}[Coriolis and Centrifugal Forces]
+In a rotating frame, two apparent (pseudo) forces emerge:
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Coriolis Force}:
+    \begin{equation}
+        \mathbf{F}_{\text{Coriolis}} = -2 m (\mathbf{\omega} \times \mathbf{v}_{\text{rel}})
+    \end{equation}
+    Magnitude $2m\omega v_{\text{rel}}$, directed perpendicular to the relative velocity in the rotating frame. It vanishes when the particle is at rest relative to the rotating frame.
+    \item \textbf{Centrifugal Force}:
+    \begin{equation}
+        \mathbf{F}_{\text{Centrifugal}} = -m \mathbf{\omega} \times (\mathbf{\omega} \times \mathbf{r}) = m \omega^2 \mathbf{r}
+    \end{equation}
+    Magnitude $m\omega^2 r$, directed radially outward from the axis of rotation.
+\end{enumerate}
+\end{keybox}
+
+\section{Worked Examples}
+
+\begin{examplebox}{Bead Sliding on a Smooth Rotating Wire}
+A smooth straight wire rotates in a horizontal plane with uniform angular velocity $\omega$ about a fixed vertical axis through one end $O$. A bead of mass $m$ is free to slide along the wire. If projected from $O$ along the wire with initial velocity $v_0$ at $t=0$, find its position $x(t)$ along the wire and normal reaction $R(t)$.
+
+\tcblower
+\textbf{Solution:}
+
+Take the rotating wire as the $x$-axis ($\dot{y} = 0, y = 0$).
+No real force acts along the wire ($X = 0$).
+
+Equation of motion along the wire (equation \eqref{eq:rot_x}):
+\begin{equation*}
+    m \ddot{x} = m \omega^2 x \implies \ddot{x} - \omega^2 x = 0
+\end{equation*}
+General solution:
+\begin{equation*}
+    x(t) = C_1 \cosh(\omega t) + C_2 \sinh(\omega t)
+\end{equation*}
+
+Boundary conditions at $t=0$: $x(0) = 0 \implies C_1 = 0$, and $\dot{x}(0) = v_0 \implies C_2 = \frac{v_0}{\omega}$.
+Thus, the position of the bead at time $t$ is:
+\begin{equation*}
+    x(t) = \frac{v_0}{\omega} \sinh(\omega t)
+\end{equation*}
+
+Normal force $Y = R$ perpendicular to the wire (equation \eqref{eq:rot_y}):
+\begin{equation*}
+    m (0) = R - 2 m \omega \dot{x} + 0 \implies R = 2 m \omega \dot{x}
+\end{equation*}
+Since $\dot{x}(t) = v_0 \cosh(\omega t)$:
+\begin{equation*}
+    R(t) = 2 m \omega v_0 \cosh(\omega t)
+\end{equation*}
+This gives the normal reaction exerted by the rotating wire on the bead.
+\end{examplebox}

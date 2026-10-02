@@ -1,0 +1,849 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.8in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{lmodern}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+% Fix fancyhdr headheight
+\setlength{\headheight}{15pt}
+
+% Color palette
+\definecolor{primary}{HTML}{0D47A1}    % Deep Blue
+\definecolor{secondary}{HTML}{1976D2}  % Medium Blue
+\definecolor{accent}{HTML}{E3F2FD}     % Light Blue Accent
+\definecolor{grayborder}{HTML}{CFD8DC} % Soft border gray
+\definecolor{graybg}{HTML}{F8F9FA}     % Soft background gray
+\definecolor{proofcolor}{HTML}{2E7D32} % Dark Green for proofs
+\definecolor{examcolor}{HTML}{C62828}  % Dark Red for important questions
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    filecolor=magenta,      
+    urlcolor=secondary,
+    pdftitle={MATMJ42 Tensor Analysis Notes - Notes by Aryan},
+    pdfauthor={Aryan (sciqb.com)},
+}
+
+% Page style
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\bfseries\color{primary} MATMJ42: Tensor Analysis -- Master Notes}
+\fancyhead[R]{\sffamily\color{primary}\bfseries\href{https://sciqb.com}{sciqb.com}}
+\fancyfoot[L]{\sffamily\color{gray}Notes by Aryan}
+\fancyfoot[C]{\sffamily\color{gray}\thepage}
+\fancyfoot[R]{\sffamily\color{secondary}\bfseries\href{https://sciqb.com}{sciqb.com}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+
+% Custom tcolorboxes
+\newtcolorbox{definitionbox}[1]{
+    colback=accent!30,
+    colframe=primary,
+    fonttitle=\sffamily\bfseries,
+    coltitle=white,
+    title={Definition: #1},
+    arc=4pt,
+    boxrule=1.5pt,
+    before skip=8pt,
+    after skip=8pt
+}
+
+\newtcolorbox{theorembox}[1]{
+    colback=graybg,
+    colframe=secondary,
+    fonttitle=\sffamily\bfseries,
+    coltitle=white,
+    title={Theorem / Law: #1},
+    arc=4pt,
+    boxrule=1.5pt,
+    before skip=8pt,
+    after skip=8pt
+}
+
+\newtcolorbox{proofbox}[1]{
+    colback=white,
+    colframe=proofcolor,
+    fonttitle=\sffamily\bfseries,
+    coltitle=white,
+    title={Proof / Solution: #1},
+    arc=4pt,
+    boxrule=1.2pt,
+    before skip=8pt,
+    after skip=8pt
+}
+
+\newtcolorbox{examplebox}[1]{
+    colback=white,
+    colframe=teal!80!black,
+    fonttitle=\sffamily\bfseries,
+    coltitle=white,
+    title={Solved Question / Problem: #1},
+    arc=4pt,
+    boxrule=1.2pt,
+    before skip=8pt,
+    after skip=8pt
+}
+
+\newtcolorbox{importantbox}[1]{
+    colback=red!5,
+    colframe=examcolor,
+    fonttitle=\sffamily\bfseries,
+    coltitle=white,
+    title={Important Key Note / Exam Point: #1},
+    arc=4pt,
+    boxrule=1.5pt,
+    before skip=8pt,
+    after skip=8pt
+}
+
+\begin{document}
+
+% --- TITLE PAGE ---
+\begin{titlepage}
+    \centering
+    \vspace*{0.5cm}
+    {\large\sffamily\color{secondary}\textbf{Paper Code: MATMJ42 | Notes by Aryan}}\\[1cm]
+    {\Huge\bfseries\color{primary} TENSOR ANALYSIS}\\[0.4cm]
+    {\Large\bfseries\color{secondary} Complete Professional Lecture Notes \& Solved Manual}\\[0.8cm]
+    \rule{0.8\textwidth}{1.5pt}\\[1cm]
+    {\large\sffamily Rigorous Mathematical Analysis, Step-by-Step Proofs \& Exam Solved Problems}\\[0.4cm]
+    {\small\sffamily Covering Definitions, Transformation Laws, Tensor Algebra, Riemannian Metric, Christoffel Symbols \& Covariant Differentiation}\\[1.2cm]
+    
+    \begin{tcolorbox}[colback=accent!20,colframe=primary,arc=6pt,width=0.85\textwidth,halign=left]
+    \textbf{\color{primary} Course Highlights Included in This Document:}
+    \begin{itemize}[leftmargin=1.5em]
+        \item \textbf{Paper Code}: MATMJ42 (Tensor Analysis / Mathematical Physics)
+        \item \textbf{Author}: Notes by Aryan
+        \item \textbf{Complete Theory \& Concepts}: All 23 Video Lectures rigorously transcribed and organized.
+        \item \textbf{Step-by-Step Proofs}: Transformation laws, quotient law, tensor algebra, non-tensor character of Christoffel symbols, Ricci's theorem.
+        \item \textbf{Solved Exam Questions}: Riemannian metric applications, Christoffel symbol calculations, index raising/lowering, curl of covariant vector.
+        \item \textbf{Standard Notations}: Einstein summation convention, contravariant \& covariant indices, metric tensors $g_{ij}, g^{ij}$.
+    \end{itemize}
+    \end{tcolorbox}
+    \vfill
+    {\large\sffamily For notes, PYQs, and important questions, visit our website:}\\[0.3cm]
+    {\Huge\bfseries\color{primary} \href{https://sciqb.com}{sciqb.com}}\\[0.2cm]
+    {\large\bfseries\color{secondary} \url{https://sciqb.com}}\\[0.2cm]
+    {\large\sffamily and it's absolutely free forever}\\
+    \vspace*{0.5cm}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+\section{Unit 1: Introduction to Tensors \& Index Conventions (Lectures 1--2)}
+% =========================================================================
+
+\subsection{Physical Motivation and Definition of Tensors (Lecture 1)}
+
+In physics and mathematics, quantities are classified according to how their components change under a transformation of coordinate systems:
+\begin{enumerate}
+    \item \textbf{Scalars (Rank 0 Tensors)}: Quantities specified completely by a single real number (e.g., mass, temperature, scalar potential). A scalar $\phi$ has the exact same value in all coordinate systems: $\phi'(x') = \phi(x)$.
+    \item \textbf{Vectors (Rank 1 Tensors)}: Quantities requiring $n$ components in an $n$-dimensional space (e.g., displacement, velocity, force). Their components transform linearly under a change of basis.
+    \item \textbf{Tensors of Rank $r \ge 2$}: Quantities having $n^r$ components in $n$-dimensional space (e.g., stress tensor, inertia tensor, metric tensor, electromagnetic field tensor) that transform according to specific multi-linear transformation rules.
+\end{enumerate}
+
+\begin{definitionbox}{Tensor}
+A \textbf{tensor} is a geometrical or physical entity described by a set of components in a given coordinate system that transform according to specific linear homogeneous transformation laws under a change of coordinate systems.
+\end{definitionbox}
+
+\subsection{Coordinate Systems and Index Placement}
+Let $x^1, x^2, \dots, x^n$ denote the coordinates of a point in an $n$-dimensional space in a system $S$, and $x'^1, x'^2, \dots, x'^n$ denote the coordinates of the same point in a transformed system $S'$.
+
+\begin{importantbox}{Superscripts vs. Subscripts}
+\begin{itemize}
+    \item \textbf{Superscript ($x^i$)}: Indicates a \textbf{Contravariant} index (e.g., $x^1, x^2, x^3$ are coordinates, NOT powers of $x$).
+    \item \textbf{Subscript ($A_i$)}: Indicates a \textbf{Covariant} index.
+\end{itemize}
+\end{importantbox}
+
+\subsection{Einstein Summation Convention (Lecture 2)}
+\begin{definitionbox}{Einstein Summation Convention}
+If an index occurs \textbf{twice} in a single term---once as a superscript and once as a subscript---it implies a summation over that index from $1$ to $n$, without writing the summation symbol $\sum$.
+\end{definitionbox}
+
+\[
+A_i B^i = \sum_{i=1}^n A_i B^i = A_1 B^1 + A_2 B^2 + \dots + A_n B^n
+\]
+
+\begin{importantbox}{Dummy Index vs. Free Index}
+\begin{enumerate}
+    \item \textbf{Dummy Index (Summation Index)}: An index repeated once upper and once lower. Its symbol can be replaced freely by any other unused letter without changing the expression value:
+    \[
+    A_i B^i = A_j B^j = A_k B^k
+    \]
+    \item \textbf{Free Index}: An index that appears only once in a given term. It must appear in every term of an equation at the same level (upper or lower).
+\end{enumerate}
+\end{importantbox}
+
+\begin{importantbox}{Rules of Tensor Algebra}
+\begin{itemize}
+    \item An index can NEVER appear more than twice in a single term. Expressions like $A_i B^i C_i$ are \textbf{meaningless and invalid}.
+    \item Free indices on both sides of an equation must match in position and name.
+\end{itemize}
+\end{importantbox}
+
+\subsection{The Kronecker Delta}
+\begin{definitionbox}{Kronecker Delta $\delta^i_j$}
+The \textbf{Kronecker Delta} is defined as:
+\[
+\delta^i_j = \begin{cases} 1 & \text{if } i = j \\ 0 & \text{if } i \neq j \end{cases}
+\]
+It is a mixed tensor of rank 2 (invariant numerical tensor).
+\end{definitionbox}
+
+\begin{theorembox}{Substitution Property of Kronecker Delta}
+Multiplying any tensor component by $\delta^i_j$ replaces the index $j$ with $i$:
+\[
+\delta^i_j A^j = A^i, \quad \delta^i_j A_i = A_j, \quad \delta^i_j B^{jk} = B^{ik}
+\]
+\end{theorembox}
+\begin{proofbox}{Substitution Property}
+Expand the sum over $j = 1, 2, \dots, n$:
+\[
+\delta^i_j A^j = \delta^i_1 A^1 + \delta^i_2 A^2 + \dots + \delta^i_i A^i + \dots + \delta^i_n A^n
+\]
+Since $\delta^i_j = 0$ for all $j \neq i$ and $\delta^i_i = 1$, only the term $j = i$ survives, yielding $1 \cdot A^i = A^i$.
+\end{proofbox}
+
+\begin{importantbox}{Contraction of Kronecker Delta}
+In an $n$-dimensional space:
+\[
+\delta^i_i = \delta^1_1 + \delta^2_2 + \dots + \delta^n_n = \underbrace{1 + 1 + \dots + 1}_{n \text{ times}} = n
+\]
+\end{importantbox}
+
+\newpage
+% =========================================================================
+\section{Unit 2: Contravariant, Covariant, and Mixed Tensors (Lectures 3--9)}
+% =========================================================================
+
+\subsection{Contravariant Tensors and Transformation Law (Lectures 3, 4, 6)}
+Consider differential coordinate displacements $dx^i$ in system $S$. By the chain rule of partial differentiation, the differentials in $S'$ are:
+\[
+dx'^i = \frac{\partial x'^i}{\partial x^j} dx^j
+\]
+Quantities transforming like $dx^i$ are called contravariant vectors.
+
+\begin{definitionbox}{Contravariant Tensor of Rank 1 (Contravariant Vector)}
+A set of $n$ components $A^i$ in system $S$ is said to be a \textbf{contravariant vector} if its components $A'^i$ in system $S'$ are related by:
+\[
+A'^i = \frac{\partial x'^i}{\partial x^j} A^j
+\]
+\end{definitionbox}
+
+\begin{definitionbox}{Contravariant Tensor of Rank $r$}
+A set of $n^r$ components $A^{i_1 i_2 \dots i_r}$ is a \textbf{contravariant tensor of rank $r$} if it transforms as:
+\[
+A'^{i_1 i_2 \dots i_r} = \frac{\partial x'^i_1}{\partial x^{j_1}} \frac{\partial x'^i_2}{\partial x^{j_2}} \dots \frac{\partial x'^i_r}{\partial x^{j_r}} A^{j_1 j_2 \dots j_r}
+\]
+For a contravariant tensor of rank 2:
+\[
+A'^{ij} = \frac{\partial x'^i}{\partial x^k} \frac{\partial x'^j}{\partial x^l} A^{kl}
+\]
+\end{definitionbox}
+
+\subsection{Covariant Tensors and Transformation Law (Lectures 5, 7)}
+Consider the gradient of a scalar field $\phi(x)$, $\frac{\partial \phi}{\partial x^i}$. Under coordinate transformation:
+\[
+\frac{\partial \phi}{\partial x'^i} = \frac{\partial \phi}{\partial x^j} \frac{\partial x^j}{\partial x'^i}
+\]
+Quantities transforming like the gradient of a scalar are called covariant vectors.
+
+\begin{definitionbox}{Covariant Tensor of Rank 1 (Covariant Vector)}
+A set of $n$ components $A_i$ is a \textbf{covariant vector} if its components $A'_i$ in system $S'$ satisfy:
+\[
+A'_i = \frac{\partial x^j}{\partial x'^i} A_j
+\]
+\end{definitionbox}
+
+\begin{definitionbox}{Covariant Tensor of Rank $s$}
+A set of $n^s$ components $A_{j_1 j_2 \dots j_s}$ is a \textbf{covariant tensor of rank $s$} if:
+\[
+A'_{j_1 j_2 \dots j_s} = \frac{\partial x^{k_1}}{\partial x'^j_1} \frac{\partial x^{k_2}}{\partial x'^j_2} \dots \frac{\partial x^{k_s}}{\partial x'^j_s} A_{k_1 k_2 \dots k_s}
+\]
+For a covariant tensor of rank 2:
+\[
+A'_{ij} = \frac{\partial x^k}{\partial x'^i} \frac{\partial x^l}{\partial x'^j} A_{kl}
+\]
+\end{definitionbox}
+
+\subsection{Mixed Tensors and General Transformation Law (Lectures 8, 9)}
+\begin{definitionbox}{Mixed Tensor of Rank $(r+s)$}
+A set of $n^{r+s}$ components $A^{i_1 i_2 \dots i_r}_{j_1 j_2 \dots j_s}$ having $r$ contravariant (upper) indices and $s$ covariant (lower) indices is a \textbf{mixed tensor of rank $(r+s)$} (or type $(r,s)$) if:
+\[
+A'^{i_1 \dots i_r}_{j_1 \dots j_s} = \left( \frac{\partial x'^i_1}{\partial x^{k_1}} \dots \frac{\partial x'^i_r}{\partial x^{k_r}} \right) \left( \frac{\partial x^{l_1}}{\partial x'^j_1} \dots \frac{\partial x^{l_s}}{\partial x'^j_s} \right) A^{k_1 \dots k_r}_{l_1 \dots l_s}
+\]
+For a mixed tensor of rank 2 (type (1,1)):
+\[
+A'^i_j = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} A^k_l
+\]
+\end{definitionbox}
+
+\subsection{Group (Transitive) Property of Transformation Laws}
+\begin{theorembox}{Transitive Property of Tensor Transformations}
+If components transform as a tensor from system $S \to S'$, and from $S' \to S''$, then the direct transformation from $S \to S''$ satisfies the exact tensor transformation law.
+\end{theorembox}
+\begin{proofbox}{Transitive Property for Contravariant Vector}
+Let $A'^i = \frac{\partial x'^i}{\partial x^j} A^j$ (from $S \to S'$) and $A''^k = \frac{\partial x''^k}{\partial x'^i} A'^i$ (from $S' \to S''$).
+Substitute $A'^i$ into $A''^k$:
+\[
+A''^k = \frac{\partial x''^k}{\partial x'^i} \left( \frac{\partial x'^i}{\partial x^j} A^j \right) = \left( \frac{\partial x''^k}{\partial x'^i} \frac{\partial x'^i}{\partial x^j} \right) A^j = \frac{\partial x''^k}{\partial x^j} A^j
+\]
+This is precisely the tensor transformation law directly from $S \to S''$. Thus, tensor transformations form a group.
+\end{proofbox}
+
+\begin{theorembox}{Kronecker Delta is an Invariant Mixed Tensor}
+Show that $\delta^i_j$ is a mixed tensor of rank 2 and has identical components in all coordinate systems.
+\end{theorembox}
+\begin{proofbox}{Tensor Character of Kronecker Delta}
+Apply the mixed tensor transformation law to $\delta^k_l$:
+\[
+\delta'^i_j = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} \delta^k_l = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^k}{\partial x'^j} \quad (\text{using substitution property on } l \to k)
+\]
+By the chain rule of partial derivatives:
+\[
+\frac{\partial x'^i}{\partial x^k} \frac{\partial x^k}{\partial x'^j} = \frac{\partial x'^i}{\partial x'^j} = \delta'^i_j
+\]
+Hence $\delta'^i_j = \begin{cases} 1 & \text{if } i=j \\ 0 & \text{if } i \neq j \end{cases}$. Thus, $\delta^i_j$ is an invariant mixed tensor of rank 2.
+\end{proofbox}
+
+\newpage
+% =========================================================================
+\section{Unit 3: Symmetric \& Antisymmetric Tensors (Lecture 10)}
+% =========================================================================
+
+\subsection{Definitions and Properties}
+\begin{definitionbox}{Symmetric Tensor}
+A contravariant tensor $A^{ij}$ (or covariant tensor $A_{ij}$) is \textbf{symmetric} with respect to indices $i$ and $j$ if:
+\[
+A^{ij} = A^{ji} \quad \text{or} \quad A_{ij} = A_{ji}
+\]
+\end{definitionbox}
+
+\begin{definitionbox}{Antisymmetric (Skew-Symmetric) Tensor}
+A contravariant tensor $A^{ij}$ (or covariant tensor $A_{ij}$) is \textbf{antisymmetric} if:
+\[
+A^{ij} = -A^{ji} \quad \text{or} \quad A_{ij} = -A_{ji}
+\]
+For an antisymmetric tensor, all diagonal components vanish identically:
+\[
+A^{ii} = -A^{ii} \implies 2 A^{ii} = 0 \implies A^{ii} = 0 \quad (\text{no sum over } i)
+\]
+\end{definitionbox}
+
+\subsection{Invariance of Symmetry Properties}
+\begin{theorembox}{Invariance of Symmetry Under Transformation}
+If a tensor is symmetric (or antisymmetric) in one coordinate system, it remains symmetric (or antisymmetric) in all coordinate systems.
+\end{theorembox}
+\begin{proofbox}{Invariance of Symmetry}
+Let $A^{ij} = A^{ji}$ in system $S$. In system $S'$:
+\[
+A'^{ij} = \frac{\partial x'^i}{\partial x^k} \frac{\partial x'^j}{\partial x^l} A^{kl}
+\]
+Interchange the free dummy indices $k$ and $l$ (and use $A^{kl} = A^{lk}$):
+\[
+A'^{ij} = \frac{\partial x'^i}{\partial x^l} \frac{\partial x'^j}{\partial x^k} A^{lk} = \frac{\partial x'^j}{\partial x^k} \frac{\partial x'^i}{\partial x^l} A^{kl} = A'^{ji}
+\]
+Thus $A'^{ij} = A'^{ji}$, proving symmetry is an intrinsic coordinate-independent tensor property.
+\end{proofbox}
+
+\subsection{Number of Independent Components}
+In an $n$-dimensional space, a rank 2 tensor has $n^2$ total components.
+\begin{importantbox}{Component Counts}
+\begin{enumerate}
+    \item \textbf{Symmetric Tensor}:
+    \[
+    N_{\text{sym}} = \text{Diagonal components} + \frac{1}{2}\text{Off-diagonal components} = n + \frac{n^2 - n}{2} = \frac{n(n+1)}{2}
+    \]
+    For $n=3$: $N_{\text{sym}} = \frac{3 \times 4}{2} = 6$.
+    \item \textbf{Antisymmetric Tensor}:
+    \[
+    N_{\text{anti}} = 0 \text{ (diagonal)} + \frac{n^2 - n}{2} = \frac{n(n-1)}{2}
+    \]
+    For $n=3$: $N_{\text{anti}} = \frac{3 \times 2}{2} = 3$.
+\end{enumerate}
+\end{importantbox}
+
+\subsection{Fundamental Tensor Decomposition Theorem}
+\begin{theorembox}{Tensor Decomposition Theorem}
+Every second-order tensor $A_{ij}$ can be uniquely expressed as the sum of a symmetric tensor $S_{ij}$ and an antisymmetric tensor $T_{ij}$.
+\end{theorembox}
+\begin{proofbox}{Decomposition Theorem}
+Define:
+\[
+S_{ij} = \frac{1}{2}(A_{ij} + A_{ji}), \quad T_{ij} = \frac{1}{2}(A_{ij} - A_{ji})
+\]
+Check symmetry of $S_{ij}$: $S_{ji} = \frac{1}{2}(A_{ji} + A_{ij}) = S_{ij}$ (Symmetric). \\
+Check antisymmetry of $T_{ij}$: $T_{ji} = \frac{1}{2}(A_{ji} - A_{ij}) = -\frac{1}{2}(A_{ij} - A_{ji}) = -T_{ij}$ (Antisymmetric). \\
+Sum $S_{ij} + T_{ij}$:
+\[
+S_{ij} + T_{ij} = \frac{1}{2} A_{ij} + \frac{1}{2} A_{ji} + \frac{1}{2} A_{ij} - \frac{1}{2} A_{ji} = A_{ij}
+\]
+Hence $A_{ij} = S_{ij} + T_{ij}$ uniquely.
+\end{proofbox}
+
+\newpage
+% =========================================================================
+\section{Unit 4: Tensor Algebra \& The Quotient Law (Lectures 11--14)}
+% =========================================================================
+
+\subsection{Addition and Subtraction of Tensors (Lecture 11)}
+\begin{theorembox}{Addition/Subtraction Theorem}
+The sum or difference of two tensors of the same rank and same type is another tensor of the exact same rank and type.
+\end{theorembox}
+\begin{proofbox}{Addition Theorem}
+Let $A^i_j$ and $B^i_j$ be two mixed tensors of type (1,1). Under coordinate transformation:
+\[
+A'^i_j = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} A^k_l, \quad B'^i_j = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} B^k_l
+\]
+Add the two equations:
+\[
+C'^i_j = A'^i_j + B'^i_j = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} (A^k_l + B^k_l) = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} C^k_l
+\]
+where $C^k_l = A^k_l + B^k_l$. Thus $C^i_j$ is a mixed tensor of type (1,1).
+\end{proofbox}
+
+\subsection{Outer Product (Direct Product)}
+\begin{theorembox}{Outer Product Theorem}
+If $A^i_j$ is a tensor of type (1,1) and $B^{kl}$ is a tensor of type (2,0), then their outer product $C^{ikl}_j = A^i_j B^{kl}$ is a tensor of type $(1+2, 1+0) = (3,1)$ of rank 4.
+\end{theorembox}
+\begin{proofbox}{Outer Product Theorem}
+Write transformation equations:
+\[
+A'^i_j = \frac{\partial x'^i}{\partial x^m} \frac{\partial x^n}{\partial x'^j} A^m_n, \quad B'^{kl} = \frac{\partial x'^k}{\partial x^p} \frac{\partial x'^l}{\partial x^q} B^{pq}
+\]
+Multiply the two equations:
+\[
+C'^{ikl}_j = A'^i_j B'^{kl} = \frac{\partial x'^i}{\partial x^m} \frac{\partial x'^k}{\partial x^p} \frac{\partial x'^l}{\partial x^q} \frac{\partial x^n}{\partial x'^j} (A^m_n B^{pq}) = \frac{\partial x'^i}{\partial x^m} \frac{\partial x'^k}{\partial x^p} \frac{\partial x'^l}{\partial x^q} \frac{\partial x^n}{\partial x'^j} C^{mpq}_n
+\]
+Thus $C^{ikl}_j$ satisfies the transformation law of a type (3,1) tensor of rank 4.
+\end{proofbox}
+
+\subsection{Contraction of Tensors (Lecture 13)}
+\begin{definitionbox}{Contraction}
+\textbf{Contraction} is the process of equating one contravariant index and one covariant index of a mixed tensor, implying a summation over that index.
+\end{definitionbox}
+
+\begin{theorembox}{Contraction Theorem}
+If a contraction is performed on a mixed tensor of rank $(r+s)$, the resulting quantity is a tensor of rank $(r-1 + s-1) = r+s-2$.
+\end{theorembox}
+\begin{proofbox}{Contraction Theorem}
+Let $A^i_{jk}$ be a mixed tensor of type (1,2):
+\[
+A'^i_{jk} = \frac{\partial x'^i}{\partial x^l} \frac{\partial x^m}{\partial x'^j} \frac{\partial x^n}{\partial x'^k} A^l_{mn}
+\]
+Set $k = i$ (contracting index $i$ and $k$):
+\[
+A'^i_{ji} = \frac{\partial x'^i}{\partial x^l} \frac{\partial x^m}{\partial x'^j} \frac{\partial x^n}{\partial x'^i} A^l_{mn} = \left( \frac{\partial x'^i}{\partial x^l} \frac{\partial x^n}{\partial x'^i} \right) \frac{\partial x^m}{\partial x'^j} A^l_{mn} = \delta^n_l \frac{\partial x^m}{\partial x'^j} A^l_{mn} = \frac{\partial x^m}{\partial x'^j} A^l_{ml}
+\]
+Let $B_j = A^i_{ji}$ and $B_m = A^l_{ml}$. Then $B'_j = \frac{\partial x^m}{\partial x'^j} B_m$, which is the transformation law of a covariant vector (rank 1 tensor). The rank has been reduced from 3 to 1 ($3 - 2 = 1$).
+\end{proofbox}
+
+\subsection{Inner Product of Tensors (Lecture 12)}
+\begin{definitionbox}{Inner Product}
+The \textbf{Inner Product} of two tensors is obtained by taking their outer product followed by a contraction over an upper index of one and a lower index of the other.
+\end{definitionbox}
+For example, the inner product of $A^i_j$ and $B^{jk}$ is $C^{ik} = A^i_j B^{jk}$, which is a contravariant tensor of rank 2 (type (2,0)).
+
+\subsection{Quotient Law of Tensors (Lecture 14)}
+\begin{theorembox}{Quotient Law of Tensors}
+A set of components $A(i,j,k)$ whose inner product with an arbitrary tensor $B^j$ yields a known tensor $C^i_k = A(i,j,k) B^j$ is itself a tensor $A^i_{jk}$.
+\end{theorembox}
+\begin{proofbox}{Proof of Quotient Law}
+Let $A(i,j,k)$ be a set of quantities such that for any arbitrary contravariant vector $B^j$, the contraction $C^i_k = A(i,j,k) B^j$ is a mixed tensor of type (1,1).
+
+Since $C^i_k$ is a tensor:
+\[
+C'^i_k = \frac{\partial x'^i}{\partial x^m} \frac{\partial x^n}{\partial x'^k} C^m_n \implies A'(i,j,k) B'^j = \frac{\partial x'^i}{\partial x^m} \frac{\partial x^n}{\partial x'^k} A(m,p,n) B^p
+\]
+Since $B^j$ is a contravariant vector, $B^p = \frac{\partial x^p}{\partial x'^j} B'^j$. Substitute this into the right-hand side:
+\[
+A'(i,j,k) B'^j = \frac{\partial x'^i}{\partial x^m} \frac{\partial x^n}{\partial x'^k} A(m,p,n) \left( \frac{\partial x^p}{\partial x'^j} B'^j \right)
+\]
+Rearrange and factor out $B'^j$:
+\[
+\left[ A'(i,j,k) - \frac{\partial x'^i}{\partial x^m} \frac{\partial x^p}{\partial x'^j} \frac{\partial x^n}{\partial x'^k} A(m,p,n) \right] B'^j = 0
+\]
+Since $B^j$ (and thus $B'^j$) is completely \textbf{arbitrary}, the bracketed term must vanish identically:
+\[
+A'(i,j,k) = \frac{\partial x'^i}{\partial x^m} \frac{\partial x^p}{\partial x'^j} \frac{\partial x^n}{\partial x'^k} A(m,p,n)
+\]
+This is precisely the transformation law of a mixed tensor $A^i_{jk}$ of type (1,2). Hence, $A(i,j,k)$ is a tensor $A^i_{jk}$.
+\end{proofbox}
+
+\newpage
+% =========================================================================
+\section{Unit 5: Riemannian Metric \& Index Gymnastics (Lectures 15--18)}
+% =========================================================================
+
+\subsection{Metric Tensor and Riemannian Line Element (Lecture 16)}
+In Riemannian geometry, the distance $ds$ between two infinitesimally close points $x^i$ and $x^i + dx^i$ is given by the quadratic differential form:
+
+\begin{definitionbox}{Riemannian Metric / Line Element}
+The \textbf{Riemannian metric} or \textbf{line element} $ds^2$ is defined as:
+\[
+ds^2 = g_{ij} dx^i dx^j
+\]
+where $g_{ij} = g_{ji}$ is a symmetric covariant tensor of rank 2, called the \textbf{Fundamental Metric Tensor}.
+\end{definitionbox}
+
+\begin{importantbox}{Properties of Metric Tensor $g_{ij}$}
+\begin{enumerate}
+    \item Symmetric: $g_{ij} = g_{ji}$.
+    \item Non-singular: $g = \det(g_{ij}) \neq 0$.
+    \item Real and positive-definite ($ds^2 > 0$ for non-zero displacements in Riemannian space).
+\end{enumerate}
+\end{importantbox}
+
+\subsection{Reciprocal (Conjugate) Metric Tensor $g^{ij}$ (Lecture 15)}
+\begin{definitionbox}{Reciprocal Metric Tensor}
+The \textbf{reciprocal metric tensor} $g^{ij}$ is defined as the matrix inverse of $g_{ij}$, satisfying:
+\[
+g^{ij} g_{jk} = \delta^i_k
+\]
+The components are given by:
+\[
+g^{ij} = \frac{\text{Cofactor of } g_{ji} \text{ in } g}{g}, \quad \text{where } g = \det(g_{ij})
+\]
+\end{definitionbox}
+
+\begin{theorembox}{Tensor Property of $g^{ij}$}
+Prove that $g^{ij}$ is a contravariant symmetric tensor of rank 2.
+\end{theorembox}
+\begin{proofbox}{Reciprocal Metric Tensor}
+Since $g_{ij}$ is a covariant tensor, $g_{ij} dx^i dx^j = ds^2$ is an invariant scalar. By the Quotient Law, since $g_{ij} A^i B^j$ is a scalar for arbitrary vectors $A^i, B^j$, $g_{ij}$ is a tensor.
+Next, consider $g^{ij} g_{jk} = \delta^i_k$. Since $\delta^i_k$ is a tensor and $g_{jk}$ is a tensor, by the Quotient Law, $g^{ij}$ is a contravariant tensor of rank 2. Symmetry $g^{ij} = g^{ji}$ follows directly from the symmetry of $g_{ij}$.
+\end{proofbox}
+
+\subsection{Associated Vectors: Raising and Lowering Indices (Lecture 17)}
+The fundamental metric tensors $g_{ij}$ and $g^{ij}$ are used to convert contravariant components into covariant components and vice-versa.
+
+\begin{importantbox}{Index Raising and Lowering Operations}
+\begin{enumerate}
+    \item \textbf{Lowering an Index}:
+    \[
+    A_i = g_{ij} A^j
+    \]
+    \item \textbf{Raising an Index}:
+    \[
+    A^i = g^{ij} A_j
+    \]
+    \item \textbf{Tensors of Higher Rank}:
+    \[
+    A^i_{\, j} = g^{ik} A_{kj}, \quad A_{ij} = g_{ik} g_{jl} A^{kl}, \quad A^{ij} = g^{ik} g^{jl} A_{kl}
+    \]
+\end{enumerate}
+\end{importantbox}
+
+\subsection{Magnitude of a Vector and Angle Between Vectors}
+\begin{definitionbox}{Magnitude (Length) of a Vector}
+The square of the magnitude $\|A\|$ of a vector $A^i$ is defined as:
+\[
+\|A\|^2 = g_{ij} A^i A^j = A_i A^i = g^{ij} A_i A_j
+\]
+A vector is a \textbf{unit vector} if $\|A\| = 1 \implies g_{ij} A^i A^j = 1$.
+\end{definitionbox}
+
+\begin{definitionbox}{Angle Between Two Vectors}
+The cosine of the angle $\theta$ between two vectors $A^i$ and $B^i$ is defined by:
+\[
+\cos \theta = \frac{g_{ij} A^i B^j}{\sqrt{g_{kl} A^k A^l} \sqrt{g_{mn} B^m B^n}} = \frac{A_i B^i}{\|A\| \|B\|}
+\]
+Two vectors are \textbf{orthogonal} if:
+\[
+g_{ij} A^i B^j = A_i B^i = 0 \implies \cos \theta = 0 \implies \theta = \frac{\pi}{2}
+\]
+\end{definitionbox}
+
+\subsection{Solved Examples on Riemannian Metric (Lecture 18)}
+
+\begin{examplebox}{Metric Tensor in Polar Coordinates}
+Find the components of the metric tensor $g_{ij}$, determinant $g$, and reciprocal metric tensor $g^{ij}$ in 2D plane polar coordinates $(r, \theta)$.
+\end{examplebox}
+\begin{proofbox}{Solution for Polar Coordinates}
+The Euclidean line element in Cartesian coordinates is $ds^2 = dx^2 + dy^2$.
+Transformation to polar coordinates: $x = r \cos \theta$, $y = r \sin \theta$.
+Calculated differentials:
+\[
+dx = \cos \theta \, dr - r \sin \theta \, d\theta, \quad dy = \sin \theta \, dr + r \cos \theta \, d\theta
+\]
+Square and add:
+\[
+ds^2 = (\cos \theta \, dr - r \sin \theta \, d\theta)^2 + (\sin \theta \, dr + r \cos \theta \, d\theta)^2 = dr^2 + r^2 d\theta^2
+\]
+Let $x^1 = r, x^2 = \theta$. Comparing with $ds^2 = g_{11} (dx^1)^2 + 2 g_{12} dx^1 dx^2 + g_{22} (dx^2)^2$:
+\[
+[g_{ij}] = \begin{pmatrix} g_{11} & g_{12} \\ g_{21} & g_{22} \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & r^2 \end{pmatrix}
+\]
+Determinant $g = \det(g_{ij}) = 1 \cdot r^2 - 0 = r^2$. \\
+Reciprocal metric tensor $[g^{ij}] = [g_{ij}]^{-1}$:
+\[
+[g^{ij}] = \begin{pmatrix} 1 & 0 \\ 0 & \frac{1}{r^2} \end{pmatrix} \implies g^{11} = 1, \quad g^{22} = \frac{1}{r^2}, \quad g^{12} = g^{21} = 0
+\]
+\end{proofbox}
+
+\begin{examplebox}{\texorpdfstring{Important Proof Identity involving $g_{ij}$ and $g^{jk}$}{Important Proof Identity involving g\_ij and g\^{}jk}}
+Prove that $g_{ij} \frac{\partial g^{jk}}{\partial x^k} = - g^{jk} \frac{\partial g_{ij}}{\partial x^k}$.
+\end{examplebox}
+\begin{proofbox}{Solution}
+Differentiate the fundamental identity $g_{ij} g^{jk} = \delta^k_i$ with respect to $x^k$:
+\[
+\frac{\partial}{\partial x^k} \left( g_{ij} g^{jk} \right) = \frac{\partial}{\partial x^k} \left( \delta^k_i \right) = 0
+\]
+Apply product rule of differentiation:
+\[
+\frac{\partial g_{ij}}{\partial x^k} g^{jk} + g_{ij} \frac{\partial g^{jk}}{\partial x^k} = 0 \implies g_{ij} \frac{\partial g^{jk}}{\partial x^k} = - g^{jk} \frac{\partial g_{ij}}{\partial x^k}
+\]
+\end{proofbox}
+
+\newpage
+% =========================================================================
+\section{Unit 6: Christoffel Symbols \& Non-Tensor Character (Lectures 19--22)}
+% =========================================================================
+
+\subsection{Definitions of Christoffel Symbols (Lectures 19, 20)}
+Christoffel symbols are fundamental mathematical objects constructed from partial derivatives of the metric tensor components $g_{ij}$.
+
+\begin{definitionbox}{Christoffel Symbol of First Kind $[ij, k]$}
+The \textbf{Christoffel symbol of the first kind} is defined as:
+\[
+[ij, k] = \Gamma_{ijk} = \frac{1}{2} \left( \frac{\partial g_{ik}}{\partial x^j} + \frac{\partial g_{jk}}{\partial x^i} - \frac{\partial g_{ij}}{\partial x^k} \right)
+\]
+\end{definitionbox}
+
+\begin{definitionbox}{Christoffel Symbol of Second Kind $\Gamma^k_{ij}$}
+The \textbf{Christoffel symbol of the second kind} is defined as:
+\[
+\Gamma^k_{ij} = \left\{ \begin{array}{c} k \\ ij \end{array} \right\} = g^{kl} [ij, l]
+\]
+Multiplying by $g_{km}$ gives the inverse relation: $[ij, m] = g_{km} \Gamma^k_{ij}$.
+\end{definitionbox}
+
+\subsection{Symmetry Properties and Fundamental Relations}
+\begin{importantbox}{Symmetry Properties}
+Christoffel symbols are symmetric with respect to their paired indices $i$ and $j$:
+\[
+[ij, k] = [ji, k] \quad \text{and} \quad \Gamma^k_{ij} = \Gamma^k_{ji}
+\]
+\end{importantbox}
+
+\begin{theorembox}{Partial Derivative of Metric Tensor}
+Express $\frac{\partial g_{ij}}{\partial x^k}$ in terms of Christoffel symbols of the first kind.
+\end{theorembox}
+\begin{proofbox}{Proof}
+Write definitions:
+\[
+[ik, j] = \frac{1}{2} \left( \frac{\partial g_{ij}}{\partial x^k} + \frac{\partial g_{kj}}{\partial x^i} - \frac{\partial g_{ik}}{\partial x^j} \right), \quad [jk, i] = \frac{1}{2} \left( \frac{\partial g_{ji}}{\partial x^k} + \frac{\partial g_{ki}}{\partial x^j} - \frac{\partial g_{jk}}{\partial x^i} \right)
+\]
+Add the two expressions (noting $g_{ij} = g_{ji}$):
+\[
+[ik, j] + [jk, i] = \frac{1}{2} \left( 2 \frac{\partial g_{ij}}{\partial x^k} + \frac{\partial g_{kj}}{\partial x^i} - \frac{\partial g_{jk}}{\partial x^i} + \frac{\partial g_{ki}}{\partial x^j} - \frac{\partial g_{ik}}{\partial x^j} \right) = \frac{\partial g_{ij}}{\partial x^k}
+\]
+Hence:
+\[
+\frac{\partial g_{ij}}{\partial x^k} = [ik, j] + [jk, i]
+\]
+\end{proofbox}
+
+\begin{theorembox}{Derivative of Determinant $g$}
+Prove that $\Gamma^i_{ik} = \frac{\partial}{\partial x^k} \left( \ln \sqrt{g} \right) = \frac{1}{2g} \frac{\partial g}{\partial x^k}$.
+\end{theorembox}
+\begin{proofbox}{Proof}
+Using Jacobi's formula for the derivative of a determinant: $\frac{\partial g}{\partial x^k} = g g^{ij} \frac{\partial g_{ij}}{\partial x^k}$. \\
+Substitute $\frac{\partial g_{ij}}{\partial x^k} = [ik, j] + [jk, i]$:
+\[
+\frac{\partial g}{\partial x^k} = g g^{ij} \left( [ik, j] + [jk, i] \right) = g \left( g^{ij} [ik, j] + g^{ij} [jk, i] \right) = g \left( \Gamma^i_{ik} + \Gamma^j_{jk} \right) = 2 g \Gamma^i_{ik}
+\]
+Dividing by $2g$:
+\[
+\Gamma^i_{ik} = \frac{1}{2g} \frac{\partial g}{\partial x^k} = \frac{\partial}{\partial x^k} \left( \ln \sqrt{g} \right)
+\]
+\end{proofbox}
+
+\subsection{Proof that Christoffel Symbols are NOT Tensors (Lectures 21, 22)}
+\begin{theorembox}{Transformation Law of Christoffel Symbols}
+Prove that Christoffel symbols do NOT transform as tensors under general coordinate transformations.
+\end{theorembox}
+\begin{proofbox}{Transformation Law Derivation}
+Start with the metric tensor transformation law $g'_{ij} = \frac{\partial x^m}{\partial x'^i} \frac{\partial x^n}{\partial x'^j} g_{mn}$. \\
+Differentiate with respect to $x'^k$:
+\[
+\frac{\partial g'_{ij}}{\partial x'^k} = \frac{\partial}{\partial x'^k} \left( \frac{\partial x^m}{\partial x'^i} \frac{\partial x^n}{\partial x'^j} g_{mn} \right) = \frac{\partial^2 x^m}{\partial x'^k \partial x'^i} \frac{\partial x^n}{\partial x'^j} g_{mn} + \frac{\partial x^m}{\partial x'^i} \frac{\partial^2 x^n}{\partial x'^k \partial x'^j} g_{mn} + \frac{\partial x^m}{\partial x'^i} \frac{\partial x^n}{\partial x'^j} \frac{\partial x^p}{\partial x'^k} \frac{\partial g_{mn}}{\partial x^p}
+\]
+Forming the linear combination for $[ij, k]'$ yields:
+\[
+[ij, k]' = \frac{\partial x^m}{\partial x'^i} \frac{\partial x^n}{\partial x'^j} \frac{\partial x^p}{\partial x'^k} [mn, p] + g_{mn} \frac{\partial x^n}{\partial x'^k} \frac{\partial^2 x^m}{\partial x'^i \partial x'^j}
+\]
+Multiply by $g'^{kl} = \frac{\partial x'^k}{\partial x^r} \frac{\partial x'^l}{\partial x^s} g^{rs}$ to obtain $\Gamma'^l_{ij}$:
+\[
+\Gamma'^k_{ij} = \frac{\partial x'^k}{\partial x^m} \frac{\partial x^p}{\partial x'^i} \frac{\partial x^q}{\partial x'^j} \Gamma^m_{pq} + \underbrace{\frac{\partial x'^k}{\partial x^m} \frac{\partial^2 x^m}{\partial x'^i \partial x'^j}}_{\text{Inhomogeneous Non-Tensor Term}}
+\]
+Because of the second derivative term $\frac{\partial^2 x^m}{\partial x'^i \partial x'^j}$, Christoffel symbols are **NOT components of a tensor**. They are connection coefficients.
+\end{proofbox}
+
+\subsection{Solved Problems on Christoffel Symbols}
+
+\begin{examplebox}{Christoffel Symbols in 2D Polar Coordinates}
+Calculate all non-vanishing Christoffel symbols of the first kind $[ij, k]$ and second kind $\Gamma^k_{ij}$ for 2D polar coordinates $(x^1=r, x^2=\theta)$.
+\end{examplebox}
+\begin{proofbox}{Solution for 2D Polar Coordinates}
+Given metric tensor: $g_{11} = 1, g_{22} = r^2, g_{12} = g_{21} = 0$. \\
+Derivatives of metric components: $\frac{\partial g_{22}}{\partial r} = \frac{\partial(r^2)}{\partial r} = 2r$. All other derivatives are zero.
+
+1. **Christoffel Symbols of First Kind**:
+\begin{itemize}
+    \item $[22, 1] = \frac{1}{2} \left( \frac{\partial g_{21}}{\partial \theta} + \frac{\partial g_{21}}{\partial \theta} - \frac{\partial g_{22}}{\partial r} \right) = \frac{1}{2} (0 + 0 - 2r) = -r$.
+    \item $[12, 2] = [21, 2] = \frac{1}{2} \left( \frac{\partial g_{12}}{\partial \theta} + \frac{\partial g_{22}}{\partial r} - \frac{\partial g_{12}}{\partial \theta} \right) = \frac{1}{2} (2r) = r$.
+\end{itemize}
+
+2. **Christoffel Symbols of Second Kind** ($\Gamma^k_{ij} = g^{kk} [ij, k]$):
+\begin{itemize}
+    \item $\Gamma^1_{22} = g^{11} [22, 1] = 1 \cdot (-r) = -r$.
+    \item $\Gamma^2_{12} = \Gamma^2_{21} = g^{22} [12, 2] = \frac{1}{r^2} \cdot r = \frac{1}{r}$.
+\end{itemize}
+All other Christoffel symbols vanish identically!
+\end{proofbox}
+
+\begin{examplebox}{Curl of a Covariant Vector Field}
+Prove that $\nabla_j A_i - \nabla_i A_j = \frac{\partial A_i}{\partial x^j} - \frac{\partial A_j}{\partial x^i}$.
+\end{examplebox}
+\begin{proofbox}{Solution}
+Write definitions of covariant derivatives:
+\[
+\nabla_j A_i = \frac{\partial A_i}{\partial x^j} - \Gamma^k_{ij} A_k, \quad \nabla_i A_j = \frac{\partial A_j}{\partial x^i} - \Gamma^k_{ji} A_k
+\]
+Subtract the two equations:
+\[
+\nabla_j A_i - \nabla_i A_j = \left( \frac{\partial A_i}{\partial x^j} - \Gamma^k_{ij} A_k \right) - \left( \frac{\partial A_j}{\partial x^i} - \Gamma^k_{ji} A_k \right)
+\]
+Since Christoffel symbols are symmetric ($\Gamma^k_{ij} = \Gamma^k_{ji}$), the terms containing $\Gamma$ cancel out:
+\[
+\nabla_j A_i - \nabla_i A_j = \frac{\partial A_i}{\partial x^j} - \frac{\partial A_j}{\partial x^i}
+\]
+This proves that the generalised curl of a covariant vector is independent of Christoffel symbols and depends only on ordinary partial derivatives!
+\end{proofbox}
+
+\newpage
+% =========================================================================
+\section{Unit 7: Covariant Differentiation \& Ricci's Theorem (Lecture 23)}
+% =========================================================================
+
+\subsection{Need for Covariant Differentiation}
+In Cartesian coordinates, the partial derivative $\frac{\partial A^i}{\partial x^j}$ of a vector $A^i$ is a tensor. However, in general curvilinear/curved space coordinates, the partial derivative fails to be a tensor because basis vectors vary from point to point.
+
+Under coordinate transformation:
+\[
+\frac{\partial A'^i}{\partial x'^j} = \frac{\partial}{\partial x'^j} \left( \frac{\partial x'^i}{\partial x^m} A^m \right) = \frac{\partial x'^i}{\partial x^m} \frac{\partial x^n}{\partial x'^j} \frac{\partial A^m}{\partial x^n} + \frac{\partial^2 x'^i}{\partial x^n \partial x^m} \frac{\partial x^n}{\partial x'^j} A^m
+\]
+The inhomogeneous second derivative term destroys the tensor property. To fix this, we introduce the **Covariant Derivative**.
+
+\subsection{Definitions of Covariant Derivatives}
+\begin{definitionbox}{Covariant Derivative of Contravariant Vector}
+The \textbf{covariant derivative} of a contravariant vector $A^i$ with respect to $x^j$, denoted $A^i_{,j}$ or $\nabla_j A^i$, is defined as:
+\[
+A^i_{,j} = \nabla_j A^i = \frac{\partial A^i}{\partial x^j} + \Gamma^i_{jk} A^k
+\]
+\end{definitionbox}
+
+\begin{definitionbox}{Covariant Derivative of Covariant Vector}
+The \textbf{covariant derivative} of a covariant vector $A_i$ with respect to $x^j$, denoted $A_{i,j}$ or $\nabla_j A_i$, is defined as:
+\[
+A_{i,j} = \nabla_j A_i = \frac{\partial A_i}{\partial x^j} - \Gamma^k_{ij} A_k
+\]
+\end{definitionbox}
+
+\begin{definitionbox}{Covariant Derivative of Higher-Rank Tensors}
+\begin{enumerate}
+    \item \textbf{Mixed Tensor $A^i_j$}:
+    \[
+    A^i_{j,k} = \frac{\partial A^i_j}{\partial x^k} + \Gamma^i_{kl} A^l_j - \Gamma^l_{jk} A^i_l
+    \]
+    \item \textbf{Covariant Tensor $A_{ij}$}:
+    \[
+    A_{ij,k} = \frac{\partial A_{ij}}{\partial x^k} - \Gamma^l_{ik} A_{lj} - \Gamma^l_{jk} A_{il}
+    \]
+    \item \textbf{Contravariant Tensor $A^{ij}$}:
+    \[
+    A^{ij}_{\, ,k} = \frac{\partial A^{ij}}{\partial x^k} + \Gamma^i_{kl} A^{lj} + \Gamma^j_{kl} A^{il}
+    \]
+\end{enumerate}
+Each contravariant index adds a $+\Gamma$ term, and each covariant index adds a $-\Gamma$ term.
+\end{definitionbox}
+
+\subsection{Ricci's Theorem (Fundamental Theorem of Riemannian Geometry)}
+\begin{theorembox}{Ricci's Theorem}
+The covariant derivatives of the fundamental metric tensors $g_{ij}$, $g^{ij}$, and $\delta^i_j$ vanish identically:
+\[
+g_{ij,k} = 0, \quad g^{ij}_{\, ,k} = 0, \quad \delta^i_{j,k} = 0
+\]
+\end{theorembox}
+\begin{proofbox}{Proof of Ricci's Theorem for $g_{ij}$}
+Apply the formula for covariant derivative of a rank 2 covariant tensor $g_{ij}$:
+\[
+g_{ij,k} = \frac{\partial g_{ij}}{\partial x^k} - \Gamma^l_{ik} g_{lj} - \Gamma^l_{jk} g_{il}
+\]
+Recall that $\Gamma^l_{ik} g_{lj} = [ik, j]$ and $\Gamma^l_{jk} g_{il} = [jk, i]$. Substitute these:
+\[
+g_{ij,k} = \frac{\partial g_{ij}}{\partial x^k} - [ik, j] - [jk, i]
+\]
+From Unit 6 Theorem 6.2, we know $\frac{\partial g_{ij}}{\partial x^k} = [ik, j] + [jk, i]$.
+Substitute this derivative:
+\[
+g_{ij,k} = ([ik, j] + [jk, i]) - [ik, j] - [jk, i] = 0
+\]
+Hence $g_{ij,k} = 0$. By raising indices, $g^{ij}_{\, ,k} = 0$ and $\delta^i_{j,k} = 0$. This completes the proof of Ricci's Theorem.
+\end{proofbox}
+
+\begin{importantbox}{Consequence of Ricci's Theorem}
+Since $g_{ij,k} = 0$, the metric tensor behaves like a \textbf{constant} under covariant differentiation. Thus, metric tensors $g_{ij}$ and $g^{ij}$ can be passed inside or outside covariant derivatives freely when raising/lowering indices:
+\[
+\nabla_k (g_{ij} A^j) = g_{ij} \nabla_k A^j = \nabla_k A_i
+\]
+\end{importantbox}
+
+\newpage
+% =========================================================================
+\section{Summary \& Quick Revision Cheat Sheet}
+% =========================================================================
+
+\begin{table}[h]
+\centering
+\caption{\textbf{Master Tensor Summary \& Quick Formula Reference}}
+\vspace{0.3cm}
+\begin{tabular}{lll}
+\toprule
+\textbf{Concept / Object} & \textbf{Symbol} & \textbf{Transformation / Definition Formula} \\
+\midrule
+Contravariant Vector & $A^i$ & $A'^i = \frac{\partial x'^i}{\partial x^j} A^j$ \\[4pt]
+Covariant Vector & $A_i$ & $A'_i = \frac{\partial x^j}{\partial x'^i} A_j$ \\[4pt]
+Contravariant Tensor Rank 2 & $A^{ij}$ & $A'^{ij} = \frac{\partial x'^i}{\partial x^k} \frac{\partial x'^j}{\partial x^l} A^{kl}$ \\[4pt]
+Covariant Tensor Rank 2 & $A_{ij}$ & $A'_{ij} = \frac{\partial x^k}{\partial x'^i} \frac{\partial x^l}{\partial x'^j} A_{kl}$ \\[4pt]
+Mixed Tensor Type (1,1) & $A^i_j$ & $A'^i_j = \frac{\partial x'^i}{\partial x^k} \frac{\partial x^l}{\partial x'^j} A^k_l$ \\[4pt]
+Kronecker Delta & $\delta^i_j$ & $\delta^i_j = 1 \text{ if } i=j, \ 0 \text{ if } i \neq j; \quad \delta^i_j A^j = A^i$ \\[4pt]
+Symmetric Tensor Components & $N_{\text{sym}}$ & $\frac{n(n+1)}{2}$ \\[4pt]
+Antisymmetric Tensor Components & $N_{\text{anti}}$ & $\frac{n(n-1)}{2}$ \\[4pt]
+Riemannian Metric Line Element & $ds^2$ & $ds^2 = g_{ij} dx^i dx^j$ \\[4pt]
+Reciprocal Metric Tensor & $g^{ij}$ & $g^{ij} g_{jk} = \delta^i_k, \quad g^{ij} = \frac{\text{cofactor of } g_{ji}}{g}$ \\[4pt]
+Index Lowering / Raising & $A_i, A^i$ & $A_i = g_{ij} A^j, \quad A^i = g^{ij} A_j$ \\[4pt]
+Vector Magnitude & $\|A\|$ & $\|A\|^2 = g_{ij} A^i A^j = A_i A^i$ \\[4pt]
+Christoffel Symbol 1st Kind & $[ij, k]$ & $\frac{1}{2} \left( \frac{\partial g_{ik}}{\partial x^j} + \frac{\partial g_{jk}}{\partial x^i} - \frac{\partial g_{ij}}{\partial x^k} \right)$ \\[4pt]
+Christoffel Symbol 2nd Kind & $\Gamma^k_{ij}$ & $g^{kl} [ij, l]$ \\[4pt]
+Covariant Deriv. (Contravariant) & $A^i_{,j}$ & $\frac{\partial A^i}{\partial x^j} + \Gamma^i_{jk} A^k$ \\[4pt]
+Covariant Deriv. (Covariant) & $A_{i,j}$ & $\frac{\partial A_i}{\partial x^j} - \Gamma^k_{ij} A_k$ \\[4pt]
+Ricci's Theorem & $g_{ij,k}$ & $g_{ij,k} = 0, \quad g^{ij}_{\, ,k} = 0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

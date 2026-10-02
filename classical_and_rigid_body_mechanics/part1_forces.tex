@@ -1,0 +1,692 @@
+\chapter{Laws of Vectors in 2D \& System of Coplanar Forces}
+
+\section{Vectors in 2D and Vector Algebra in Mechanics}
+
+\begin{defbox}[Vector Representation in 2D]
+A physical quantity having both magnitude and direction is a \textbf{vector}. In a two-dimensional rectangular Cartesian coordinate system $(X, Y)$ with unit vectors $\hat{i}$ and $\hat{j}$ along coordinate axes:
+\begin{equation}
+\mathbf{A} = A_x \hat{i} + A_y \hat{j}
+\end{equation}
+where $A_x = A \cos\theta$ and $A_y = A \sin\theta$. Magnitude $|\mathbf{A}| = \sqrt{A_x^2 + A_y^2}$ and direction angle $\theta = \tan^{-1}(A_y / A_x)$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.35, >=Stealth]
+    % Axes
+    \draw[->, thick, darkslate] (-0.5, 0) -- (3.5, 0) node[right] {$X$};
+    \draw[->, thick, darkslate] (0, -0.5) -- (0, 2.8) node[above] {$Y$};
+    
+    % Origin
+    \filldraw[black] (0,0) circle (2pt) node[below left] {$O$};
+    
+    % Components projection lines
+    \draw[dashed, primaryblue!60, thick] (2.6, 0) -- (2.6, 1.8);
+    \draw[dashed, primaryblue!60, thick] (0, 1.8) -- (2.6, 1.8);
+    
+    % Vector A
+    \draw[ultra thick, ->, primaryblue] (0,0) -- (2.6, 1.8) node[above right, font=\bfseries] {$\mathbf{A} = A_x \hat{i} + A_y \hat{j}$};
+    
+    % Unit Vectors
+    \draw[ultra thick, ->, accentred] (0,0) -- (1.0, 0) node[below=2pt] {$\hat{i}$};
+    \draw[ultra thick, ->, accentred] (0,0) -- (0, 1.0) node[left=2pt] {$\hat{j}$};
+    
+    % Component Labels
+    \node[primaryblue, below] at (1.3, 0) {$A_x = A \cos\theta$};
+    \node[primaryblue, left] at (0, 0.9) {$A_y = A \sin\theta$};
+    
+    % Angle theta
+    \draw[thick, secondaryblue] (0.7, 0) arc (0:34.7:0.7);
+    \node[secondaryblue] at (1.0, 0.25) {$\theta$};
+    
+    % Point A terminal
+    \filldraw[primaryblue] (2.6, 1.8) circle (2pt) node[above right=4pt] {$(A_x, A_y)$};
+\end{tikzpicture}
+\end{center}
+\end{defbox}
+
+\begin{theorembox}{Vector Operations in Mechanics}
+1. \textbf{Scalar (Dot) Product}:
+\begin{equation}
+\mathbf{A} \cdot \mathbf{B} = A_x B_x + A_y B_y = A B \cos\theta
+\end{equation}
+Work done by force $\mathbf{F}$ along displacement $\delta\mathbf{r}$ is $W = \mathbf{F} \cdot \delta\mathbf{r}$.
+
+2. \textbf{Vector (Cross) Product}:
+\begin{equation}
+\mathbf{A} \times \mathbf{B} = (A_x B_y - A_y B_x) \hat{k} = A B \sin\theta \, \hat{k}
+\end{equation}
+The moment of force $\mathbf{F}$ acting at position $\mathbf{r}$ relative to origin $O$ is $\mathbf{M}_O = \mathbf{r} \times \mathbf{F}$.
+\end{theorembox}
+
+\section{Coplanar Concurrent Forces}
+
+\begin{theorembox}{Parallelogram Law of Forces}
+If two coplanar forces $\mathbf{P}$ and $\mathbf{Q}$ acting simultaneously on a particle at point $O$ at angle $\alpha$ are represented in magnitude and direction by two adjacent sides of a parallelogram, their resultant $\mathbf{R}$ is represented in magnitude and direction by the diagonal passing through $O$:
+\begin{equation}
+R = \sqrt{P^2 + Q^2 + 2PQ\cos\alpha}, \qquad \tan\theta = \frac{Q\sin\alpha}{P + Q\cos\alpha}
+\end{equation}
+\end{theorembox}
+
+\begin{proofbox}{Proof of Parallelogram Law}
+Let $OA$ represent force $P$ along $X$-axis and $OB$ represent force $Q$ at angle $\alpha$ to $OA$. Complete parallelogram $OACB$. Draw perpendicular $CD$ onto $OA$ produced.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.35, >=Stealth]
+    % Coordinates
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (3.0,0);
+    \coordinate (B) at (1.5, 2.2);
+    \coordinate (C) at (4.5, 2.2);
+    \coordinate (D) at (4.5, 0);
+
+    % Base extension line AD
+    \draw[dashed, darkslate!60, thick] (A) -- (D);
+    % Perpendicular CD
+    \draw[dashed, darkslate!60, thick] (C) -- (D) node[midway, right] {$CD = Q\sin\alpha$};
+    % Right angle symbol at D
+    \draw[thick, darkslate] (4.3,0) -- (4.3, 0.2) -- (4.5, 0.2);
+
+    % Parallelogram sides BC and AC
+    \draw[thick, bordergrey, dashed] (B) -- (C);
+    \draw[thick, bordergrey, dashed] (A) -- (C) node[midway, right=2pt] {$Q$};
+
+    % Force P along OA
+    \draw[ultra thick, ->, primaryblue] (O) -- (A) node[midway, below] {$\mathbf{P}$};
+    
+    % Force Q along OB
+    \draw[ultra thick, ->, secondaryblue] (O) -- (B) node[midway, above left] {$\mathbf{Q}$};
+    
+    % Resultant R along OC
+    \draw[ultra thick, ->, accentred] (O) -- (C) node[midway, above left, font=\bfseries] {$\mathbf{R}$};
+
+    % Points
+    \filldraw[black] (O) circle (2pt) node[below left] {$O$};
+    \filldraw[primaryblue] (A) circle (2pt) node[below] {$A$};
+    \filldraw[secondaryblue] (B) circle (2pt) node[above left] {$B$};
+    \filldraw[accentred] (C) circle (2.2pt) node[above right] {$C$};
+    \filldraw[darkslate] (D) circle (1.8pt) node[below] {$D$};
+
+    % Angles
+    % Angle alpha at O (\angle AOB)
+    \draw[thick, secondaryblue] (0.8,0) arc (0:55.7:0.8);
+    \node[secondaryblue] at (1.05, 0.45) {$\alpha$};
+
+    % Angle theta at O (\angle AOC)
+    \draw[thick, accentred] (1.3,0) arc (0:26.1:1.3);
+    \node[accentred] at (1.6, 0.25) {$\theta$};
+
+    % Angle alpha at A (\angle DAC)
+    \draw[thick, secondaryblue] (3.6,0) arc (0:55.7:0.6);
+    \node[secondaryblue] at (3.85, 0.35) {$\alpha$};
+
+    % AD segment label
+    \draw[thick, <->, darkslate!80] (3.0, -0.45) -- (4.5, -0.45) node[midway, below] {$AD = Q\cos\alpha$};
+    \draw[dashed, darkslate!40] (3.0,0) -- (3.0, -0.5);
+    \draw[dashed, darkslate!40] (4.5,0) -- (4.5, -0.5);
+\end{tikzpicture}
+\end{center}
+
+In right-angled triangle $\triangle ADC$:
+\[
+AD = Q \cos\alpha, \qquad CD = Q \sin\alpha
+\]
+In right-angled triangle $\triangle ODC$:
+\[
+OC^2 = OD^2 + CD^2 = (OA + AD)^2 + CD^2 = (P + Q\cos\alpha)^2 + (Q\sin\alpha)^2
+\]
+\[
+R^2 = P^2 + 2PQ\cos\alpha + Q^2(\cos^2\alpha + \sin^2\alpha) = P^2 + Q^2 + 2PQ\cos\alpha
+\]
+\[
+R = \sqrt{P^2 + Q^2 + 2PQ\cos\alpha}, \qquad \tan\theta = \frac{CD}{OD} = \frac{Q\sin\alpha}{P + Q\cos\alpha}
+\]
+\end{proofbox}
+
+\begin{theorembox}{Lami's Theorem}
+If three coplanar concurrent forces $\mathbf{P}, \mathbf{Q}, \mathbf{R}$ acting at a point $O$ are in static equilibrium, each force is proportional to the sine of the angle between the other two forces:
+\begin{equation}
+\frac{P}{\sin\alpha} = \frac{Q}{\sin\beta} = \frac{R}{\sin\gamma}
+\end{equation}
+where $\alpha = \angle(\mathbf{Q},\mathbf{R})$, $\beta = \angle(\mathbf{P},\mathbf{R})$, and $\gamma = \angle(\mathbf{P},\mathbf{Q})$.
+\end{theorembox}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    \coordinate (O) at (0,0);
+    \coordinate (P) at (90:2.5);
+    \coordinate (Q) at (-30:2.5);
+    \coordinate (R) at (210:2.5);
+
+    \draw[very thick, ->, color=primaryblue] (O) -- (P) node[above=2pt, font=\large\bfseries] {$\mathbf{P}$};
+    \draw[very thick, ->, color=secondaryblue] (O) -- (Q) node[below right=2pt, font=\large\bfseries] {$\mathbf{Q}$};
+    \draw[very thick, ->, color=accentgreen] (O) -- (R) node[below left=2pt, font=\large\bfseries] {$\mathbf{R}$};
+
+    \fill (O) circle (2pt) node[below=4pt] {$O$};
+
+    \draw[thick, color=accentred] (-30:0.65) arc (-30:-150:0.65) node[midway, below=3pt, font=\small\bfseries] {$\alpha$};
+    \draw[thick, color=primaryblue!80!black] (90:0.85) arc (90:210:0.85) node[midway, above left=2pt, font=\small\bfseries] {$\beta$};
+    \draw[thick, color=secondaryblue!80!black] (90:1.05) arc (90:-30:1.05) node[midway, above right=2pt, font=\small\bfseries] {$\gamma$};
+\end{tikzpicture}
+\caption{Lami's Theorem force vector diagram.}
+\end{figure}
+
+\begin{proofbox}{Proof of Lami's Theorem}
+Since forces $\mathbf{P}, \mathbf{Q}, \mathbf{R}$ are in equilibrium:
+\[
+\mathbf{P} + \mathbf{Q} + \mathbf{R} = \mathbf{0} \implies \mathbf{P} + \mathbf{Q} = -\mathbf{R}
+\]
+Taking vector cross product with $\mathbf{P}$:
+\[
+\mathbf{P} \times (\mathbf{P} + \mathbf{Q} + \mathbf{R}) = \mathbf{0} \implies \mathbf{P} \times \mathbf{Q} = \mathbf{R} \times \mathbf{P}
+\]
+Similarly, taking vector cross product with $\mathbf{Q}$:
+\[
+\mathbf{Q} \times \mathbf{R} = \mathbf{P} \times \mathbf{Q}
+\]
+Evaluating magnitudes:
+\[
+P Q \sin(180^\circ - \gamma) = Q R \sin(180^\circ - \alpha) = R P \sin(180^\circ - \beta)
+\]
+Dividing by $P Q R$:
+\[
+\frac{\sin\gamma}{R} = \frac{\sin\alpha}{P} = \frac{\sin\beta}{Q} \implies \frac{P}{\sin\alpha} = \frac{Q}{\sin\beta} = \frac{R}{\sin\gamma}
+\]
+\end{proofbox}
+
+\section{System of Parallel Forces and Center of Parallel Forces}
+
+\begin{theorembox}{Resultant and Center of Parallel Forces}
+1. \textbf{Like Parallel Forces $P$ and $Q$}:
+Resultant $R = P + Q$ acting parallel to $P$ and $Q$ at point $C$ dividing line segment $AB$ internally in ratio:
+\begin{equation}
+P \cdot AC = Q \cdot BC \implies \frac{AC}{BC} = \frac{Q}{P}
+\end{equation}
+
+2. \textbf{Unlike Parallel Forces $P > Q$}:
+Resultant $R = P - Q$ acting parallel to $P$ at point $C$ dividing line segment $AB$ externally in ratio:
+\begin{equation}
+P \cdot AC = Q \cdot BC \implies \frac{AC}{BC} = \frac{Q}{P}
+\end{equation}
+
+3. \textbf{Center of Parallel Forces}:
+Position vector $\mathbf{r}_C$ of center of parallel forces $\mathbf{F}_i$ acting at points $\mathbf{r}_i$:
+\begin{equation}
+\mathbf{r}_C = \frac{\sum_{i=1}^n F_i \mathbf{r}_i}{\sum_{i=1}^n F_i}
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    % --- (a) Like Parallel Forces ---
+    \begin{scope}[shift={(0,0)}]
+        \node[font=\bfseries\color{primaryblue}] at (2.0, 2.8) {(a) Like Parallel Forces};
+        
+        % Line segment AB
+        \draw[ultra thick, darkslate!80] (0,0) -- (4,0);
+        \filldraw[primaryblue] (0,0) circle (2pt) node[below] {$A$};
+        \filldraw[primaryblue] (4,0) circle (2pt) node[below] {$B$};
+        \filldraw[accentred] (2.5,0) circle (2.2pt) node[below] {$C$};
+        
+        % Forces P and Q
+        \draw[ultra thick, ->, primaryblue] (0,0) -- (0, 2.0) node[above] {$\mathbf{P}$};
+        \draw[ultra thick, ->, primaryblue] (4,0) -- (4, 1.2) node[above] {$\mathbf{Q}$};
+        
+        % Resultant R = P + Q
+        \draw[ultra thick, ->, accentred] (2.5,0) -- (2.5, 3.2) node[above] {$\mathbf{R} = \mathbf{P} + \mathbf{Q}$};
+        
+        % Labels AC and BC
+        \draw[thick, <->, secondaryblue] (0, -0.6) -- (2.5, -0.6) node[midway, fill=white, inner sep=1pt, font=\small] {$AC$};
+        \draw[thick, <->, secondaryblue] (2.5, -0.6) -- (4.0, -0.6) node[midway, fill=white, inner sep=1pt, font=\small] {$BC$};
+    \end{scope}
+
+    % --- (b) Unlike Parallel Forces ---
+    \begin{scope}[shift={(6.2,0)}]
+        \node[font=\bfseries\color{primaryblue}] at (2.0, 2.8) {(b) Unlike Parallel Forces ($P > Q$)};
+        
+        % Line segment AB extended to C
+        \draw[ultra thick, darkslate!80] (0,0) -- (3,0);
+        \draw[dashed, darkslate!60, thick] (3,0) -- (4.8,0);
+        \filldraw[primaryblue] (0,0) circle (2pt) node[below] {$A$};
+        \filldraw[primaryblue] (3,0) circle (2pt) node[below] {$B$};
+        \filldraw[accentred] (4.8,0) circle (2.2pt) node[below] {$C$};
+        
+        % Force P upwards at A, Q downwards at B
+        \draw[ultra thick, ->, primaryblue] (0,0) -- (0, 2.4) node[above] {$\mathbf{P}$};
+        \draw[ultra thick, ->, primaryblue] (3,0) -- (3, -1.2) node[below] {$\mathbf{Q}$};
+        
+        % Resultant R = P - Q upwards at C (External division)
+        \draw[ultra thick, ->, accentred] (4.8,0) -- (4.8, 1.2) node[above] {$\mathbf{R} = \mathbf{P} - \mathbf{Q}$};
+        
+        % Labels
+        \draw[thick, <->, secondaryblue] (0, -0.6) -- (4.8, -0.6) node[midway, fill=white, inner sep=1pt, font=\small] {$AC$};
+        \draw[thick, <->, secondaryblue] (3.0, -1.4) -- (4.8, -1.4) node[midway, fill=white, inner sep=1pt, font=\small] {$BC$};
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+\end{theorembox}
+
+\section{Theory of Couples}
+
+\begin{defbox}[Couple and Arm of Couple]
+A \textbf{couple} consists of two equal, opposite, and non-collinear parallel forces $(P, -P)$.
+- Vector sum of forces is zero ($\mathbf{P} + (-\mathbf{P}) = \mathbf{0}$). A couple produces pure rotation.
+- \textbf{Arm of Couple ($d$)}: Perpendicular distance between lines of action of the two forces.
+- \textbf{Moment of Couple}: $G = P \cdot d$.
+\end{defbox}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    % Lines of action
+    \draw[dashed, darkslate!50] (-1, 0) -- (4, 0);
+    \draw[dashed, darkslate!50] (-1, 1.8) -- (4, 1.8);
+    
+    % Forces
+    \draw[ultra thick, ->, primaryblue] (0, 0) -- (2.5, 0) node[below] {$\mathbf{P}$};
+    \draw[ultra thick, ->, primaryblue] (3, 1.8) -- (0.5, 1.8) node[above] {$-\mathbf{P}$};
+    
+    % Points A and B
+    \filldraw[accentred] (0, 0) circle (2pt) node[below left] {$A$};
+    \filldraw[accentred] (2.5, 1.8) circle (2pt) node[above right] {$B$};
+    
+    % Arm d (Perpendicular distance)
+    \draw[thick, <->, accentred] (1.5, 0) -- (1.5, 1.8) node[midway, fill=white, inner sep=2pt] {Arm $d$};
+    
+    % Rotation indicator (Torque)
+    \draw[ultra thick, ->, accentgreen] (1.5, 0.9) ++(45:0.7) arc (45:315:0.7) node[midway, left] {Moment $G = P \cdot d$};
+\end{tikzpicture}
+\caption{Vector representation of a couple $(P, -P)$ and its arm $d$, producing pure moment $G = P \cdot d$.}
+\end{figure}
+
+\begin{proofbox}{Proof of Couple Moment Invariance (Origin-Independence of Couple)}
+Let a couple consist of force $-\mathbf{P}$ acting at point $A(\mathbf{r}_A)$ and force $+\mathbf{P}$ acting at point $B(\mathbf{r}_B)$ relative to an arbitrary origin $O$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    % Origin O and shifted Origin O'
+    \coordinate (O) at (0,0);
+    \coordinate (Oprime) at (1.5, -1.2);
+    
+    % Points A and B
+    \coordinate (A) at (1.0, 1.8);
+    \coordinate (B) at (4.2, 1.8);
+    
+    % Forces -P at A and +P at B
+    \draw[ultra thick, ->, primaryblue] (A) -- ($(A) + (-1.6, 0)$) node[above] {$-\mathbf{P}$};
+    \draw[ultra thick, ->, primaryblue] (B) -- ($(B) + (1.6, 0)$) node[above] {$\mathbf{P}$};
+    
+    % Lines of action
+    \draw[dashed, darkslate!40] (-1.0, 1.8) -- (6.0, 1.8);
+    
+    % Position vectors from O
+    \draw[thick, ->, secondaryblue] (O) -- (A) node[midway, left] {$\mathbf{r}_A$};
+    \draw[thick, ->, secondaryblue] (O) -- (B) node[midway, above left] {$\mathbf{r}_B$};
+    
+    % Position vectors from O'
+    \draw[thick, ->, accentgreen] (Oprime) -- (A) node[midway, right=2pt] {$\mathbf{r}'_A$};
+    \draw[thick, ->, accentgreen] (Oprime) -- (B) node[midway, right] {$\mathbf{r}'_B$};
+    
+    % Vector r_O'
+    \draw[thick, ->, accentred] (O) -- (Oprime) node[midway, below left] {$\mathbf{r}_{O'}$};
+    
+    % Displacement vector r_AB
+    \draw[ultra thick, ->, accentred] (A) -- (B) node[midway, above] {$\mathbf{r}_{AB} = \mathbf{r}_B - \mathbf{r}_A$};
+    
+    % Point nodes
+    \filldraw[black] (O) circle (2pt) node[below left] {$O$};
+    \filldraw[accentred] (Oprime) circle (2pt) node[below right] {$O'$};
+    \filldraw[primaryblue] (A) circle (2pt) node[above left] {$A$};
+    \filldraw[primaryblue] (B) circle (2pt) node[above right] {$B$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Moment About Origin $O$}:\\
+    The total vector moment of the couple about origin $O$ is:
+    \begin{equation}
+        \mathbf{G}_O = \mathbf{r}_A \times (-\mathbf{P}) + \mathbf{r}_B \times \mathbf{P} = (\mathbf{r}_B - \mathbf{r}_A) \times \mathbf{P} = \mathbf{r}_{AB} \times \mathbf{P}
+    \end{equation}
+    where $\mathbf{r}_{AB} = \mathbf{r}_B - \mathbf{r}_A$ is the relative displacement vector from $A$ to $B$. Since $\mathbf{r}_{AB}$ depends strictly on the relative position of $A$ and $B$, $\mathbf{G}_O$ is independent of $O$.
+
+    \item \textbf{Moment About Any Arbitrary Base Point $O'$}:\\
+    Let $O'$ be any second reference point with position vector $\mathbf{r}_{O'}$ relative to $O$.
+    The position vectors of $A$ and $B$ relative to $O'$ are:
+    \begin{equation*}
+        \mathbf{r}'_A = \mathbf{r}_A - \mathbf{r}_{O'}, \qquad \mathbf{r}'_B = \mathbf{r}_B - \mathbf{r}_{O'}
+    \end{equation*}
+    Calculating the couple moment $\mathbf{G}_{O'}$ about $O'$:
+    \begin{align}
+        \mathbf{G}_{O'} &= \mathbf{r}'_A \times (-\mathbf{P}) + \mathbf{r}'_B \times \mathbf{P} \nonumber \\
+        &= (\mathbf{r}_A - \mathbf{r}_{O'}) \times (-\mathbf{P}) + (\mathbf{r}_B - \mathbf{r}_{O'}) \times \mathbf{P} \nonumber \\
+        &= -\mathbf{r}_A \times \mathbf{P} + \mathbf{r}_{O'} \times \mathbf{P} + \mathbf{r}_B \times \mathbf{P} - \mathbf{r}_{O'} \times \mathbf{P} \nonumber \\
+        &= (\mathbf{r}_B - \mathbf{r}_A) \times \mathbf{P} = \mathbf{r}_{AB} \times \mathbf{P} = \mathbf{G}_O
+    \end{align}
+
+    \item \textbf{Conclusion}:\\
+    Since $\mathbf{G}_{O'} = \mathbf{G}_O$, the vector moment of a couple is completely invariant under shift of reference origin.
+    The magnitude of the couple moment is $G = |\mathbf{G}_O| = P \cdot (r_{AB}\sin\theta) = P \cdot d$, where $d$ is the perpendicular distance between the lines of action of $-\mathbf{P}$ and $+\mathbf{P}$.
+\end{enumerate}
+\end{proofbox}
+
+\section{Moments of a Force and Varignon's Theorem}
+
+\begin{defbox}[Moment of Force About a Point and Line]
+1. \textbf{About a Point $O$}: $\mathbf{M}_O = \mathbf{r} \times \mathbf{F}$, magnitude $M = F \cdot p$.
+2. \textbf{About a Line $OZ$}: Let $\theta$ be angle between $\mathbf{F}$ and line $OZ$. Resolve $\mathbf{F}$ into $F\cos\theta$ parallel to $OZ$ and $F\sin\theta$ perpendicular to $OZ$. Moment about $OZ$ is:
+\begin{equation}
+M_{OZ} = (\mathbf{r} \times \mathbf{F}) \cdot \hat{k}
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    % Origin O
+    \coordinate (O) at (0,0);
+    
+    % Point of application P
+    \coordinate (A) at (2.8, 1.4);
+    
+    % Force vector F at A
+    \coordinate (Fend) at ($(A) + (2.2, -0.5)$);
+    
+    % Line of action of F
+    \draw[dashed, darkslate!40, thick] ($(A) - (1.2, -0.27)$) -- ($(Fend) + (1.2, -0.27)$) node[right, font=\small] {Line of Action};
+    
+    % Position vector r from O to A
+    \draw[ultra thick, ->, secondaryblue] (O) -- (A) node[midway, above left] {$\mathbf{r}$};
+    
+    % Force F
+    \draw[ultra thick, ->, primaryblue] (A) -- (Fend) node[above right] {$\mathbf{F}$};
+    
+    % Perpendicular distance p from O to line of action
+    \coordinate (Foot) at ($(A)!0.46!(Fend)$);
+    \draw[thick, dashed, accentred] (O) -- (Foot) node[midway, left=2pt] {Arm $p = r\sin\theta$};
+    \filldraw[accentred] (Foot) circle (1.8pt);
+    
+    % Moment Vector M_O (out of plane, represented along Z-axis)
+    \draw[ultra thick, ->, accentgreen] (O) -- (0, 2.2) node[above] {$\mathbf{M}_O = \mathbf{r} \times \mathbf{F}$};
+    \draw[ultra thick, ->, accentgreen] (0.4, 0.3) arc (15:280:0.4);
+    
+    % Points O and A
+    \filldraw[black] (O) circle (2pt) node[below left] {$O$};
+    \filldraw[primaryblue] (A) circle (2pt) node[above] {$A(\mathbf{r})$};
+    
+    % Angle theta between r and F
+    \draw[thick, secondaryblue] ($(A)+(0.5,0.27)$) arc (30:-12.8:0.5);
+    \node[secondaryblue, font=\small] at (3.5, 1.35) {$\theta$};
+\end{tikzpicture}
+\end{center}
+\end{defbox}
+
+\begin{theorembox}{Varignon's Theorem of Moments}
+The algebraic sum of the moments of any two coplanar forces about any point in their plane is equal to the moment of their resultant about that same point:
+\begin{equation}
+\mathbf{M}_O(\mathbf{R}) = \mathbf{M}_O(\mathbf{P}) + \mathbf{M}_O(\mathbf{Q})
+\end{equation}
+\end{theorembox}
+
+\begin{proofbox}{Proof of Varignon's Theorem}
+Let forces $\mathbf{P}$ and $\mathbf{Q}$ act at point $A(\mathbf{r})$ relative to origin $O$. Resultant $\mathbf{R} = \mathbf{P} + \mathbf{Q}$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    % Origin O
+    \coordinate (O) at (0, 0);
+    
+    % Point of application A
+    \coordinate (A) at (2.2, 1.2);
+    
+    % Force vectors from A
+    \coordinate (P) at ($(A) + (2.6, 0.3)$);
+    \coordinate (Q) at ($(A) + (0.9, 1.8)$);
+    \coordinate (R) at ($(A) + (3.5, 2.1)$); % R = P + Q
+    
+    % Position vector r from O to A
+    \draw[ultra thick, ->, secondaryblue] (O) -- (A) node[midway, above left] {$\mathbf{r}$};
+    
+    % Parallelogram construction for forces at A
+    \draw[dashed, darkslate!50, thick] (P) -- (R);
+    \draw[dashed, darkslate!50, thick] (Q) -- (R);
+    
+    % Forces P and Q
+    \draw[ultra thick, ->, primaryblue] (A) -- (P) node[right] {$\mathbf{P}$};
+    \draw[ultra thick, ->, primaryblue] (A) -- (Q) node[above] {$\mathbf{Q}$};
+    
+    % Resultant Force R = P + Q
+    \draw[ultra thick, ->, accentred] (A) -- (R) node[above right] {$\mathbf{R} = \mathbf{P} + \mathbf{Q}$};
+    
+    % Points O and A
+    \filldraw[black] (O) circle (2.2pt) node[below left] {$O$};
+    \filldraw[accentred] (A) circle (2.2pt) node[below right] {$A(\mathbf{r})$};
+    
+    % Lines of action (dashed extensions)
+    \draw[dashed, primaryblue!40] (A) -- ($(A)!1.3!(P)$);
+    \draw[dashed, primaryblue!40] (A) -- ($(A)!1.3!(Q)$);
+    \draw[dashed, accentred!40] (A) -- ($(A)!1.3!(R)$);
+    \draw[dashed, secondaryblue!40] (O) -- ($(O)!1.4!(A)$);
+\end{tikzpicture}
+\end{center}
+
+Taking vector cross product with $\mathbf{r}$:
+\[
+\mathbf{r} \times \mathbf{R} = \mathbf{r} \times (\mathbf{P} + \mathbf{Q}) = (\mathbf{r} \times \mathbf{P}) + (\mathbf{r} \times \mathbf{Q}) \implies \mathbf{M}_O(\mathbf{R}) = \mathbf{M}_O(\mathbf{P}) + \mathbf{M}_O(\mathbf{Q})
+\]
+\end{proofbox}
+
+\section{Reduction of General Coplanar System of Forces}
+
+\begin{theorembox}{Reduction Theorem}
+Any system of coplanar forces $(X_i, Y_i)$ acting at points $(x_i, y_i)$ on a rigid body can be reduced to a single force $(X, Y)$ acting at origin $O$, together with a single couple of moment $G$:
+\begin{align}
+X = \sum_{i=1}^n X_i, \qquad Y = \sum_{i=1}^n Y_i, \qquad G = \sum_{i=1}^n (x_i Y_i - y_i X_i)
+\end{align}
+Line of action of resultant force $R = \sqrt{X^2+Y^2}$:
+\begin{equation}
+xY - yX = G
+\end{equation}
+\end{theorembox}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.4, >=Stealth]
+    % Axes
+    \draw[->, thick, darkslate] (-2.2, 0) -- (4.5, 0) node[right] {$X$};
+    \draw[->, thick, darkslate] (0, -1.0) -- (0, 3.8) node[above] {$Y$};
+    
+    % Origin
+    \filldraw[black] (0,0) circle (2pt) node[below left=2pt] {$O(0,0)$};
+    
+    % Point A_i(x_i, y_i)
+    \coordinate (A) at (3.0, 2.4);
+    \filldraw[primaryblue] (A) circle (2.5pt) node[above right] {$A_i(x_i, y_i)$};
+    \draw[dashed, bordergrey] (3.0,0) -- (A) node[midway, right] {$y_i$};
+    \draw[dashed, bordergrey] (0,2.4) -- (A) node[midway, above] {$x_i$};
+    
+    % Force Components at A_i
+    \draw[ultra thick, ->, secondaryblue] (A) -- ($(A) + (1.2, 0)$) node[right] {$X_i$};
+    \draw[ultra thick, ->, secondaryblue] (A) -- ($(A) + (0, 1.2)$) node[above] {$Y_i$};
+    
+    % Transferred Force Components at O
+    \draw[ultra thick, ->, accentred] (0,0) -- (1.5, 0) node[below right=2pt] {$X_i$ at $O$};
+    \draw[ultra thick, ->, accentred] (0,0) -- (0, 1.5) node[above left=2pt] {$Y_i$ at $O$};
+    
+    % Couple G_i (Clear counter-clockwise arc around O with non-overlapping label)
+    \draw[ultra thick, ->, accentgreen] (120:0.75) arc (120:390:0.75);
+    \node[accentgreen, align=right] at (-1.35, -0.6) {Couple Moment\\[-2pt]$G_i = x_i Y_i - y_i X_i$};
+\end{tikzpicture}
+\caption{Reduction of force $(X_i, Y_i)$ at $A_i(x_i, y_i)$ to an equivalent force $(X_i, Y_i)$ at origin $O$ and a couple $G_i$.}
+\end{figure}
+
+\begin{proofbox}{Proof of Line of Action Equation}
+Shift base point from $O(0,0)$ to $O'(\xi, \eta)$. New couple moment about $O'$ becomes:
+\[
+G' = G - \xi Y + \eta X
+\]
+For $O'(\xi, \eta)$ to lie on line of action of resultant force $R$, couple moment must vanish ($G' = 0$):
+\[
+G - \xi Y + \eta X = 0 \implies \xi Y - \eta X = G \implies xY - yX = G
+\]
+\end{proofbox}
+
+\section{Laws of Friction and Inclined Planes}
+
+\begin{defbox}[Coulomb's Laws of Friction]
+Limiting friction $F_{\max} = \mu N$. Angle of friction $\lambda = \tan^{-1}\mu$. Cone of friction: semi-vertical angle $\lambda$. Minimum horizontal force to prevent sliding on rough inclined plane $\alpha$: $P = W\tan(\alpha-\lambda)$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.35, >=Stealth]
+    % Angle of incline alpha = 25 degrees
+    \def\alphaAngle{25}
+    
+    % Base and Inclined Surface
+    \draw[thick, darkslate] (-0.5, 0) -- (4.2, 0);
+    \draw[ultra thick, darkslate!80] (0, 0) -- (\alphaAngle:4.8);
+    
+    % Angle alpha arc at origin
+    \draw[thick, secondaryblue] (1.0, 0) arc (0:\alphaAngle:1.0);
+    \node[secondaryblue] at (1.3, 0.25) {$\alpha$};
+    
+    % Block on inclined plane
+    \begin{scope}[rotate=\alphaAngle, shift={(2.2, 0)}]
+        % Draw Block
+        \draw[ultra thick, primaryblue, fill=primaryblue!10] (-0.8, 0) rectangle (0.8, 1.0);
+        \coordinate (CG) at (0, 0.5);
+        \filldraw[accentred] (CG) circle (2pt) node[above right=1pt, font=\small] {$C.G.$};
+        
+        % Normal Reaction N (perpendicular to incline)
+        \draw[ultra thick, ->, primaryblue] (0, 1.0) -- (0, 2.4) node[above] {$\mathbf{N}$};
+        
+        % Friction Force F_max = \mu N (up/down incline)
+        \draw[ultra thick, ->, accentgreen] (-0.8, 0) -- (-2.0, 0) node[above left] {$\mathbf{F}_{\max} = \mu N$};
+        
+        % Applied Pull Force P
+        \draw[ultra thick, ->, secondaryblue] (0.8, 0.5) -- (2.0, 0.5) node[above right] {$\mathbf{P}$};
+        
+        % Total Reaction R at angle of friction lambda to Normal N
+        \draw[thick, dashed, darkslate!50] (0, 1.0) -- (-1.2, 2.4);
+        \draw[ultra thick, ->, accentred] (0, 0) -- (-1.2, 2.4) node[above left] {$\mathbf{R}$ (Total Reaction)};
+        \draw[thick, accentred] (0, 1.4) arc (90:130:0.4);
+        \node[accentred, font=\small] at (-0.25, 1.65) {$\lambda$};
+    \end{scope}
+    
+    % Weight W acting vertically downwards from CG
+    \draw[ultra thick, ->, accentred] (2.2, 1.43) -- (2.2, -0.4) node[right] {Weight $\mathbf{W}$};
+\end{tikzpicture}
+\end{center}
+\end{defbox}
+
+\section{Solved Problems}
+
+\begin{examplebox}{Forces Along Equilateral Triangle Sides}
+Forces $3P, 7P, 5P$ act along sides $AB, BC, CA$ of an equilateral triangle $ABC$ of side $a$. Find resultant magnitude, angle, and line of action.
+\end{examplebox}
+
+\begin{proofbox}{Solution}
+Origin at $A(0,0)$ with $AB$ along $X$-axis.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.4, >=Stealth]
+    % Coordinates of Equilateral Triangle ABC
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (3.0,0);
+    \coordinate (C) at (1.5, 2.598);
+
+    % Axes
+    \draw[->, color=gray!70, thick] (-0.8,0) -- (4.2,0) node[right, color=black] {$X$};
+    \draw[->, color=gray!70, thick] (0,-0.6) -- (0,3.5) node[above, color=black] {$Y$};
+
+    % Triangle Outline
+    \draw[thick, color=darkslate!40, dashed] (A) -- (B) -- (C) -- cycle;
+
+    % Vertices
+    \filldraw[primaryblue] (A) circle (2pt) node[below left] {$A(0,0)$};
+    \filldraw[primaryblue] (B) circle (2pt) node[below right] {$B(a,0)$};
+    \filldraw[primaryblue] (C) circle (2pt) node[above] {$C\left(\frac{a}{2}, \frac{\sqrt{3}a}{2}\right)$};
+
+    % Force 1: 3P along AB
+    \draw[ultra thick, ->, color=primaryblue] (0.5, 0) -- (2.5, 0) node[midway, below] {$\mathbf{F}_{AB} = 3P$};
+
+    % Force 2: 7P along BC (Direction from B to C: angle 120 degrees)
+    \draw[ultra thick, ->, color=secondaryblue] ($(B)!0.15!(C)$) -- ($(B)!0.85!(C)$) node[midway, above right] {$\mathbf{F}_{BC} = 7P$};
+
+    % Force 3: 5P along CA (Direction from C to A: angle 240 degrees)
+    \draw[ultra thick, ->, color=accentgreen] ($(C)!0.15!(A)$) -- ($(C)!0.85!(A)$) node[midway, left] {$\mathbf{F}_{CA} = 5P$};
+
+    % Angle 60 degrees at A
+    \draw[thick, secondaryblue] (0.6,0) arc (0:60:0.6);
+    \node[secondaryblue, font=\small] at (0.85, 0.35) {$60^\circ$};
+
+    % Resultant Line of Action: 2x + 2\sqrt{3}y = 7a
+    \draw[thick, dashed, color=accentred!90!black] (-0.5, 2.31) -- (3.6, -0.06) node[below right, font=\small] {Line of Action: $2x + 2\sqrt{3}y = 7a$};
+
+    % Resultant Vector R = 2\sqrt{3}P at angle 150 degrees (pointing up-left)
+    \coordinate (Rcenter) at (1.2, 1.6);
+    \draw[ultra thick, ->, color=accentred, line width=1.8pt] (Rcenter) -- +(150:1.6) node[above left, font=\bfseries] {$\mathbf{R} = 2\sqrt{3}P$ ($\theta = 150^\circ$)};
+\end{tikzpicture}
+\end{center}
+
+\begin{align*}
+    X &= 3P\cos 0^\circ + 7P\cos 120^\circ + 5P\cos 240^\circ = 3P + 7P\left(-\frac{1}{2}\right) + 5P\left(-\frac{1}{2}\right) = -3P \\
+    Y &= 3P\sin 0^\circ + 7P\sin 120^\circ + 5P\sin 240^\circ = 0 + 7P\left(\frac{\sqrt{3}}{2}\right) + 5P\left(-\frac{\sqrt{3}}{2}\right) = \sqrt{3}P
+\end{align*}
+Resultant magnitude:
+\begin{equation*}
+    R = \sqrt{X^2 + Y^2} = \sqrt{(-3P)^2 + (\sqrt{3}P)^2} = \sqrt{9P^2 + 3P^2} = 2\sqrt{3}P
+\end{equation*}
+Resultant angle:
+\begin{equation*}
+    \tan\theta = \frac{Y}{X} = \frac{\sqrt{3}P}{-3P} = -\frac{1}{\sqrt{3}} \implies \theta = 150^\circ
+\end{equation*}
+Moment about origin $A(0,0)$:
+\begin{equation*}
+    G_A = 7P \cdot (a\sin 60^\circ) = 7P \cdot \frac{\sqrt{3}a}{2} = \frac{7\sqrt{3}}{2}Pa
+\end{equation*}
+Equation of line of action ($xY - yX = G_A$):
+\begin{equation*}
+    x(\sqrt{3}P) - y(-3P) = \frac{7\sqrt{3}}{2}Pa \implies 2x + 2\sqrt{3}y = 7a
+\end{equation*}
+\end{proofbox}
+
+\begin{examplebox}{Forces 1, 2, 3, 4 Along Square Sides}
+Forces proportional to $1, 2, 3,$ and $4$ act along sides $AB, BC, AD,$ and $DC$ respectively of a square $ABCD$ of side $2\text{ ft}$. Find the magnitude and line of action of their resultant.
+
+\tcblower
+\textbf{Solution:}
+
+Take $AB$ as $x$-axis, $AD$ as $y$-axis with $A$ at origin $(0,0)$.
+Coordinates: $A(0,0), B(2,0), C(2,2), D(0,2)$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.4, >=Stealth]
+    \draw[->, color=gray!80, thick] (-0.5,0) -- (3.2,0) node[right, color=black] {$x$};
+    \draw[->, color=gray!80, thick] (0,-0.5) -- (0,3.2) node[above, color=black] {$y$};
+    
+    \coordinate (A) at (0,0);
+    \coordinate (B) at (2.4,0);
+    \coordinate (C) at (2.4,2.4);
+    \coordinate (D) at (0,2.4);
+    
+    \draw[thick, color=darkslate!40, dashed] (A) -- (B) -- (C) -- (D) -- cycle;
+    
+    \fill[primaryblue] (A) circle (2pt) node[below left] {$A(0,0)$};
+    \fill[primaryblue] (B) circle (2pt) node[below right] {$B(2,0)$};
+    \fill[primaryblue] (C) circle (2pt) node[above right] {$C(2,2)$};
+    \fill[primaryblue] (D) circle (2pt) node[above left] {$D(0,2)$};
+    
+    \draw[ultra thick, ->, color=primaryblue] (0.4,0) -- (1.8,0) node[midway, below] {$\mathbf{F}_1 = 1$};
+    \draw[ultra thick, ->, color=secondaryblue] (2.4,0.4) -- (2.4,1.8) node[midway, right] {$\mathbf{F}_2 = 2$};
+    \draw[ultra thick, ->, color=accentgreen] (0,0.4) -- (0,1.8) node[midway, left] {$\mathbf{F}_3 = 3$};
+    \draw[ultra thick, ->, color=accentred] (0.4,2.4) -- (1.8,2.4) node[midway, above] {$\mathbf{F}_4 = 4$};
+    
+    \draw[thick, dashed, color=accentred!80!black] (-0.3, 0.66) -- (2.0, 3.1) node[above right, font=\small] {Line of Action: $5x - 5y + 4 = 0$};
+    
+    \coordinate (Rstart) at (0.5, 1.46);
+    \draw[ultra thick, ->, color=accentred, line width=1.8pt] (Rstart) -- +(45:1.5) node[above left, font=\bfseries] {$\mathbf{R} = 5\sqrt{2}$};
+\end{tikzpicture}
+\end{center}
+
+Resolving components:
+\[
+X = 1 + 4 = 5, \qquad Y = 2 + 3 = 5, \qquad R = \sqrt{5^2 + 5^2} = 5\sqrt{2} \text{ units}
+\]
+Moment about $A(0,0)$: $G = 2(2) - 4(2) = -4$.
+Line of action $G - xY + yX = 0 \implies -4 - 5x + 5y = 0 \implies 5x - 5y + 4 = 0$.
+\end{examplebox}

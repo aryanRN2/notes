@@ -18,4 +18,10 @@
 # Python
 __pycache__/
 *.py[cod]
-*$py.class
+*.class
+
+# Large binary scans and external books (Excluded per repository policy)
+Dummit_Foote_Abstract_Algebra_3rd_Edition.pdf
+Metric spaces.pdf
+Metric_spaces_clean_white.pdf
+*.temp.pdf

@@ -1,0 +1,898 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Essential Typography and Mathematics Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[colorlinks=true,linkcolor=blue!75!black,citecolor=blue!75!black,urlcolor=blue!75!black]{hyperref}
+
+% --- Geometry Settings ---
+\geometry{
+    top=1in,
+    bottom=1in,
+    left=0.85in,
+    right=0.85in,
+    headheight=14pt,
+    footskip=25pt
+}
+
+% --- Color Palette ---
+\definecolor{navyblue}{RGB}{20, 50, 100}
+\definecolor{accentblue}{RGB}{30, 80, 150}
+\definecolor{lighttint}{RGB}{246, 248, 254}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+\definecolor{solgreen}{RGB}{242, 250, 242}
+\definecolor{solborder}{RGB}{50, 130, 60}
+\definecolor{noteyellow}{RGB}{255, 253, 240}
+\definecolor{noteborder}{RGB}{190, 140, 30}
+\definecolor{qframe}{RGB}{25, 60, 120}
+\definecolor{qback}{RGB}{246, 249, 255}
+
+% --- Headers and Footers ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{navyblue}\textbf{MTB 603: Numerical Analysis} \textbullet{} Mid-Term Examination 2022--23}
+\fancyhead[R]{\small\color{darkgray}Comprehensive Solutions}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Section Styling ---
+\titleformat{\section}
+  {\color{navyblue}\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+  {\color{accentblue}\large\bfseries}{\thesubsection}{1em}{}
+
+% --- Robust Custom tcolorbox Environments ---
+\newtcolorbox{questionbox}[2][]{
+    colframe=qframe,
+    colback=qback,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title={#2},
+    arc=1.5mm,
+    boxrule=0.9pt,
+    top=6pt, bottom=6pt, left=8pt, right=8pt,
+    #1
+}
+
+\newtcolorbox{answerbox}[2][]{
+    colframe=solborder,
+    colback=solgreen,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title={#2},
+    arc=1.5mm,
+    boxrule=0.9pt,
+    top=6pt, bottom=6pt, left=8pt, right=8pt,
+    #1
+}
+
+\newtcolorbox{notebox}[2][]{
+    colframe=noteborder,
+    colback=noteyellow,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title={#2},
+    arc=1.5mm,
+    boxrule=0.8pt,
+    top=5pt, bottom=5pt, left=8pt, right=8pt,
+    #1
+}
+
+% Document Metadata
+\title{
+    \vspace{-1.2cm}
+    {\large\scshape B.A. / B.Sc. $6^{\text{th}}$ Semester Mid-Term Examination 2022--23}\\[0.3cm]
+    {\huge\textbf{\color{navyblue}MTB 603: Numerical Analysis}}\\[0.25cm]
+    {\large\bfseries Master Examination Solutions and Analytical Guide}\\[0.2cm]
+    {\small\color{darkgray}\textbf{Date of Exam:} 28/02/2023 \qquad \textbf{Time:} 1 Hour \qquad \textbf{Full Marks (FM):} 20}
+}
+\author{\textbf{\Large Anushka}}
+\date{\small Academic Term 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\noindent\rule{\textwidth}{1pt}
+
+\begin{center}
+\small
+\textbf{Official Instructions:} \textit{Answer Question no. 1 and any two from 2--5. The figures in the right hand margin indicate the marks of questions.}
+\end{center}
+
+\begin{notebox}{Editorial \& Methodological Note}
+To provide the most thorough, publication-grade academic document, \textbf{all five questions} (Question 1 through Question 5) from the examination paper have been fully solved below. Each problem features precise definitions, line-by-line mathematical proofs, tabular iterations, and exact fractional arithmetic.
+\end{notebox}
+
+\vspace{0.3cm}
+
+% ===================================================================
+% QUESTION 1
+% ===================================================================
+\section*{Question 1 \hfill \normalsize [5 Marks]}
+
+% --- Question 1(a) ---
+\subsection*{Question 1(a) \hfill [3 Marks]}
+
+\begin{questionbox}{Problem Statement}
+Define relative error in approximation of a number. Find the relative error in rounding off the number $0.76452$ upto three decimal places.
+\end{questionbox}
+
+\subsubsection*{Solution}
+
+\paragraph{1. Theoretical Definition of Errors:}
+Let $x$ denote the true (exact) value of a numerical quantity, and let $x_A$ (or $x^*$) denote its approximate value.
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Absolute Error ($E_a$):} The absolute error is defined as the absolute magnitude of the difference between the true value and the approximate value:
+    \[
+    E_a = \Delta x = |x - x_A|.
+    \]
+    \item \textbf{Relative Error ($E_r$):} The relative error is defined as the ratio of the absolute error to the magnitude of the true value:
+    \[
+    E_r = \frac{E_a}{|x|} = \frac{|x - x_A|}{|x|}, \quad (x \neq 0).
+    \]
+    The relative error is a dimensionless measure of precision, reflecting the fractional discrepancy relative to the true magnitude.
+    \item \textbf{Percentage Error ($E_p$):} The percentage error is the relative error expressed as a percentage:
+    \[
+    E_p = E_r \times 100\% = \frac{|x - x_A|}{|x|} \times 100\%.
+    \]
+\end{enumerate}
+
+\paragraph{2. Rounding Off $0.76452$ Upto Three Decimal Places:}
+\begin{itemize}
+    \item \textbf{Given True Value:} $x = 0.76452$.
+    \item \textbf{Target Precision:} Three decimal places ($k = 3$).
+    \item The first three decimal digits are $.764$.
+    \item The fourth decimal digit (the first digit to be discarded) is $5$, followed by the non-zero digit $2$ (i.e., the discarded part is $.00052 > 0.00050$).
+    \item Under standard round-to-nearest rules, since the discarded fraction exceeds half a unit in the last retained place, the third decimal digit $4$ must be increased by $1$:
+    \[
+    x_A = 0.765.
+    \]
+\end{itemize}
+
+\paragraph{3. Error Calculations:}
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Absolute Error ($E_a$):}
+    \[
+    E_a = |x - x_A| = |0.76452 - 0.76500| = |-0.00048| = 0.00048 = 4.8 \times 10^{-4}.
+    \]
+    \item \textbf{Relative Error ($E_r$):}
+    \begin{align*}
+    E_r &= \frac{E_a}{x} = \frac{0.00048}{0.76452} \\
+        &= \frac{48}{76452} = \frac{4}{6371} \\
+        &\approx 0.000627845 \dots \approx 6.278 \times 10^{-4}.
+    \end{align*}
+    \item \textbf{Percentage Error ($E_p$):}
+    \[
+    E_p = E_r \times 100\% \approx 0.06278\% \approx 0.063\%.
+    \]
+\end{enumerate}
+
+\begin{answerbox}{Final Answer for Question 1(a)}
+\begin{itemize}[leftmargin=1.5cm]
+    \item \textbf{Rounded Number ($x_A$):} $0.765$
+    \item \textbf{Absolute Error ($E_a$):} $0.00048$ ($4.8 \times 10^{-4}$)
+    \item \textbf{Relative Error ($E_r$):} $\mathbf{\approx 0.0006278 \quad (6.278 \times 10^{-4})}$
+    \item \textbf{Percentage Error ($E_p$):} $\approx 0.0628\%$
+\end{itemize}
+\end{answerbox}
+
+\vspace{0.4cm}
+
+% --- Question 1(b) ---
+\subsection*{Question 1(b) \hfill [2 Marks]}
+
+\begin{questionbox}{Problem Statement}
+Write down a fixed point iteration scheme to find a real root of the equation $x^3 + x^2 - 1 = 0$ lying in $(0,1)$.
+\end{questionbox}
+
+\subsubsection*{Solution}
+
+\paragraph{1. Root Isolation in $(0, 1)$:}
+Let $f(x) = x^3 + x^2 - 1$.
+Evaluating $f(x)$ at the interval boundaries:
+\[
+f(0) = 0^3 + 0^2 - 1 = -1 < 0, \qquad f(1) = 1^3 + 1^2 - 1 = 1 > 0.
+\]
+Since $f(x)$ is continuous on $[0, 1]$ and $f(0)f(1) < 0$, by the \textbf{Intermediate Value Theorem}, there exists a real root $\xi \in (0, 1)$. Moreover, $f'(x) = 3x^2 + 2x > 0$ for all $x \in (0, 1)$, confirming that $f$ is strictly monotonic and the root $\xi$ is unique.
+
+\paragraph{2. Formulation of the Fixed-Point Scheme:}
+To solve $f(x) = 0$ by fixed-point iteration, we rewrite the equation in the form:
+\[
+x = \phi(x),
+\]
+which induces the iteration sequence $x_{n+1} = \phi(x_n)$. For the sequence to converge to the root $\xi$, the iteration function $\phi(x)$ must satisfy the \textbf{contraction condition}:
+\[
+|\phi'(x)| < 1, \quad \forall x \in [0, 1].
+\]
+
+\noindent Rearranging $x^3 + x^2 - 1 = 0$:
+\begin{align*}
+x^2(x + 1) - 1 = 0 &\implies x^2(x + 1) = 1 \\
+&\implies x^2 = \frac{1}{x + 1} \\
+&\implies x = \frac{1}{\sqrt{x + 1}} = (x + 1)^{-1/2}.
+\end{align*}
+Thus, we define the iteration function:
+\[
+\phi(x) = \frac{1}{\sqrt{x + 1}} = (x + 1)^{-1/2}.
+\]
+
+\paragraph{3. Rigorous Convergence Verification:}
+Differentiating $\phi(x)$ with respect to $x$:
+\[
+\phi'(x) = -\frac{1}{2}(x + 1)^{-3/2} = -\frac{1}{2(x + 1)^{3/2}}.
+\]
+For any $x \in [0, 1]$, the magnitude of the derivative is:
+\[
+|\phi'(x)| = \frac{1}{2(x + 1)^{3/2}}.
+\]
+Evaluating at the endpoints of $[0, 1]$:
+\begin{align*}
+\text{At } x = 0: \quad & |\phi'(0)| = \frac{1}{2(1)^{3/2}} = \frac{1}{2} = 0.5 < 1, \\
+\text{At } x = 1: \quad & |\phi'(1)| = \frac{1}{2(2)^{3/2}} = \frac{1}{4\sqrt{2}} \approx 0.1768 < 1.
+\end{align*}
+Since $(x + 1)^{3/2}$ is strictly increasing for $x \ge 0$, the maximum value of $|\phi'(x)|$ occurs at $x = 0$:
+\[
+\max_{x \in [0, 1]} |\phi'(x)| = \frac{1}{2} = 0.5 < 1.
+\]
+Because $|\phi'(x)| \le 0.5 < 1$ for all $x \in [0, 1]$, the Banach Contraction Mapping Theorem guarantees that the sequence converges to the unique root $\xi \approx 0.75488$ for any starting point $x_0 \in [0, 1]$.
+
+\begin{answerbox}{Final Answer for Question 1(b)}
+The required fixed point iteration scheme is:
+\[
+\mathbf{x_{n+1} = \frac{1}{\sqrt{x_n + 1}}}, \quad n = 0, 1, 2, \dots
+\]
+with any initial approximation $x_0 \in (0, 1)$ (such as $x_0 = 0.5$ or $x_0 = 0.75$).
+\end{answerbox}
+
+\vspace{0.8cm}
+
+% ===================================================================
+% QUESTION 2
+% ===================================================================
+\section*{Question 2 \hfill \normalsize [5 Marks]}
+
+\begin{questionbox}{Problem Statement}
+By Newton-Raphson find the smallest positive root of the equation $x^3 - 6x + 4 = 0$ correct upto three decimal places.
+\end{questionbox}
+
+\subsubsection*{Solution}
+
+\paragraph{1. Analysis and Location of the Roots:}
+Let $f(x) = x^3 - 6x + 4 = 0$.
+We evaluate $f(x)$ at selected real points:
+\begin{align*}
+f(0) &= 0^3 - 6(0) + 4 = 4 > 0, \\
+f(1) &= 1^3 - 6(1) + 4 = -1 < 0, \\
+f(2) &= 2^3 - 6(2) + 4 = 8 - 12 + 4 = 0.
+\end{align*}
+\begin{itemize}
+    \item Since $f(0) = 4 > 0$ and $f(1) = -1 < 0$, a real root lies in the open interval $(0, 1)$.
+    \item Since $f(2) = 0$, $x = 2$ is an exact positive integer root.
+    \item Factoring out $(x - 2)$ from $f(x)$ via polynomial division:
+    \[
+    x^3 - 6x + 4 = (x - 2)(x^2 + 2x - 2) = 0.
+    \]
+    The quadratic factor $x^2 + 2x - 2 = 0$ yields:
+    \[
+    x = \frac{-2 \pm \sqrt{2^2 - 4(1)(-2)}}{2} = \frac{-2 \pm \sqrt{12}}{2} = -1 \pm \sqrt{3}.
+    \]
+    The three roots of the cubic equation are:
+    \[
+    x_1 = \sqrt{3} - 1 \approx 0.73205, \qquad x_2 = 2.00000, \qquad x_3 = -\sqrt{3} - 1 \approx -2.73205.
+    \]
+    The two positive roots are $\sqrt{3} - 1 \approx 0.732$ and $2.000$.
+    Hence, the \textbf{smallest positive root} is:
+    \[
+    \xi = \sqrt{3} - 1 \approx 0.732051 \dots \in (0, 1).
+    \]
+\end{itemize}
+
+\paragraph{2. Newton-Raphson Iteration Formula:}
+The Newton-Raphson iteration formula is:
+\[
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}.
+\]
+For $f(x) = x^3 - 6x + 4$:
+\[
+f'(x) = 3x^2 - 6.
+\]
+Substituting $f(x)$ and $f'(x)$:
+\[
+x_{n+1} = x_n - \frac{x_n^3 - 6x_n + 4}{3x_n^2 - 6} = \frac{x_n(3x_n^2 - 6) - (x_n^3 - 6x_n + 4)}{3x_n^2 - 6} = \frac{2x_n^3 - 4}{3x_n^2 - 6}.
+\]
+
+\paragraph{3. Numerical Iterations:}
+Since $f(0) = 4$ and $f(1) = -1$, and $|f(1)| = 1 < 4 = |f(0)|$, the root is much closer to $1$ than to $0$. We choose the convenient initial guess $x_0 = 0.7$ (or $x_0 = 1.0$).
+Carrying out the calculations with 6 decimal places:
+
+\begin{enumerate}[label=\textbf{Iteration \arabic*:}, leftmargin=2.2cm]
+    \item \textbf{For $n = 0$ ($x_0 = 0.7$):}
+    \begin{align*}
+    f(x_0) &= (0.7)^3 - 6(0.7) + 4 = 0.343 - 4.2 + 4 = 0.143, \\
+    f'(x_0) &= 3(0.7)^2 - 6 = 3(0.49) - 6 = 1.47 - 6 = -4.53, \\
+    x_1 &= 0.7 - \frac{0.143}{-4.53} = 0.7 + 0.031567 = \mathbf{0.731567}.
+    \end{align*}
+
+    \item \textbf{For $n = 1$ ($x_1 = 0.731567$):}
+    \begin{align*}
+    f(x_1) &= (0.731567)^3 - 6(0.731567) + 4 = 0.391515 - 4.389402 + 4 = 0.002113, \\
+    f'(x_1) &= 3(0.731567)^2 - 6 = 3(0.535190) - 6 = 1.605571 - 6 = -4.394429, \\
+    x_2 &= 0.731567 - \frac{0.002113}{-4.394429} = 0.731567 + 0.000481 = \mathbf{0.732048}.
+    \end{align*}
+
+    \item \textbf{For $n = 2$ ($x_2 = 0.732048$):}
+    \begin{align*}
+    f(x_2) &= (0.732048)^3 - 6(0.732048) + 4 = 0.392289 - 4.392288 + 4 = 0.000013, \\
+    f'(x_2) &= 3(0.732048)^2 - 6 = 3(0.535894) - 6 = 1.607683 - 6 = -4.392317, \\
+    x_3 &= 0.732048 - \frac{0.000013}{-4.392317} = 0.732048 + 0.000003 = \mathbf{0.732051}.
+    \end{align*}
+\end{enumerate}
+
+\subsubsection*{Table of Iterations}
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+$n$ & $x_n$ & $f(x_n)$ & $f'(x_n)$ & $x_{n+1}$ & $|x_{n+1} - x_n|$ \\
+\midrule
+0 & $0.700000$ & $+0.143000$ & $-4.530000$ & $0.731567$ & $0.031567$ \\
+1 & $0.731567$ & $+0.002113$ & $-4.394429$ & $0.732048$ & $0.000481$ \\
+2 & $0.732048$ & $+0.000013$ & $-4.392317$ & $0.732051$ & $0.000003$ \\
+3 & $0.732051$ & $+0.000000$ & $-4.392305$ & $0.732051$ & $0.000000$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent Since $x_2 \approx 0.732$ and $x_3 \approx 0.732$, the iteration has converged to three decimal places.
+
+\begin{answerbox}{Final Answer for Question 2}
+The smallest positive root of $x^3 - 6x + 4 = 0$ correct upto three decimal places is:
+\[
+\mathbf{x \approx 0.732} \qquad (\text{Exact value: } \sqrt{3} - 1 \approx 0.732051).
+\]
+\end{answerbox}
+
+\vspace{0.8cm}
+
+% ===================================================================
+% QUESTION 3
+% ===================================================================
+\section*{Question 3 \hfill \normalsize [5 Marks]}
+
+\begin{questionbox}{Problem Statement}
+Prove that the iteration scheme,
+\[
+x_{n+1} = \frac{x_n}{8}\left[6 + \frac{3a}{x_n^2} - \frac{x_n^2}{a}\right]
+\]
+has third order of convergence to the root $\sqrt{a}$.
+\end{questionbox}
+
+\subsubsection*{Solution}
+
+\paragraph{1. Formulation of the Iteration Function:}
+Let the iteration scheme be written as $x_{n+1} = \phi(x_n)$, where:
+\[
+\phi(x) = \frac{x}{8}\left[6 + \frac{3a}{x^2} - \frac{x^2}{a}\right] = \frac{3}{4}x + \frac{3a}{8x} - \frac{x^3}{8a}.
+\]
+The target root is $\alpha = \sqrt{a}$, which satisfies $\alpha^2 = a$.
+
+\paragraph{2. Derivative Criterion for Order of Convergence:}
+By the standard theorem on the order of convergence of one-point iteration methods:
+\begin{quote}
+An iteration scheme $x_{n+1} = \phi(x_n)$ has order of convergence $p = 3$ to a root $\alpha$ if and only if:
+\[
+\phi(\alpha) = \alpha, \qquad \phi'(\alpha) = 0, \qquad \phi''(\alpha) = 0, \qquad \text{and} \qquad \phi'''(\alpha) \neq 0.
+\]
+In that case, the asymptotic error equation is given by:
+\[
+e_{n+1} = \frac{\phi'''(\alpha)}{3!} e_n^3 + O(e_n^4).
+\]
+\end{quote}
+
+\paragraph{3. Successive Derivative Calculations and Evaluations at $\alpha = \sqrt{a}$:}
+\begin{enumerate}[label=\textbf{Step \arabic*:}, leftmargin=2cm]
+    \item \textbf{Verification of Fixed Point:}
+    \begin{align*}
+    \phi(\sqrt{a}) &= \frac{3}{4}\sqrt{a} + \frac{3a}{8\sqrt{a}} - \frac{(\sqrt{a})^3}{8a} \\
+                   &= \frac{3}{4}\sqrt{a} + \frac{3}{8}\sqrt{a} - \frac{a\sqrt{a}}{8a} \\
+                   &= \left(\frac{3}{4} + \frac{3}{8} - \frac{1}{8}\right)\sqrt{a} = \left(\frac{6 + 3 - 1}{8}\right)\sqrt{a} = \sqrt{a}.
+    \end{align*}
+    Thus $\phi(\sqrt{a}) = \sqrt{a}$, confirming $\sqrt{a}$ is a fixed point.
+
+    \item \textbf{First Derivative $\phi'(x)$:}
+    \[
+    \phi'(x) = \frac{d}{dx}\left[\frac{3}{4}x + \frac{3a}{8}x^{-1} - \frac{1}{8a}x^3\right] = \frac{3}{4} - \frac{3a}{8x^2} - \frac{3x^2}{8a}.
+    \]
+    Evaluating at $x = \sqrt{a}$ (where $x^2 = a$):
+    \[
+    \phi'(\sqrt{a}) = \frac{3}{4} - \frac{3a}{8a} - \frac{3a}{8a} = \frac{3}{4} - \frac{3}{8} - \frac{3}{8} = \frac{3}{4} - \frac{6}{8} = 0.
+    \]
+
+    \item \textbf{Second Derivative $\phi''(x)$:}
+    \[
+    \phi''(x) = \frac{d}{dx}\left[\frac{3}{4} - \frac{3a}{8}x^{-2} - \frac{3}{8a}x^2\right] = \frac{6a}{8x^3} - \frac{6x}{8a} = \frac{3a}{4x^3} - \frac{3x}{4a}.
+    \]
+    Evaluating at $x = \sqrt{a}$ (where $x^3 = a\sqrt{a}$):
+    \[
+    \phi''(\sqrt{a}) = \frac{3a}{4(a\sqrt{a})} - \frac{3\sqrt{a}}{4a} = \frac{3}{4\sqrt{a}} - \frac{3}{4\sqrt{a}} = 0.
+    \]
+
+    \item \textbf{Third Derivative $\phi'''(x)$:}
+    \[
+    \phi'''(x) = \frac{d}{dx}\left[\frac{3a}{4}x^{-3} - \frac{3}{4a}x\right] = -\frac{9a}{4x^4} - \frac{3}{4a}.
+    \]
+    Evaluating at $x = \sqrt{a}$ (where $x^4 = a^2$):
+    \[
+    \phi'''(\sqrt{a}) = -\frac{9a}{4a^2} - \frac{3}{4a} = -\frac{9}{4a} - \frac{3}{4a} = -\frac{12}{4a} = -\frac{3}{a} \neq 0.
+    \]
+\end{enumerate}
+
+\paragraph{4. Asymptotic Error Equation:}
+Let $e_n = x_n - \sqrt{a}$. Expanding $\phi(x_n)$ by Taylor's theorem about $\alpha = \sqrt{a}$:
+\begin{align*}
+x_{n+1} &= \phi(x_n) = \phi(\sqrt{a}) + \phi'(\sqrt{a})e_n + \frac{\phi''(\sqrt{a})}{2!}e_n^2 + \frac{\phi'''(\sqrt{a})}{3!}e_n^3 + O(e_n^4) \\
+\implies x_{n+1} - \sqrt{a} &= 0 + 0 + 0 + \frac{-3/a}{6} e_n^3 + O(e_n^4) \\
+\implies e_{n+1} &= -\frac{1}{2a}e_n^3 + O(e_n^4).
+\end{align*}
+Taking absolute values and limits as $n \to \infty$:
+\[
+\lim_{n \to \infty} \frac{|e_{n+1}|}{|e_n|^3} = \frac{1}{2a} \neq 0.
+\]
+This proves that the order of convergence of the iteration scheme to the root $\sqrt{a}$ is \textbf{three} (third order).
+
+\paragraph{5. Alternative Proof (Exact Algebraic Factorization):}
+We can also derive the exact error relation algebraically for all $x_n$:
+\begin{align*}
+x_{n+1} - \sqrt{a} &= \frac{x_n}{8}\left[6 + \frac{3a}{x_n^2} - \frac{x_n^2}{a}\right] - \sqrt{a} \\
+&= \frac{6a x_n^2 + 3a^2 - x_n^4 - 8a\sqrt{a}x_n}{8a x_n} \\
+&= -\frac{x_n^4 - 6a x_n^2 + 8a^{3/2}x_n - 3a^2}{8a x_n}.
+\end{align*}
+Factoring the numerator polynomial in terms of $(x_n - \sqrt{a})$:
+\[
+x_n^4 - 6a x_n^2 + 8a^{3/2}x_n - 3a^2 = (x_n - \sqrt{a})^3 (x_n + 3\sqrt{a}).
+\]
+Therefore, we obtain the exact algebraic error identity:
+\[
+e_{n+1} = -\frac{x_n + 3\sqrt{a}}{8a x_n} e_n^3.
+\]
+As $x_n \to \sqrt{a}$:
+\[
+\lim_{x_n \to \sqrt{a}} \frac{x_n + 3\sqrt{a}}{8a x_n} = \frac{\sqrt{a} + 3\sqrt{a}}{8a\sqrt{a}} = \frac{4\sqrt{a}}{8a\sqrt{a}} = \frac{1}{2a}.
+\]
+Hence:
+\[
+\lim_{n \to \infty} \frac{|e_{n+1}|}{|e_n|^3} = \frac{1}{2a},
+\]
+which rigorously establishes that the scheme is cubically convergent (order 3).
+
+\begin{answerbox}{Conclusion for Question 3}
+Since $\phi(\sqrt{a}) = \sqrt{a}$, $\phi'(\sqrt{a}) = 0$, $\phi''(\sqrt{a}) = 0$, and $\phi'''(\sqrt{a}) = -\frac{3}{a} \neq 0$, the iteration scheme has \textbf{third order of convergence} with asymptotic error constant $C = \frac{1}{2a}$. \hfill $\blacksquare$
+\end{answerbox}
+
+\vspace{0.8cm}
+
+% ===================================================================
+% QUESTION 4
+% ===================================================================
+\section*{Question 4 \hfill \normalsize [5 Marks]}
+
+\begin{questionbox}{Problem Statement}
+Use three iterations of the Birge-Vieta method to find a real root of the equation $x^3 - 11x^2 + 32x - 22 = 0$ with initial approximation $0.5$ (All calculations need to be performed upto five decimal places).
+\end{questionbox}
+
+\subsubsection*{Solution}
+
+\paragraph{1. The Birge-Vieta Method Algorithm:}
+The Birge-Vieta method applies Newton-Raphson iteration to a polynomial:
+\[
+P(x) = a_0 x^n + a_1 x^{n-1} + \dots + a_n = 0
+\]
+using Horner's synthetic division scheme to compute $P(p)$ and $P'(p)$ simultaneously.
+For the cubic polynomial:
+\[
+P(x) = x^3 - 11x^2 + 32x - 22 = 0,
+\]
+the coefficients are:
+\[
+a_0 = 1, \qquad a_1 = -11, \qquad a_2 = 32, \qquad a_3 = -22.
+\]
+Given initial approximation:
+\[
+p_0 = 0.5.
+\]
+In each iteration with current estimate $p$, we compute:
+\begin{enumerate}[label=(\alph*)]
+    \item \textbf{Value of the Polynomial $P(p)$:}
+    \begin{align*}
+    b_0 &= a_0 = 1, \\
+    b_i &= a_i + p \cdot b_{i-1} \quad (i = 1, 2, 3), \\
+    P(p) &= b_3.
+    \end{align*}
+    \item \textbf{Value of the Derivative $P'(p)$:}
+    \begin{align*}
+    c_0 &= b_0 = 1, \\
+    c_i &= b_i + p \cdot c_{i-1} \quad (i = 1, 2), \\
+    P'(p) &= c_2.
+    \end{align*}
+    \item \textbf{Correction and Next Approximation:}
+    \[
+    \Delta p = -\frac{P(p)}{P'(p)} = -\frac{b_3}{c_2}, \qquad p_{\text{new}} = p + \Delta p = p - \frac{b_3}{c_2}.
+    \]
+\end{enumerate}
+
+\paragraph{2. Step-by-Step Iterations (upto 5 decimal places):}
+
+\subsection*{Iteration 1 ($p_0 = 0.50000$):}
+\begin{itemize}
+    \item Compute $b_i$:
+    \begin{align*}
+    b_0 &= a_0 = 1.00000, \\
+    b_1 &= a_1 + p_0 b_0 = -11 + 0.5(1.00000) = -10.50000, \\
+    b_2 &= a_2 + p_0 b_1 = 32 + 0.5(-10.50000) = 32 - 5.25000 = 26.75000, \\
+    b_3 &= a_3 + p_0 b_2 = -22 + 0.5(26.75000) = -22 + 13.37500 = \mathbf{-8.62500} = P(p_0).
+    \end{align*}
+    \item Compute $c_i$:
+    \begin{align*}
+    c_0 &= b_0 = 1.00000, \\
+    c_1 &= b_1 + p_0 c_0 = -10.50000 + 0.5(1.00000) = -10.00000, \\
+    c_2 &= b_2 + p_0 c_1 = 26.75000 + 0.5(-10.00000) = 26.75000 - 5.00000 = \mathbf{21.75000} = P'(p_0).
+    \end{align*}
+\end{itemize}
+
+\noindent\textbf{Synthetic Division Table 1:}
+\begin{center}
+\begin{tabular}{c|cccc}
+$p_0 = 0.50000$ & $1.00000$ & $-11.00000$ & $32.00000$ & $-22.00000$ \\
+& & $+0.50000$ & $-5.25000$ & $+13.37500$ \\
+\midrule
+$b$ & $1.00000$ & $-10.50000$ & $26.75000$ & $\mathbf{-8.62500} = P(p_0)$ \\
+& & $+0.50000$ & $-5.00000$ & \\
+\midrule
+$c$ & $1.00000$ & $-10.00000$ & $\mathbf{21.75000} = P'(p_0)$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{align*}
+\Delta p_0 &= -\frac{b_3}{c_2} = -\frac{-8.62500}{21.75000} = \frac{8.62500}{21.75000} \approx +0.39655, \\
+\mathbf{p_1} &= p_0 + \Delta p_0 = 0.50000 + 0.39655 = \mathbf{0.89655}.
+\end{align*}
+
+\subsection*{Iteration 2 ($p_1 = 0.89655$):}
+\begin{itemize}
+    \item Compute $b_i$:
+    \begin{align*}
+    b_0 &= 1.00000, \\
+    b_1 &= -11 + (0.89655)(1.00000) = -10.10345, \\
+    b_2 &= 32 + (0.89655)(-10.10345) = 32 - 9.05825 = 22.94175, \\
+    b_3 &= -22 + (0.89655)(22.94175) = -22 + 20.56843 = \mathbf{-1.43157} = P(p_1).
+    \end{align*}
+    \item Compute $c_i$:
+    \begin{align*}
+    c_0 &= 1.00000, \\
+    c_1 &= -10.10345 + (0.89655)(1.00000) = -9.20690, \\
+    c_2 &= 22.94175 + (0.89655)(-9.20690) = 22.94175 - 8.25445 = \mathbf{14.68730} = P'(p_1).
+    \end{align*}
+\end{itemize}
+
+\noindent\textbf{Synthetic Division Table 2:}
+\begin{center}
+\begin{tabular}{c|cccc}
+$p_1 = 0.89655$ & $1.00000$ & $-11.00000$ & $32.00000$ & $-22.00000$ \\
+& & $+0.89655$ & $-9.05825$ & $+20.56843$ \\
+\midrule
+$b$ & $1.00000$ & $-10.10345$ & $22.94175$ & $\mathbf{-1.43157} = P(p_1)$ \\
+& & $+0.89655$ & $-8.25445$ & \\
+\midrule
+$c$ & $1.00000$ & $-9.20690$ & $\mathbf{14.68730} = P'(p_1)$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{align*}
+\Delta p_1 &= -\frac{b_3}{c_2} = -\frac{-1.43157}{14.68730} \approx +0.09747, \\
+\mathbf{p_2} &= p_1 + \Delta p_1 = 0.89655 + 0.09747 = \mathbf{0.99402}.
+\end{align*}
+
+\subsection*{Iteration 3 ($p_2 = 0.99402$):}
+\begin{itemize}
+    \item Compute $b_i$:
+    \begin{align*}
+    b_0 &= 1.00000, \\
+    b_1 &= -11 + (0.99402)(1.00000) = -10.00598, \\
+    b_2 &= 32 + (0.99402)(-10.00598) = 32 - 9.94614 = 22.05386, \\
+    b_3 &= -22 + (0.99402)(22.05386) = -22 + 21.92200 = \mathbf{-0.07800} = P(p_2).
+    \end{align*}
+    \item Compute $c_i$:
+    \begin{align*}
+    c_0 &= 1.00000, \\
+    c_1 &= -10.00598 + (0.99402)(1.00000) = -9.01196, \\
+    c_2 &= 22.05386 + (0.99402)(-9.01196) = 22.05386 - 8.95807 = \mathbf{13.09579} = P'(p_2).
+    \end{align*}
+\end{itemize}
+
+\noindent\textbf{Synthetic Division Table 3:}
+\begin{center}
+\begin{tabular}{c|cccc}
+$p_2 = 0.99402$ & $1.00000$ & $-11.00000$ & $32.00000$ & $-22.00000$ \\
+& & $+0.99402$ & $-9.94614$ & $+21.92200$ \\
+\midrule
+$b$ & $1.00000$ & $-10.00598$ & $22.05386$ & $\mathbf{-0.07800} = P(p_2)$ \\
+& & $+0.99402$ & $-8.95807$ & \\
+\midrule
+$c$ & $1.00000$ & $-9.01196$ & $\mathbf{13.09579} = P'(p_2)$ & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{align*}
+\Delta p_2 &= -\frac{b_3}{c_2} = -\frac{-0.07800}{13.09579} \approx +0.00596, \\
+\mathbf{p_3} &= p_2 + \Delta p_2 = 0.99402 + 0.00596 = \mathbf{0.99998}.
+\end{align*}
+
+\paragraph{3. Comprehensive Summary of the Three Iterations:}
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+\textbf{Iteration ($k$)} & $p_k$ & $P(p_k) = b_3$ & $P'(p_k) = c_2$ & $\Delta p_k = -b_3/c_2$ & $p_{k+1}$ \\
+\midrule
+1 & $0.50000$ & $-8.62500$ & $21.75000$ & $+0.39655$ & $0.89655$ \\
+2 & $0.89655$ & $-1.43157$ & $14.68730$ & $+0.09747$ & $0.99402$ \\
+3 & $0.99402$ & $-0.07800$ & $13.09579$ & $+0.00596$ & $\mathbf{0.99998}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{notebox}{Verification of Exactness}
+Evaluating $P(1) = 1^3 - 11(1)^2 + 32(1) - 22 = 1 - 11 + 32 - 22 = 0$. Thus, $x = 1$ is an exact integer root of the cubic equation. The sequence of approximations $\{0.50000, 0.89655, 0.99402, 0.99998\}$ rapidly converges to this exact root.
+\end{notebox}
+
+\begin{answerbox}{Final Answer for Question 4}
+After three iterations of the Birge-Vieta method starting from $p_0 = 0.5$, the approximation to the root correct upto five decimal places is:
+\[
+\mathbf{p_3 \approx 0.99998} \quad (\text{Exact root: } 1.00000).
+\]
+\end{answerbox}
+
+\vspace{0.8cm}
+
+% ===================================================================
+% QUESTION 5
+% ===================================================================
+\section*{Question 5 \hfill \normalsize [5 Marks]}
+
+\begin{questionbox}{Problem Statement}
+Solve the following system of equations:
+\begin{align*}
+2x_1 + x_2 + x_3 + 2x_4 &= 2, \\
+4x_1 + 2x_3 + x_4 &= 3, \\
+3x_1 + 2x_2 + 2x_3 &= -1, \\
+x_1 + 3x_2 + 2x_3 &= -4,
+\end{align*}
+using Gauss elimination method with partial pivoting (Do not use approximations).
+\end{questionbox}
+
+\subsubsection*{Solution}
+
+The directive \textbf{``Do not use approximations''} requires all calculations to be carried out in exact rational arithmetic (fractions).
+
+\paragraph{1. Initial Augmented Matrix Formulation:}
+Writing the system $A\mathbf{x} = \mathbf{b}$ in augmented matrix format $[A \mid \mathbf{b}]$:
+\[
+\left[\begin{array}{cccc|c}
+2 & 1 & 1 & 2 & 2 \\
+4 & 0 & 2 & 1 & 3 \\
+3 & 2 & 2 & 0 & -1 \\
+1 & 3 & 2 & 0 & -4
+\end{array}\right]
+\begin{matrix}
+(R_1) \\ (R_2) \\ (R_3) \\ (R_4)
+\end{matrix}
+\]
+
+\paragraph{2. Step-by-Step Elimination with Partial Pivoting:}
+
+\subsubsection*{Stage 1: Column 1 Pivoting and Elimination}
+\begin{itemize}
+    \item \textbf{Pivot Selection:} Inspect column 1 entries in all rows:
+    \[
+    |a_{11}| = 2, \qquad |a_{21}| = 4, \qquad |a_{31}| = 3, \qquad |a_{41}| = 1.
+    \]
+    The maximum absolute value is in Row 2 ($|a_{21}| = 4$).
+    \item \textbf{Row Interchange ($R_1 \longleftrightarrow R_2$):}
+    \[
+    \left[\begin{array}{cccc|c}
+    \mathbf{4} & 0 & 2 & 1 & 3 \\
+    2 & 1 & 1 & 2 & 2 \\
+    3 & 2 & 2 & 0 & -1 \\
+    1 & 3 & 2 & 0 & -4
+    \end{array}\right]
+    \]
+    \item \textbf{Row Operations:}
+    \begin{enumerate}[label=(\roman*)]
+        \item $R_2 \leftarrow R_2 - \left(\frac{2}{4}\right)R_1 = R_2 - \frac{1}{2}R_1$:
+        \begin{align*}
+        R_2 &\leftarrow [2, 1, 1, 2 \mid 2] - \frac{1}{2}[4, 0, 2, 1 \mid 3] \\
+            &= \left[0, \; 1, \; 1 - 1, \; 2 - \frac{1}{2} \;\Big|\; 2 - \frac{3}{2}\right] = \left[0, \; 1, \; 0, \; \frac{3}{2} \;\Big|\; \frac{1}{2}\right].
+        \end{align*}
+        \item $R_3 \leftarrow R_3 - \left(\frac{3}{4}\right)R_1$:
+        \begin{align*}
+        R_3 &\leftarrow [3, 2, 2, 0 \mid -1] - \frac{3}{4}[4, 0, 2, 1 \mid 3] \\
+            &= \left[0, \; 2, \; 2 - \frac{3}{2}, \; 0 - \frac{3}{4} \;\Big|\; -1 - \frac{9}{4}\right] = \left[0, \; 2, \; \frac{1}{2}, \; -\frac{3}{4} \;\Big|\; -\frac{13}{4}\right].
+        \end{align*}
+        \item $R_4 \leftarrow R_4 - \left(\frac{1}{4}\right)R_1$:
+        \begin{align*}
+        R_4 &\leftarrow [1, 3, 2, 0 \mid -4] - \frac{1}{4}[4, 0, 2, 1 \mid 3] \\
+            &= \left[0, \; 3, \; 2 - \frac{1}{2}, \; 0 - \frac{1}{4} \;\Big|\; -4 - \frac{3}{4}\right] = \left[0, \; 3, \; \frac{3}{2}, \; -\frac{1}{4} \;\Big|\; -\frac{19}{4}\right].
+        \end{align*}
+    \end{enumerate}
+\end{itemize}
+After Stage 1, the matrix is:
+\[
+\left[\begin{array}{cccc|c}
+4 & 0 & 2 & 1 & 3 \\
+0 & 1 & 0 & 3/2 & 1/2 \\
+0 & 2 & 1/2 & -3/4 & -13/4 \\
+0 & 3 & 3/2 & -1/4 & -19/4
+\end{array}\right]
+\]
+
+\subsubsection*{Stage 2: Column 2 Pivoting and Elimination}
+\begin{itemize}
+    \item \textbf{Pivot Selection:} Inspect column 2 entries in rows 2, 3, 4:
+    \[
+    |a_{22}| = 1, \qquad |a_{32}| = 2, \qquad |a_{42}| = 3.
+    \]
+    The maximum absolute value is in Row 4 ($|a_{42}| = 3$).
+    \item \textbf{Row Interchange ($R_2 \longleftrightarrow R_4$):}
+    \[
+    \left[\begin{array}{cccc|c}
+    4 & 0 & 2 & 1 & 3 \\
+    0 & \mathbf{3} & 3/2 & -1/4 & -19/4 \\
+    0 & 2 & 1/2 & -3/4 & -13/4 \\
+    0 & 1 & 0 & 3/2 & 1/2
+    \end{array}\right]
+    \]
+    \item \textbf{Row Operations:}
+    \begin{enumerate}[label=(\roman*)]
+        \item $R_3 \leftarrow R_3 - \left(\frac{2}{3}\right)R_2$:
+        \begin{align*}
+        R_3 &\leftarrow \left[0, 2, \frac{1}{2}, -\frac{3}{4} \;\Big|\; -\frac{13}{4}\right] - \frac{2}{3}\left[0, 3, \frac{3}{2}, -\frac{1}{4} \;\Big|\; -\frac{19}{4}\right] \\
+            &= \left[0, \; 0, \; \frac{1}{2} - 1, \; -\frac{3}{4} + \frac{1}{6} \;\Big|\; -\frac{13}{4} + \frac{19}{6}\right] \\
+            &= \left[0, \; 0, \; -\frac{1}{2}, \; \frac{-9 + 2}{12} \;\Big|\; \frac{-39 + 38}{12}\right] = \left[0, \; 0, \; -\frac{1}{2}, \; -\frac{7}{12} \;\Big|\; -\frac{1}{12}\right].
+        \end{align*}
+        \item $R_4 \leftarrow R_4 - \left(\frac{1}{3}\right)R_2$:
+        \begin{align*}
+        R_4 &\leftarrow \left[0, 1, 0, \frac{3}{2} \;\Big|\; \frac{1}{2}\right] - \frac{1}{3}\left[0, 3, \frac{3}{2}, -\frac{1}{4} \;\Big|\; -\frac{19}{4}\right] \\
+            &= \left[0, \; 0, \; 0 - \frac{1}{2}, \; \frac{3}{2} + \frac{1}{12} \;\Big|\; \frac{1}{2} + \frac{19}{12}\right] \\
+            &= \left[0, \; 0, \; -\frac{1}{2}, \; \frac{18 + 1}{12} \;\Big|\; \frac{6 + 19}{12}\right] = \left[0, \; 0, \; -\frac{1}{2}, \; \frac{19}{12} \;\Big|\; \frac{25}{12}\right].
+        \end{align*}
+    \end{enumerate}
+\end{itemize}
+After Stage 2, the matrix is:
+\[
+\left[\begin{array}{cccc|c}
+4 & 0 & 2 & 1 & 3 \\
+0 & 3 & 3/2 & -1/4 & -19/4 \\
+0 & 0 & -1/2 & -7/12 & -1/12 \\
+0 & 0 & -1/2 & 19/12 & 25/12
+\end{array}\right]
+\]
+
+\subsubsection*{Stage 3: Column 3 Pivoting and Elimination}
+\begin{itemize}
+    \item \textbf{Pivot Selection:} Inspect column 3 entries in rows 3 and 4:
+    \[
+    |a_{33}| = \left|-\frac{1}{2}\right| = \frac{1}{2}, \qquad |a_{43}| = \left|-\frac{1}{2}\right| = \frac{1}{2}.
+    \]
+    The pivot candidates are equal in absolute magnitude, so no row swap is needed.
+    \item \textbf{Row Operation ($R_4 \leftarrow R_4 - (1)R_3$):}
+    \begin{align*}
+    R_4 &\leftarrow \left[0, 0, -\frac{1}{2}, \frac{19}{12} \;\Big|\; \frac{25}{12}\right] - \left[0, 0, -\frac{1}{2}, -\frac{7}{12} \;\Big|\; -\frac{1}{12}\right] \\
+        &= \left[0, \; 0, \; 0, \; \frac{19}{12} - \left(-\frac{7}{12}\right) \;\Big|\; \frac{25}{12} - \left(-\frac{1}{12}\right)\right] \\
+        &= \left[0, \; 0, \; 0, \; \frac{26}{12} \;\Big|\; \frac{26}{12}\right] = \left[0, \; 0, \; 0, \; \frac{13}{6} \;\Big|\; \frac{13}{6}\right].
+    \end{align*}
+\end{itemize}
+
+\noindent The final upper triangular augmented matrix $[U \mid \mathbf{c}]$ is:
+\[
+\left[\begin{array}{cccc|c}
+4 & 0 & 2 & 1 & 3 \\
+0 & 3 & 3/2 & -1/4 & -19/4 \\
+0 & 0 & -1/2 & -7/12 & -1/12 \\
+0 & 0 & 0 & 13/6 & 13/6
+\end{array}\right]
+\]
+
+\paragraph{3. Back-Substitution Process:}
+\begin{enumerate}[label=\textbf{Step \arabic*:}, leftmargin=2cm]
+    \item \textbf{From Row 4 for $x_4$:}
+    \[
+    \frac{13}{6}x_4 = \frac{13}{6} \implies \mathbf{x_4 = 1}.
+    \]
+
+    \item \textbf{From Row 3 for $x_3$:}
+    \[
+    -\frac{1}{2}x_3 - \frac{7}{12}x_4 = -\frac{1}{12}.
+    \]
+    Substituting $x_4 = 1$:
+    \begin{align*}
+    -\frac{1}{2}x_3 - \frac{7}{12} = -\frac{1}{12} &\implies -\frac{1}{2}x_3 = -\frac{1}{12} + \frac{7}{12} = \frac{6}{12} = \frac{1}{2} \\
+    &\implies x_3 = \frac{1/2}{-1/2} \implies \mathbf{x_3 = -1}.
+    \end{align*}
+
+    \item \textbf{From Row 2 for $x_2$:}
+    \[
+    3x_2 + \frac{3}{2}x_3 - \frac{1}{4}x_4 = -\frac{19}{4}.
+    \]
+    Substituting $x_3 = -1$ and $x_4 = 1$:
+    \begin{align*}
+    3x_2 + \frac{3}{2}(-1) - \frac{1}{4}(1) = -\frac{19}{4} &\implies 3x_2 - \frac{6}{4} - \frac{1}{4} = -\frac{19}{4} \\
+    &\implies 3x_2 - \frac{7}{4} = -\frac{19}{4} \\
+    &\implies 3x_2 = -\frac{19}{4} + \frac{7}{4} = -\frac{12}{4} = -3 \\
+    &\implies \mathbf{x_2 = -1}.
+    \end{align*}
+
+    \item \textbf{From Row 1 for $x_1$:}
+    \[
+    4x_1 + 0x_2 + 2x_3 + x_4 = 3.
+    \]
+    Substituting $x_3 = -1$ and $x_4 = 1$:
+    \begin{align*}
+    4x_1 + 2(-1) + 1 = 3 &\implies 4x_1 - 2 + 1 = 3 \\
+    &\implies 4x_1 - 1 = 3 \\
+    &\implies 4x_1 = 4 \implies \mathbf{x_1 = 1}.
+    \end{align*}
+\end{enumerate}
+
+\paragraph{4. Verification in All Original Equations:}
+\begin{align*}
+\text{Equation 1: } & 2(1) + 1(-1) + 1(-1) + 2(1) = 2 - 1 - 1 + 2 = 2 & (\text{Satisfied } \checkmark) \\
+\text{Equation 2: } & 4(1) + 0(-1) + 2(-1) + 1(1) = 4 - 2 + 1 = 3 & (\text{Satisfied } \checkmark) \\
+\text{Equation 3: } & 3(1) + 2(-1) + 2(-1) + 0(1) = 3 - 2 - 2 = -1 & (\text{Satisfied } \checkmark) \\
+\text{Equation 4: } & 1(1) + 3(-1) + 2(-1) + 0(1) = 1 - 3 - 2 = -4 & (\text{Satisfied } \checkmark)
+\end{align*}
+All four equations are satisfied exactly.
+
+\begin{answerbox}{Final Answer for Question 5}
+The exact solution to the linear system obtained via Gauss elimination with partial pivoting is:
+\[
+\mathbf{x_1 = 1, \qquad x_2 = -1, \qquad x_3 = -1, \qquad x_4 = 1}.
+\]
+\end{answerbox}
+
+\vspace{0.6cm}
+\begin{answerbox}{Master Examination Summary Table}
+\centering
+\small
+\begin{tabular}{ccp{11.5cm}}
+\toprule
+\textbf{Question} & \textbf{Marks} & \textbf{Final Solution / Result Summary} \\
+\midrule
+\textbf{1(a)} & 3 & Absolute Error $= 0.00048$, \textbf{Relative Error} $\approx \mathbf{6.278 \times 10^{-4}}$ ($E_p \approx 0.0628\%$). \\
+\addlinespace[3pt]
+\textbf{1(b)} & 2 & Fixed point iteration scheme: $\mathbf{x_{n+1} = \frac{1}{\sqrt{x_n + 1}}}$ ($|\phi'(x)| \le 0.5 < 1$ on $[0, 1]$). \\
+\addlinespace[3pt]
+\textbf{2} & 5 & Smallest positive root of $x^3 - 6x + 4 = 0$ is $\mathbf{x \approx 0.732}$ (exact: $\sqrt{3} - 1$). \\
+\addlinespace[3pt]
+\textbf{3} & 5 & $\lim_{n \to \infty} \frac{|e_{n+1}|}{|e_n|^3} = \frac{1}{2a} \neq 0 \implies \mathbf{\text{Third order convergence (cubic convergence)}}$. \\
+\addlinespace[3pt]
+\textbf{4} & 5 & Birge-Vieta iterations: $p_1 = 0.89655$, $p_2 = 0.99402$, $\mathbf{p_3 \approx 0.99998}$ ($\approx 1.00000$). \\
+\addlinespace[3pt]
+\textbf{5} & 5 & Exact rational solution: $\mathbf{x_1 = 1, \quad x_2 = -1, \quad x_3 = -1, \quad x_4 = 1}$. \\
+\bottomrule
+\end{tabular}
+\end{answerbox}
+
+\end{document}

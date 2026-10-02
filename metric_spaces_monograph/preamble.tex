@@ -1,0 +1,79 @@
+% Preamble for "Metric Spaces" textbook
+% Author: Pawan K. Jain & Khalil Ahmad
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,eucal}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Colors
+\usepackage{xcolor}
+\definecolor{mainblue}{RGB}{16, 76, 142}
+\definecolor{accentblue}{RGB}{41, 128, 185}
+\definecolor{darkred}{RGB}{140, 20, 20}
+\definecolor{darkgreen}{RGB}{20, 120, 60}
+\definecolor{graybg}{RGB}{245, 247, 250}
+\definecolor{boxborder}{RGB}{200, 210, 225}
+
+% Hyperref
+\usepackage[
+    colorlinks=true,
+    linkcolor=mainblue,
+    citecolor=darkgreen,
+    urlcolor=accentblue,
+    pdftitle={Metric Spaces},
+    pdfauthor={Pawan K. Jain and Khalil Ahmad}
+]{hyperref}
+
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta,positioning,shapes,patterns,decorations.pathreplacing,intersections}
+
+% Theorem and Definition Environments via amsthm
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{example}[definition]{Example}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{solution}[definition]{Solution}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+
+% Custom Math Operators
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Cl}{Cl}
+\DeclareMathOperator{\Bd}{Bd}
+\DeclareMathOperator{\card}{card}
+\DeclareMathOperator{\supp}{supp}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\openball}[2]{B(#1, #2)}
+\newcommand{\closedball}[2]{\overline{B}(#1, #2)}
+\newcommand{\sphere}[2]{S(#1, #2)}
+
+% Fancy Headers & Footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\slshape \leftmark}
+\fancyhead[RE]{\slshape Metric Spaces}
+\renewcommand{\headrulewidth}{0.4pt}

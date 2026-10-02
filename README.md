@@ -1,67 +1,140 @@
-# University Mathematics Course Notes & Master Revision Suite
+# 🎓 University Mathematics & Computing Notes Repository
 
-Comprehensive, rigorously typed LaTeX lecture notes, vector geometric figures, and quick revision cheat sheets for university mathematics courses.
-
----
-
-## 📚 Course Modules & PDFs
-
-All compiled PDF documents are available in the [`export/`](export/) directory:
-
-| Course Code | Subject Title | Master PDF | LaTeX Source | Key Topics |
-| :--- | :--- | :--- | :--- | :--- |
-| **MATMJ51** | **Abstract Algebra** | [`export/Abstract_Algebra_Notes.pdf`](export/Abstract_Algebra_Notes.pdf) | [`Abstract_Algebra_Notes.tex`](Abstract_Algebra_Notes.tex) | Groups, Cyclic Groups, Permutations ($S_n, A_n$), Cosets, Lagrange's Theorem, Normal Subgroups, Quotient Groups, Homomorphisms, Isomorphism Theorems |
-| **MATMJ52** | **Analytical Geometry** | [`export/Coordinate_Geometry_Notes.pdf`](export/Coordinate_Geometry_Notes.pdf) | [`Coordinate_Geometry_Notes.tex`](Coordinate_Geometry_Notes.tex) | Polar Coordinates, Straight Lines, Circles, Polar Conics ($l/r = 1 + e\cos\theta$), Chords, Tangents, Normals, Chord of Contact, Polars |
-| **MATMJ53** | **Metric & Matrix Spaces** | [`export/Metric_Spaces_Notes.pdf`](export/Metric_Spaces_Notes.pdf) | [`Metric_Spaces_Notes.tex`](Metric_Spaces_Notes.tex) | Metric Axioms ($L_1, L_2, L_\infty$, Discrete, Matrix Frobenius Norm), Open Spheres, Open Sets, Limit Points, Derived Sets, Closed Sets, Closures |
-| **MATMJ54** | **Numerical Analysis** | [`export/Numerical_Analysis_Notes.pdf`](export/Numerical_Analysis_Notes.pdf) | [`Numerical_Analysis_Notes.tex`](Numerical_Analysis_Notes.tex) | Bisection, Regula-Falsi, Secant ($p \approx 1.618$), Newton-Raphson ($p = 2$), Fixed-Point Iteration, Fast Division-Free Inverses, Error Recurrences |
-| **CHEM-MJ** | **Food Chemistry & Adulteration** | [`export/Food_Chemistry_and_Adulteration_Notes.pdf`](export/Food_Chemistry_and_Adulteration_Notes.pdf) | [`Food_Chemistry_and_Adulteration_Notes.tex`](Food_Chemistry_and_Adulteration_Notes.tex) | Types of Adulteration, Food Matrices (Dairy, Oils, Spices, Staples), Analytical Detection (FTIR, SERS, HPLC, GC-MS, PCR, $\delta^{13}\text{C}$-IRMS, Spot Tests), Quality Assessment (Weende Proximate, Kjeldahl, Lipid Indices, TVC/Pathogens), Food Laws (Codex, FDA FSMA, EFSA, FSSA 2006, HACCP, ISO 22000) |
+Welcome to the central repository for university lecture notes, LaTeX monographs, vector geometric figures, solved examination manuals, and scientific computing code suites.
 
 ---
 
-## 📐 Vector Graphics Suite
+## 🗂️ Repository Directory Structure
 
-All geometric figures for analytical geometry are generated using Python Matplotlib with exact analytic geometry coordinates and embedded as vector PDFs in [`figures/`](figures/):
+```
+.
+├── Abstract_Algebra_Notes.pdf / .tex             # Core MATMJ51 Course Notes
+├── Analytic_Geometry_Notes.pdf / .tex            # Core MATMJ52 Course Notes
+├── Calculus_Analysis_Notes.pdf / .tex            # Core Calculus & Analysis Lecture Notes
+├── Coordinate_Geometry_Notes.pdf / .tex          # Coordinate Geometry Master Reference
+├── Food_Chemistry_and_Adulteration_Notes.pdf/.tex # Chemistry Interdisciplinary Notes
+├── Common_Adulterants_in_Food.pdf / .tex         # Food Adulteration Quick Reference & Summary
+├── Metric_Spaces_Notes.pdf / .tex                # Core MATMJ53 Course Notes
+├── Metric_Spaces_New_Lectures.pdf / .tex         # Metric Spaces Advanced Lectures Supplement
+├── Numerical_Analysis_Notes.pdf / .tex           # Core MATMJ54 Course Notes
+│
+├── classical_and_rigid_body_mechanics/           # Classical Mechanics Master Manual & Proofs
+│   ├── complete_mechanics_proofs_manual.pdf/.tex # Master Mechanics Proofs Manual (Forces, SHM, Orbits)
+│   ├── Tensor_Analysis_Complete_Notes.pdf/.tex   # Tensor Calculus & Coordinate Transformations
+│   ├── MTB202_Statics_and_Dynamics_Notes.pdf/.tex# MTB-202 Statics & Dynamics Notes
+│   ├── Classical_Mechanics_Statics_Notes.pdf/.tex# Equilibrium & Catenary Notes
+│   └── part1_forces.tex ... part9_cheat_sheet.tex# Modular Chapter Sources
+│
+├── numerical_computing_python/                   # 🐍 Python Scientific Computing Suite
+│   ├── detailed/                                 # 20 Complete Numerical Method Implementations (.py)
+│   ├── handbook.tex & handbook.pdf               # Complete Practical Laboratory Handbook
+│   ├── codes_by_sciqb.tex & codes_by_sciqb.pdf   # sciqb Numerical Computing Reference
+│   ├── Numerical_Computing_Python_Handbook.pdf   # Compiled Master Computing Manual
+│   └── generate_handbook.py                      # Automated PDF Handbook Generator
+│
+├── metric_spaces_monograph/                      # 🌐 Metric Spaces 2nd Edition Monograph
+│   ├── Metric_Spaces_Comprehensive_Monograph.pdf # Publication-Grade Complete Monograph
+│   ├── main.tex & preamble.tex                   # Master Monograph LaTeX Source
+│   └── chapters/ (ch01 - ch07 + appendices)      # 7 Full-Length Rigorous Chapters
+│
+├── abstract_algebra_monograph/                   # 🧮 Abstract Algebra Monograph & Lectures
+│   ├── Abstract_Algebra_Monograph.pdf / main.tex # 5-Unit Monograph (Groups, Rings, Fields, Polynomials)
+│   ├── chapters/ (unit1 - unit5)                 # Modular Unit Sources
+│   ├── toc_gen/                                  # Monograph Cover & Table of Contents Suite
+│   └── shreya_lecture_notes/                     # Complete Class Lecture Transcripts & Proofs (Part 1 & 2)
+│
+├── analytical_geometry_modular/                  # 📐 Analytical Geometry Enhanced Suite
+│   ├── analytical_geometry_notes.pdf / .tex      # Enhanced Lecture Notes (Pages 1–69) by sciqb
+│   └── ch1_polar_conics.tex ... ch6_the_sphere   # Modular Chapters with TikZ Vector Visuals
+│
+├── numerical_analysis_modular/                   # 📊 Numerical Analysis Enhanced Suite
+│   ├── numerical_analysis_notes.pdf / .tex       # Enhanced Lecture Notes (Pages 1–68) by sciqb
+│   └── na_ch1_root_finding ... na_ch6_quadrature # Complete Modular Chapters with Proofs
+│
+├── solutions_and_problem_sets/                   # ✍️ Solved Problem Manuals & Question Sets
+│   ├── Conic_Sections_Polar_Coordinates_Solutions# Step-by-step Polar Conic Exercises
+│   ├── numerical_analysis_solutions.pdf / .tex   # Numerical Methods Examination Solutions
+│   ├── numerical_analysis_2019_solutions.pdf/.tex# 2019 University Examination Solutions
+│   └── exercise_4_2_solutions.pdf / .tex         # Algebra Exercise Solutions Manual
+│
+├── figures/                                      # Vector Graphics Suite
+│   ├── generate_geometry_figures.py              # Matplotlib Script for Analytic Geometry Visuals
+│   └── fig1_polar_coordinates ... fig8_chord     # Vector PDF and High-Res PNG Figures
+│
+├── export/                                       # 📦 Central Master PDF Distribution Directory
+│   ├── Abstract_Algebra_Notes.pdf
+│   ├── Abstract_Algebra_Monograph.pdf
+│   ├── Metric_Spaces_Notes.pdf
+│   ├── Metric_Spaces_Comprehensive_Monograph.pdf
+│   ├── Metric_Spaces_New_Lectures.pdf
+│   ├── complete_mechanics_proofs_manual.pdf
+│   ├── Numerical_Computing_Python_Handbook.pdf
+│   ├── codes_by_sciqb.pdf
+│   ├── Coordinate_Geometry_Notes.pdf
+│   ├── analytical_geometry_notes.pdf
+│   ├── numerical_analysis_notes.pdf
+│   ├── Food_Chemistry_and_Adulteration_Notes.pdf
+│   └── Common_Adulterants_in_Food.pdf
+│
+└── newton rapso.py                               # Standalone Newton-Raphson Solver
+```
 
-- `fig1_polar_coordinates.pdf`: Polar coordinate system projection ($x=r\cos\theta, y=r\sin\theta$).
-- `fig2_polar_straight_line.pdf`: Polar straight line normal form ($p = r\cos(\theta-\alpha)$).
-- `fig3_polar_circle_general.pdf`: General polar circle with Law of Cosines $\triangle POC$.
-- `fig4_polar_circle_cases.pdf`: Standard polar circle configurations ($r = 2a\cos\theta, r = 2a\sin\theta$).
-- `fig5_polar_conic_focus_directrix.pdf`: Focus-directrix projection proving $l/r = 1 + e\cos\theta$.
-- `fig6_chord_of_conic.pdf`: Conic chord subtending angle $2\beta$ at focus.
-- `fig7_tangent_and_normal.pdf`: Tangent line and orthogonal normal line at point of contact.
-- `fig8_chord_of_contact.pdf`: Tangents and chord of contact from external point $A(r_1, \theta_1)$.
+---
 
-To regenerate the vector diagrams:
+## 🚀 Quick Start: Running Python Numerical Codes
+
+The `numerical_computing_python/detailed/` folder contains 20 production-ready, pure Python 3 implementations with formatted iteration convergence tables.
+
+```bash
+# Example: Run the Newton-Raphson solver
+python3 numerical_computing_python/detailed/03_newton_raphson_detailed.py
+
+# Example: Run Runge-Kutta 4th Order (RK4) ODE solver
+python3 numerical_computing_python/detailed/18_rk4_detailed.py
+```
+
+### Included Methods:
+1. **Root Finding**: Bisection, Regula Falsi, Newton-Raphson, Secant, Fixed-Point Iteration.
+2. **Linear Systems**: Gaussian Elimination (with Partial Pivoting), Gauss-Jordan Inversion, Gauss-Jacobi, Gauss-Seidel.
+3. **Interpolation**: Lagrange Polynomial, Newton's Divided Difference, Newton's Forward Difference.
+4. **Numerical Quadrature**: Composite Trapezoidal Rule, Simpson's 1/3 Rule, Simpson's 3/8 Rule.
+5. **ODEs**: Forward Euler, Modified Euler / Heun's Method, Classical 4th-Order Runge-Kutta (RK4).
+6. **Eigenvalues & Fitting**: Power Method for Dominant Eigenvalue, Least-Squares Linear Curve Fitting.
+
+---
+
+## 🛠️ Building LaTeX Notes Locally
+
+Requirements: A modern TeX distribution (`pdflatex`, `xelatex`, or MacTeX).
+
+```bash
+# Compile root course notes:
+pdflatex -interaction=nonstopmode Abstract_Algebra_Notes.tex
+pdflatex -interaction=nonstopmode Metric_Spaces_Notes.tex
+pdflatex -interaction=nonstopmode Common_Adulterants_in_Food.tex
+
+# Compile Classical Mechanics master manual:
+cd classical_and_rigid_body_mechanics && pdflatex -interaction=nonstopmode main.tex
+
+# Compile Metric Spaces monograph:
+cd metric_spaces_monograph && pdflatex -interaction=nonstopmode main.tex
+
+# Compile Abstract Algebra monograph:
+cd abstract_algebra_monograph && pdflatex -interaction=nonstopmode main.tex
+```
+
+---
+
+## 📐 Vector Graphics Generation
+
+All geometric figures for analytical geometry are generated with exact mathematical coordinates using Matplotlib:
+
 ```bash
 python3 figures/generate_geometry_figures.py
 ```
 
 ---
 
-## ⚡ Quick Revision Cheat Sheets
-
-Each master note concludes with a **Master Quick Revision Cheat Sheet** module containing:
-1. Axioms, definitions, and standard forms.
-2. Complete classification and property tables.
-3. Order of convergence and asymptotic error bounds.
-4. Key exam formulas and short proof summaries.
-
----
-
-## 🛠️ Building the Notes Locally
-
-Prerequisites: A modern TeX distribution (`pdflatex`, `xelatex`, or MacTeX) and Python 3 with `matplotlib` and `numpy`.
-
-To compile any note:
-```bash
-pdflatex -interaction=nonstopmode Abstract_Algebra_Notes.tex
-pdflatex -interaction=nonstopmode Coordinate_Geometry_Notes.tex
-pdflatex -interaction=nonstopmode Metric_Spaces_Notes.tex
-pdflatex -interaction=nonstopmode Numerical_Analysis_Notes.tex
-```
-
----
-
 ## 🤝 Contributing & Collaboration
 
-Contributions, corrections, and improvements are welcome! Feel free to open an issue or submit a pull request.
+Contributions, corrections, proof enhancements, and additions are welcome! Feel free to open an issue or submit a pull request.

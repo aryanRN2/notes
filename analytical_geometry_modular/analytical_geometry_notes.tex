@@ -1,0 +1,218 @@
+\documentclass[11pt,a4paper,openany]{report}
+
+% --- Page Geometry ---
+\usepackage[a4paper, top=2.6cm, bottom=2.5cm, left=2.3cm, right=2.3cm, headheight=22pt]{geometry}
+
+% --- Fonts & Typography ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% --- Mathematics Packages ---
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{bm}
+\usepackage{enumitem}
+
+% --- Neutralize LaTeX 2026 Table Tagging Socket in Framed Boxes ---
+\ExplSyntaxOn
+\cs_gset_eq:NN \__tbl_tag_cell_end: \prg_do_nothing:
+\cs_gset_eq:NN \__tbl_tag_row_end: \prg_do_nothing:
+\ExplSyntaxOff
+
+% --- Colors ---
+\usepackage[dvipsnames,svgnames,x11names]{xcolor}
+\definecolor{primary}{RGB}{18, 48, 86}      % Deep Navy
+\definecolor{secondary}{RGB}{0, 119, 137}   % Ocean Teal
+\definecolor{accent}{RGB}{194, 65, 12}      % Warm Amber/Rust
+\definecolor{success}{RGB}{22, 101, 52}     % Emerald Forest
+\definecolor{boxbg}{RGB}{248, 250, 252}     % Slate Tint Light
+\definecolor{rulecolor}{RGB}{203, 213, 225} % Slate Border
+
+% --- TikZ Graphics ---
+\usepackage{tikz}
+\usetikzlibrary{calc,angles,quotes,3d,perspective,arrows.meta,decorations.pathreplacing,decorations.markings,shapes.geometric,patterns}
+
+% --- Beautiful Framed Environments with mdframed ---
+\usepackage{mdframed}
+
+\newcommand{\tcblower}{\par\vspace{0.5em}\noindent{\color{black!15}\hrule height 0.8pt}\vspace{0.6em}}
+
+\mdfdefinestyle{conceptstyle}{
+    backgroundcolor=secondary!3!white,
+    linecolor=secondary!60,
+    linewidth=0.9pt,
+    roundcorner=5pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    innerleftmargin=12pt,
+    innerrightmargin=12pt,
+    frametitleaboveskip=5pt,
+    frametitlebelowskip=5pt,
+    frametitlerule=true,
+    frametitlerulewidth=0.5pt,
+    frametitlerulecolor=secondary!20,
+    nobreak=true
+}
+
+\mdfdefinestyle{theoremstyle}{
+    backgroundcolor=primary!3!white,
+    linecolor=primary!65,
+    linewidth=0.9pt,
+    roundcorner=5pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    innerleftmargin=12pt,
+    innerrightmargin=12pt,
+    frametitleaboveskip=5pt,
+    frametitlebelowskip=5pt,
+    frametitlerule=true,
+    frametitlerulewidth=0.5pt,
+    frametitlerulecolor=primary!20,
+    nobreak=true
+}
+
+\mdfdefinestyle{examplestyle}{
+    backgroundcolor=success!3!white,
+    linecolor=success!60,
+    linewidth=0.9pt,
+    roundcorner=5pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    innerleftmargin=12pt,
+    innerrightmargin=12pt,
+    frametitleaboveskip=5pt,
+    frametitlebelowskip=5pt,
+    frametitlerule=true,
+    frametitlerulewidth=0.5pt,
+    frametitlerulecolor=success!20,
+    nobreak=true
+}
+
+\mdfdefinestyle{notestyle}{
+    backgroundcolor=accent!4!white,
+    linecolor=accent!60,
+    linewidth=0.9pt,
+    roundcorner=5pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    innerleftmargin=12pt,
+    innerrightmargin=12pt,
+    frametitleaboveskip=5pt,
+    frametitlebelowskip=5pt,
+    frametitlerule=true,
+    frametitlerulewidth=0.5pt,
+    frametitlerulecolor=accent!20,
+    nobreak=true
+}
+
+\newenvironment{conceptbox}[1][]{
+    \ifstrempty{#1}{%
+        \begin{mdframed}[style=conceptstyle, frametitlerule=false]%
+    }{%
+        \begin{mdframed}[style=conceptstyle, frametitle={\textbf{\color{secondary}#1}}]%
+    }%
+}{\end{mdframed}}
+
+\newenvironment{theorembox}[1][]{
+    \ifstrempty{#1}{%
+        \begin{mdframed}[style=theoremstyle, frametitlerule=false]%
+    }{%
+        \begin{mdframed}[style=theoremstyle, frametitle={\textbf{\color{primary}#1}}]%
+    }%
+}{\end{mdframed}}
+
+\newenvironment{examplebox}[1][]{
+    \ifstrempty{#1}{%
+        \begin{mdframed}[style=examplestyle, frametitlerule=false]%
+    }{%
+        \begin{mdframed}[style=examplestyle, frametitle={\textbf{\color{success}#1}}]%
+    }%
+}{\end{mdframed}}
+
+\newenvironment{notebox}[1][Note \& Notebook Analysis]{
+    \ifstrempty{#1}{%
+        \begin{mdframed}[style=notestyle, frametitlerule=false]%
+    }{%
+        \begin{mdframed}[style=notestyle, frametitle={\textbf{\color{accent}#1}}]%
+    }%
+}{\end{mdframed}}
+
+% --- Headers & Footers ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{primary!80}\nouppercase{\leftmark}}
+\fancyhead[R]{\small\bfseries\color{primary}\thepage}
+\fancyfoot[L]{\scriptsize\color{gray!75}Analytical Geometry --- \href{https://sciqb.com}{\color{secondary}\textbf{sciqb}}}
+\fancyfoot[R]{\scriptsize\color{gray!75}Comprehensive Lecture Notes}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primary!25}\leaders\hrule height \headrulewidth\hfill}}
+\renewcommand{\footrulewidth}{0.3pt}
+\renewcommand{\footrule}{\hbox to\headwidth{\color{gray!20}\leaders\hrule height \footrulewidth\hfill}}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}%
+  \fancyfoot[L]{\scriptsize\color{gray!75}Analytical Geometry --- \href{https://sciqb.com}{\color{secondary}\textbf{sciqb}}}%
+  \fancyfoot[R]{\scriptsize\bfseries\color{primary}\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+  \renewcommand{\footrulewidth}{0.3pt}%
+  \renewcommand{\footrule}{\hbox to\headwidth{\color{gray!20}\leaders\hrule height \footrulewidth\hfill}}%
+}
+
+% --- Section Styling ---
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\color{primary}}
+  {\small\bfseries\color{secondary}\MakeUppercase{\chaptertitlename}\ \Huge\thechapter}
+  {4pt}
+  {\Huge\bfseries}
+  [\vspace{4pt}{\color{secondary!40}\hrule height 1.2pt}]
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{secondary}}{\thesubsection}{1em}{}
+
+% --- Hyperref & PDF Metadata ---
+\usepackage[bookmarks=true,bookmarksnumbered=true,colorlinks=true,
+  linkcolor=primary,citecolor=secondary,urlcolor=accent]{hyperref}
+\hypersetup{
+  pdftitle={Analytical Geometry by sciqb},
+  pdfauthor={sciqb},
+  pdfsubject={Analytical Geometry Lecture Notes (Pages 1--69)},
+  pdfcreator={sciqb.com}
+}
+
+% --- Metadata ---
+\title{\Huge\textbf{\color{primary}Analytical Geometry}\\[0.35cm]
+\LARGE\textbf{\color{secondary}by \href{https://sciqb.com}{\color{secondary}\underline{sciqb}}}\\[0.45cm]
+\Large\textbf{\color{secondary!85}Complete Lecture Notes, Rigorous Derivations, TikZ Diagrams, and Solved Examination Problems}\\[0.2cm]
+\normalsize\textit{Transcribed and Enhanced Page-by-Page from Manuscript (Pages 1--69)}}
+\author{\textbf{\Large \href{https://sciqb.com}{sciqb}}\\[0.15cm]\small\href{https://sciqb.com}{\color{secondary}https://sciqb.com}}
+\date{\large Academic Session 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent This compendium presents a definitive, rigorous, and visually enriched set of lecture notes in \textbf{Analytical Geometry}, faithfully capturing the entire 69-page handwritten curriculum. Topics span two-dimensional polar conics (focus as pole, chords, tangents, normals, asymptotes, chord of contact, director circle), three-dimensional rectangular Cartesian coordinate systems (direction cosines, direction ratios, projection of lines, angular formulas), the analytical and vector geometry of the plane (normal, intercept, three-point forms, dihedral angle bisectors, systems of planes), straight lines in space and skew lines (symmetrical reduction, line-plane intersections, shortest distance derivations), and the three-dimensional geometry of the sphere (general forms, diametric forms, plane sections, tangency conditions, normals, and tangent planes). All derivations are presented with complete algebraic steps, accompanied by custom high-precision TikZ vector graphics and mathematical remarks highlighting slips in handwritten records.
+\end{abstract}
+
+\vspace{1cm}
+\tableofcontents
+\newpage
+
+% Include all 6 chapters (Pages 1--69 complete)
+\input{ch1_polar_conics.tex}
+\input{ch2_coordinates_dc_dr.tex}
+\input{ch3_the_plane.tex}
+\input{ch4_straight_line_skew.tex}
+\input{ch5_vectors.tex}
+\input{ch6_the_sphere.tex}
+
+% --- Master Cheat Sheet Appendix ---
+\appendix
+\input{appendix_cheat_sheet.tex}
+
+\end{document}

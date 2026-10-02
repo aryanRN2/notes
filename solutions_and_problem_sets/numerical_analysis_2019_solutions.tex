@@ -1,0 +1,1000 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Essential Typography and Mathematics Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage[colorlinks=true,linkcolor=blue!75!black,citecolor=blue!75!black,urlcolor=blue!75!black]{hyperref}
+
+% --- Geometry Settings ---
+\geometry{
+    top=1in,
+    bottom=1in,
+    left=0.85in,
+    right=0.85in,
+    headheight=14pt,
+    footskip=25pt
+}
+
+% --- Color Palette ---
+\definecolor{navyblue}{RGB}{20, 50, 100}
+\definecolor{accentblue}{RGB}{30, 80, 150}
+\definecolor{lighttint}{RGB}{246, 248, 254}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+\definecolor{solgreen}{RGB}{242, 250, 242}
+\definecolor{solborder}{RGB}{50, 130, 60}
+\definecolor{noteyellow}{RGB}{255, 253, 240}
+\definecolor{noteborder}{RGB}{190, 140, 30}
+\definecolor{qframe}{RGB}{25, 60, 120}
+\definecolor{qback}{RGB}{246, 249, 255}
+\definecolor{crimsonred}{RGB}{160, 20, 20}
+
+% --- Headers and Footers ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{navyblue}\textbf{MTB 603: Numerical Analysis} \textbullet{} Mid-Term Examination 2018--19}
+\fancyhead[R]{\small\color{darkgray}Author: \textbf{Anushka}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Section Styling ---
+\titleformat{\section}
+  {\color{navyblue}\Large\bfseries}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+\titleformat{\subsection}
+  {\color{accentblue}\large\bfseries}{\thesubsection}{1em}{}
+
+% --- Robust Custom tcolorbox Environments ---
+\newtcolorbox{questionbox}[2][]{
+    colframe=qframe,
+    colback=qback,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title={#2},
+    arc=1.5mm,
+    boxrule=0.9pt,
+    top=6pt, bottom=6pt, left=8pt, right=8pt,
+    #1
+}
+
+\newtcolorbox{answerbox}[2][]{
+    colframe=solborder,
+    colback=solgreen,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title={#2},
+    arc=1.5mm,
+    boxrule=0.9pt,
+    top=6pt, bottom=6pt, left=8pt, right=8pt,
+    #1
+}
+
+\newtcolorbox{notebox}[2][]{
+    colframe=noteborder,
+    colback=noteyellow,
+    coltitle=white,
+    fonttitle=\bfseries,
+    title={#2},
+    arc=1.5mm,
+    boxrule=0.9pt,
+    top=6pt, bottom=6pt, left=8pt, right=8pt,
+    #1
+}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+
+\begin{document}
+
+% =========================================================================
+% COVER / TITLE BLOCK
+% =========================================================================
+\begin{center}
+    {\Large\textbf{\color{navyblue}B.A. / B.Sc. Semester VI Mid-Term Examination 2018--19}}\\[4pt]
+    {\LARGE\textbf{\color{accentblue}MTB 603: Numerical Analysis}}\\[6pt]
+    {\normalsize\textbf{Date:} 07/03/2019 \quad $\vert$ \quad \textbf{Time:} 1 Hour \quad $\vert$ \quad \textbf{Maximum Marks:} 20}\\[2pt]
+    {\small\color{darkgray}Instructions: Answer Question No. (1) and any three from (2--5). All questions are of equal value (5 Marks each).}
+\end{center}
+\vspace{-4pt}\hrule height 1pt\vspace{8pt}
+
+\begin{notebox}{Complete Examination Monograph \& Verified Solutions}
+\begin{center}
+    {\large\textbf{\color{navyblue}Complete Analytical, Iterative \& Theoretical Solutions}}\\[3pt]
+    {\normalsize Solutions Prepared \& Formatted by: \textbf{\color{crimsonred}\Large Anushka}}\\[2pt]
+    {\small Contains comprehensive line-by-line proofs, error scale examples, order of convergence derivations, Cassini ovals, fixed-point contraction tests, Newton-Raphson iterations, Gauss elimination with partial pivoting, and eigenvalue modulus bounds.}
+\end{center}
+\end{notebox}
+
+\vspace{6pt}
+
+% =========================================================================
+% QUESTION 1
+% =========================================================================
+\section*{Question 1 \hfill \normalsize\normalfont\color{darkgray}[2 + 1 + 2 = 5 Marks]}
+
+\subsection*{Part (a): Relative Error vs. Absolute Error \hfill \normalsize\normalfont\color{darkgray}[2 Marks]}
+
+\begin{questionbox}{Question 1(a)}
+Show by examples that the relative error is more important than the absolute error.
+\end{questionbox}
+
+\subsubsection*{Mathematical Framework}
+Let $x$ represent the true (exact) numerical value of a measured or computed physical quantity, and let $x_A$ represent an approximation or empirical observation of $x$.
+
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Absolute Error ($E_a$):} Defined as the magnitude of the numerical discrepancy between the true value and its approximation:
+    \begin{equation}
+        E_a = \abs{x - x_A}
+    \end{equation}
+    The absolute error $E_a$ carries the same physical dimensions and units as $x$.
+
+    \item \textbf{Relative Error ($E_r$):} Defined as the ratio of the absolute error to the magnitude of the true value $x$ (for $x \neq 0$):
+    \begin{equation}
+        E_r = \frac{E_a}{\abs{x}} = \frac{\abs{x - x_A}}{\abs{x}}
+    \end{equation}
+    The relative error $E_r$ is a dimensionless pure number, expressing the fractional discrepancy. It is frequently presented as a percentage error:
+    \begin{equation}
+        E_p = E_r \times 100\%
+    \end{equation}
+\end{enumerate}
+
+\subsubsection*{Why Absolute Error Alone Fails to Convey Precision}
+The absolute error $E_a$ fails to account for the \textbf{scale} or order of magnitude of the measured quantity. An absolute deviation of $1\text{ cm}$ is utterly imperceptible when measuring the distance between two major cities, but fatal when manufacturing a mechanical wristwatch gear or silicon microprocessor chip. Thus, knowing only $E_a$ without knowing the true magnitude $\abs{x}$ provides zero information regarding whether the measurement is remarkably precise or disastrously erroneous.
+
+\subsubsection*{Contrasting Real-World Examples}
+
+\paragraph{Example 1 (Distance Geodesy vs. Precision Mechanical Component):}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Measurement A (Long-Distance Highway Survey):}\\
+    Let the true distance between two survey stations be $x_A = 10{,}000\text{ m}$ ($10\text{ km}$).\\
+    Suppose the surveyed approximation is $x_{A}^* = 10{,}001\text{ m}$.
+    \begin{align}
+        \text{Absolute Error: } E_a &= \abs{10{,}000 - 10{,}001} = 1\text{ m} \\
+        \text{Relative Error: } E_r &= \frac{1}{10{,}000} = 10^{-4} = 0.01\%
+    \end{align}
+    A measurement with only $0.01\%$ error possesses $99.99\%$ accuracy, which is top-tier surveying precision.
+
+    \item \textbf{Measurement B (Machining a Precision Ball Bearing):}\\
+    Let the true specified diameter of a miniature ball bearing be $x_B = 2\text{ mm} = 0.002\text{ m}$.\\
+    Suppose the manufactured component measures $x_B^* = 3\text{ mm} = 0.003\text{ m}$.
+    \begin{align}
+        \text{Absolute Error: } E_a &= \abs{0.002 - 0.003} = 0.001\text{ m} = 1\text{ mm} \\
+        \text{Relative Error: } E_r &= \frac{0.001}{0.002} = 0.5 = 50\%
+    \end{align}
+    A relative error of $50\%$ represents a complete manufacturing failure.
+\end{itemize}
+
+\noindent\textbf{Critical Analysis:}
+In Measurement B, the absolute error ($1\text{ mm} = 0.001\text{ m}$) is \textbf{one thousand times smaller} than the absolute error in Measurement A ($1\text{ m}$). If one evaluated quality solely by absolute error, one would falsely conclude that Measurement B is vastly superior to Measurement A. In reality, Measurement A has $99.99\%$ relative accuracy, while Measurement B is defective with $50\%$ error.
+
+\paragraph{Example 2 (Floating-Point Arithmetic \& Significant Digits):}
+Consider two computational quantities:
+\begin{itemize}[leftmargin=*]
+    \item Let $x = 10^8$ and $x^* = 10^8 + 10$:
+    \[
+    E_a = 10, \qquad E_r = \frac{10}{10^8} = 10^{-7} = 0.00001\% \quad (\approx 7\text{ correct digits})
+    \]
+    \item Let $y = 10^{-5}$ and $y^* = 2 \times 10^{-5}$:
+    \[
+    E_a = 10^{-5} = 0.00001, \qquad E_r = \frac{10^{-5}}{10^{-5}} = 1.0 = 100\% \quad (0\text{ correct digits})
+    \]
+\end{itemize}
+Although $E_a(y) = 10^{-5}$ is one million times smaller than $E_a(x) = 10$, the calculation for $x$ is highly accurate while the calculation for $y$ has no reliable precision.
+
+\begin{answerbox}{Core Takeaway: Supremacy of Relative Error}
+The relative error $E_r = \frac{E_a}{\abs{x}}$ is fundamentally more important than absolute error because:
+\begin{enumerate}[leftmargin=*]
+    \item It is \textbf{scale-invariant} and dimensionless, independent of physical units.
+    \item It directly measures the number of \textbf{correct significant digits} in scientific calculations.
+    \item It allows meaningful comparison of precision across entirely different physical domains and scales.
+\end{enumerate}
+\end{answerbox}
+
+\vspace{10pt}
+
+% -------------------------------------------------------------------------
+% QUESTION 1(b)
+% -------------------------------------------------------------------------
+\subsection*{Part (b): Order of Convergence of Iteration Schemes \hfill \normalsize\normalfont\color{darkgray}[1 Mark]}
+
+\begin{questionbox}{Question 1(b)}
+Obtain the order of convergence in two schemes to find a real root of $f(x) = 0$ if errors are related as:
+\[
+\text{(i) } \varepsilon_n^2 = 3\varepsilon_{n-1}^3 \qquad \text{and} \qquad \text{(ii) } \varepsilon_{n-1} = \varepsilon_n^{0.5}
+\]
+where $\varepsilon_n$ is the error in $n^{\text{th}}$ approximation of the root.
+\end{questionbox}
+
+\subsubsection*{Definition of Order of Convergence}
+Let $\alpha$ denote the true root of $f(x) = 0$, and let $\{x_n\}$ be an iterative sequence converging to $\alpha$. The error at the $n^{\text{th}}$ step is $\varepsilon_n = \abs{x_n - \alpha}$. An iteration method is said to have \textbf{order of convergence} $p \ge 1$ if there exists a positive finite constant $C > 0$ (the asymptotic error constant) such that:
+\begin{equation}
+    \lim_{n \to \infty} \frac{\varepsilon_n}{\varepsilon_{n-1}^p} = C
+\end{equation}
+or equivalently, the recurrence relationship satisfies $\varepsilon_n \approx C \, \varepsilon_{n-1}^p$ for sufficiently large $n$.
+
+\subsubsection*{Analysis of Scheme (i): $\varepsilon_n^2 = 3\varepsilon_{n-1}^3$}
+We are given the error relationship:
+\begin{equation}
+\varepsilon_n^2 = 3\,\varepsilon_{n-1}^3
+\end{equation}
+Since errors are non-negative magnitudes ($\varepsilon_n \ge 0$), we take the positive square root on both sides:
+\begin{equation}
+\varepsilon_n = \left(3\,\varepsilon_{n-1}^3\right)^{1/2} = \sqrt{3} \, \varepsilon_{n-1}^{3/2} = \sqrt{3} \, \varepsilon_{n-1}^{1.5}
+\end{equation}
+Dividing both sides by $\varepsilon_{n-1}^{3/2}$:
+\begin{equation}
+\frac{\varepsilon_n}{\varepsilon_{n-1}^{3/2}} = \sqrt{3} \approx 1.73205
+\end{equation}
+Comparing this directly with the canonical definition $\dfrac{\varepsilon_n}{\varepsilon_{n-1}^p} = C$:
+\[
+p = \frac{3}{2} = 1.5, \qquad C = \sqrt{3}
+\]
+
+\subsubsection*{Analysis of Scheme (ii): $\varepsilon_{n-1} = \varepsilon_n^{0.5}$}
+We are given the recurrence relationship expressing $\varepsilon_{n-1}$ in terms of $\varepsilon_n$:
+\begin{equation}
+\varepsilon_{n-1} = \varepsilon_n^{0.5} = \varepsilon_n^{1/2}
+\end{equation}
+To determine the order of convergence, the current error $\varepsilon_n$ must be expressed as a function of the prior error $\varepsilon_{n-1}$. Squaring both sides:
+\begin{equation}
+\left(\varepsilon_{n-1}\right)^2 = \left(\varepsilon_n^{1/2}\right)^2 \implies \varepsilon_n = 1 \cdot \varepsilon_{n-1}^2
+\end{equation}
+Dividing by $\varepsilon_{n-1}^2$:
+\begin{equation}
+\frac{\varepsilon_n}{\varepsilon_{n-1}^2} = 1
+\end{equation}
+Comparing with $\dfrac{\varepsilon_n}{\varepsilon_{n-1}^p} = C$:
+\[
+p = 2, \qquad C = 1
+\]
+
+\begin{answerbox}{Final Results for Order of Convergence}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Scheme (i):} The order of convergence is $\mathbf{p = \dfrac{3}{2} = 1.5}$ (with asymptotic error constant $C = \sqrt{3}$).
+    \item \textbf{Scheme (ii):} The order of convergence is $\mathbf{p = 2}$ (\textbf{Quadratic Convergence}, with asymptotic error constant $C = 1$).
+\end{itemize}
+\end{answerbox}
+
+\vspace{10pt}
+
+% -------------------------------------------------------------------------
+% QUESTION 1(c)
+% -------------------------------------------------------------------------
+\subsection*{Part (c): Eigenvalue Inclusion Interval by Brauer's Theorem \hfill \normalsize\normalfont\color{darkgray}[2 Marks]}
+
+\begin{questionbox}{Question 1(c)}
+Find the interval which contains the eigen values of a symmetric matrix $A = (a_{ij})_{3 \times 3}$ with:
+\[
+a_{11} = 3, \quad a_{12} = 2, \quad a_{13} = -2, \quad a_{22} = 1, \quad a_{23} = -1, \quad a_{33} = 2
+\]
+using Brauer theorem.
+\end{questionbox}
+
+\subsubsection*{Matrix Formulation}
+Since $A$ is given to be a symmetric matrix ($A = A^T$), its elements satisfy $a_{ji} = a_{ij}$ for all $i, j$. Thus:
+\[
+a_{21} = a_{12} = 2, \qquad a_{31} = a_{13} = -2, \qquad a_{32} = a_{23} = -1
+\]
+The full real symmetric matrix $A$ is:
+\begin{equation}
+A = \begin{pmatrix}
+3 & 2 & -2 \\
+2 & 1 & -1 \\
+-2 & -1 & 2
+\end{pmatrix}
+\end{equation}
+Since $A$ is real symmetric, all of its eigenvalues are guaranteed to be real: $\lambda \in \R$.
+
+\subsubsection*{Statement of Brauer's Theorem (Ovals of Cassini, 1947)}
+Let $A = (a_{ij})_{n \times n}$ be an $n \times n$ matrix with complex or real entries. Let $R_i$ denote the deleted row sum of the moduli of the off-diagonal entries in the $i^{\text{th}}$ row:
+\begin{equation}
+R_i = \sum_{\substack{k=1 \\ k \neq i}}^n \abs{a_{ik}}
+\end{equation}
+\textbf{Theorem (Alfred Brauer, 1947):} Every eigenvalue $\lambda$ of $A$ lies in the union of the $\binom{n}{2} = \dfrac{n(n-1)}{2}$ Cassini ovals:
+\begin{equation}
+\lambda \in \bigcup_{1 \le i < j \le n} K_{ij}
+\end{equation}
+where each Cassini region $K_{ij}$ in the complex plane is defined by:
+\begin{equation}
+K_{ij} = \left\{ z \in \C : \abs{z - a_{ii}} \, \abs{z - a_{jj}} \le R_i R_j \right\}
+\end{equation}
+Because $A$ is symmetric, every eigenvalue is real ($\lambda = x \in \R$). Hence, on the real number line, the inclusion region consists of the union of intervals satisfying:
+\begin{equation}
+\abs{x - a_{ii}} \, \abs{x - a_{jj}} \le R_i R_j, \qquad 1 \le i < j \le 3
+\end{equation}
+
+\subsubsection*{Calculation of Row Radii ($R_i$)}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Row 1 ($i = 1$):} $a_{11} = 3 \implies R_1 = \abs{a_{12}} + \abs{a_{13}} = \abs{2} + \abs{-2} = 2 + 2 = 4$
+    \item \textbf{Row 2 ($i = 2$):} $a_{22} = 1 \implies R_2 = \abs{a_{21}} + \abs{a_{23}} = \abs{2} + \abs{-1} = 2 + 1 = 3$
+    \item \textbf{Row 3 ($i = 3$):} $a_{33} = 2 \implies R_3 = \abs{a_{31}} + \abs{a_{32}} = \abs{-2} + \abs{-1} = 2 + 1 = 3$
+\end{itemize}
+
+\subsubsection*{Derivation of the Three Cassini Intervals}
+For $n = 3$, there are $\binom{3}{2} = 3$ pairs of indices $(i, j)$:
+
+\paragraph{1. Pair $(1, 2)$:} $a_{11} = 3$, $a_{22} = 1$, and $R_1 R_2 = 4 \times 3 = 12$.
+The Cassini inequality on the real line is:
+\begin{equation}
+\abs{x - 3} \, \abs{x - 1} \le 12
+\end{equation}
+Analyzing outside the interval $[1, 3]$ (where $(x-3)(x-1) \ge 0$):
+\[
+(x - 3)(x - 1) \le 12 \implies x^2 - 4x + 3 \le 12 \implies x^2 - 4x - 9 \le 0
+\]
+The roots of the equation $x^2 - 4x - 9 = 0$ are:
+\[
+x = \frac{4 \pm \sqrt{16 - 4(1)(-9)}}{2} = \frac{4 \pm \sqrt{52}}{2} = 2 \pm \sqrt{13}
+\]
+Since $\sqrt{13} \approx 3.60555$:
+\[
+x_{\min} = 2 - \sqrt{13} \approx -1.6056, \qquad x_{\max} = 2 + \sqrt{13} \approx 5.6056
+\]
+For $1 \le x \le 3$, $\abs{x - 3}\abs{x - 1} \le 12$ holds trivially. Hence, the interval is:
+\begin{equation}
+I_{12} = \left[ 2 - \sqrt{13}, \; 2 + \sqrt{13} \right] \approx [-1.6056, \; 5.6056]
+\end{equation}
+
+\paragraph{2. Pair $(1, 3)$:} $a_{11} = 3$, $a_{33} = 2$, and $R_1 R_3 = 4 \times 3 = 12$.
+The Cassini inequality on the real line is:
+\begin{equation}
+\abs{x - 3} \, \abs{x - 2} \le 12
+\end{equation}
+For $x \ge 3$ or $x \le 2$:
+\[
+(x - 3)(x - 2) \le 12 \implies x^2 - 5x + 6 \le 12 \implies x^2 - 5x - 6 \le 0
+\]
+Factoring the quadratic:
+\[
+(x - 6)(x + 1) \le 0 \implies -1 \le x \le 6
+\]
+Thus, the interval for pair $(1, 3)$ is:
+\begin{equation}
+I_{13} = [-1, \; 6]
+\end{equation}
+
+\paragraph{3. Pair $(2, 3)$:} $a_{22} = 1$, $a_{33} = 2$, and $R_2 R_3 = 3 \times 3 = 9$.
+The Cassini inequality on the real line is:
+\begin{equation}
+\abs{x - 1} \, \abs{x - 2} \le 9
+\end{equation}
+For $x \ge 2$ or $x \le 1$:
+\[
+(x - 1)(x - 2) \le 9 \implies x^2 - 3x + 2 \le 9 \implies x^2 - 3x - 7 \le 0
+\]
+The roots of the equation $x^2 - 3x - 7 = 0$ are:
+\[
+x = \frac{3 \pm \sqrt{9 - 4(1)(-7)}}{2} = \frac{3 \pm \sqrt{37}}{2} \approx \frac{3 \pm 6.0828}{2}
+\]
+Thus, the interval for pair $(2, 3)$ is:
+\begin{equation}
+I_{23} = \left[ \frac{3 - \sqrt{37}}{2}, \; \frac{3 + \sqrt{37}}{2} \right] \approx [-1.5414, \; 4.5414]
+\end{equation}
+
+\subsubsection*{Union of Intervals}
+By Brauer's Theorem, every eigenvalue $\lambda$ satisfies $\lambda \in I_{12} \cup I_{13} \cup I_{23}$. The overall bounding interval is determined by the minimum lower bound and maximum upper bound:
+\begin{align}
+\text{Lower Bound} &= \min\left( 2 - \sqrt{13}, \; -1, \; \frac{3 - \sqrt{37}}{2} \right) = 2 - \sqrt{13} \approx -1.6056 \\
+\text{Upper Bound} &= \max\left( 2 + \sqrt{13}, \; 6, \; \frac{3 + \sqrt{37}}{2} \right) = 6
+\end{align}
+
+\begin{answerbox}{Final Eigenvalue Inclusion Interval by Brauer Theorem}
+All eigenvalues of the symmetric matrix $A$ lie in the real interval:
+\begin{equation}
+\mathbf{\lambda \in \left[ 2 - \sqrt{13}, \; 6 \right] \approx [-1.6056, \; 6.0000]}
+\end{equation}
+\end{answerbox}
+
+\begin{notebox}{Verification against Exact Eigenvalues}
+The exact eigenvalues of matrix $A$, obtained by solving $\det(A - \lambda I) = 0$, are:
+\[
+\lambda_1 \approx -0.2705, \qquad \lambda_2 \approx 0.6587, \qquad \lambda_3 \approx 5.6119
+\]
+All three eigenvalues lie strictly inside the interval $[-1.6056, 6]$. Moreover, Brauer's theorem yields a substantially tighter interval than Ger\v{s}gorin's circle theorem, which gives $[-2, 7]$.
+\end{notebox}
+
+\newpage
+
+% =========================================================================
+% QUESTION 2
+% =========================================================================
+\section*{Question 2 \hfill \normalsize\normalfont\color{darkgray}[5 Marks]}
+
+\begin{questionbox}{Question 2}
+Express $x^2 - x - 0.2 = 0$ in the form $x = \phi(x)$ in different ways and pick out the possible forms to be used to solve this equation by fixed point iteration method to find smallest positive real root.
+\end{questionbox}
+
+\subsection*{1. Exact Roots of the Given Equation}
+The given quadratic equation is:
+\begin{equation}
+x^2 - x - 0.2 = 0
+\end{equation}
+Multiplying by 5 gives the integer equation $5x^2 - 5x - 1 = 0$. By the quadratic formula:
+\begin{equation}
+x = \frac{-(-1) \pm \sqrt{(-1)^2 - 4(1)(-0.2)}}{2(1)} = \frac{1 \pm \sqrt{1 + 0.8}}{2} = \frac{1 \pm \sqrt{1.8}}{2}
+\end{equation}
+Since $\sqrt{1.8} = \sqrt{\frac{9}{5}} = \frac{3}{\sqrt{5}} \approx 1.3416408$:
+\begin{align}
+\alpha_1 &= \frac{1 + 1.3416408}{2} \approx \mathbf{1.17082} \quad \text{(Positive Root)} \\
+\alpha_2 &= \frac{1 - 1.3416408}{2} \approx \mathbf{-0.17082} \quad \text{(Negative Root)}
+\end{align}
+The equation has exactly one positive real root: $\alpha = \alpha_1 \approx 1.17082$. Thus, $\alpha \approx 1.17082$ is the unique and smallest positive real root.
+
+\subsection*{2. Fixed Point Iteration Convergence Criterion}
+To solve $f(x) = 0$ by fixed-point iteration, we rearrange it into:
+\begin{equation}
+x = \phi(x)
+\end{equation}
+The iterative sequence is generated by:
+\begin{equation}
+x_{n+1} = \phi(x_n), \qquad n = 0, 1, 2, \dots
+\end{equation}
+\textbf{Banach Contraction Principle:} If $\phi(x)$ is continuously differentiable in an interval $I$ containing the root $\alpha$, the iteration sequence $x_n$ converges to $\alpha$ for any initial guess $x_0 \in I$ if and only if:
+\begin{equation}
+\abs{\phi'(\alpha)} < 1
+\end{equation}
+Furthermore, the asymptotic rate of linear convergence is governed by the contraction factor $L = \abs{\phi'(\alpha)}$. If $\abs{\phi'(\alpha)} > 1$, the iteration diverges away from $\alpha$.
+
+\subsection*{3. Exhaustive Analysis of Different Forms $x = \phi(x)$}
+
+\paragraph{Formulation 1 (Direct Linear Isolation):}
+Isolating $x$ from the linear term:
+\[
+x = x^2 - 0.2 \implies \phi_1(x) = x^2 - 0.2
+\]
+Differentiating:
+\[
+\phi_1'(x) = 2x
+\]
+Evaluating at the positive root $\alpha \approx 1.17082$:
+\[
+\abs{\phi_1'(\alpha)} = 2(1.17082) = 2.34164 > 1
+\]
+\textbf{Status: Diverges.} Since $\abs{\phi_1'(\alpha)} > 1$, this formulation cannot be used.
+
+\paragraph{Formulation 2 (Square Root Form):}
+Isolating $x^2$ and taking the positive square root (since we seek the positive root):
+\[
+x^2 = x + 0.2 \implies x = \sqrt{x + 0.2} = (x + 0.2)^{1/2}
+\]
+Here, $\phi_2(x) = \sqrt{x + 0.2}$. Differentiating:
+\[
+\phi_2'(x) = \frac{1}{2\sqrt{x + 0.2}}
+\]
+At the positive root $\alpha \approx 1.17082$, since $\alpha^2 = \alpha + 0.2$, we have $\sqrt{\alpha + 0.2} = \alpha$:
+\[
+\abs{\phi_2'(\alpha)} = \frac{1}{2\alpha} = \frac{1}{2(1.17082)} \approx \frac{1}{2.34164} \approx \mathbf{0.42705 < 1}
+\]
+\textbf{Status: Converges!} The contraction factor is $L_2 \approx 0.427 < 1$.
+
+\paragraph{Formulation 3 (Reciprocal / Division by $x$):}
+Dividing $x^2 - x - 0.2 = 0$ by $x$ (for $x \neq 0$):
+\[
+x - 1 - \frac{0.2}{x} = 0 \implies x = 1 + \frac{0.2}{x}
+\]
+Here, $\phi_3(x) = 1 + \dfrac{0.2}{x}$. Differentiating:
+\[
+\phi_3'(x) = -\frac{0.2}{x^2}
+\]
+Evaluating at the positive root $\alpha \approx 1.17082$:
+\[
+\abs{\phi_3'(\alpha)} = \frac{0.2}{\alpha^2} = \frac{0.2}{(1.17082)^2} = \frac{0.2}{1.37082} \approx \mathbf{0.14590 \ll 1}
+\]
+\textbf{Status: Converges Rapidly!} The contraction factor is $L_3 \approx 0.146 \ll 1$, ensuring very fast convergence.
+
+\paragraph{Formulation 4 (Factorization of $x(x - 1)$):}
+Rewriting as $x(x - 1) = 0.2$:
+\[
+x = \frac{0.2}{x - 1} \implies \phi_4(x) = \frac{0.2}{x - 1}
+\]
+Differentiating:
+\[
+\phi_4'(x) = -\frac{0.2}{(x - 1)^2}
+\]
+Evaluating at $\alpha \approx 1.17082$ (where $\alpha - 1 \approx 0.17082$):
+\[
+\abs{\phi_4'(\alpha)} = \frac{0.2}{(0.17082)^2} = \frac{0.2}{0.02918} \approx \mathbf{6.854 > 1}
+\]
+\textbf{Status: Diverges.} Since $\abs{\phi_4'(\alpha)} \gg 1$, this scheme diverges.
+
+\subsection*{4. Comparative Summary of Formulations}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Form} & \textbf{Iteration Function $\phi(x)$} & $\abs{\phi'(\alpha)}$ at $\alpha \approx 1.1708$ & \textbf{Condition} & \textbf{Behavior} \\
+\midrule
+1 & $\phi_1(x) = x^2 - 0.2$ & $2.3416$ & $> 1$ & Diverges \\
+2 & $\phi_2(x) = \sqrt{x + 0.2}$ & $0.4271$ & $< 1$ & \textbf{Converges (Valid)} \\
+3 & $\phi_3(x) = 1 + \frac{0.2}{x}$ & $0.1459$ & $\ll 1$ & \textbf{Converges (Fastest)} \\
+4 & $\phi_4(x) = \frac{0.2}{x - 1}$ & $6.8540$ & $> 1$ & Diverges \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{answerbox}{Picked Forms for Finding the Smallest Positive Real Root}
+The possible forms that can be used to solve the equation are:
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{Form 2:} $\mathbf{x_{n+1} = \sqrt{x_n + 0.2}}$ \quad (Contractive with $\abs{\phi'} \approx 0.427$)
+    \item \textbf{Form 3:} $\mathbf{x_{n+1} = 1 + \frac{0.2}{x_n}}$ \quad (Contractive with $\abs{\phi'} \approx 0.146$, recommended for rapid convergence)
+\end{enumerate}
+\end{answerbox}
+
+\subsection*{5. Numerical Verification}
+Starting from initial guess $x_0 = 1.0$:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Form 3 Iterations ($x_{n+1} = 1 + \frac{0.2}{x_n}$):}
+    \begin{align*}
+        x_1 &= 1 + \frac{0.2}{1.0} = 1.200000 \\
+        x_2 &= 1 + \frac{0.2}{1.2} = 1.166667 \\
+        x_3 &= 1 + \frac{0.2}{1.166667} = 1.171429 \\
+        x_4 &= 1 + \frac{0.2}{1.171429} = 1.170732 \\
+        x_5 &= 1 + \frac{0.2}{1.170732} = \mathbf{1.170833} \approx \alpha
+    \end{align*}
+    Within 5 steps, the iteration achieves 4 decimal digits of precision.
+\end{itemize}
+
+\newpage
+
+% =========================================================================
+% QUESTION 3
+% =========================================================================
+\section*{Question 3 \hfill \normalsize\normalfont\color{darkgray}[5 Marks]}
+
+\begin{questionbox}{Question 3}
+Using Newton-Raphson method, find a real root of the equation $x^3 - 5x - 2 = 0$, correct to three decimal places.
+\end{questionbox}
+
+\subsection*{1. Algebraic Analysis \& Root Localization}
+Let the given function be:
+\begin{equation}
+f(x) = x^3 - 5x - 2 = 0
+\end{equation}
+Evaluating $f(x)$ at consecutive integer points:
+\begin{align*}
+f(0) &= 0^3 - 5(0) - 2 = -2 \\
+f(1) &= 1^3 - 5(1) - 2 = -6 \\
+f(2) &= 2^3 - 5(2) - 2 = 8 - 10 - 2 = -4 < 0 \\
+f(3) &= 3^3 - 5(3) - 2 = 27 - 15 - 2 = +10 > 0
+\end{align*}
+Since $f(2) < 0$ and $f(3) > 0$, by the Intermediate Value Theorem, a real root lies in the open interval $(2, 3)$.
+
+\paragraph{Algebraic Factorization:} Testing negative integers reveals:
+\[
+f(-2) = (-2)^3 - 5(-2) - 2 = -8 + 10 - 2 = 0
+\]
+Thus, $x = -2$ is an exact rational root. Factoring out $(x + 2)$ by synthetic division:
+\[
+x^3 - 5x - 2 = (x + 2)(x^2 - 2x - 1) = 0
+\]
+The roots of the quadratic factor $x^2 - 2x - 1 = 0$ are:
+\[
+x = \frac{2 \pm \sqrt{4 - 4(1)(-1)}}{2} = \frac{2 \pm \sqrt{8}}{2} = 1 \pm \sqrt{2}
+\]
+The three exact real roots of the polynomial are:
+\begin{equation}
+x = -2, \qquad x = 1 - \sqrt{2} \approx -0.414214, \qquad x = 1 + \sqrt{2} \approx \mathbf{2.414214}
+\end{equation}
+We now apply the Newton-Raphson method to locate the root lying in $(2, 3)$, which is $\alpha = 1 + \sqrt{2} \approx 2.414$.
+
+\subsection*{2. Newton-Raphson Iteration Formula}
+The first derivative of $f(x)$ is:
+\begin{equation}
+f'(x) = 3x^2 - 5
+\end{equation}
+The Newton-Raphson iteration formula is:
+\begin{equation}
+x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} = x_n - \frac{x_n^3 - 5x_n - 2}{3x_n^2 - 5}
+\end{equation}
+Expressing over a common denominator:
+\begin{equation}
+x_{n+1} = \frac{x_n(3x_n^2 - 5) - (x_n^3 - 5x_n - 2)}{3x_n^2 - 5} = \frac{2x_n^3 + 2}{3x_n^2 - 5}
+\end{equation}
+
+\subsection*{3. Step-by-Step Iteration Calculations}
+Since the root lies in $(2, 3)$ and $f(2) = -4, f(3) = 10$, we choose the midpoint $x_0 = 2.5$ as our initial approximation:
+
+\paragraph{Iteration 1 ($n = 0$):}
+\begin{align*}
+f(x_0) &= f(2.5) = (2.5)^3 - 5(2.5) - 2 = 15.625 - 12.5 - 2 = 1.125000 \\
+f'(x_0) &= f'(2.5) = 3(2.5)^2 - 5 = 3(6.25) - 5 = 18.75 - 5 = 13.750000 \\
+x_1 &= 2.5 - \frac{1.125000}{13.750000} = 2.5 - 0.081818 = \mathbf{2.418182}
+\end{align*}
+
+\paragraph{Iteration 2 ($n = 1$):}
+With $x_1 = 2.418182$:
+\begin{align*}
+x_1^2 &= 5.847604, \qquad x_1^3 = 14.140570 \\
+f(x_1) &= 14.140570 - 5(2.418182) - 2 = 14.140570 - 12.090910 - 2 = 0.049660 \\
+f'(x_1) &= 3(5.847604) - 5 = 17.542812 - 5 = 12.542812 \\
+x_2 &= 2.418182 - \frac{0.049660}{12.542812} = 2.418182 - 0.003959 = \mathbf{2.414223}
+\end{align*}
+
+\paragraph{Iteration 3 ($n = 2$):}
+With $x_2 = 2.414223$:
+\begin{align*}
+x_2^2 &= 5.828473, \qquad x_2^3 = 14.071233 \\
+f(x_2) &= 14.071233 - 5(2.414223) - 2 = 14.071233 - 12.071115 - 2 = 0.000118 \\
+f'(x_2) &= 3(5.828473) - 5 = 17.485419 - 5 = 12.485419 \\
+x_3 &= 2.414223 - \frac{0.000118}{12.485419} = 2.414223 - 0.000009 = \mathbf{2.414214}
+\end{align*}
+
+\paragraph{Iteration 4 ($n = 3$):}
+With $x_3 = 2.414214$:
+\[
+f(x_3) \approx 0.000000, \qquad x_4 = \mathbf{2.414214}
+\]
+
+\subsection*{4. Summary Table of Iterates}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Iteration ($n$)} & $x_n$ & $f(x_n)$ & $f'(x_n)$ & $x_{n+1}$ \\
+\midrule
+0 & $2.500000$ & $1.125000$ & $13.750000$ & $2.418182$ \\
+1 & $2.418182$ & $0.049660$ & $12.542812$ & $2.414223$ \\
+2 & $2.414223$ & $0.000118$ & $12.485419$ & $2.414214$ \\
+3 & $2.414214$ & $0.000000$ & $12.485281$ & $2.414214$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{6pt}
+The iterates $x_2$ and $x_3$ coincide to five decimal places ($2.41421$).
+
+\begin{answerbox}{Final Root Correct to Three Decimal Places}
+The real root of $x^3 - 5x - 2 = 0$ correct to three decimal places is:
+\begin{equation}
+\mathbf{x \approx 2.414}
+\end{equation}
+\textit{(Exact value: $1 + \sqrt{2} \approx 2.41421356\dots$)}
+\end{answerbox}
+
+\newpage
+
+% =========================================================================
+% QUESTION 4
+% =========================================================================
+\section*{Question 4 \hfill \normalsize\normalfont\color{darkgray}[5 Marks]}
+
+\begin{questionbox}{Question 4}
+Solve the system of equations:
+\begin{align*}
+x + 2y + z &= 0 \\
+2x + 2y + 3z &= 3 \\
+-x - 3y &= 2
+\end{align*}
+by Gauss elimination method with pivoting.
+\end{questionbox}
+
+\subsection*{1. Matrix Formulation}
+The given system of 3 linear equations in 3 unknowns is:
+\begin{equation}
+\begin{pmatrix}
+1 & 2 & 1 \\
+2 & 2 & 3 \\
+-1 & -3 & 0
+\end{pmatrix}
+\begin{pmatrix} x \\ y \\ z \end{pmatrix}
+=
+\begin{pmatrix} 0 \\ 3 \\ 2 \end{pmatrix}
+\end{equation}
+The augmented matrix is:
+\begin{equation}
+[A^{(0)} \mid \mathbf{b}^{(0)}] = \left(\begin{array}{ccc|c}
+1 & 2 & 1 & 0 \\
+2 & 2 & 3 & 3 \\
+-1 & -3 & 0 & 2
+\end{array}\right)
+\end{equation}
+
+\subsection*{2. Step 1: Pivoting in Column 1 and Forward Elimination}
+We examine the elements in column 1 in rows 1, 2, and 3:
+\[
+\max\left( \abs{a_{11}}, \abs{a_{21}}, \abs{a_{31}} \right) = \max\left( \abs{1}, \abs{2}, \abs{-1} \right) = 2 = \abs{a_{21}}
+\]
+The largest element in magnitude is $a_{21} = 2$ in \textbf{Row 2}. We swap \textbf{Row 1 and Row 2} ($R_1 \leftrightarrow R_2$):
+\begin{equation}
+\left(\begin{array}{ccc|c}
+\mathbf{2} & 2 & 3 & 3 \\
+1 & 2 & 1 & 0 \\
+-1 & -3 & 0 & 2
+\end{array}\right)
+\end{equation}
+The pivot element is $a_{11} = 2$.
+
+\paragraph{Elimination of $x$:}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Row 2:} Multiplier $m_{21} = \dfrac{a_{21}}{a_{11}} = \dfrac{1}{2}$.\\
+    Operation: $R_2 \leftarrow R_2 - \dfrac{1}{2} R_1$:
+    \begin{align*}
+        a_{21}^{(1)} &= 1 - \frac{1}{2}(2) = 0 \\
+        a_{22}^{(1)} &= 2 - \frac{1}{2}(2) = 2 - 1 = 1 \\
+        a_{23}^{(1)} &= 1 - \frac{1}{2}(3) = 1 - \frac{3}{2} = -\frac{1}{2} \\
+        b_2^{(1)} &= 0 - \frac{1}{2}(3) = -\frac{3}{2}
+    \end{align*}
+
+    \item \textbf{Row 3:} Multiplier $m_{31} = \dfrac{a_{31}}{a_{11}} = \dfrac{-1}{2} = -\dfrac{1}{2}$.\\
+    Operation: $R_3 \leftarrow R_3 - \left(-\dfrac{1}{2}\right) R_1 = R_3 + \dfrac{1}{2} R_1$:
+    \begin{align*}
+        a_{31}^{(1)} &= -1 + \frac{1}{2}(2) = 0 \\
+        a_{32}^{(1)} &= -3 + \frac{1}{2}(2) = -3 + 1 = -2 \\
+        a_{33}^{(1)} &= 0 + \frac{1}{2}(3) = \frac{3}{2} \\
+        b_3^{(1)} &= 2 + \frac{1}{2}(3) = 2 + \frac{3}{2} = \frac{7}{2}
+    \end{align*}
+\end{itemize}
+After Step 1, the augmented matrix becomes:
+\begin{equation}
+[A^{(1)} \mid \mathbf{b}^{(1)}] = \left(\begin{array}{ccc|c}
+2 & 2 & 3 & 3 \\
+0 & 1 & -\frac{1}{2} & -\frac{3}{2} \\
+0 & -2 & \frac{3}{2} & \frac{7}{2}
+\end{array}\right)
+\end{equation}
+
+\subsection*{3. Step 2: Pivoting in Column 2 and Forward Elimination}
+We examine the elements in column 2 on and below the main diagonal (rows 2 and 3):
+\[
+\max\left( \abs{a_{22}^{(1)}}, \abs{a_{32}^{(1)}} \right) = \max\left( \abs{1}, \abs{-2} \right) = 2 = \abs{-2}
+\]
+The largest element in magnitude is in \textbf{Row 3}. We swap \textbf{Row 2 and Row 3} ($R_2 \leftrightarrow R_3$):
+\begin{equation}
+\left(\begin{array}{ccc|c}
+2 & 2 & 3 & 3 \\
+0 & \mathbf{-2} & \frac{3}{2} & \frac{7}{2} \\
+0 & 1 & -\frac{1}{2} & -\frac{3}{2}
+\end{array}\right)
+\end{equation}
+The pivot element is $a_{22} = -2$.
+
+\paragraph{Elimination of $y$:}
+The multiplier for Row 3 is:
+\[
+m_{32} = \frac{a_{32}}{a_{22}} = \frac{1}{-2} = -\frac{1}{2}
+\]
+Operation: $R_3 \leftarrow R_3 - \left(-\dfrac{1}{2}\right) R_2 = R_3 + \dfrac{1}{2} R_2$:
+\begin{align*}
+    a_{32}^{(2)} &= 1 + \frac{1}{2}(-2) = 1 - 1 = 0 \\
+    a_{33}^{(2)} &= -\frac{1}{2} + \frac{1}{2}\left(\frac{3}{2}\right) = -\frac{1}{2} + \frac{3}{4} = \frac{1}{4} \\
+    b_3^{(2)} &= -\frac{3}{2} + \frac{1}{2}\left(\frac{7}{2}\right) = -\frac{3}{2} + \frac{7}{4} = \frac{1}{4}
+\end{align*}
+The system is now reduced to upper triangular form:
+\begin{equation}
+[U \mid \mathbf{c}] = \left(\begin{array}{ccc|c}
+2 & 2 & 3 & 3 \\
+0 & -2 & \frac{3}{2} & \frac{7}{2} \\
+0 & 0 & \frac{1}{4} & \frac{1}{4}
+\end{array}\right)
+\end{equation}
+
+\subsection*{4. Back-Substitution}
+We solve the triangular system sequentially:
+\begin{enumerate}[leftmargin=*]
+    \item \textbf{From Row 3:}
+    \[
+    \frac{1}{4} z = \frac{1}{4} \implies \mathbf{z = 1}
+    \]
+    \item \textbf{From Row 2:}
+    \[
+    -2y + \frac{3}{2} z = \frac{7}{2}
+    \]
+    Substituting $z = 1$:
+    \[
+    -2y + \frac{3}{2}(1) = \frac{7}{2} \implies -2y = \frac{7}{2} - \frac{3}{2} = \frac{4}{2} = 2 \implies \mathbf{y = -1}
+    \]
+    \item \textbf{From Row 1:}
+    \[
+    2x + 2y + 3z = 3
+    \]
+    Substituting $y = -1$ and $z = 1$:
+    \[
+    2x + 2(-1) + 3(1) = 3 \implies 2x - 2 + 3 = 3 \implies 2x + 1 = 3 \implies 2x = 2 \implies \mathbf{x = 1}
+    \]
+\end{enumerate}
+
+\subsection*{5. Verification in Original Equations}
+\begin{align*}
+\text{Equation 1: } & x + 2y + z = 1 + 2(-1) + 1 = 1 - 2 + 1 = 0 \quad \checkmark \\
+\text{Equation 2: } & 2x + 2y + 3z = 2(1) + 2(-1) + 3(1) = 2 - 2 + 3 = 3 \quad \checkmark \\
+\text{Equation 3: } & -x - 3y = -(1) - 3(-1) = -1 + 3 = 2 \quad \checkmark
+\end{align*}
+
+\begin{answerbox}{Exact Solution Vector}
+The unique solution to the linear system is:
+\begin{equation}
+\mathbf{x = 1, \qquad y = -1, \qquad z = 1}
+\end{equation}
+or in vector form: $(x, y, z)^T = (1, -1, 1)^T$.
+\end{answerbox}
+
+\newpage
+
+% =========================================================================
+% QUESTION 5
+% =========================================================================
+\section*{Question 5 \hfill \normalsize\normalfont\color{darkgray}[5 Marks]}
+
+\begin{questionbox}{Question 5}
+Prove that the largest eigen value in modulus of a square matrix can't exceed the largest sum of the moduli of elements along any row or column.
+\end{questionbox}
+
+\subsection*{1. Formal Theorem Statement}
+Let $A = (a_{ij})_{n \times n}$ be an arbitrary square matrix of order $n$ with entries in $\C$ (or $\R$). Let $\lambda$ denote any eigenvalue of $A$. Define:
+\begin{align}
+R &= \max_{1 \le i \le n} \sum_{j=1}^n \abs{a_{ij}} \quad \text{(Maximum absolute row sum, denoted as } \norm{A}_\infty\text{)} \\
+C &= \max_{1 \le j \le n} \sum_{i=1}^n \abs{a_{ij}} \quad \text{(Maximum absolute column sum, denoted as } \norm{A}_1\text{)}
+\end{align}
+\textbf{Theorem:} The modulus of every eigenvalue $\lambda$ of $A$ satisfies:
+\begin{equation}
+\abs{\lambda} \le R \qquad \text{and} \qquad \abs{\lambda} \le C
+\end{equation}
+Consequently, if $\lambda_{\max}$ is the eigenvalue of maximum modulus, its magnitude (the spectral radius $\rho(A) = \max_k \abs{\lambda_k}$) satisfies:
+\begin{equation}
+\abs{\lambda_{\max}} \le \min(R, C) \le R, C
+\end{equation}
+That is, the largest eigenvalue in modulus cannot exceed the largest sum of the moduli of elements along any row or column.
+
+\subsection*{2. Proof for the Row Sum Bound ($\abs{\lambda} \le R$)}
+\begin{proof}
+Let $\lambda$ be an arbitrary eigenvalue of $A$. By definition of an eigenvalue, there exists a non-zero column eigenvector $\mathbf{x} \in \C^n \setminus \{\mathbf{0}\}$:
+\begin{equation}
+\mathbf{x} = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} \neq \mathbf{0}
+\end{equation}
+such that:
+\begin{equation}
+A\mathbf{x} = \lambda\mathbf{x}
+\end{equation}
+Writing this vector equation in component form for each row $i \in \{1, 2, \dots, n\}$:
+\begin{equation}
+\sum_{j=1}^n a_{ij} x_j = \lambda x_i, \qquad i = 1, 2, \dots, n
+\end{equation}
+Since $\mathbf{x} \neq \mathbf{0}$, at least one component of $\mathbf{x}$ is non-zero. Let $x_k$ be a coordinate of $\mathbf{x}$ possessing the maximum absolute value (i.e., the infinity norm of $\mathbf{x}$):
+\begin{equation}
+\abs{x_k} = \max_{1 \le j \le n} \abs{x_j} = \norm{\mathbf{x}}_\infty > 0
+\end{equation}
+Now consider the $k^{\text{th}}$ scalar equation of system (25):
+\begin{equation}
+\lambda x_k = \sum_{j=1}^n a_{kj} x_j
+\end{equation}
+Taking the absolute value (modulus) of both sides:
+\begin{equation}
+\abs{\lambda x_k} = \abs{\lambda} \, \abs{x_k} = \abs{\sum_{j=1}^n a_{kj} x_j}
+\end{equation}
+Applying the generalized triangle inequality for complex numbers ($\abs{\sum z_i} \le \sum \abs{z_i}$):
+\begin{equation}
+\abs{\sum_{j=1}^n a_{kj} x_j} \le \sum_{j=1}^n \abs{a_{kj} x_j} = \sum_{j=1}^n \abs{a_{kj}} \, \abs{x_j}
+\end{equation}
+By the definition of $x_k$, we have $\abs{x_j} \le \abs{x_k}$ for every $j = 1, 2, \dots, n$. Substituting this upper bound into the right-hand sum:
+\begin{equation}
+\sum_{j=1}^n \abs{a_{kj}} \, \abs{x_j} \le \sum_{j=1}^n \abs{a_{kj}} \, \abs{x_k} = \abs{x_k} \sum_{j=1}^n \abs{a_{kj}}
+\end{equation}
+Combining inequalities (28), (29), and (30):
+\begin{equation}
+\abs{\lambda} \, \abs{x_k} \le \abs{x_k} \sum_{j=1}^n \abs{a_{kj}}
+\end{equation}
+Since $\abs{x_k} > 0$, we divide both sides by $\abs{x_k}$:
+\begin{equation}
+\abs{\lambda} \le \sum_{j=1}^n \abs{a_{kj}}
+\end{equation}
+The sum on the right-hand side is the sum of the moduli of elements in the $k^{\text{th}}$ row of $A$. This particular row sum is bounded above by the maximum row sum taken across all rows $i \in \{1, 2, \dots, n\}$:
+\begin{equation}
+\sum_{j=1}^n \abs{a_{kj}} \le \max_{1 \le i \le n} \sum_{j=1}^n \abs{a_{ij}} = R
+\end{equation}
+Therefore:
+\begin{equation}
+\mathbf{\abs{\lambda} \le R = \max_{1 \le i \le n} \sum_{j=1}^n \abs{a_{ij}}}
+\end{equation}
+Since this holds for every eigenvalue $\lambda$, it holds in particular for the eigenvalue of maximum modulus $\lambda_{\max}$.
+\end{proof}
+
+\subsection*{3. Proof for the Column Sum Bound ($\abs{\lambda} \le C$)}
+We establish the column bound using two equivalent, standard approaches:
+
+\paragraph{Method A (Via Matrix Transpose $A^T$):}
+\begin{proof}
+Recall the fundamental theorem of determinants: for any square matrix $A$ and its transpose $A^T$, $\det(M^T) = \det(M)$. Therefore:
+\begin{equation}
+\det(A^T - \lambda I) = \det\left((A - \lambda I)^T\right) = \det(A - \lambda I)
+\end{equation}
+Hence, $A$ and $A^T$ have the identical characteristic polynomial and identical eigenvalues $\lambda$.
+
+Applying the row sum result proven in Section 2 to the transpose matrix $A^T$: every eigenvalue $\lambda$ of $A^T$ (and thus of $A$) satisfies:
+\begin{equation}
+\abs{\lambda} \le \max_{1 \le i \le n} \sum_{j=1}^n \abs{(A^T)_{ij}}
+\end{equation}
+By the definition of the matrix transpose, $(A^T)_{ij} = a_{ji}$. Thus, the $i^{\text{th}}$ row sum of $A^T$ is the $i^{\text{th}}$ column sum of $A$:
+\begin{equation}
+\sum_{j=1}^n \abs{(A^T)_{ij}} = \sum_{j=1}^n \abs{a_{ji}} = \sum_{k=1}^n \abs{a_{ki}}
+\end{equation}
+Taking the maximum over all indices $i \in \{1, 2, \dots, n\}$:
+\begin{equation}
+\max_{1 \le i \le n} \sum_{j=1}^n \abs{(A^T)_{ij}} = \max_{1 \le j \le n} \sum_{i=1}^n \abs{a_{ij}} = C
+\end{equation}
+Substituting (38) into (36):
+\begin{equation}
+\mathbf{\abs{\lambda} \le C = \max_{1 \le j \le n} \sum_{i=1}^n \abs{a_{ij}}}
+\end{equation}
+\end{proof}
+
+\paragraph{Method B (Direct Proof via Left Eigenvector):}
+\begin{proof}
+Alternatively, let $\mathbf{y}^H \neq \mathbf{0}^H$ be a non-zero row vector satisfying $\mathbf{y}^H A = \lambda \mathbf{y}^H$ (a left eigenvector of $A$). In components:
+\[
+\sum_{i=1}^n \bar{y}_i a_{ij} = \lambda \bar{y}_j, \qquad j = 1, 2, \dots, n
+\]
+Let $m$ be an index such that $\abs{y_m} = \max_{1 \le j \le n} \abs{y_j} > 0$. Taking the $m^{\text{th}}$ column equation:
+\[
+\abs{\lambda} \, \abs{y_m} = \abs{\sum_{i=1}^n \bar{y}_i a_{im}} \le \sum_{i=1}^n \abs{\bar{y}_i} \, \abs{a_{im}} \le \abs{y_m} \sum_{i=1}^n \abs{a_{im}}
+\]
+Dividing by $\abs{y_m} > 0$:
+\[
+\abs{\lambda} \le \sum_{i=1}^n \abs{a_{im}} \le \max_{1 \le j \le n} \sum_{i=1}^n \abs{a_{ij}} = C
+\]
+\end{proof}
+
+\subsection*{4. Conclusion}
+Combining the results of Section 2 and Section 3, for any eigenvalue $\lambda$:
+\begin{equation}
+\abs{\lambda} \le \min\left( \max_{1 \le i \le n} \sum_{j=1}^n \abs{a_{ij}}, \; \max_{1 \le j \le n} \sum_{i=1}^n \abs{a_{ij}} \right)
+\end{equation}
+Hence, the largest eigenvalue in modulus cannot exceed the largest sum of the moduli of elements along any row or column.
+
+\begin{answerbox}{Summary of the Spectral Radius Bound}
+For any square matrix $A$:
+\begin{equation}
+\mathbf{\rho(A) = \max_{\lambda \in \sigma(A)} \abs{\lambda} \le \min\left( \norm{A}_\infty, \; \norm{A}_1 \right)}
+\end{equation}
+where $\norm{A}_\infty$ is the maximum absolute row sum and $\norm{A}_1$ is the maximum absolute column sum.
+\end{answerbox}
+
+\newpage
+
+% =========================================================================
+% MASTER SUMMARY & SCORECARD TABLE
+% =========================================================================
+\section*{Master Summary Table: Examination Solutions (2018--19)}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\small
+\begin{tabular}{p{0.8cm}p{3.0cm}p{6.4cm}p{4.5cm}}
+\toprule
+\textbf{Q.\#} & \textbf{Topic} & \textbf{Governing Mathematical Principle / Iteration} & \textbf{Final Result} \\
+\midrule
+\textbf{1(a)} & Relative vs. Absolute Error & Scale invariance: $E_r = \frac{\abs{x - x_A}}{\abs{x}}$ vs. $E_a = \abs{x - x_A}$ & Proved by 2 detailed contrasting examples \\
+\midrule
+\textbf{1(b)} & Order of Convergence & (i) $\varepsilon_n = \sqrt{3}\,\varepsilon_{n-1}^{1.5} \implies p = 1.5$\newline (ii) $\varepsilon_n = \varepsilon_{n-1}^2 \implies p = 2$ & \textbf{(i) $p = 1.5$}\newline \textbf{(ii) $p = 2$} \\
+\midrule
+\textbf{1(c)} & Brauer Theorem Eigenvalues & Cassini ovals $\abs{x - a_{ii}}\abs{x - a_{jj}} \le R_i R_j$ on symmetric matrix $A$ & $\mathbf{\lambda \in [-1.6056, 6.0000]}$ \\
+\midrule
+\textbf{2} & Fixed-Point Iterations for $x^2 - x - 0.2 = 0$ & Contraction criterion $\abs{\phi'(\alpha)} < 1$ at $\alpha \approx 1.17082$:\newline $\phi_2(x) = \sqrt{x+0.2}$ ($L \approx 0.427$)\newline $\phi_3(x) = 1 + \frac{0.2}{x}$ ($L \approx 0.146$) & \textbf{Forms 2 \& 3 converge} \\
+\midrule
+\textbf{3} & Newton-Raphson Method for $x^3 - 5x - 2 = 0$ & $x_{n+1} = \frac{2x_n^3 + 2}{3x_n^2 - 5}$, starting from $x_0 = 2.5$ & $\mathbf{x \approx 2.414}$ \\
+\midrule
+\textbf{4} & Gauss Elimination with Partial Pivoting & Pivot col 1: swap $R_1 \leftrightarrow R_2$\newline Pivot col 2: swap $R_2 \leftrightarrow R_3$\newline Back-substitution & $\mathbf{x = 1, y = -1, z = 1}$ \\
+\midrule
+\textbf{5} & Eigenvalue Modulus Bound Theorem & $\abs{\lambda} \le \norm{A}_\infty = \max_i \sum_j \abs{a_{ij}}$\newline $\abs{\lambda} \le \norm{A}_1 = \max_j \sum_i \abs{a_{ij}}$ & Proved completely via eigenvectors \& $A^T$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{25pt}
+\begin{center}
+    {\small\color{darkgray}--- End of MTB 603 (2018--19) Solutions Monograph ---}
+\end{center}
+
+\end{document}

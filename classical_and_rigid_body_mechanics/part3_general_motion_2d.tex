@@ -1,0 +1,374 @@
+\chapter{General Motion in Two Dimensions (Kinematics)}
+
+\section{Cartesian Coordinate System $(x, y)$}
+
+Let $O$ be a fixed origin and $OX, OY$ be mutually perpendicular fixed axes. The position of a moving particle $P$ at time $t$ is specified by Cartesian coordinates $(x, y)$.
+
+\begin{proofbox}{Derivation of Cartesian Velocity and Acceleration}
+The position vector of $P$ relative to origin $O$ is:
+\begin{equation}
+    \mathbf{r}(t) = x(t) \mathbf{i} + y(t) \mathbf{j}
+\end{equation}
+where unit vectors $\mathbf{i}$ and $\mathbf{j}$ are constant in time ($\dot{\mathbf{i}} = \mathbf{0}, \dot{\mathbf{j}} = \mathbf{0}$).
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Velocity Vector}:
+    Differentiating $\mathbf{r}(t)$ with respect to time $t$:
+    \begin{equation}
+        \mathbf{v} = \frac{d\mathbf{r}}{dt} = \frac{dx}{dt} \mathbf{i} + \frac{dy}{dt} \mathbf{j} = \dot{x} \mathbf{i} + \dot{y} \mathbf{j}
+    \end{equation}
+    Components of velocity parallel to $OX$ and $OY$:
+    \begin{equation}
+        v_x = \dot{x}, \qquad v_y = \dot{y}
+    \end{equation}
+    Magnitude of velocity (speed $v$):
+    \begin{equation}
+        v = |\mathbf{v}| = \sqrt{v_x^2 + v_y^2} = \sqrt{\dot{x}^2 + \dot{y}^2}
+    \end{equation}
+    Direction $\theta$ of velocity vector with $x$-axis:
+    \begin{equation}
+        \tan\theta = \frac{v_y}{v_x} = \frac{\dot{y}}{\dot{x}}
+    \end{equation}
+
+    \item \textbf{Acceleration Vector}:
+    Differentiating velocity $\mathbf{v}$ with respect to time $t$:
+    \begin{equation}
+        \mathbf{a} = \frac{d\mathbf{v}}{dt} = \frac{d^2x}{dt^2} \mathbf{i} + \frac{d^2y}{dt^2} \mathbf{j} = \ddot{x} \mathbf{i} + \ddot{y} \mathbf{j}
+    \end{equation}
+    Components of acceleration parallel to $OX$ and $OY$:
+    \begin{equation}
+        a_x = \ddot{x}, \qquad a_y = \ddot{y}
+    \end{equation}
+    Magnitude of total acceleration $a$:
+    \begin{equation}
+        a = |\mathbf{a}| = \sqrt{a_x^2 + a_y^2} = \sqrt{\ddot{x}^2 + \ddot{y}^2}
+    \end{equation}
+\end{enumerate}
+\end{proofbox}
+
+\section{Polar Coordinate System $(r, \theta)$}
+
+Let $O$ be the pole and $OX$ be the initial line. The position of point $P$ is specified by polar coordinates $(r, \theta)$, where $r = OP$ is the radial distance and $\theta = \angle XOP$ is the vectorial angle.
+
+Define orthogonal unit vectors:
+\begin{itemize}
+    \item $\hat{\mathbf{r}}$: Unit vector along $OP$ in direction of increasing $r$.
+    \item $\hat{\boldsymbol{\theta}}$: Unit vector perpendicular to $OP$ in direction of increasing $\theta$.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.4, >=Stealth]
+    % Axes
+    \draw[->, thick, darkslate] (0,0) -- (4.5,0) node[right] {$X$ (Initial Line)};
+    \draw[->, thick, darkslate] (0,0) -- (0,3.5) node[above] {$Y$};
+    \node[below left] at (0,0) {$O$ (Pole)};
+    
+    % Position P
+    \coordinate (P) at (2.6, 2.0);
+    \filldraw[accentred] (P) circle (2.5pt) node[above left] {$P(r, \theta)$};
+    \draw[ultra thick, secondaryblue] (0,0) -- (P) node[midway, above left] {$r$};
+    
+    % Angle theta
+    \draw[thick, accentred] (0.9,0) arc (0:37.5:0.9);
+    \node[accentred] at (1.2, 0.35) {$\theta$};
+    
+    % Unit Vectors at P
+    \draw[->, ultra thick, accentgreen] (P) -- ($(P) + (1.1, 0.84)$) node[right] {$\hat{\mathbf{r}}$};
+    \draw[->, ultra thick, accentred] (P) -- ($(P) + (-0.84, 1.1)$) node[above left] {$\hat{\boldsymbol{\theta}}$};
+    
+    % Cartesian projections of unit vectors
+    \draw[dashed, bordergrey] (P) -- ($(P) + (1.1, 0)$);
+    \draw[dashed, bordergrey] (P) -- ($(P) + (0, 0.84)$);
+\end{tikzpicture}
+\caption{Polar unit vectors $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\theta}}$ for planar motion.}
+\end{figure}
+
+\begin{proofbox}{Derivation of Unit Vector Derivatives}
+Expressing unit vectors $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\theta}}$ in terms of Cartesian unit vectors $\mathbf{i}$ and $\mathbf{j}$:
+\begin{align}
+    \hat{\mathbf{r}} &= \cos\theta \mathbf{i} + \sin\theta \mathbf{j} \label{eq:r_hat} \\
+    \hat{\boldsymbol{\theta}} &= -\sin\theta \mathbf{i} + \cos\theta \mathbf{j} \label{eq:theta_hat}
+\end{align}
+
+Differentiating equations \eqref{eq:r_hat} and \eqref{eq:theta_hat} with respect to time $t$:
+\begin{align}
+    \frac{d\hat{\mathbf{r}}}{dt} &= \frac{d}{dt}(\cos\theta \mathbf{i} + \sin\theta \mathbf{j}) = (-\sin\theta \mathbf{i} + \cos\theta \mathbf{j}) \frac{d\theta}{dt} = \dot{\theta} \hat{\boldsymbol{\theta}} \label{eq:dr_dt} \\
+    \frac{d\hat{\boldsymbol{\theta}}}{dt} &= \frac{d}{dt}(-\sin\theta \mathbf{i} + \cos\theta \mathbf{j}) = (-\cos\theta \mathbf{i} - \sin\theta \mathbf{j}) \frac{d\theta}{dt} = -\dot{\theta} \hat{\mathbf{r}} \label{eq:dtheta_dt}
+\end{align}
+\end{proofbox}
+
+\begin{proofbox}{Step-by-Step Derivation of Radial and Transverse Velocity}
+Position vector of particle $P$:
+\begin{equation*}
+    \mathbf{r} = r \hat{\mathbf{r}}
+\end{equation*}
+Differentiating $\mathbf{r}$ with respect to time $t$:
+\begin{align*}
+    \mathbf{v} &= \frac{d\mathbf{r}}{dt} = \frac{d}{dt}(r \hat{\mathbf{r}}) = \frac{dr}{dt} \hat{\mathbf{r}} + r \frac{d\hat{\mathbf{r}}}{dt} \\
+    &= \dot{r} \hat{\mathbf{r}} + r (\dot{\theta} \hat{\boldsymbol{\theta}}) \quad \text{[using eq. \eqref{eq:dr_dt}]} \\
+    &= \dot{r} \hat{\mathbf{r}} + r \dot{\theta} \hat{\boldsymbol{\theta}}
+\end{align*}
+
+Equating components along $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\theta}}$:
+\begin{align}
+    \text{Radial Velocity } v_r &= \dot{r} = \frac{dr}{dt} \\
+    \text{Transverse Velocity } v_\theta &= r \dot{\theta} = r \frac{d\theta}{dt}
+\end{align}
+Total speed: $v = |\mathbf{v}| = \sqrt{v_r^2 + v_\theta^2} = \sqrt{\dot{r}^2 + (r\dot{\theta})^2}$.
+\end{proofbox}
+
+\begin{proofbox}{Step-by-Step Derivation of Radial and Transverse Acceleration}
+Differentiating velocity vector $\mathbf{v} = \dot{r} \hat{\mathbf{r}} + r \dot{\theta} \hat{\boldsymbol{\theta}}$ with respect to time $t$:
+\begin{align*}
+    \mathbf{a} &= \frac{d\mathbf{v}}{dt} = \frac{d}{dt}(\dot{r} \hat{\mathbf{r}}) + \frac{d}{dt}(r \dot{\theta} \hat{\boldsymbol{\theta}}) \\
+    &= \left( \ddot{r} \hat{\mathbf{r}} + \dot{r} \frac{d\hat{\mathbf{r}}}{dt} \right) + \left( \dot{r} \dot{\theta} \hat{\boldsymbol{\theta}} + r \ddot{\theta} \hat{\boldsymbol{\theta}} + r \dot{\theta} \frac{d\hat{\boldsymbol{\theta}}}{dt} \right)
+\end{align*}
+
+Substituting $\frac{d\hat{\mathbf{r}}}{dt} = \dot{\theta} \hat{\boldsymbol{\theta}}$ and $\frac{d\hat{\boldsymbol{\theta}}}{dt} = -\dot{\theta} \hat{\mathbf{r}}$:
+\begin{align*}
+    \mathbf{a} &= (\ddot{r} \hat{\mathbf{r}} + \dot{r} \dot{\theta} \hat{\boldsymbol{\theta}}) + (\dot{r} \dot{\theta} \hat{\boldsymbol{\theta}} + r \ddot{\theta} \hat{\boldsymbol{\theta}} - r \dot{\theta}^2 \hat{\mathbf{r}}) \\
+    &= (\ddot{r} - r \dot{\theta}^2) \hat{\mathbf{r}} + (r \ddot{\theta} + 2 \dot{r} \dot{\theta}) \hat{\boldsymbol{\theta}}
+\end{align*}
+
+Equating components along $\hat{\mathbf{r}}$ and $\hat{\boldsymbol{\theta}}$:
+\begin{align}
+    \text{Radial Acceleration } a_r &= \ddot{r} - r \dot{\theta}^2 \\
+    \text{Transverse Acceleration } a_\theta &= r \ddot{\theta} + 2 \dot{r} \dot{\theta} = \frac{1}{r} \frac{d}{dt}(r^2 \dot{\theta})
+\end{align}
+\end{proofbox}
+
+\section{Intrinsic Coordinate System $(s, \psi)$}
+
+Let $s$ be the arc length along a plane curve measured from a fixed point $A$, and let $\psi$ be the inclination angle of the tangent to the horizontal $x$-axis.
+Define unit vectors:
+\begin{itemize}
+    \item $\hat{\mathbf{t}}$: Unit tangent vector in direction of increasing arc length $s$.
+    \item $\hat{\mathbf{n}}$: Unit principal normal vector directed towards center of curvature $C$.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.4, >=Stealth]
+    % Curve
+    \draw[ultra thick, primaryblue, domain=0.5:3.5, samples=100] plot ({\x}, {0.3*\x*\x - 0.4*\x + 0.5});
+    
+    % Point P
+    \coordinate (P) at (2.0, 0.9);
+    \filldraw[accentred] (P) circle (2.5pt) node[below right] {$P(s, \psi)$};
+    
+    % Tangent line and Unit Tangent Vector t_hat
+    \draw[dashed, darkslate!60] (0.5, -0.3) -- (3.5, 2.1);
+    \draw[->, ultra thick, secondaryblue] (P) -- ($(P) + (1.2, 0.96)$) node[above right] {$\hat{\mathbf{t}}$};
+    
+    % Principal Normal Vector n_hat
+    \draw[->, ultra thick, accentred] (P) -- ($(P) + (-0.96, 1.2)$) node[above left] {$\hat{\mathbf{n}}$};
+    
+    % Center of curvature C
+    \coordinate (C) at (0.4, 2.9);
+    \filldraw[accentgreen] (C) circle (2pt) node[left] {$C$ (Center of Curvature)};
+    \draw[dashed, accentgreen, thick] (C) -- (P) node[midway, left] {$\rho = \frac{ds}{d\psi}$};
+    
+    % Angle psi
+    \draw[thick, darkslate] (1.2, 0.26) arc (38.6:0:0.7);
+    \node[right] at (1.5, 0.35) {$\psi$};
+    \draw[->, thick, darkslate] (0.5,0.26) -- (2.0,0.26);
+\end{tikzpicture}
+\caption{Intrinsic coordinate unit vectors $\hat{\mathbf{t}}$ and $\hat{\mathbf{n}}$, radius of curvature $\rho$, and center $C$.}
+\end{figure}
+
+\begin{proofbox}{Step-by-Step Derivation of Intrinsic Velocity}
+By definition of unit tangent vector:
+\begin{equation}
+    \hat{\mathbf{t}} = \frac{d\mathbf{r}}{ds}
+\end{equation}
+Using the chain rule for time differentiation of position vector $\mathbf{r}(t)$:
+\begin{equation}
+    \mathbf{v} = \frac{d\mathbf{r}}{dt} = \frac{d\mathbf{r}}{ds} \frac{ds}{dt} = \left(\frac{ds}{dt}\right) \hat{\mathbf{t}} = v \hat{\mathbf{t}}
+\end{equation}
+
+Equating components along $\hat{\mathbf{t}}$ and $\hat{\mathbf{n}}$:
+\begin{align}
+    \text{Tangential Velocity } v_t &= \dot{s} = v \\
+    \text{Normal Velocity } v_n &= 0
+\end{align}
+This proves that the velocity vector is directed purely along the tangent to the curve.
+\end{proofbox}
+
+\begin{proofbox}{Step-by-Step Derivation of Intrinsic Acceleration}
+Differentiating velocity vector $\mathbf{v} = v \hat{\mathbf{t}}$ with respect to time $t$:
+\begin{equation}
+    \mathbf{a} = \frac{d\mathbf{v}}{dt} = \frac{d}{dt}(v \hat{\mathbf{t}}) = \frac{dv}{dt} \hat{\mathbf{t}} + v \frac{d\hat{\mathbf{t}}}{dt} \label{eq:a_int_base}
+\end{equation}
+
+To compute $\frac{d\hat{\mathbf{t}}}{dt}$, express $\hat{\mathbf{t}} = \cos\psi \mathbf{i} + \sin\psi \mathbf{j}$ and $\hat{\mathbf{n}} = -\sin\psi \mathbf{i} + \cos\psi \mathbf{j}$:
+\begin{equation*}
+    \frac{d\hat{\mathbf{t}}}{d\psi} = -\sin\psi \mathbf{i} + \cos\psi \mathbf{j} = \hat{\mathbf{n}}
+\end{equation*}
+Using chain rule:
+\begin{equation}
+    \frac{d\hat{\mathbf{t}}}{dt} = \frac{d\hat{\mathbf{t}}}{d\psi} \frac{d\psi}{ds} \frac{ds}{dt} = \hat{\mathbf{n}} \left( \frac{1}{\rho} \right) v = \left( \frac{v}{\rho} \right) \hat{\mathbf{n}} \label{eq:dt_dt}
+\end{equation}
+where $\rho = \frac{ds}{d\psi}$ is the radius of curvature.
+
+Substituting equation \eqref{eq:dt_dt} into equation \eqref{eq:a_int_base}:
+\begin{equation}
+    \mathbf{a} = \frac{dv}{dt} \hat{\mathbf{t}} + \left( \frac{v^2}{\rho} \right) \hat{\mathbf{n}} = \ddot{s} \hat{\mathbf{t}} + \left( \frac{v^2}{\rho} \right) \hat{\mathbf{n}}
+\end{equation}
+
+Equating components along $\hat{\mathbf{t}}$ and $\hat{\mathbf{n}}$:
+\begin{align}
+    \text{Tangential Acceleration } a_t &= \frac{dv}{dt} = v \frac{dv}{ds} = \ddot{s} \\
+    \text{Normal Acceleration } a_n &= \frac{v^2}{\rho} = v \dot{\psi}
+\end{align}
+\end{proofbox}
+
+\section{Worked Examples (Complete Unabridged Collection)}
+
+\begin{examplebox}{Proportional Radial and Transverse Components}
+The radial and transverse velocities of a particle are proportional to each other, and its radial and transverse accelerations are also proportional to each other. Show that its velocity varies as $r^k$ for some constant $k$.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Use Velocity Proportionality}:\\
+    Given $v_r \propto v_\theta \implies \dot{r} = c_1 r \dot{\theta}$.
+    Dividing by $r$:
+    \begin{equation*}
+        \frac{dr}{r} = c_1 d\theta \implies \ln r = c_1 \theta + c_2 \implies r = A e^{c_1 \theta}
+    \end{equation*}
+
+    \item \textbf{Use Acceleration Proportionality}:\\
+    Given $a_r \propto a_\theta \implies \ddot{r} - r \dot{\theta}^2 = c_2 \frac{1}{r} \frac{d}{dt}(r^2 \dot{\theta})$.
+    Since $\dot{r} = c_1 r \dot{\theta}$, differentiating gives $\ddot{r} = c_1 \dot{r} \dot{\theta} + c_1 r \ddot{\theta} = c_1^2 r \dot{\theta}^2 + c_1 r \ddot{\theta}$.
+
+    \item \textbf{Solve for Speed $v$}:\\
+    Substituting into acceleration relation yields $\dot{\theta} \propto r^{k-1}$.
+    Therefore, speed $v = \sqrt{\dot{r}^2 + r^2 \dot{\theta}^2} = \sqrt{1 + c_1^2} r \dot{\theta} \propto r^k$.
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Path of Point with Two Constant Velocities is a Conic}
+Prove that the path of a point which possesses two constant velocities, one along a fixed direction and the other perpendicular to the radius vector drawn from a fixed point, is a conic.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Resolve Velocity Components}:\\
+    Let constant velocity along fixed initial line be $u$ and perpendicular to radius vector be $v$.
+    Resolving along and perpendicular to radius vector:
+    \begin{align*}
+        \dot{r} &= u \cos\theta \\
+        r \dot{\theta} &= v - u \sin\theta
+    \end{align*}
+
+    \item \textbf{Form Differential Equation of Path}:\\
+    Dividing the two equations:
+    \begin{equation*}
+        \frac{dr}{r d\theta} = \frac{u \cos\theta}{v - u \sin\theta} \implies \frac{dr}{r} = \frac{u \cos\theta \, d\theta}{v - u \sin\theta}
+    \end{equation*}
+
+    \item \textbf{Integrate to Find Orbit}:\\
+    \begin{equation*}
+        \ln r = -\ln(v - u \sin\theta) + \ln c \implies r(v - u \sin\theta) = c
+    \end{equation*}
+    Rearranging into standard polar conic form:
+    \begin{equation*}
+        \frac{(c/v)}{r} = 1 - \left(\frac{u}{v}\right) \sin\theta
+    \end{equation*}
+    This represents a conic section of semi-latus rectum $l = c/v$ and eccentricity $e = u/v$.
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Particle on Circle $r = 2a \cos\theta$}
+A particle moves along circle $r = 2a \cos\theta$ in such a way that its acceleration towards origin is always zero. Prove that $\ddot{\theta} = -2 \dot{\theta}^2 \cot\theta$.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Compute Radial Derivatives}:\\
+    Given $r = 2a \cos\theta$. Differentiating twice with respect to $t$:
+    \begin{align*}
+        \dot{r} &= -2a \sin\theta \, \dot{\theta} \\
+        \ddot{r} &= -2a \sin\theta \, \ddot{\theta} - 2a \cos\theta \, \dot{\theta}^2
+    \end{align*}
+
+    \item \textbf{Set Radial Acceleration to Zero}:\\
+    \begin{align*}
+        a_r &= \ddot{r} - r \dot{\theta}^2 = 0 \\
+        -2a \sin\theta \, \ddot{\theta} - 2a \cos\theta \, \dot{\theta}^2 - (2a \cos\theta) \dot{\theta}^2 &= 0 \\
+        -2a \sin\theta \, \ddot{\theta} - 4a \cos\theta \, \dot{\theta}^2 &= 0
+    \end{align*}
+
+    \item \textbf{Solve for $\ddot{\theta}$}:\\
+    \begin{equation*}
+        2a \sin\theta \, \ddot{\theta} = -4a \cos\theta \, \dot{\theta}^2 \implies \ddot{\theta} = -2 \dot{\theta}^2 \cot\theta
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Uniform Speed on Catenary Curve}
+A particle describes a curve with uniform speed $v$. If the magnitude of its total acceleration at any arc length $s$ is given by $a = \frac{v^2 c}{s^2 + c^2}$, prove that the path described by the particle is an intrinsic catenary $s = c \tan\psi$.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Analyze Acceleration Components}:\\
+    Since speed $v = \text{constant}$, tangential acceleration $a_t = \dot{v} = 0$.
+    The total acceleration equals normal acceleration $a_n$:
+    \begin{equation*}
+        a = a_n = \frac{v^2}{\rho}
+    \end{equation*}
+
+    \item \textbf{Equate and Determine Radius of Curvature $\rho$}:\\
+    \begin{equation*}
+        \frac{v^2}{\rho} = \frac{v^2 c}{s^2 + c^2} \implies \rho = \frac{s^2 + c^2}{c}
+    \end{equation*}
+
+    \item \textbf{Integrate to Obtain Intrinsic Equation}:\\
+    Since $\rho = \frac{ds}{d\psi}$:
+    \begin{equation*}
+        \frac{ds}{d\psi} = \frac{s^2 + c^2}{c} \implies d\psi = \frac{c \, ds}{s^2 + c^2}
+    \end{equation*}
+    Integrating with $\psi = 0$ at $s = 0$:
+    \begin{equation*}
+        \psi = \int_0^s \frac{c \, ds}{s^2 + c^2} = \tan^{-1}\left(\frac{s}{c}\right) \implies s = c \tan\psi
+    \end{equation*}
+    which is the intrinsic equation of a common catenary.
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Bead on Smooth Cardioid Wire}
+A small bead slides with constant speed $v$ on a smooth wire in the shape of a cardioid $r = a(1 + \cos\theta)$. Show that $\dot{\theta} = \frac{v}{2a}\sec(\theta/2)$ and radial acceleration is constant.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Differentiate Cardioid Equation}:\\
+    Given $r = a(1 + \cos\theta) = 2a \cos^2(\theta/2)$.
+    \begin{equation*}
+        \dot{r} = -a \sin\theta \, \dot{\theta} = -2a \sin(\theta/2) \cos(\theta/2) \, \dot{\theta}
+    \end{equation*}
+
+    \item \textbf{Relate Speed $v$ to $\dot{\theta}$}:\\
+    \begin{align*}
+        v^2 &= \dot{r}^2 + r^2 \dot{\theta}^2 = a^2 \dot{\theta}^2 \sin^2\theta + a^2 (1+\cos\theta)^2 \dot{\theta}^2 \\
+            &= a^2 \dot{\theta}^2 [ \sin^2\theta + 1 + 2\cos\theta + \cos^2\theta ] = 2a^2 (1+\cos\theta) \dot{\theta}^2 \\
+            &= 4a^2 \cos^2(\theta/2) \dot{\theta}^2
+    \end{align*}
+    Taking positive square root:
+    \begin{equation*}
+        v = 2a \cos(\theta/2) \dot{\theta} \implies \dot{\theta} = \frac{v}{2a} \sec(\theta/2)
+    \end{equation*}
+
+    \item \textbf{Compute Radial Acceleration $a_r$}:\\
+    \begin{equation*}
+        a_r = \ddot{r} - r \dot{\theta}^2 = -\frac{3 v^2}{4a} = \text{constant}
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}

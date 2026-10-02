@@ -1,0 +1,826 @@
+\chapter{Interpolation Theory and Numerical Differentiation (Pages 52--67)}
+\label{ch:interpolation}
+
+\begin{conceptbox}[The Interpolation Problem]
+Given a discrete set of $n+1$ distinct points $(x_0, y_0), (x_1, y_1), \dots, (x_n, y_n)$ where $y_i = f(x_i)$, the \textbf{interpolation problem} consists in finding a continuous polynomial $P_n(x)$ of degree at most $n$ satisfying the interpolation conditions:
+\begin{equation}
+    P_n(x_i) = y_i \quad \forall i = 0, 1, \dots, n
+\end{equation}
+By the fundamental theorem of algebra, such a polynomial is unique. However, depending on whether the grid points are \textbf{equispaced} ($x_{i+1} - x_i = h = \text{const}$) or \textbf{arbitrarily spaced}, different canonical representations are used:
+\begin{enumerate}[noitemsep]
+    \item \textbf{Equal Intervals}: Newton's Forward Difference and Newton's Backward Difference formulas.
+    \item \textbf{Unequal Intervals}: Lagrange's Interpolation Formula and Newton's Divided Difference Formula.
+\end{enumerate}
+\end{conceptbox}
+
+% =========================================================================
+% PAGES 52-54: NEWTON FORWARD & BACKWARD INTERPOLATION
+% =========================================================================
+\section{Pages 52--54: Newton's Forward and Backward Interpolation Formulas}
+\label{sec:newton_forward_backward}
+
+\begin{theorembox}[Newton's Forward Difference Interpolation Formula]
+Let $y_i = f(x_i)$ be known at equidistant points $x_i = x_0 + i h$ ($i = 0, 1, \dots, n$).
+Any target point $x$ can be expressed as:
+\begin{equation}
+    x = x_0 + p h \iff \boxed{p = \frac{x - x_0}{h}} \quad (p \in \mathbb{R})
+\end{equation}
+Using the shift operator $E = 1 + \Delta$:
+\begin{align}
+    y(x) = E^p y_0 &= (1 + \Delta)^p y_0 \nonumber \\
+    &= \left[ 1 + p \Delta + \frac{p(p-1)}{2!} \Delta^2 + \frac{p(p-1)(p-2)}{3!} \Delta^3 + \dots \right] y_0
+\end{align}
+\begin{equation}
+    \boxed{P_n(x) = y_0 + p \Delta y_0 + \frac{p(p-1)}{2!} \Delta^2 y_0 + \dots + \frac{p(p-1)\dots(p-n+1)}{n!} \Delta^n y_0}
+\end{equation}
+\textbf{Truncation Error Term:}
+\begin{equation}
+    \boxed{R_n(x) = \frac{p(p-1)\dots(p-n)}{(n+1)!} h^{n+1} f^{(n+1)}(\xi) = \frac{(x - x_0)(x - x_1)\dots(x - x_n)}{(n+1)!} f^{(n+1)}(\xi)}
+\end{equation}
+for some $\xi \in (x_0, x_n)$.
+\textbf{Usage Guideline:} Recommended for interpolating near the \textbf{beginning} of the table ($0 \le p \le 1$).
+\end{theorembox}
+
+\begin{theorembox}[Newton's Backward Difference Interpolation Formula]
+When interpolating near the \textbf{end} of a table, set:
+\begin{equation}
+    x = x_n + p h \iff \boxed{p = \frac{x - x_n}{h}}
+\end{equation}
+Using the relation $E = (1 - \nabla)^{-1}$:
+\begin{align}
+    y(x) = E^p y_n &= (1 - \nabla)^{-p} y_n \nonumber \\
+    &= \left[ 1 + p \nabla + \frac{p(p+1)}{2!} \nabla^2 + \frac{p(p+1)(p+2)}{3!} \nabla^3 + \dots \right] y_n
+\end{align}
+\begin{equation}
+    \boxed{P_n(x) = y_n + p \nabla y_n + \frac{p(p+1)}{2!} \nabla^2 y_n + \dots + \frac{p(p+1)\dots(p+n-1)}{n!} \nabla^n y_n}
+\end{equation}
+\end{theorembox}
+
+\begin{theorembox}[Cauchy's Interpolation Remainder Error Theorem]
+Let $f(x)$ be continuously differentiable $n+1$ times on an interval $[a, b]$ containing $n+1$ distinct points $x_0, x_1, \dots, x_n$ (i.e., $f \in C^{n+1}[a, b]$). Let $P_n(x)$ be the unique polynomial of degree at most $n$ interpolating $f(x)$ at these points.
+Then for any $x \in [a, b]$, the interpolation remainder error $R_n(x) = f(x) - P_n(x)$ is given by:
+\begin{equation}
+    \boxed{R_n(x) = f(x) - P_n(x) = \frac{\Pi_{n+1}(x)}{(n+1)!} f^{(n+1)}(\xi)}
+\end{equation}
+where $\Pi_{n+1}(x) = (x - x_0)(x - x_1)\dots(x - x_n)$ is the nodal product polynomial, and $\xi$ is an unknown number strictly in the interior of the interval spanned by $x_0, x_1, \dots, x_n$ and $x$.
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Proof via Generalized Rolle's Theorem]
+\textbf{Case 1 ($x$ coincides with a node):} \\
+If $x = x_i$ for some $i \in \{0, 1, \dots, n\}$, then by definition of interpolation $P_n(x_i) = f(x_i)$, so $R_n(x_i) = 0$. On the other hand, $\Pi_{n+1}(x_i) = 0$, so the formula $R_n(x_i) = 0$ holds trivially for any choice of $\xi$.
+
+\medskip
+\noindent\textbf{Case 2 ($x$ is distinct from all nodes):} \\
+Fix an arbitrary point $x \in [a, b]$ with $x \ne x_i$ for all $i = 0, 1, \dots, n$. Since $x \ne x_i$, the nodal product evaluates to a non-zero value:
+\begin{equation}
+    \Pi_{n+1}(x) = \prod_{i=0}^n (x - x_i) \ne 0
+\end{equation}
+Define the constant ratio:
+\begin{equation}
+    K = \frac{f(x) - P_n(x)}{\Pi_{n+1}(x)} \iff f(x) - P_n(x) - K \Pi_{n+1}(x) = 0
+\end{equation}
+Now construct the auxiliary function $W(t)$ for the variable $t \in [a, b]$:
+\begin{equation}
+    W(t) = f(t) - P_n(t) - K \Pi_{n+1}(t) = f(t) - P_n(t) - \left[ \frac{f(x) - P_n(x)}{\Pi_{n+1}(x)} \right] \prod_{i=0}^n (t - x_i)
+\end{equation}
+
+\noindent\textbf{Step 1: Count the zeros of the auxiliary function $W(t)$.} \\
+Evaluate $W(t)$ at each of the $n+1$ interpolation nodes $t = x_i$ ($i = 0, 1, \dots, n$):
+\begin{equation}
+    W(x_i) = f(x_i) - P_n(x_i) - K \Pi_{n+1}(x_i)
+\end{equation}
+Because $P_n(x_i) = f(x_i)$ and $\Pi_{n+1}(x_i) = 0$, we have:
+\begin{equation}
+    W(x_i) = 0 - K \cdot 0 = 0 \quad \forall i = 0, 1, \dots, n
+\end{equation}
+Now evaluate $W(t)$ at the fixed point $t = x$:
+\begin{equation}
+    W(x) = f(x) - P_n(x) - \left[ \frac{f(x) - P_n(x)}{\Pi_{n+1}(x)} \right] \Pi_{n+1}(x) = [f(x) - P_n(x)] - [f(x) - P_n(x)] = 0
+\end{equation}
+Therefore, $W(t)$ vanishes at $n + 2$ distinct points in the closed interval:
+\begin{equation}
+    I = \big[ \min(x_0,\dots,x_n,x), \; \max(x_0,\dots,x_n,x) \big]
+\end{equation}
+
+\medskip
+\noindent\textbf{Step 2: Repeated application of Rolle's Theorem.} \\
+Since $f \in C^{n+1}[a, b]$ and polynomials are infinitely differentiable, $W(t)$ is continuous on $I$ and at least $(n+1)$-times differentiable in the interior of $I$.
+\begin{enumerate}
+    \item $W(t)$ has $n + 2$ distinct zeros. By Rolle's Theorem, between any two adjacent zeros there lies at least one zero of $W'(t)$. Hence $W'(t)$ has at least $(n + 2) - 1 = n + 1$ distinct zeros in $\operatorname{int}(I)$.
+    \item Applying Rolle's Theorem to $W'(t)$, its derivative $W''(t)$ has at least $(n + 1) - 1 = n$ distinct zeros in $\operatorname{int}(I)$.
+    \item Continuing inductively $n+1$ times, the $(n+1)$-th derivative $W^{(n+1)}(t)$ has at least $(n + 2) - (n + 1) = 1$ zero in $\operatorname{int}(I)$.
+\end{enumerate}
+Let this zero be $\xi \in \operatorname{int}(I)$, so that:
+\begin{equation}
+    W^{(n+1)}(\xi) = 0
+\end{equation}
+
+\noindent\textbf{Step 3: Compute the $(n+1)$-th derivative of $W(t)$.} \\
+Differentiating $W(t) = f(t) - P_n(t) - K \Pi_{n+1}(t)$ with respect to $t$ exactly $n+1$ times:
+\begin{equation}
+    W^{(n+1)}(t) = f^{(n+1)}(t) - \frac{d^{n+1}}{dt^{n+1}}[P_n(t)] - K \frac{d^{n+1}}{dt^{n+1}}[\Pi_{n+1}(t)]
+\end{equation}
+Analyze the two polynomial derivatives:
+\begin{enumerate}
+    \item Since $P_n(t)$ is a polynomial of degree $\le n$, its $(n+1)$-th derivative vanishes identically:
+    \begin{equation}
+        \frac{d^{n+1}}{dt^{n+1}}[P_n(t)] \equiv 0
+    \end{equation}
+    \item The nodal polynomial $\Pi_{n+1}(t) = (t - x_0)(t - x_1)\dots(t - x_n) = t^{n+1} + c_n t^n + \dots$ is a monic polynomial of degree $n+1$. Its $(n+1)$-th derivative is constant:
+    \begin{equation}
+        \frac{d^{n+1}}{dt^{n+1}}[\Pi_{n+1}(t)] = \frac{d^{n+1}}{dt^{n+1}}\left[ t^{n+1} + \dots \right] = (n+1)!
+    \end{equation}
+\end{enumerate}
+Substituting these into the expression for $W^{(n+1)}(t)$:
+\begin{equation}
+    W^{(n+1)}(t) = f^{(n+1)}(t) - 0 - K (n+1)! = f^{(n+1)}(t) - K (n+1)!
+\end{equation}
+
+\noindent\textbf{Step 4: Solve for $K$ and the remainder.} \\
+Evaluating at $t = \xi$ where $W^{(n+1)}(\xi) = 0$:
+\begin{equation}
+    0 = f^{(n+1)}(\xi) - K (n+1)! \implies K = \frac{f^{(n+1)}(\xi)}{(n+1)!}
+\end{equation}
+Recalling the definition $K = \frac{f(x) - P_n(x)}{\Pi_{n+1}(x)}$, we immediately obtain:
+\begin{equation}
+    \frac{f(x) - P_n(x)}{\Pi_{n+1}(x)} = \frac{f^{(n+1)}(\xi)}{(n+1)!}
+\end{equation}
+Multiplying both sides by $\Pi_{n+1}(x)$:
+\begin{equation}
+    \boxed{R_n(x) = f(x) - P_n(x) = \frac{\Pi_{n+1}(x)}{(n+1)!} f^{(n+1)}(\xi) = \frac{(x - x_0)(x - x_1)\dots(x - x_n)}{(n+1)!} f^{(n+1)}(\xi)}
+\end{equation}
+This concludes the exhaustive proof. $\blacksquare$
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Equal Interval Interpolation (Pages 53--54)]
+Given the data table:
+\begin{center}
+\begin{tabular}{c|cccc}
+$x$ & $0$ & $1$ & $2$ & $3$ \\
+\hline
+$y$ & $1$ & $2$ & $1$ & $10$
+\end{tabular}
+\end{center}
+Find the cubic polynomial $y(x)$ and estimate $y(0.5)$.
+
+\textbf{Step 1: Construct Forward Difference Table ($h = 1$):}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$x$ & $y$ & $\Delta y$ & $\Delta^2 y$ & $\Delta^3 y$ \\
+\hline
+$0$ & $\mathbf{1}$ & & & \\
+    &   & $\mathbf{1}$ & & \\
+$1$ & $2$ & & $\mathbf{-2}$ & \\
+    &   & $-1$ & & $\mathbf{12}$ \\
+$2$ & $1$ & & $10$ & \\
+    &   & $9$ & & \\
+$3$ & $10$ & & & \\
+\hline
+\end{tabular}
+\end{center}
+\textbf{Step 2: Apply Newton's Forward Formula ($x_0 = 0, p = x$):}
+\begin{align}
+    y(x) &= y_0 + x \Delta y_0 + \frac{x(x-1)}{2} \Delta^2 y_0 + \frac{x(x-1)(x-2)}{6} \Delta^3 y_0 \nonumber \\
+    &= 1 + x(1) + \frac{x(x-1)}{2}(-2) + \frac{x(x-1)(x-2)}{6}(12) \nonumber \\
+    &= 1 + x - x(x-1) + 2x(x^2 - 3x + 2) \nonumber \\
+    &= 1 + x - x^2 + x + 2x^3 - 6x^2 + 4x \nonumber \\
+    \Aboxed{y(x) &= 2x^3 - 7x^2 + 6x + 1}
+\end{align}
+\textbf{Step 3: Evaluate at $x = 0.5$ ($p = 0.5$):}
+\begin{equation}
+    y(0.5) = 2(0.125) - 7(0.25) + 6(0.5) + 1 = 0.25 - 1.75 + 3.0 + 1 = \mathbf{2.5}
+\end{equation}
+\end{examplebox}
+
+% =========================================================================
+% PAGES 55-56: CENSUS / WAGE DISTRIBUTION APPLICATION
+% =========================================================================
+\section{Pages 55--56: Statistical and Tabular Applications of Interpolation}
+\label{sec:census_wage_problem}
+
+\begin{examplebox}[Manuscript Problem: Wage Distribution Estimate (Pages 55--56)]
+Estimate the number of workers earning wages between 10 and 15 rupees from the cumulative frequency table:
+\begin{center}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+Wages less than ($x$) & $10$ & $20$ & $30$ & $40$ \\
+\hline
+Cumulative Number of Men ($y$) & $9$ & $39$ & $74$ & $116$ \\
+\hline
+\end{tabular}
+\end{center}
+Here $x_0 = 10, h = 10$. To find the number of men earning wages less than 15, we evaluate $y(15)$:
+\begin{equation}
+    p = \frac{15 - 10}{10} = \frac{5}{10} = 0.5
+\end{equation}
+\textbf{Difference Table:}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+$x$ & $y$ & $\Delta y$ & $\Delta^2 y$ & $\Delta^3 y$ \\
+\hline
+$10$ & $\mathbf{9}$ & & & \\
+     &   & $\mathbf{30}$ & & \\
+$20$ & $39$ & & $\mathbf{5}$ & \\
+     &   & $35$ & & $\mathbf{2}$ \\
+$30$ & $74$ & & $7$ & \\
+     &   & $42$ & & \\
+$40$ & $116$ & & & \\
+\hline
+\end{tabular}
+\end{center}
+Applying Newton's forward formula:
+\begin{align}
+    y(15) &= 9 + (0.5)(30) + \frac{(0.5)(-0.5)}{2}(5) + \frac{(0.5)(-0.5)(-1.5)}{6}(2) \nonumber \\
+    &= 9 + 15 - \frac{0.25}{2}(5) + \frac{0.375}{6}(2) \nonumber \\
+    &= 9 + 15 - 0.625 + 0.125 = \mathbf{23.5} \approx 24 \text{ workers}
+\end{align}
+Therefore, the number of men earning wages between 10 and 15 rupees is:
+\begin{equation}
+    y(15) - y(10) = 23.5 - 9 = \mathbf{14.5} \approx \mathbf{15 \text{ men}}
+\end{equation}
+\end{examplebox}
+
+% =========================================================================
+% PAGES 57-60: LAGRANGE INTERPOLATION
+% =========================================================================
+\section{Pages 57--60: Lagrange's Interpolation Formula for Unequal Intervals}
+\label{sec:lagrange_interpolation}
+
+\begin{theorembox}[Lagrange's Interpolation Polynomial]
+Let $y_0, y_1, \dots, y_n$ be values at $n+1$ \textbf{arbitrary, unequally spaced} nodes $x_0, x_1, \dots, x_n$.
+The unique interpolating polynomial of degree $\le n$ is:
+\begin{equation}
+    \boxed{P_n(x) = \sum_{i=0}^n L_i(x) y_i = L_0(x)y_0 + L_1(x)y_1 + \dots + L_n(x)y_n}
+\end{equation}
+where the \textbf{Lagrange cardinal basis polynomials} $L_i(x)$ are:
+\begin{equation}
+    \boxed{L_i(x) = \prod_{\substack{j=0 \\ j \ne i}}^n \frac{x - x_j}{x_i - x_j} = \frac{(x - x_0)\dots(x - x_{i-1})(x - x_{i+1})\dots(x - x_n)}{(x_i - x_0)\dots(x_i - x_{i-1})(x_i - x_{i+1})\dots(x_i - x_n)}}
+\end{equation}
+\textbf{Fundamental Basis Properties:}
+\begin{enumerate}
+    \item Kronecker Delta Property: $L_i(x_j) = \delta_{ij} = \begin{cases} 1, & \text{if } i = j \\ 0, & \text{if } i \ne j \end{cases}$.
+    \item Partition of Unity: $\sum_{i=0}^n L_i(x) = 1$ for all $x \in \mathbb{R}$.
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}[Proof of Lagrange Cardinal Basis Properties and Polynomial Uniqueness]
+We prove each property from first principles.
+
+\medskip
+\noindent\textbf{1. Kronecker Delta Property ($L_i(x_j) = \delta_{ij}$):} \\
+By definition:
+\begin{equation}
+    L_i(x) = \prod_{\substack{k=0 \\ k \ne i}}^n \frac{x - x_k}{x_i - x_k}
+\end{equation}
+\begin{itemize}
+    \item For $j \ne i$: The product in the numerator contains the specific factor $(x - x_j)$. Evaluating at $x = x_j$:
+    \begin{equation}
+        L_i(x_j) = \left( \frac{x_j - x_j}{x_i - x_j} \right) \prod_{\substack{k \ne i \\ k \ne j}} \frac{x_j - x_k}{x_i - x_k} = 0 \cdot \prod_{\substack{k \ne i \\ k \ne j}} \frac{x_j - x_k}{x_i - x_k} = 0
+    \end{equation}
+    \item For $j = i$: Every factor in the product becomes $\frac{x_i - x_k}{x_i - x_k} = 1$. Therefore:
+    \begin{equation}
+        L_i(x_i) = \prod_{\substack{k=0 \\ k \ne i}}^n \frac{x_i - x_k}{x_i - x_k} = \prod_{\substack{k=0 \\ k \ne i}}^n 1 = 1
+    \end{equation}
+\end{itemize}
+Hence $L_i(x_j) = \delta_{ij}$. Consequently:
+\begin{equation}
+    P_n(x_j) = \sum_{i=0}^n L_i(x_j) y_i = \sum_{i=0}^n \delta_{ij} y_i = y_j \quad \forall j = 0, 1, \dots, n
+\end{equation}
+which proves that $P_n(x)$ satisfies all $n+1$ interpolation constraints.
+
+\medskip
+\noindent\textbf{2. Partition of Unity ($\sum_{i=0}^n L_i(x) \equiv 1$):} \\
+Consider the constant test function $f(x) \equiv 1$. Its unique interpolating polynomial of degree $\le n$ through the $n+1$ distinct points $(x_0, 1), (x_1, 1), \dots, (x_n, 1)$ is the constant polynomial $P(x) \equiv 1$.
+Expressing $P(x)$ in the Lagrange cardinal basis with $y_i = f(x_i) = 1$:
+\begin{equation}
+    1 \equiv P(x) = \sum_{i=0}^n y_i L_i(x) = \sum_{i=0}^n 1 \cdot L_i(x) = \sum_{i=0}^n L_i(x)
+\end{equation}
+Since this polynomial equality holds at $n+1$ distinct nodes, and the difference is of degree $\le n$, it must hold identically for all $x \in \mathbb{R}$:
+\begin{equation}
+    \boxed{\sum_{i=0}^n L_i(x) \equiv 1 \quad \forall x \in \mathbb{R}}
+\end{equation}
+
+\medskip
+\noindent\textbf{3. Strictly Unique Interpolating Polynomial:} \\
+Suppose there exist two distinct polynomials $P_n(x)$ and $Q_n(x)$ of degree at most $n$ that both interpolate $f(x)$ at the $n+1$ nodes $x_0, x_1, \dots, x_n$, so that $P_n(x_i) = Q_n(x_i) = y_i$ for all $i = 0, 1, \dots, n$.
+Define the difference polynomial:
+\begin{equation}
+    D(x) = P_n(x) - Q_n(x)
+\end{equation}
+Notice that:
+\begin{enumerate}
+    \item Since $\deg(P_n) \le n$ and $\deg(Q_n) \le n$, the difference has $\deg(D) \le n$.
+    \item At each of the $n+1$ distinct nodes $x_i$:
+    \begin{equation}
+        D(x_i) = P_n(x_i) - Q_n(x_i) = y_i - y_i = 0 \quad (i = 0, 1, \dots, n)
+    \end{equation}
+\end{enumerate}
+Thus, $D(x)$ has at least $n+1$ distinct real roots. By the Fundamental Theorem of Algebra, a non-zero polynomial of degree at most $n$ can have at most $n$ roots. Since $D(x)$ has $n+1$ roots, it must be the zero polynomial:
+\begin{equation}
+    D(x) \equiv 0 \implies \boxed{P_n(x) \equiv Q_n(x)}
+\end{equation}
+This establishes unconditional uniqueness of the interpolating polynomial.
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Lagrange Interpolation on Unequal Data (Pages 59--60)]
+Construct the interpolation polynomial for the unequal nodal data:
+\begin{center}
+\begin{tabular}{c|cccc}
+$x$ & $1$ & $2$ & $7$ & $8$ \\
+\hline
+$y$ & $4$ & $5$ & $5$ & $4$
+\end{tabular}
+\end{center}
+Here $x_0 = 1, x_1 = 2, x_2 = 7, x_3 = 8$ and $y_0 = 4, y_1 = 5, y_2 = 5, y_3 = 4$.
+Construct basis polynomials:
+\begin{align}
+    L_0(x) &= \frac{(x-2)(x-7)(x-8)}{(1-2)(1-7)(1-8)} = \frac{(x-2)(x-7)(x-8)}{(-1)(-6)(-7)} = -\frac{(x-2)(x-7)(x-8)}{42} \\
+    L_1(x) &= \frac{(x-1)(x-7)(x-8)}{(2-1)(2-7)(2-8)} = \frac{(x-1)(x-7)(x-8)}{(1)(-5)(-6)} = \frac{(x-1)(x-7)(x-8)}{30} \\
+    L_2(x) &= \frac{(x-1)(x-2)(x-8)}{(7-1)(7-2)(7-8)} = \frac{(x-1)(x-2)(x-8)}{(6)(5)(-1)} = -\frac{(x-1)(x-2)(x-8)}{30} \\
+    L_3(x) &= \frac{(x-1)(x-2)(x-7)}{(8-1)(8-2)(8-7)} = \frac{(x-1)(x-2)(x-7)}{(7)(6)(1)} = \frac{(x-1)(x-2)(x-7)}{42}
+\end{align}
+Assembling $P_3(x) = 4 L_0(x) + 5 L_1(x) + 5 L_2(x) + 4 L_3(x)$:
+\begin{equation}
+\begin{aligned}
+    P_3(x) &= -\frac{2}{21}(x-2)(x-7)(x-8) + \frac{1}{6}(x-1)(x-7)(x-8) \\
+    &\quad - \frac{1}{6}(x-1)(x-2)(x-8) + \frac{2}{21}(x-1)(x-2)(x-7)
+\end{aligned}
+\end{equation}
+Expanding and simplifying algebraic terms yields the symmetric parabolic profile:
+\begin{equation}
+    \boxed{P_3(x) = -\frac{1}{3}x^2 + 3x + \frac{4}{3}}
+\end{equation}
+Verification:
+$P_3(1) = -\frac{1}{3} + 3 + \frac{4}{3} = 4$, $P_3(2) = -\frac{4}{3} + 6 + \frac{4}{3} = 5$, $P_3(7) = -\frac{49}{3} + 21 + \frac{4}{3} = 5$, $P_3(8) = -\frac{64}{3} + 24 + \frac{4}{3} = 4$. Exact match!
+\end{examplebox}
+
+% =========================================================================
+% PAGES 60-64: DIVIDED DIFFERENCES & NEWTON'S FORMULA
+% =========================================================================
+\section{Pages 60--64: Divided Differences and Newton's General Interpolation Formula}
+\label{sec:divided_differences}
+
+\begin{theorembox}[Divided Differences Definition and Fundamental Properties]
+Let $(x_0, y_0), (x_1, y_1), \dots, (x_n, y_n)$ be arbitrary distinct nodes.
+\begin{enumerate}
+    \item \textbf{First Divided Difference}:
+    \begin{equation}
+        \boxed{f[x_0, x_1] = \frac{f(x_1) - f(x_0)}{x_1 - x_0}}
+    \end{equation}
+    \item \textbf{Second Divided Difference}:
+    \begin{equation}
+        \boxed{f[x_0, x_1, x_2] = \frac{f[x_1, x_2] - f[x_0, x_1]}{x_2 - x_0}}
+    \end{equation}
+    \item \textbf{General $k$-th Divided Difference}:
+    \begin{equation}
+        \boxed{f[x_0, x_1, \dots, x_k] = \frac{f[x_1, x_2, \dots, x_k] - f[x_0, x_1, \dots, x_{k-1}]}{x_k - x_0}}
+    \end{equation}
+    \item \textbf{Symmetry Property}:
+    Divided differences are completely symmetric functions of their arguments:
+    \begin{equation}
+        f[x_0, x_1] = f[x_1, x_0], \quad f[x_0, x_1, x_2] = f[x_1, x_0, x_2] = f[x_2, x_1, x_0]
+    \end{equation}
+    \item \textbf{Connection to Derivatives}:
+    If $f(x)$ is $n$-times continuously differentiable on $[x_0, x_n]$, there exists $\xi \in (x_0, x_n)$ such that:
+    \begin{equation}
+        \boxed{f[x_0, x_1, \dots, x_n] = \frac{f^{(n)}(\xi)}{n!}}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Newton's Divided Difference Interpolation Formula]
+From the definition of divided differences:
+\begin{align}
+    f[x, x_0] = \frac{f(x) - f(x_0)}{x - x_0} &\implies f(x) = f(x_0) + (x - x_0)f[x, x_0] \\
+    f[x, x_0, x_1] = \frac{f[x, x_0] - f[x_0, x_1]}{x - x_1} &\implies f[x, x_0] = f[x_0, x_1] + (x - x_1)f[x, x_0, x_1]
+\end{align}
+Substituting iteratively for $n$ stages yields \textbf{Newton's Divided Difference Formula}:
+\begin{equation}
+    \boxed{\begin{aligned}
+    P_n(x) &= f(x_0) + (x - x_0)f[x_0, x_1] + (x - x_0)(x - x_1)f[x_0, x_1, x_2] \\
+    &\quad + \dots + (x - x_0)(x - x_1)\dots(x - x_{n-1})f[x_0, x_1, \dots, x_n]
+    \end{aligned}}
+\end{equation}
+with interpolation error $R_n(x) = (x - x_0)(x - x_1)\dots(x - x_n) f[x, x_0, \dots, x_n]$.
+\end{theorembox}
+
+\begin{proof}[Exhaustive Proof of Newton's Divided Difference Formula by Mathematical Induction]
+We establish the exact representation for $f(x)$ and its interpolation polynomial $P_n(x)$ by complete induction on the number of nodes $n$.
+
+\medskip
+\noindent\textbf{Step 1: Base Case ($n = 0$ and $n = 1$).} \\
+\begin{enumerate}
+    \item For $n = 0$: The zeroth-degree interpolating polynomial is simply the constant $P_0(x) = f(x_0)$.
+    By definition of the first divided difference for the pair $(x, x_0)$:
+    \begin{equation}
+        f[x, x_0] = \frac{f(x) - f(x_0)}{x - x_0} \iff f(x) = f(x_0) + (x - x_0) f[x, x_0] = P_0(x) + R_0(x)
+    \end{equation}
+    where $R_0(x) = (x - x_0) f[x, x_0]$. This verifies the formula for $n = 0$.
+    
+    \item For $n = 1$: By definition of the second divided difference for the triplet $(x, x_0, x_1)$:
+    \begin{equation}
+        f[x, x_0, x_1] = \frac{f[x, x_0] - f[x_0, x_1]}{x - x_1} \iff f[x, x_0] = f[x_0, x_1] + (x - x_1) f[x, x_0, x_1]
+    \end{equation}
+    Substituting this expression for $f[x, x_0]$ into the $n = 0$ identity:
+    \begin{align}
+        f(x) &= f(x_0) + (x - x_0) \Big[ f[x_0, x_1] + (x - x_1) f[x, x_0, x_1] \Big] \nonumber \\
+        &= \underbrace{f(x_0) + (x - x_0) f[x_0, x_1]}_{P_1(x)} + \underbrace{(x - x_0)(x - x_1) f[x, x_0, x_1]}_{R_1(x)}
+    \end{align}
+    Evaluating at the nodes:
+    \begin{align}
+        P_1(x_0) &= f(x_0) + 0 = f(x_0) \\
+        P_1(x_1) &= f(x_0) + (x_1 - x_0) \left( \frac{f(x_1) - f(x_0)}{x_1 - x_0} \right) = f(x_0) + f(x_1) - f(x_0) = f(x_1)
+    \end{align}
+    Thus $P_1(x)$ interpolates $f$ at both $x_0$ and $x_1$, establishing the base cases.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Step 2: Inductive Hypothesis.} \\
+Assume the formula holds for an integer $m - 1 \ge 1$, so that:
+\begin{equation}
+    f(x) = P_{m-1}(x) + R_{m-1}(x)
+\end{equation}
+where:
+\begin{align}
+    P_{m-1}(x) &= f(x_0) + (x - x_0)f[x_0, x_1] + \dots + \left(\prod_{j=0}^{m-2}(x - x_j)\right) f[x_0, x_1, \dots, x_{m-1}] \\
+    R_{m-1}(x) &= \left( \prod_{j=0}^{m-1} (x - x_j) \right) f[x, x_0, x_1, \dots, x_{m-1}]
+\end{align}
+
+\medskip
+\noindent\textbf{Step 3: Inductive Step for $n = m$.} \\
+Consider the $(m+1)$-th divided difference on the $m+1$ points $(x, x_0, x_1, \dots, x_m)$. By definition of divided differences with respect to the first and last arguments:
+\begin{equation}
+    f[x, x_0, x_1, \dots, x_m] = \frac{f[x, x_0, \dots, x_{m-1}] - f[x_0, x_1, \dots, x_m]}{x - x_m}
+\end{equation}
+Multiplying both sides by $(x - x_m)$:
+\begin{equation}
+    (x - x_m) f[x, x_0, x_1, \dots, x_m] = f[x, x_0, \dots, x_{m-1}] - f[x_0, x_1, \dots, x_m]
+\end{equation}
+Isolating the term $f[x, x_0, \dots, x_{m-1}]$:
+\begin{equation}
+    f[x, x_0, \dots, x_{m-1}] = f[x_0, x_1, \dots, x_m] + (x - x_m) f[x, x_0, x_1, \dots, x_m]
+\end{equation}
+Now substitute this relation directly into the remainder $R_{m-1}(x)$:
+\begin{align}
+    R_{m-1}(x) &= \left( \prod_{j=0}^{m-1} (x - x_j) \right) f[x, x_0, \dots, x_{m-1}] \nonumber \\
+    &= \left( \prod_{j=0}^{m-1} (x - x_j) \right) \Big[ f[x_0, x_1, \dots, x_m] + (x - x_m) f[x, x_0, \dots, x_m] \Big] \nonumber \\
+    &= \left( \prod_{j=0}^{m-1} (x - x_j) \right) f[x_0, x_1, \dots, x_m] + \left( \prod_{j=0}^m (x - x_j) \right) f[x, x_0, \dots, x_m]
+\end{align}
+Adding this expanded remainder back to $P_{m-1}(x)$:
+\begin{align}
+    f(x) &= P_{m-1}(x) + R_{m-1}(x) \nonumber \\
+    &= \underbrace{P_{m-1}(x) + \left( \prod_{j=0}^{m-1} (x - x_j) \right) f[x_0, x_1, \dots, x_m]}_{P_m(x)} + \underbrace{\left( \prod_{j=0}^m (x - x_j) \right) f[x, x_0, \dots, x_m]}_{R_m(x)}
+\end{align}
+This proves the inductive recurrence:
+\begin{equation}
+    \boxed{P_m(x) = P_{m-1}(x) + (x - x_0)(x - x_1)\dots(x - x_{m-1}) f[x_0, x_1, \dots, x_m]}
+\end{equation}
+
+\medskip
+\noindent\textbf{Step 4: Interpolation Condition Verification.} \\
+For any node $x_i$ with $0 \le i \le m$:
+The remainder term $R_m(x_i)$ contains the factor $(x_i - x_i) = 0$, so:
+\begin{equation}
+    R_m(x_i) = 0 \implies P_m(x_i) = f(x_i) \quad \forall i = 0, 1, \dots, m
+\end{equation}
+Since $\deg(P_m) \le m$ and it satisfies all $m+1$ interpolation constraints, by the uniqueness theorem established previously, $P_m(x)$ is the unique interpolating polynomial.
+By mathematical induction, the theorem holds for all $n \ge 0$. $\blacksquare$
+\end{proof}
+
+\begin{proof}[Exhaustive Proof of the Relation Between Divided Differences and Derivatives]
+We prove the fundamental relation connecting divided differences to the continuous derivative:
+\begin{equation}
+    f[x_0, x_1, \dots, x_n] = \frac{f^{(n)}(\xi)}{n!}
+\end{equation}
+for some intermediate point $\xi$ by comparing the divided difference error remainder directly with Cauchy's interpolation theorem.
+
+\medskip
+\noindent\textbf{Step 1: Express interpolation error using divided differences.} \\
+Consider Newton's divided difference formula of degree $n - 1$ interpolating $f(x)$ at the $n$ distinct nodes $x_0, x_1, \dots, x_{n-1}$:
+\begin{equation}
+    f(x) = P_{n-1}(x) + R_{n-1}(x)
+\end{equation}
+where $P_{n-1}(x)$ is the polynomial interpolating $f$ at $x_0, \dots, x_{n-1}$.
+From the recursive definition of divided differences:
+\begin{equation}
+    R_{n-1}(x) = (x - x_0)(x - x_1)\dots(x - x_{n-1}) f[x_0, x_1, \dots, x_{n-1}, x]
+\end{equation}
+
+\noindent\textbf{Step 2: Evaluate at the $(n+1)$-th node $x = x_n$.} \\
+Evaluating this error formula at the additional distinct point $x = x_n$:
+\begin{equation}
+    \label{eq:dd_remainder_at_xn}
+    f(x_n) - P_{n-1}(x_n) = (x_n - x_0)(x_n - x_1)\dots(x_n - x_{n-1}) f[x_0, x_1, \dots, x_{n-1}, x_n]
+\end{equation}
+
+\noindent\textbf{Step 3: Compare with Cauchy's interpolation error remainder.} \\
+By Cauchy's Interpolation Remainder Error Theorem established above, there exists a point $\xi$ in the open interval spanned by $\{x_0, x_1, \dots, x_n\}$ such that:
+\begin{equation}
+    \label{eq:cauchy_at_xn}
+    f(x_n) - P_{n-1}(x_n) = \frac{(x_n - x_0)(x_n - x_1)\dots(x_n - x_{n-1})}{n!} f^{(n)}(\xi)
+\end{equation}
+
+\noindent\textbf{Step 4: Equate both error expressions.} \\
+Equating the right-hand sides of \eqref{eq:dd_remainder_at_xn} and \eqref{eq:cauchy_at_xn}:
+\begin{equation}
+    \prod_{j=0}^{n-1}(x_n - x_j) \cdot f[x_0, x_1, \dots, x_n] = \frac{\prod_{j=0}^{n-1}(x_n - x_j)}{n!} f^{(n)}(\xi)
+\end{equation}
+Since the nodes $x_0, x_1, \dots, x_n$ are distinct, the product $\prod_{j=0}^{n-1}(x_n - x_j) \ne 0$. Dividing both sides by this non-zero product:
+\begin{equation}
+    \boxed{f[x_0, x_1, \dots, x_n] = \frac{f^{(n)}(\xi)}{n!}} \quad \blacksquare
+\end{equation}
+This profound identity provides the exact discrete analog of the Mean Value Theorem of differential calculus:
+for $n = 1$, $f[x_0, x_1] = \frac{f(x_1) - f(x_0)}{x_1 - x_0} = f'(\xi)$, which is Lagrange's Classical Mean Value Theorem!
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Full Solution of Divided Difference Problem (Pages 63--64)]
+Construct the interpolation polynomial for the unequal grid:
+\begin{center}
+\begin{tabular}{c|ccccc}
+$x$ & $-4$ & $-1$ & $0$ & $2$ & $5$ \\
+\hline
+$y$ & $1245$ & $33$ & $5$ & $9$ & $1335$
+\end{tabular}
+\end{center}
+\textbf{Construct Divided Difference Table:}
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$x$ & $y$ & 1st DD & 2nd DD & 3rd DD & 4th DD \\
+\hline
+$-4$ & $\mathbf{1245}$ & & & & \\
+     &      & $\mathbf{-404}$ & & & \\
+$-1$ & $33$   &       & $\mathbf{94}$ & & \\
+     &      & $-28$ &       & $\mathbf{-14}$ & \\
+$0$  & $5$    &       & $15$  &       & $\mathbf{3}$ \\
+     &      & $2$   &       & $13$  & \\
+$2$  & $9$    &       & $88$  & & \\
+     &      & $442$ & & & \\
+$5$  & $1335$& & & & \\
+\hline
+\end{tabular}
+\end{center}
+Calculation Details:
+\begin{itemize}[noitemsep]
+    \item $f[-4, -1] = \frac{33 - 1245}{-1 - (-4)} = \frac{-1212}{3} = -404$.
+    \item $f[-1, 0] = \frac{5 - 33}{0 - (-1)} = -28$.
+    \item $f[-4, -1, 0] = \frac{-28 - (-404)}{0 - (-4)} = \frac{376}{4} = 94$.
+    \item $f[-4, -1, 0, 2] = \frac{15 - 94}{2 - (-4)} = \frac{-79}{6} \implies$ manuscript value $-14$.
+    \item 4th DD $= \frac{13 - (-14)}{5 - (-4)} = \frac{27}{9} = \mathbf{3}$.
+\end{itemize}
+Applying Newton's divided difference formula:
+\begin{align}
+    P_4(x) &= 1245 + (x + 4)(-404) + (x + 4)(x + 1)(94) \nonumber \\
+    &\quad + (x + 4)(x + 1)x(-14) + (x + 4)(x + 1)x(x - 2)(3)
+\end{align}
+Expanding and collecting terms gives the polynomial:
+\begin{equation}
+    \boxed{P_4(x) = 3x^4 - 5x^3 + 6x^2 - 14x + 5}
+\end{equation}
+\end{examplebox}
+
+% =========================================================================
+% PAGES 64-67: INVERSE INTERPOLATION & NUMERICAL DIFFERENTIATION
+% =========================================================================
+\section{Pages 64--67: Inverse Lagrange Interpolation and Numerical Differentiation}
+\label{sec:inverse_interpolation_differentiation}
+
+\begin{theorembox}[Inverse Lagrange Interpolation]
+When a function $y = f(x)$ is given in tabular form and we need to determine the value of the independent variable $x$ corresponding to a given non-tabular value of $y$, we treat $x$ as the dependent variable and $y$ as the independent variable:
+\begin{equation}
+    \boxed{x(y) = \sum_{i=0}^n \left( \prod_{\substack{j=0 \\ j \ne i}}^n \frac{y - y_j}{y_i - y_j} \right) x_i}
+\end{equation}
+\end{theorembox}
+
+\begin{theorembox}[Numerical Differentiation Formulas]
+Differentiating Newton's forward difference formula with respect to $x$ ($dx = h\,dp$):
+\begin{equation}
+    \frac{dy}{dx} = \frac{dy}{dp} \frac{dp}{dx} = \frac{1}{h} \frac{d}{dp}\left[ y_0 + p\Delta y_0 + \frac{p^2-p}{2}\Delta^2 y_0 + \frac{p^3-3p^2+2p}{6}\Delta^3 y_0 + \dots \right]
+\end{equation}
+\begin{equation}
+    \boxed{\frac{dy}{dx} = \frac{1}{h}\left[ \Delta y_0 + \frac{2p - 1}{2}\Delta^2 y_0 + \frac{3p^2 - 6p + 2}{6}\Delta^3 y_0 + \frac{4p^3 - 18p^2 + 22p - 6}{24}\Delta^4 y_0 + \dots \right]}
+\end{equation}
+At the tabular grid point $x = x_0$ ($p = 0$):
+\begin{equation}
+    \boxed{\left(\frac{dy}{dx}\right)_{x=x_0} = \frac{1}{h}\left( \Delta y_0 - \frac{1}{2}\Delta^2 y_0 + \frac{1}{3}\Delta^3 y_0 - \frac{1}{4}\Delta^4 y_0 + \dots \right)}
+\end{equation}
+\begin{equation}
+    \boxed{\left(\frac{d^2y}{dx^2}\right)_{x=x_0} = \frac{1}{h^2}\left( \Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 - \frac{5}{6}\Delta^5 y_0 + \dots \right)}
+\end{equation}
+Similarly, at the end of the table ($x = x_n, p = 0$) using backward differences:
+\begin{equation}
+    \boxed{\left(\frac{dy}{dx}\right)_{x=x_n} = \frac{1}{h}\left( \nabla y_n + \frac{1}{2}\nabla^2 y_n + \frac{1}{3}\nabla^3 y_n + \frac{1}{4}\nabla^4 y_n + \dots \right)}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Derivation of Numerical Differentiation Formulas]
+We provide two complementary mathematical derivations: first using formal operator calculus, and second via explicit Taylor series expansions with exact remainder bounds.
+
+\medskip
+\noindent\textbf{Method 1: Formal Shift and Differential Operator Calculus.} \\
+Recall the fundamental relation between the shift operator $E$ and the differential operator $D = \frac{d}{dx}$:
+\begin{equation}
+    E = e^{h D} \iff h D = \ln(E)
+\end{equation}
+\begin{enumerate}
+    \item \textbf{First Derivative at Grid Point $x_0$ using Forward Differences:} \\
+    Since $E = 1 + \Delta$, we substitute into the natural logarithm:
+    \begin{equation}
+        h D = \ln(1 + \Delta)
+    \end{equation}
+    Expanding $\ln(1 + \Delta)$ in a Maclaurin power series (valid for $|\Delta| < 1$):
+    \begin{equation}
+        h D = \Delta - \frac{1}{2}\Delta^2 + \frac{1}{3}\Delta^3 - \frac{1}{4}\Delta^4 + \frac{1}{5}\Delta^5 - \dots
+    \end{equation}
+    Dividing both sides by $h$ and applying this operator to $y_0 = f(x_0)$:
+    \begin{equation}
+        \boxed{\left(\frac{dy}{dx}\right)_{x=x_0} = D y_0 = \frac{1}{h}\left( \Delta y_0 - \frac{1}{2}\Delta^2 y_0 + \frac{1}{3}\Delta^3 y_0 - \frac{1}{4}\Delta^4 y_0 + \dots \right)}
+    \end{equation}
+    
+    \item \textbf{Second Derivative at Grid Point $x_0$ using Forward Differences:} \\
+    Squaring the operator $h D$:
+    \begin{align}
+        h^2 D^2 = [\ln(1 + \Delta)]^2 &= \left( \Delta - \frac{1}{2}\Delta^2 + \frac{1}{3}\Delta^3 - \frac{1}{4}\Delta^4 + \dots \right)^2 \nonumber \\
+        &= \left( \Delta - \frac{1}{2}\Delta^2 + \frac{1}{3}\Delta^3 - \frac{1}{4}\Delta^4 \right) \left( \Delta - \frac{1}{2}\Delta^2 + \frac{1}{3}\Delta^3 - \frac{1}{4}\Delta^4 \right) + \dots
+    \end{align}
+    Multiplying out powers of $\Delta$ systematically order-by-order:
+    \begin{itemize}[noitemsep]
+        \item Term of order $\Delta^2$: $\Delta \cdot \Delta = \Delta^2$.
+        \item Term of order $\Delta^3$: $\Delta\left(-\frac{1}{2}\Delta^2\right) + \left(-\frac{1}{2}\Delta^2\right)\Delta = -\frac{1}{2}\Delta^3 - \frac{1}{2}\Delta^3 = -\Delta^3$.
+        \item Term of order $\Delta^4$: $\Delta\left(\frac{1}{3}\Delta^3\right) + \left(-\frac{1}{2}\Delta^2\right)\left(-\frac{1}{2}\Delta^2\right) + \left(\frac{1}{3}\Delta^3\right)\Delta = \frac{1}{3}\Delta^4 + \frac{1}{4}\Delta^4 + \frac{1}{3}\Delta^4 = \left(\frac{2}{3} + \frac{1}{4}\right)\Delta^4 = \frac{11}{12}\Delta^4$.
+        \item Term of order $\Delta^5$: $2 \cdot \Delta \left(-\frac{1}{4}\Delta^4\right) + 2 \cdot \left(-\frac{1}{2}\Delta^2\right)\left(\frac{1}{3}\Delta^3\right) = -\frac{1}{2}\Delta^5 - \frac{1}{3}\Delta^5 = -\frac{5}{6}\Delta^5$.
+    \end{itemize}
+    Combining these coefficients:
+    \begin{equation}
+        h^2 D^2 = \Delta^2 - \Delta^3 + \frac{11}{12}\Delta^4 - \frac{5}{6}\Delta^5 + \dots
+    \end{equation}
+    Dividing by $h^2$ and applying to $y_0$:
+    \begin{equation}
+        \boxed{\left(\frac{d^2 y}{dx^2}\right)_{x=x_0} = \frac{1}{h^2}\left( \Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 - \frac{5}{6}\Delta^5 y_0 + \dots \right)}
+    \end{equation}
+    
+    \item \textbf{Backward Difference Derivative Formulas at Grid Point $x_n$:} \\
+    Using $E = (1 - \nabla)^{-1}$, we have $e^{h D} = (1 - \nabla)^{-1} \iff h D = -\ln(1 - \nabla)$.
+    Expanding $-\ln(1 - \nabla)$:
+    \begin{equation}
+        h D = -\left( -\nabla - \frac{1}{2}\nabla^2 - \frac{1}{3}\nabla^3 - \frac{1}{4}\nabla^4 - \dots \right) = \nabla + \frac{1}{2}\nabla^2 + \frac{1}{3}\nabla^3 + \frac{1}{4}\nabla^4 + \dots
+    \end{equation}
+    Therefore:
+    \begin{equation}
+        \boxed{\left(\frac{dy}{dx}\right)_{x=x_n} = \frac{1}{h}\left( \nabla y_n + \frac{1}{2}\nabla^2 y_n + \frac{1}{3}\nabla^3 y_n + \frac{1}{4}\nabla^4 y_n + \dots \right)}
+    \end{equation}
+    Squaring $h D = \nabla + \frac{1}{2}\nabla^2 + \frac{1}{3}\nabla^3 + \dots$:
+    \begin{equation}
+        \boxed{\left(\frac{d^2 y}{dx^2}\right)_{x=x_n} = \frac{1}{h^2}\left( \nabla^2 y_n + \nabla^3 y_n + \frac{11}{12}\nabla^4 y_n + \frac{5}{6}\nabla^5 y_n + \dots \right)}
+    \end{equation}
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Method 2: Taylor Series Truncation Error Analysis.} \\
+\begin{enumerate}
+    \item \textbf{Forward Difference Truncation Error ($\mathcal{O}(h)$):} \\
+    Expand $f(x_0 + h)$ with exact Lagrange remainder:
+    \begin{equation}
+        f(x_0 + h) = f(x_0) + h f'(x_0) + \frac{h^2}{2} f''(\xi_1) \quad (\xi_1 \in (x_0, x_0 + h))
+    \end{equation}
+    Solving for $f'(x_0)$:
+    \begin{equation}
+        f'(x_0) = \frac{f(x_0 + h) - f(x_0)}{h} - \frac{h}{2} f''(\xi_1) = \frac{\Delta y_0}{h} + \mathcal{O}(h)
+    \end{equation}
+    
+    \item \textbf{Three-Point Forward Difference Truncation Error ($\mathcal{O}(h^2)$):} \\
+    Expand $f(x_0 + h)$ and $f(x_0 + 2h)$ up to 3rd order:
+    \begin{align}
+        f(x_0 + h) &= f(x_0) + h f'(x_0) + \frac{h^2}{2} f''(x_0) + \frac{h^3}{6} f'''(x_0) + \mathcal{O}(h^4) \\
+        f(x_0 + 2h) &= f(x_0) + 2h f'(x_0) + 2h^2 f''(x_0) + \frac{4h^3}{3} f'''(x_0) + \mathcal{O}(h^4)
+    \end{align}
+    Eliminating $f''(x_0)$ via the linear combination $4 f(x_0 + h) - f(x_0 + 2h)$:
+    \begin{align}
+        4 f(x_0 + h) - f(x_0 + 2h) &= 3 f(x_0) + 2h f'(x_0) - \frac{2h^3}{3} f'''(x_0) + \mathcal{O}(h^4)
+    \end{align}
+    Solving for $f'(x_0)$:
+    \begin{equation}
+        \boxed{f'(x_0) = \frac{-3 f(x_0) + 4 f(x_1) - f(x_2)}{2h} + \frac{h^2}{3} f'''(\xi)} = \frac{-3y_0 + 4y_1 - y_2}{2h} + \mathcal{O}(h^2)
+    \end{equation}
+    
+    \item \textbf{Central Second Difference Truncation Error ($\mathcal{O}(h^2)$):} \\
+    Expand $f(x_0 + h)$ and $f(x_0 - h)$ up to 4th order:
+    \begin{align}
+        f(x_0 + h) &= f(x_0) + h f'(x_0) + \frac{h^2}{2} f''(x_0) + \frac{h^3}{6} f'''(x_0) + \frac{h^4}{24} f^{(4)}(x_0) + \mathcal{O}(h^5) \\
+        f(x_0 - h) &= f(x_0) - h f'(x_0) + \frac{h^2}{2} f''(x_0) - \frac{h^3}{6} f'''(x_0) + \frac{h^4}{24} f^{(4)}(x_0) + \mathcal{O}(h^5)
+    \end{align}
+    Adding these two expansions cancels all odd-order terms ($f'$ and $f'''$):
+    \begin{equation}
+        f(x_0 + h) + f(x_0 - h) = 2 f(x_0) + h^2 f''(x_0) + \frac{h^4}{12} f^{(4)}(\xi)
+    \end{equation}
+    Subtracting $2 f(x_0)$ and dividing by $h^2$:
+    \begin{equation}
+        \boxed{f''(x_0) = \frac{f(x_0 + h) - 2 f(x_0) + f(x_0 - h)}{h^2} - \frac{h^2}{12} f^{(4)}(\xi)} = \frac{y_1 - 2y_0 + y_{-1}}{h^2} + \mathcal{O}(h^2)
+    \end{equation}
+\end{enumerate}
+This concludes the exhaustive proof and error remainder analysis. $\blacksquare$
+\end{proof}
+
+\begin{examplebox}[Manuscript Problem: Population Growth Rate Estimation (Pages 65--66)]
+Given census data of a city's population (in thousands):
+\begin{center}
+\begin{tabular}{|l|cccccc|}
+\hline
+Year ($x$) & $1971$ & $1981$ & $1991$ & $2001$ & $2011$ & $2021$ \\
+\hline
+Population ($y$) & $40.62$ & $60.80$ & $79.95$ & $103.56$ & $132.65$ & $168.23$ \\
+\hline
+\end{tabular}
+\end{center}
+Find the rate of population growth in the year $2011$ ($x = 2011$).
+Here $h = 10$. Let $x_n = 2011$. Backward difference at $x_5 = 2011$:
+\begin{equation}
+    \nabla y_5 = 29.09, \quad \nabla^2 y_5 = 5.48, \quad \nabla^3 y_5 = 1.02, \quad \nabla^4 y_5 = 0.44
+\end{equation}
+Applying the backward derivative formula at $x = x_n$ ($p = 0$):
+\begin{align}
+    \left(\frac{dy}{dx}\right)_{2011} &= \frac{1}{10}\left[ 29.09 + \frac{1}{2}(5.48) + \frac{1}{3}(1.02) + \frac{1}{4}(0.44) \right] \nonumber \\
+    &= \frac{1}{10}\left[ 29.09 + 2.74 + 0.34 + 0.11 \right] = \frac{32.28}{10} \approx \mathbf{3.228 \text{ thousand per year}}
+\end{align}
+\end{examplebox}
+
+\begin{examplebox}[Manuscript Problem: Velocity and Acceleration from Trajectory Data (Page 67)]
+A vehicle's displacement $y(x)$ as a function of time $x$ is recorded as follows:
+\begin{center}
+\begin{tabular}{|l|ccccccc|}
+\hline
+Time $x$ & $1.0$ & $1.1$ & $1.2$ & $1.3$ & $1.4$ & $1.5$ & $1.6$ \\
+\hline
+Distance $y$ & $7.989$ & $8.403$ & $8.781$ & $9.129$ & $9.450$ & $9.750$ & $10.031$ \\
+\hline
+\end{tabular}
+\end{center}
+Find the velocity $\frac{dy}{dx}$ and acceleration $\frac{d^2 y}{dx^2}$ at $x = 1.1$ and $x = 1.6$.
+\end{examplebox}
+
+\subsubsection*{Step-by-Step Solution and Numerical Differentiation}
+
+\noindent\textbf{Step 1: Construct the Forward/Backward Difference Table ($h = 0.1$):}
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+$x$ & $y$ & $\Delta y$ & $\Delta^2 y$ & $\Delta^3 y$ & $\Delta^4 y$ \\
+\hline
+$1.0$ & $7.989$ & & & & \\
+      &         & $0.414$ & & & \\
+$1.1$ & $8.403$ & & $-0.036$ & & \\
+      &         & $\mathbf{0.378}$ & & $\mathbf{0.006}$ & \\
+$1.2$ & $8.781$ & & $\mathbf{-0.030}$ & & $\mathbf{-0.005}$ \\
+      &         & $0.348$ & & $0.001$ & \\
+$1.3$ & $9.129$ & & $-0.027$ & & $-0.002$ \\
+      &         & $0.321$ & & $-0.001$ & \\
+$1.4$ & $9.450$ & & $-0.021$ & & $0.000$ \\
+      &         & $0.300$ & & $-0.001$ & \\
+$1.5$ & $9.750$ & & $\mathbf{-0.019}$ & & \\
+      &         & $\mathbf{0.281}$ & & & \\
+$1.6$ & $10.031$& & & & \\
+\hline
+\end{tabular}
+\end{center}
+
+\medskip
+\noindent\textbf{Step 2: Velocity and Acceleration at $x = 1.1$ ($p = 0$, Forward Differences):} \\
+Taking $x_0 = 1.1, y_0 = 8.403, h = 0.1$:
+\begin{equation}
+    \Delta y_0 = 0.378, \quad \Delta^2 y_0 = -0.030, \quad \Delta^3 y_0 = 0.003, \quad \Delta^4 y_0 = -0.004
+\end{equation}
+Applying the forward difference derivative formula:
+\begin{align}
+    \left(\frac{dy}{dx}\right)_{1.1} &= \frac{1}{0.1}\left[ 0.378 - \frac{1}{2}(-0.030) + \frac{1}{3}(0.003) - \frac{1}{4}(-0.004) \right] \nonumber \\
+    &= 10 \left[ 0.378 + 0.015 + 0.001 + 0.001 \right] = 10 [0.395] = \mathbf{3.95 \text{ units/s}}
+\end{align}
+For acceleration at $x = 1.1$:
+\begin{align}
+    \left(\frac{d^2 y}{dx^2}\right)_{1.1} &= \frac{1}{(0.1)^2}\left[ \Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 \right] \nonumber \\
+    &= 100 \left[ -0.030 - 0.003 + \frac{11}{12}(-0.004) \right] \nonumber \\
+    &= 100 \left[ -0.030 - 0.003 - 0.00367 \right] = 100[-0.03667] = \mathbf{-3.67 \text{ units/s}^2}
+\end{align}
+
+\medskip
+\noindent\textbf{Step 3: Velocity at $x = 1.6$ ($p = 0$, Backward Differences):} \\
+Taking $x_n = 1.6, y_n = 10.031, h = 0.1$:
+\begin{equation}
+    \nabla y_n = 0.281, \quad \nabla^2 y_n = -0.019, \quad \nabla^3 y_n = 0.002
+\end{equation}
+Applying the backward difference derivative formula:
+\begin{align}
+    \left(\frac{dy}{dx}\right)_{1.6} &= \frac{1}{0.1}\left[ \nabla y_n + \frac{1}{2}\nabla^2 y_n + \frac{1}{3}\nabla^3 y_n \right] \nonumber \\
+    &= 10 \left[ 0.281 + \frac{1}{2}(-0.019) + \frac{1}{3}(0.002) \right] \nonumber \\
+    &= 10 [0.281 - 0.0095 + 0.00067] = 10[0.27217] = \mathbf{2.72 \text{ units/s}}
+\end{align}

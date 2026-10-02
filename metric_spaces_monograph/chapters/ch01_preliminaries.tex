@@ -1,0 +1,151 @@
+\chapter{Preliminaries}
+\label{chap:preliminaries}
+
+This chapter reviews foundational set-theoretic concepts, mappings, relations, sequences, countability, and classical real-variable inequalities that form the indispensable framework for metric space theory.
+
+\section{Sets}
+\label{sec:sets}
+
+A \textbf{set} is a well-defined collection of distinct objects, called elements or members of the set. If $x$ is an element of a set $A$, we write $x \in A$; otherwise, $x \notin A$.
+
+\begin{definition}[Set Operations]
+Let $A$ and $B$ be subsets of a universal set $U$.
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item \textbf{Union}: $A \cup B = \{x \in U : x \in A \text{ or } x \in B\}$.
+    \item \textbf{Intersection}: $A \cap B = \{x \in U : x \in A \text{ and } x \in B\}$.
+    \item \textbf{Difference}: $A \setminus B = \{x \in U : x \in A \text{ and } x \notin B\}$.
+    \item \textbf{Complement}: $A^c = U \setminus A = \{x \in U : x \notin A\}$.
+    \item \textbf{Symmetric Difference}: $A \Delta B = (A \setminus B) \cup (B \setminus A)$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[De Morgan's Laws]
+For any family of sets $\{A_\alpha\}_{\alpha \in \Delta}$ in a universe $U$:
+\[
+\left( \bigcup_{\alpha \in \Delta} A_\alpha \right)^c = \bigcap_{\alpha \in \Delta} A_\alpha^c, \qquad
+\left( \bigcap_{\alpha \in \Delta} A_\alpha \right)^c = \bigcup_{\alpha \in \Delta} A_\alpha^c.
+\]
+\end{theorem}
+
+\begin{definition}[Cartesian Product]
+The \textbf{Cartesian product} of two sets $A$ and $B$, denoted by $A \times B$, is the set of all ordered pairs $(a,b)$ with $a \in A$ and $b \in B$:
+\[
+A \times B = \{(a,b) : a \in A, b \in B\}.
+\]
+\end{definition}
+
+\section{Functions}
+\label{sec:functions}
+
+\begin{definition}[Function]
+Let $X$ and $Y$ be non-empty sets. A \textbf{function} (or \textbf{mapping}) $f$ from $X$ into $Y$, written $f: X \to Y$, is a rule that assigns to each element $x \in X$ a unique element $f(x) \in Y$. The set $X$ is called the \textbf{domain} of $f$, and $Y$ is called the \textbf{codomain} of $f$. The \textbf{range} (or image) of $f$ is $f(X) = \{f(x) \in Y : x \in X\}$.
+\end{definition}
+
+\begin{definition}[Properties of Functions]
+A function $f: X \to Y$ is said to be:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item \textbf{Injective} (or one-to-one) if $f(x_1) = f(x_2) \implies x_1 = x_2$ for all $x_1, x_2 \in X$.
+    \item \textbf{Surjective} (or onto) if $f(X) = Y$, i.e., for every $y \in Y$, there exists $x \in X$ such that $f(x) = y$.
+    \item \textbf{Bijective} if $f$ is both injective and surjective.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Image and Inverse Image]
+Let $f: X \to Y$ be a function.
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item If $A \subseteq X$, the \textbf{image} of $A$ under $f$ is $f(A) = \{f(x) : x \in A\}$.
+    \item If $B \subseteq Y$, the \textbf{inverse image} (or preimage) of $B$ under $f$ is $f^{-1}(B) = \{x \in X : f(x) \in B\}$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Properties of Inverse Images]
+Let $f: X \to Y$ be a mapping, and let $\{B_\alpha\}_{\alpha \in \Delta}$ be a collection of subsets of $Y$. Then:
+\[
+f^{-1}\left( \bigcup_{\alpha \in \Delta} B_\alpha \right) = \bigcup_{\alpha \in \Delta} f^{-1}(B_\alpha), \qquad
+f^{-1}\left( \bigcap_{\alpha \in \Delta} B_\alpha \right) = \bigcap_{\alpha \in \Delta} f^{-1}(B_\alpha),
+\]
+\[
+f^{-1}(Y \setminus B) = X \setminus f^{-1}(B) \quad \text{for any } B \subseteq Y.
+\]
+\end{theorem}
+
+\section{Relations}
+\label{sec:relations}
+
+\begin{definition}[Equivalence Relation]
+A binary relation $R$ on a set $X$ (written $x \sim y$) is an \textbf{equivalence relation} if it satisfies:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item \textbf{Reflexivity}: $x \sim x$ for all $x \in X$.
+    \item \textbf{Symmetry}: $x \sim y \implies y \sim x$ for all $x,y \in X$.
+    \item \textbf{Transitivity}: $x \sim y$ and $y \sim z \implies x \sim z$ for all $x,y,z \in X$.
+\end{enumerate}
+\end{definition}
+
+\section{Sequences}
+\label{sec:sequences}
+
+A \textbf{sequence} in a set $X$ is a function $x: \N \to X$, usually written as $(x_n)_{n=1}^\infty$ or simply $(x_n)$, where $x_n = x(n)$ is the $n$-th term of the sequence.
+
+\section{Countable and Uncountable Sets}
+\label{sec:countability}
+
+\begin{definition}[Countability]
+A set $A$ is called \textbf{finite} if it is empty or can be put in one-to-one correspondence with $\{1, 2, \dots, n\}$ for some $n \in \N$. A set $A$ is \textbf{denumerable} (or \textbf{ countably infinite}) if there exists a bijection $f: \N \to A$. A set is \textbf{countable} if it is either finite or denumerable; otherwise, it is \textbf{uncountable}.
+\end{definition}
+
+\begin{theorem}
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item Every subset of a countable set is countable.
+    \item The countable union of countable sets is countable.
+    \item The set of rational numbers $\mathbb{Q}$ is countable.
+    \item The set of real numbers $\mathbb{R}$ and the interval $[0,1]$ are uncountable.
+\end{enumerate}
+\end{theorem}
+
+\section{Inequalities}
+\label{sec:inequalities}
+
+The following classical inequalities play a fundamental role in establishing metric properties on sequence and function spaces.
+
+\begin{theorem}[Cauchy-Schwarz Inequality]
+For any real numbers $a_1, \dots, a_n$ and $b_1, \dots, b_n$:
+\[
+\left( \sum_{i=1}^n a_i b_i \right)^2 \le \left( \sum_{i=1}^n a_i^2 \right) \left( \sum_{i=1}^n b_i^2 \right),
+\]
+with equality holding if and only if there exists $\lambda \in \R$ such that $a_i = \lambda b_i$ (or $b_i = \lambda a_i$) for all $i=1,\dots,n$.
+\end{theorem}
+
+\begin{theorem}[Young's Inequality]
+Let $p > 1$ and $q > 1$ be conjugate exponents, i.e., $\frac{1}{p} + \frac{1}{q} = 1$. Then for any $a \ge 0, b \ge 0$:
+\[
+ab \le \frac{a^p}{p} + \frac{b^q}{q},
+\]
+with equality if and only if $a^p = b^q$.
+\end{theorem}
+
+\begin{theorem}[Hölder's Inequality for Sums]
+Let $p > 1$ and $\frac{1}{p} + \frac{1}{q} = 1$. For any complex numbers $a_1, \dots, a_n$ and $b_1, \dots, b_n$:
+\[
+\sum_{i=1}^n |a_i b_i| \le \left( \sum_{i=1}^n |a_i|^p \right)^{1/p} \left( \sum_{i=1}^n |b_i|^q \right)^{1/q}.
+\]
+In sequence space notation, if $(a_k) \in \ell_p$ and $(b_k) \in \ell_q$:
+\[
+\|a b\|_1 \le \|a\|_p \|b\|_q.
+\]
+\end{theorem}
+
+\begin{theorem}[Minkowski's Inequality for Sums]
+Let $p \ge 1$. For any complex numbers $a_1, \dots, a_n$ and $b_1, \dots, b_n$:
+\[
+\left( \sum_{i=1}^n |a_i + b_i|^p \right)^{1/p} \le \left( \sum_{i=1}^n |a_i|^p \right)^{1/p} + \left( \sum_{i=1}^n |b_i|^p \right)^{1/p}.
+\]
+This asserts that the $p$-norm satisfies the triangle inequality on $\R^n$ and on $\ell_p$.
+\end{theorem}
+
+\begin{theorem}[Hölder's and Minkowski's Inequalities for Integrals]
+Let $f, g \in C[a,b]$ (or $L_p[a,b]$) with $p > 1$ and $\frac{1}{p} + \frac{1}{q} = 1$.
+\begin{align*}
+\text{\textbf{(Hölder)}} \qquad &\int_a^b |f(x)g(x)|\,dx \le \left( \int_a^b |f(x)|^p\,dx \right)^{1/p} \left( \int_a^b |g(x)|^q\,dx \right)^{1/q}. \\
+\text{\textbf{(Minkowski)}} \qquad &\left( \int_a^b |f(x)+g(x)|^p\,dx \right)^{1/p} \le \left( \int_a^b |f(x)|^p\,dx \right)^{1/p} + \left( \int_a^b |g(x)|^p\,dx \right)^{1/p}.
+\end{align*}
+\end{theorem}

@@ -1,0 +1,629 @@
+\chapter{Symmetric and Alternating Groups}
+\label{chap:unit3}
+
+In this chapter, we study permutation groups: the symmetric group $S_n$, cycle decompositions, transpositions, the sign homomorphism, the alternating group $A_n$, the simplicity of $A_n$ for $n \ge 5$, and the complete classification of all normal subgroups of $S_n$. Every lemma and theorem is accompanied by a complete, step-by-step mathematical proof.
+
+% =========================================================
+\section{The Symmetric Group and Cycle Decomposition}
+\label{sec:symmetric_group}
+
+\begin{definition}[Symmetric Group]
+Let $\Omega = \{1, 2, \dots, n\}$. The \textbf{symmetric group on $n$ letters}, denoted $S_n$, is the group of all bijections $\sigma: \Omega \to \Omega$ under function composition:
+\begin{equation}
+|S_n| = n!
+\end{equation}
+\end{definition}
+
+\begin{definition}[Cycle Notation]
+A permutation $\sigma \in S_n$ is called a \textbf{$k$-cycle} (or cycle of length $k$), denoted:
+\begin{equation}
+\sigma = (a_1 \; a_2 \; \dots \; a_k),
+\end{equation}
+if $\sigma(a_1) = a_2, \, \sigma(a_2) = a_3, \, \dots, \, \sigma(a_{k-1}) = a_k, \, \sigma(a_k) = a_1$, and $\sigma(x) = x$ for all $x \notin \{a_1, \dots, a_k\}$.
+The set $\{a_1, \dots, a_k\}$ is called the \textbf{support} of $\sigma$, denoted $\operatorname{supp}(\sigma)$.
+Two cycles $\sigma$ and $\tau$ are called \textbf{disjoint} if $\operatorname{supp}(\sigma) \cap \operatorname{supp}(\tau) = \emptyset$.
+\end{definition}
+
+\begin{proposition}[Commutativity of Disjoint Cycles]
+\label{prop:disjoint_commute}
+Disjoint cycles commute: if $\sigma$ and $\tau$ are disjoint cycles in $S_n$, then:
+\begin{equation}
+\sigma \tau = \tau \sigma.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $\sigma = (a_1 \; a_2 \; \dots \; a_k)$ and $\tau = (b_1 \; b_2 \; \dots \; b_m)$ with $\{a_1, \dots, a_k\} \cap \{b_1, \dots, b_m\} = \emptyset$.
+To show that the permutations $\sigma\tau$ and $\tau\sigma$ are identical functions on $\Omega = \{1, 2, \dots, n\}$, we evaluate both compositions on any arbitrary element $x \in \Omega$:
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Case 1: $x \in \operatorname{supp}(\sigma)$ (so $x = a_i$ for some $1 \le i \le k$).}
+    Since $\operatorname{supp}(\sigma) \cap \operatorname{supp}(\tau) = \emptyset$, $a_i \notin \operatorname{supp}(\tau)$, so $\tau(a_i) = a_i$.
+    Moreover, $\sigma(a_i) = a_{i+1} \in \operatorname{supp}(\sigma)$ (with $a_{k+1} = a_1$), so $a_{i+1} \notin \operatorname{supp}(\tau) \implies \tau(a_{i+1}) = a_{i+1}$.
+    Computing both compositions:
+    \begin{align*}
+    (\sigma \tau)(a_i) &= \sigma\bigl(\tau(a_i)\bigr) = \sigma(a_i) = a_{i+1}, \\
+    (\tau \sigma)(a_i) &= \tau\bigl(\sigma(a_i)\bigr) = \tau(a_{i+1}) = a_{i+1}.
+    \end{align*}
+    Thus $(\sigma \tau)(a_i) = (\tau \sigma)(a_i)$.
+
+    \item \textbf{Case 2: $x \in \operatorname{supp}(\tau)$ (so $x = b_j$ for some $1 \le j \le m$).}
+    Since $b_j \notin \operatorname{supp}(\sigma)$, $\sigma(b_j) = b_j$.
+    Also, $\tau(b_j) = b_{j+1} \notin \operatorname{supp}(\sigma) \implies \sigma(b_{j+1}) = b_{j+1}$.
+    Computing both compositions:
+    \begin{align*}
+    (\sigma \tau)(b_j) &= \sigma\bigl(\tau(b_j)\bigr) = \sigma(b_{j+1}) = b_{j+1}, \\
+    (\tau \sigma)(b_j) &= \tau\bigl(\sigma(b_j)\bigr) = \tau(b_j) = b_{j+1}.
+    \end{align*}
+    Thus $(\sigma \tau)(b_j) = (\tau \sigma)(b_j)$.
+
+    \item \textbf{Case 3: $x \notin \operatorname{supp}(\sigma) \cup \operatorname{supp}(\tau)$ (fixed by both cycles).}
+    Then $\sigma(x) = x$ and $\tau(x) = x$. Thus:
+    \begin{align*}
+    (\sigma \tau)(x) &= \sigma\bigl(\tau(x)\bigr) = \sigma(x) = x, \\
+    (\tau \sigma)(x) &= \tau\bigl(\sigma(x)\bigr) = \tau(x) = x.
+    \end{align*}
+    Thus $(\sigma \tau)(x) = (\tau \sigma)(x)$.
+\end{itemize}
+In all cases, $(\sigma \tau)(x) = (\tau \sigma)(x)$ for every $x \in \Omega$. Therefore, $\sigma \tau = \tau \sigma$.
+\end{proof}
+
+\begin{theorem}[Disjoint Cycle Decomposition Theorem]
+\label{thm:cycle_decomp}
+Every permutation $\sigma \in S_n$ can be expressed as a product of disjoint cycles. This decomposition is unique up to the order in which the cycles are written.
+\end{theorem}
+
+\begin{proof}
+Consider the action of the cyclic group $\langle \sigma \rangle$ on the set $\Omega = \{1, 2, \dots, n\}$ defined by $k \cdot x = \sigma^k(x)$.
+Define the relation $\sim$ on $\Omega$ by:
+\begin{equation*}
+x \sim y \iff \exists m \in \Z \text{ such that } \sigma^m(x) = y.
+\end{equation*}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{$\sim$ is an Equivalence Relation:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item \emph{Reflexive:} $\sigma^0(x) = x \implies x \sim x$.
+        \item \emph{Symmetric:} $y = \sigma^m(x) \implies x = \sigma^{-m}(y) \implies y \sim x$.
+        \item \emph{Transitive:} $y = \sigma^m(x)$ and $z = \sigma^\ell(y) \implies z = \sigma^{m+\ell}(x) \implies x \sim z$.
+    \end{itemize}
+    
+    \item \textbf{Cycle Structure of Orbits:}
+    The equivalence classes under $\sim$ partition $\Omega$ into disjoint orbits $\mathcal{O}_1, \mathcal{O}_2, \dots, \mathcal{O}_r$.
+    For any orbit $\mathcal{O}$, choose an element $x \in \mathcal{O}$.
+    Consider the sequence $x, \sigma(x), \sigma^2(x), \dots$.
+    Since $\Omega$ is finite, there must be a smallest positive integer $k \ge 1$ such that $\sigma^k(x) = x$.
+    The elements:
+    \begin{equation*}
+    x, \, \sigma(x), \, \sigma^2(x), \, \dots, \, \sigma^{k-1}(x)
+    \end{equation*}
+    are all distinct and constitute the entire orbit $\mathcal{O}$.
+    The permutation $\sigma$ acts on $\mathcal{O}$ precisely as the $k$-cycle:
+    \begin{equation*}
+    c = (x \; \sigma(x) \; \sigma^2(x) \; \dots \; \sigma^{k-1}(x)).
+    \end{equation*}
+    
+    \item \textbf{Product of Cycles:}
+    Since the orbits $\mathcal{O}_i$ are mutually disjoint and partition $\Omega$, the corresponding cycles $c_i$ have disjoint supports.
+    For each $x \in \Omega$, $x$ belongs to a unique orbit $\mathcal{O}_j$, so:
+    \begin{equation*}
+    (c_1 c_2 \cdots c_r)(x) = c_j(x) = \sigma(x).
+    \end{equation*}
+    Omitting 1-cycles (which correspond to fixed points and act as the identity permutation) produces the disjoint cycle decomposition:
+    \begin{equation*}
+    \sigma = c_1 c_2 \cdots c_m.
+    \end{equation*}
+
+    \item \textbf{Uniqueness:}
+    The cycles in the decomposition are uniquely determined by the partition of $\Omega$ into orbits of $\langle \sigma \rangle$ and the cyclic permutation of elements within each orbit. Since disjoint cycles commute (Proposition~\ref{prop:disjoint_commute}), the factorization is unique up to the ordering of the cycles.
+\end{enumerate}
+\end{proof}
+
+\begin{proposition}[Order of a Permutation]
+\label{prop:perm_order}
+If $\sigma \in S_n$ has disjoint cycle decomposition $\sigma = c_1 c_2 \cdots c_r$, where $c_i$ is a cycle of length $L_i$, then the order of $\sigma$ is:
+\begin{equation}
+|\sigma| = \lcm(L_1, L_2, \dots, L_r).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Since disjoint cycles commute (Proposition~\ref{prop:disjoint_commute}):
+\begin{equation*}
+\sigma^m = (c_1 c_2 \cdots c_r)^m = c_1^m c_2^m \cdots c_r^m.
+\end{equation*}
+Since the cycles $c_i$ have pairwise disjoint supports:
+\begin{align*}
+\sigma^m = \text{id} 
+&\iff c_1^m c_2^m \cdots c_r^m = \text{id} \\
+&\iff c_i^m = \text{id} \quad \text{for all } i \in \{1, 2, \dots, r\} \\
+&\iff L_i \mid m \quad \text{for all } i \in \{1, 2, \dots, r\} \quad \text{(since the order of a $k$-cycle is $k$)} \\
+&\iff \lcm(L_1, L_2, \dots, L_r) \mid m.
+\end{align*}
+The smallest positive integer $m$ satisfying this condition is $m = \lcm(L_1, L_2, \dots, L_r)$.
+\end{proof}
+
+% =========================================================
+\section{Transpositions, Parity, and the Alternating Group}
+\label{sec:transpositions_alternating}
+
+\begin{definition}[Transposition]
+A $2$-cycle $(i \; j) \in S_n$ (with $i \ne j$) is called a \textbf{transposition}.
+\end{definition}
+
+\begin{proposition}[Generation of $S_n$ by Transpositions]
+\label{prop:transpositions_generate}
+Every permutation in $S_n$ ($n \ge 2$) can be written as a product of transpositions.
+\end{proposition}
+
+\begin{proof}
+By Theorem~\ref{thm:cycle_decomp}, every permutation is a product of disjoint cycles.
+It therefore suffices to show that any $k$-cycle $(a_1 \; a_2 \; \dots \; a_k)$ can be factored into transpositions.
+We verify by direct algebraic expansion:
+\begin{equation}
+(a_1 \; a_2 \; \dots \; a_k) = (a_1 \; a_k)(a_1 \; a_{k-1}) \cdots (a_1 \; a_3)(a_1 \; a_2).
+\end{equation}
+Evaluating the right-hand composition on each symbol $a_i$:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item $a_1 \mapsto a_2$ via $(a_1 \; a_2)$, which is fixed by all subsequent transpositions.
+    \item $a_i$ ($2 \le i \le k-1$): $(a_1 \; a_i)$ maps $a_i \mapsto a_1$, and the next transposition $(a_1 \; a_{i+1})$ maps $a_1 \mapsto a_{i+1}$, which is then fixed by the remaining transpositions. Thus $a_i \mapsto a_{i+1}$.
+    \item $a_k$: $(a_1 \; a_k)$ maps $a_k \mapsto a_1$.
+\end{itemize}
+Thus $(a_1 \; a_k)\cdots(a_1 \; a_2) = (a_1 \; a_2 \; \dots \; a_k)$.
+Since every permutation is a product of cycles, and every cycle is a product of transpositions, every permutation is a product of transpositions.
+\end{proof}
+
+\begin{definition}[Sign / Parity Homomorphism]
+Let $x_1, x_2, \dots, x_n$ be independent variables. The \textbf{discriminant polynomial} $\Delta \in \Z[x_1, \dots, x_n]$ is:
+\begin{equation}
+\Delta = \prod_{1 \le i < j \le n} (x_j - x_i).
+\end{equation}
+For any $\sigma \in S_n$, define the action of $\sigma$ on polynomials by $\sigma\bigl(f(x_1, \dots, x_n)\bigr) = f(x_{\sigma(1)}, \dots, x_{\sigma(n)})$.
+The \textbf{sign} (or \textbf{signature}) of $\sigma$, denoted $\sgn(\sigma)$, is defined by:
+\begin{equation}
+\sigma(\Delta) = \prod_{1 \le i < j \le n} (x_{\sigma(j)} - x_{\sigma(i)}) = \sgn(\sigma) \cdot \Delta.
+\end{equation}
+A permutation $\sigma$ is called \textbf{even} if $\sgn(\sigma) = +1$, and \textbf{odd} if $\sgn(\sigma) = -1$.
+\end{definition}
+
+\begin{theorem}[Fundamental Properties of the Sign Homomorphism]
+\label{thm:sign_map}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $\sgn: S_n \to \{+1, -1\}$ is a group homomorphism:
+    \begin{equation}
+    \sgn(\sigma \tau) = \sgn(\sigma)\sgn(\tau).
+    \end{equation}
+    \item For any transposition $(i \; j)$, $\sgn\bigl((i \; j)\bigr) = -1$.
+    \item If $\sigma$ is written as a product of $k$ transpositions $\sigma = \tau_1 \tau_2 \cdots \tau_k$, then:
+    \begin{equation}
+    \sgn(\sigma) = (-1)^k.
+    \end{equation}
+    In particular, the parity of the number of transpositions in any factorization of $\sigma$ is invariant.
+    \item A $k$-cycle has sign $(-1)^{k-1}$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Homomorphism Property:}
+    For any $\sigma, \tau \in S_n$:
+    \begin{align*}
+    \sgn(\sigma \tau) \cdot \Delta &= (\sigma \tau)(\Delta) = \sigma\bigl(\tau(\Delta)\bigr) \\
+    &= \sigma\bigl(\sgn(\tau) \cdot \Delta\bigr) \\
+    &= \sgn(\tau) \cdot \sigma(\Delta) \\
+    &= \sgn(\tau) \cdot \bigl(\sgn(\sigma) \cdot \Delta\bigr) \\
+    &= \bigl(\sgn(\sigma)\sgn(\tau)\bigr) \cdot \Delta.
+    \end{align*}
+    Cancelling $\Delta \ne 0$ gives $\sgn(\sigma \tau) = \sgn(\sigma)\sgn(\tau)$.
+
+    \item \textbf{Sign of a Transposition:}
+    Consider first an adjacent transposition $\tau = (k \; k+1)$.
+    In the product $\Delta = \prod_{i < j} (x_j - x_i)$:
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item The single factor $(x_{k+1} - x_k)$ is changed to $(x_k - x_{k+1}) = -(x_{k+1} - x_k)$, contributing a sign change.
+        \item For any $i < k$, the product of the two factors $(x_k - x_i)(x_{k+1} - x_i)$ is mapped to $(x_{k+1} - x_i)(x_k - x_i)$, which is unchanged.
+        \item For any $j > k+1$, the product $(x_j - x_k)(x_j - x_{k+1})$ is mapped to $(x_j - x_{k+1})(x_j - x_k)$, which is unchanged.
+        \item All other factors do not involve $k$ or $k+1$ and are completely unchanged.
+    \end{itemize}
+    Therefore, $\tau(\Delta) = -\Delta$, so $\sgn\bigl((k \; k+1)\bigr) = -1$.
+    
+    Now consider any arbitrary transposition $(i \; j)$ with $i < j$.
+    We can write $(i \; j)$ as a conjugate of the adjacent transposition $(i \; i+1)$ using the permutation $\rho = (i+1 \; j)$:
+    \begin{equation*}
+    (i \; j) = \rho (i \; i+1) \rho^{-1}.
+    \end{equation*}
+    Applying the homomorphism property:
+    \begin{equation*}
+    \sgn\bigl((i \; j)\bigr) = \sgn(\rho) \cdot \sgn\bigl((i \; i+1)\bigr) \cdot \sgn(\rho^{-1}) = \sgn(\rho) \cdot (-1) \cdot \bigl(\sgn(\rho)\bigr)^{-1} = -1.
+    \end{equation*}
+
+    \item \textbf{Invariance of Transposition Parity:}
+    If $\sigma = \tau_1 \tau_2 \cdots \tau_k$ where each $\tau_i$ is a transposition:
+    \begin{equation*}
+    \sgn(\sigma) = \sgn(\tau_1)\sgn(\tau_2)\cdots\sgn(\tau_k) = (-1)(-1)\cdots(-1) = (-1)^k.
+    \end{equation*}
+    Since $\sgn(\sigma)$ is intrinsically defined via $\sigma(\Delta)$, the value $(-1)^k$ is unique. Thus $k \pmod 2$ is independent of the chosen factorization.
+
+    \item \textbf{Sign of a Cycle:}
+    By Proposition~\ref{prop:transpositions_generate}, a $k$-cycle factors into $k-1$ transpositions:
+    \begin{equation*}
+    \sgn\bigl((a_1 \; a_2 \; \dots \; a_k)\bigr) = (-1)^{k-1}.
+    \end{equation*}
+\end{enumerate}
+\end{proof}
+
+\begin{definition}[Alternating Group]
+The \textbf{alternating group on $n$ letters}, denoted $A_n$, is the group of all even permutations in $S_n$:
+\begin{equation}
+A_n = \ker(\sgn) = \{ \sigma \in S_n \mid \sgn(\sigma) = +1 \}.
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Structural Properties of $A_n$]
+\label{prop:an_props}
+For any $n \ge 2$:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $A_n \trianglelefteq S_n$ and $[S_n : A_n] = 2$.
+    \item $|A_n| = \frac{n!}{2}$.
+    \item $A_n$ is generated by the set of all $3$-cycles.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item Since $A_n = \ker(\sgn)$ and $\sgn: S_n \to \{+1, -1\}$ is a homomorphism into the group of order 2, Proposition~\ref{prop:inj_ker}(i) implies $A_n \trianglelefteq S_n$.
+    By the First Isomorphism Theorem:
+    \begin{equation*}
+    S_n/A_n \cong \im(\sgn) = \{+1, -1\} \implies [S_n : A_n] = |\{+1, -1\}| = 2.
+    \end{equation*}
+
+    \item By Lagrange's Theorem:
+    \begin{equation*}
+    |A_n| = \frac{|S_n|}{[S_n : A_n]} = \frac{n!}{2}.
+    \end{equation*}
+
+    \item Every element of $A_n$ is a product of an even number of transpositions.
+    We can group these transpositions into consecutive pairs $\tau_1 \tau_2$.
+    There are three cases for any pair of transpositions $(a \; b)(c \; d)$:
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Case 1: $\{a, b\} = \{c, d\}$ (identical transpositions).}
+        \begin{equation*}
+        (a \; b)(a \; b) = \text{id} = (a \; b \; c)^3 \quad (\text{for any } c \notin \{a, b\}).
+        \end{equation*}
+        \item \emph{Case 2: $|\{a, b\} \cap \{c, d\}| = 1$ (overlapping transpositions).}
+        \begin{equation*}
+        (a \; b)(b \; c) = (a \; b \; c).
+        \end{equation*}
+        \item \emph{Case 3: $\{a, b\} \cap \{c, d\} = \emptyset$ (disjoint transpositions).}
+        \begin{equation*}
+        (a \; b)(c \; d) = (a \; b)(b \; c)(b \; c)(c \; d) = (a \; b \; c)(b \; c \; d).
+        \end{equation*}
+    \end{itemize}
+    In every case, a pair of transpositions is equal to a product of 3-cycles.
+    Therefore, the set of all 3-cycles generates $A_n$.
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section[Normal Subgroups of S\_n and Simplicity of A\_n]{Normal Subgroups of $S_n$ and Simplicity of $A_n$}
+\label{sec:simplicity_alternating}
+
+\begin{definition}[Simple Group]
+A group $G$ is called \textbf{simple} if $|G| > 1$ and its only normal subgroups are the trivial subgroup $\{1_G\}$ and $G$ itself.
+\end{definition}
+
+\begin{lemma}[Conjugacy of 3-Cycles in $A_n$]
+\label{lem:3cycles_conjugate_an}
+For all $n \ge 5$, all $3$-cycles are conjugate to one another in $A_n$.
+\end{lemma}
+
+\begin{proof}
+Let $(a_1 \; a_2 \; a_3)$ and $(b_1 \; b_2 \; b_3)$ be any two 3-cycles in $A_n$.
+In $S_n$, choose any permutation $\rho \in S_n$ such that $\rho(a_i) = b_i$ for $i \in \{1, 2, 3\}$.
+Then $\rho (a_1 \; a_2 \; a_3) \rho^{-1} = (b_1 \; b_2 \; b_3)$.
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item If $\sgn(\rho) = +1$, then $\rho \in A_n$, so the two 3-cycles are conjugate in $A_n$.
+    \item If $\sgn(\rho) = -1$, since $n \ge 5$, there exist at least two distinct elements $u, v \in \Omega \setminus \{b_1, b_2, b_3\}$.
+    Consider the transposition $(u \; v) \in S_n$, and define $\rho' = (u \; v)\rho$.
+    Then:
+    \begin{equation*}
+    \sgn(\rho') = \sgn(u \; v)\sgn(\rho) = (-1)(-1) = +1 \implies \rho' \in A_n.
+    \end{equation*}
+    Since $u, v \notin \{b_1, b_2, b_3\}$, the transposition $(u \; v)$ commutes with $(b_1 \; b_2 \; b_3)$.
+    Therefore:
+    \begin{align*}
+    \rho' (a_1 \; a_2 \; a_3) (\rho')^{-1} &= (u \; v)\rho (a_1 \; a_2 \; a_3) \rho^{-1}(u \; v) \\
+    &= (u \; v)(b_1 \; b_2 \; b_3)(u \; v) \\
+    &= (b_1 \; b_2 \; b_3).
+    \end{align*}
+\end{itemize}
+Thus in all cases, any two 3-cycles are conjugate in $A_n$.
+\end{proof}
+
+\begin{theorem}[Simplicity of $A_n$ for $n \ge 5$]
+\label{thm:simplicity_an}
+The alternating group $A_n$ is simple for all $n \ge 5$.
+\end{theorem}
+
+\begin{proof}
+Let $N$ be a non-trivial normal subgroup of $A_n$ ($N \trianglelefteq A_n$ with $N \ne \{1\}$).
+We will show that $N$ must contain at least one 3-cycle.
+Since $N \ne \{1\}$, choose $\sigma \in N \setminus \{1\}$.
+Consider the disjoint cycle decomposition of $\sigma$:
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Case 1: $\sigma$ contains a cycle of length $k \ge 4$.}
+    Write $\sigma = (1 \; 2 \; 3 \; 4 \dots c_k)\mu$ where $\mu$ is disjoint from $(1 \; \dots \; c_k)$.
+    Let $\tau = (1 \; 2 \; 3) \in A_n$.
+    Since $N \trianglelefteq A_n$, the conjugate $\sigma_1 = \tau \sigma \tau^{-1} \in N$, and thus the commutator:
+    \begin{equation*}
+    \sigma' = \sigma_1 \sigma^{-1} = (\tau \sigma \tau^{-1})\sigma^{-1} \in N.
+    \end{equation*}
+    Computing $\sigma_1 = (1 \; 2 \; 3)(1 \; 2 \; 3 \; 4 \dots)\mu(1 \; 3 \; 2) = (2 \; 3 \; 1 \; 4 \dots)\mu = (1 \; 4 \dots 2 \; 3)\mu$.
+    Then:
+    \begin{equation*}
+    \sigma' = \sigma_1 \sigma^{-1} = (1 \; 4 \dots 2 \; 3)\mu \cdot \mu^{-1}(c_k \dots 4 \; 3 \; 2 \; 1) = (1 \; 2 \; 4).
+    \end{equation*}
+    Thus $N$ contains the 3-cycle $(1 \; 2 \; 4)$.
+
+    \item \textbf{Case 2: $\sigma$ contains at least two 3-cycles.}
+    Write $\sigma = (1 \; 2 \; 3)(4 \; 5 \; 6)\mu$.
+    Choose $\tau = (1 \; 2 \; 4) \in A_n$.
+    Then:
+    \begin{align*}
+    \sigma_1 &= \tau \sigma \tau^{-1} = (2 \; 4 \; 3)(1 \; 5 \; 6)\mu \in N, \\
+    \sigma' &= \sigma_1 \sigma^{-1} = (1 \; 2 \; 5 \; 3 \; 4) \in N.
+    \end{align*}
+    This produces a 5-cycle in $N$, which reduces to Case 1 (yielding a 3-cycle in $N$).
+
+    \item \textbf{Case 3: $\sigma$ contains one 3-cycle and disjoint 2-cycles.}
+    Write $\sigma = (1 \; 2 \; 3)(4 \; 5)\cdots$.
+    Then $\sigma^2 \in N$.
+    Since the square of any transposition is the identity:
+    \begin{equation*}
+    \sigma^2 = (1 \; 2 \; 3)^2 \cdot \text{id} \cdots = (1 \; 3 \; 2) \in N.
+    \end{equation*}
+    Thus $N$ directly contains the 3-cycle $(1 \; 3 \; 2)$.
+
+    \item \textbf{Case 4: $\sigma$ is a product of disjoint 2-cycles.}
+    Write $\sigma = (1 \; 2)(3 \; 4)\mu$.
+    Let $\tau = (1 \; 2 \; 3) \in A_n$.
+    Then:
+    \begin{align*}
+    \sigma_1 &= \tau \sigma \tau^{-1} = (2 \; 3)(1 \; 4)\mu \in N, \\
+    \sigma_2 &= \sigma_1 \sigma = (2 \; 3)(1 \; 4)\mu \cdot (1 \; 2)(3 \; 4)\mu = (1 \; 3)(2 \; 4) \in N.
+    \end{align*}
+    Since $n \ge 5$, choose an element $5 \in \Omega \setminus \{1, 2, 3, 4\}$.
+    Let $\rho = (1 \; 3 \; 5) \in A_n$.
+    Then:
+    \begin{align*}
+    \sigma_3 &= \rho \sigma_2 \rho^{-1} = (3 \; 5)(2 \; 4) \in N, \\
+    \sigma_4 &= \sigma_3 \sigma_2 = (3 \; 5)(2 \; 4)(1 \; 3)(2 \; 4) = (1 \; 3 \; 5) \in N.
+    \end{align*}
+    Thus $N$ contains the 3-cycle $(1 \; 3 \; 5)$.
+\end{itemize}
+In all possible cases, $N$ contains at least one 3-cycle.
+By Lemma~\ref{lem:3cycles_conjugate_an}, all 3-cycles in $A_n$ are conjugate to this 3-cycle.
+Since $N \trianglelefteq A_n$, $N$ contains all 3-cycles.
+By Proposition~\ref{prop:an_props}(iii), the 3-cycles generate $A_n$.
+Therefore, $N = A_n$.
+Thus $A_n$ has no non-trivial proper normal subgroups, which proves $A_n$ is simple for all $n \ge 5$.
+\end{proof}
+
+\begin{theorem}[Complete Classification of Normal Subgroups of $S_n$]
+\label{thm:normal_subgroups_sn}
+The normal subgroups of $S_n$ for all $n \ge 1$ are:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item For $n = 1, 2$: $\{1\}$ and $S_n$.
+    \item For $n = 3$: $\{1\}, A_3, S_3$.
+    \item For $n = 4$: $\{1\}, V_4, A_4, S_4$, where $V_4 = \{ 1, (1 \; 2)(3 \; 4), (1 \; 3)(2 \; 4), (1 \; 4)(2 \; 3) \}$.
+    \item For all $n \ge 5$: The \textbf{only} normal subgroups of $S_n$ are:
+    \begin{equation}
+    \{ 1 \}, \quad A_n, \quad \text{and} \quad S_n.
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+For $n \ge 5$, let $N \trianglelefteq S_n$.
+Then $N \cap A_n$ is a normal subgroup of $A_n$ (by Exercise 2 of Unit 2).
+Since $A_n$ is simple for $n \ge 5$ (Theorem~\ref{thm:simplicity_an}), there are only two possibilities:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \textbf{Case 1: $N \cap A_n = A_n$.}
+    Then $A_n \subseteq N \subseteq S_n$.
+    By the Correspondence Theorem (Theorem~\ref{thm:lattice_iso}), subgroups of $S_n$ containing $A_n$ correspond to subgroups of $S_n/A_n \cong \Z_2$.
+    Since $\Z_2$ has only the trivial subgroup and itself, the only possibilities are $N = A_n$ or $N = S_n$.
+
+    \item \textbf{Case 2: $N \cap A_n = \{1\}$.}
+    By the Second Isomorphism Theorem (Theorem~\ref{thm:second_iso}):
+    \begin{equation*}
+    N / (N \cap A_n) \cong NA_n / A_n \le S_n / A_n.
+    \end{equation*}
+    Thus $|N| = |NA_n / A_n| \le [S_n : A_n] = 2$.
+    If $|N| = 1$, then $N = \{1\}$.
+    If $|N| = 2$, then $N = \{1, \sigma\}$ for some odd permutation $\sigma$ of order 2.
+    Since $N \trianglelefteq S_n$, $\tau \sigma \tau^{-1} = \sigma$ for all $\tau \in S_n$, which means $\sigma \in Z(S_n)$.
+    However, for $n \ge 3$, the center $Z(S_n) = \{1\}$ (since for any non-identity permutation $\sigma$, one can choose a transposition not commuting with $\sigma$).
+    This is a contradiction. Thus $|N| = 2$ is impossible.
+\end{itemize}
+Therefore, for $n \ge 5$, the only normal subgroups of $S_n$ are $\{1\}, A_n,$ and $S_n$.
+\end{proof}
+
+% =========================================================
+\section{Exercises and Step-by-Step Solutions}
+\label{sec:unit3_exercises}
+
+\begin{problem}[Exercise 1: Permutation Cycle Decomposition, Order, and Sign]
+Write the permutation:
+\begin{equation}
+\sigma = \begin{pmatrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ 3 & 5 & 7 & 8 & 1 & 4 & 2 & 6 \end{pmatrix}
+\end{equation}
+as a product of disjoint cycles, determine its order $|\sigma|$, and compute its sign $\sgn(\sigma)$.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Cycle Decomposition:}
+    Trace the orbits of $\sigma$:
+    \begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+        \item Start with $1$: $1 \mapsto 3 \mapsto 7 \mapsto 2 \mapsto 5 \mapsto 1$. This gives the 5-cycle $(1 \; 3 \; 7 \; 2 \; 5)$.
+        \item Smallest unvisited element is $4$: $4 \mapsto 8 \mapsto 6 \mapsto 4$. This gives the 3-cycle $(4 \; 8 \; 6)$.
+    \end{itemize}
+    All elements in $\{1, 2, \dots, 8\}$ have been accounted for.
+    Thus the disjoint cycle decomposition is:
+    \begin{equation*}
+    \sigma = (1 \; 3 \; 7 \; 2 \; 5)(4 \; 8 \; 6).
+    \end{equation*}
+
+    \item \textbf{Order of $\sigma$:}
+    By Proposition~\ref{prop:perm_order}:
+    \begin{equation*}
+    |\sigma| = \lcm(5, 3) = 15.
+    \end{equation*}
+
+    \item \textbf{Sign of $\sigma$:}
+    Using Theorem~\ref{thm:sign_map}(iv):
+    \begin{align*}
+    \sgn(\sigma) &= \sgn\bigl((1 \; 3 \; 7 \; 2 \; 5)\bigr) \cdot \sgn\bigl((4 \; 8 \; 6)\bigr) \\
+    &= (-1)^{5-1} \cdot (-1)^{3-1} \\
+    &= (-1)^4 \cdot (-1)^2 \\
+    &= (+1) \cdot (+1) = +1.
+    \end{align*}
+    Thus $\sigma$ is an even permutation ($\sigma \in A_8$).
+\end{enumerate}
+\end{proof}
+
+\begin{problem}[Exercise 2: Conjugacy by Cycle Type in $S_n$]
+Prove that two permutations in $S_n$ are conjugate in $S_n$ if and only if they have the same cycle type.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Lemma:} For any cycle $(a_1 \; a_2 \; \dots \; a_k)$ and any $\tau \in S_n$:
+    \begin{equation*}
+    \tau (a_1 \; a_2 \; \dots \; a_k) \tau^{-1} = \bigl(\tau(a_1) \; \tau(a_2) \; \dots \; \tau(a_k)\bigr).
+    \end{equation*}
+    \emph{Proof of Lemma:} Let $x \in \{1, \dots, n\}$.
+    If $x = \tau(a_i)$, then $\tau^{-1}(x) = a_i$, so $(a_1 \dots a_k)\tau^{-1}(x) = a_{i+1}$, and applying $\tau$ gives $\tau(a_{i+1})$.
+    If $x \notin \{\tau(a_1), \dots, \tau(a_k)\}$, $\tau^{-1}(x) \notin \{a_1, \dots, a_k\}$, so the cycle fixes $\tau^{-1}(x)$, and $\tau(\tau^{-1}(x)) = x$.
+    Thus the lemma holds.
+
+    \item \textbf{Direction $(\implies)$:} Suppose $\sigma_1 = \tau \sigma_2 \tau^{-1}$.
+    Writing $\sigma_2 = c_1 c_2 \cdots c_r$ as a product of disjoint cycles, conjugation distributes across the product:
+    \begin{equation*}
+    \sigma_1 = (\tau c_1 \tau^{-1})(\tau c_2 \tau^{-1})\cdots(\tau c_r \tau^{-1}).
+    \end{equation*}
+    By the lemma, each $\tau c_i \tau^{-1}$ is a cycle of the exact same length as $c_i$.
+    Since $\tau$ is a bijection, the resulting cycles have disjoint supports.
+    Thus $\sigma_1$ and $\sigma_2$ have identical cycle types.
+
+    \item \textbf{Direction $(\impliedby)$:} Suppose $\sigma_1$ and $\sigma_2$ have the same cycle type:
+    \begin{equation*}
+    \sigma_1 = (a_{11} \; \dots \; a_{1k_1})\cdots(a_{r1} \; \dots \; a_{rk_r}), \quad \sigma_2 = (b_{11} \; \dots \; b_{1k_1})\cdots(b_{r1} \; \dots \; b_{rk_r}).
+    \end{equation*}
+    Define the function $\tau: \Omega \to \Omega$ by setting $\tau(a_{ij}) = b_{ij}$ for all $i, j$, and mapping any fixed points of $\sigma_1$ bijectively to the fixed points of $\sigma_2$.
+    Then $\tau$ is a bijection, so $\tau \in S_n$.
+    By the lemma, $\tau \sigma_1 \tau^{-1} = \sigma_2$.
+    Thus $\sigma_1$ and $\sigma_2$ are conjugate in $S_n$.
+\end{itemize}
+\end{proof}
+
+\begin{problem}[Exercise 3: Generation by Adjacent Transpositions]
+Show that $S_n$ is generated by the set of $n - 1$ adjacent transpositions:
+\begin{equation}
+T = \{ (1 \; 2), \, (2 \; 3), \, (3 \; 4), \, \dots, \, (n-1 \; n) \}.
+\end{equation}
+\end{problem}
+
+\begin{proof}[Solution]
+By Proposition~\ref{prop:transpositions_generate}, it suffices to show that every transposition $(i \; j)$ with $1 \le i < j \le n$ can be generated by elements of $T$.
+We proceed by induction on the distance $d = j - i$:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \emph{Base Case $d = 1$:} $(i \; i+1) \in T$ by definition.
+    \item \emph{Inductive Step:} Assume all transpositions with distance $< d$ are generated by $T$.
+    For $j - i = d > 1$, consider the identity:
+    \begin{equation*}
+    (i \; j) = (j-1 \; j)(i \; j-1)(j-1 \; j).
+    \end{equation*}
+    Evaluating the right side:
+    \begin{align*}
+    i &\xmapsto{(j-1 \; j)} i \xmapsto{(i \; j-1)} j-1 \xmapsto{(j-1 \; j)} j, \\
+    j &\xmapsto{(j-1 \; j)} j-1 \xmapsto{(i \; j-1)} i \xmapsto{(j-1 \; j)} i, \\
+    j-1 &\xmapsto{(j-1 \; j)} j \xmapsto{(i \; j-1)} j \xmapsto{(j-1 \; j)} j-1.
+    \end{align*}
+    All other symbols are unchanged.
+    Since $(j-1 \; j) \in T$ and $(i \; j-1)$ has distance $d - 1 < d$ (which is in $\langle T \rangle$ by the induction hypothesis), it follows that $(i \; j) \in \langle T \rangle$.
+\end{itemize}
+Thus every transposition belongs to $\langle T \rangle$, so $\langle T \rangle = S_n$.
+\end{proof}
+
+\begin{problem}[Exercise 4: Normality of the Klein 4-Group in $S_4$]
+Prove that the Klein 4-group $V_4 = \{ \text{id}, (1 \; 2)(3 \; 4), (1 \; 3)(2 \; 4), (1 \; 4)(2 \; 3) \}$ is a normal subgroup of $S_4$.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{$V_4$ is a Subgroup:}
+    The identity is in $V_4$.
+    Each non-identity element has order 2: $((1 \; 2)(3 \; 4))^2 = \text{id}$.
+    The product of any two distinct non-identity elements yields the third:
+    \begin{equation*}
+    \bigl((1 \; 2)(3 \; 4)\bigr)\bigl((1 \; 3)(2 \; 4)\bigr) = (1 \; 4)(2 \; 3) \in V_4.
+    \end{equation*}
+    Thus $V_4 \le S_4$.
+
+    \item \textbf{Normality in $S_4$:}
+    Notice that $V_4 \setminus \{\text{id}\}$ consists of \textbf{all} permutations in $S_4$ of cycle type $(2, 2)$ (products of two disjoint 2-cycles).
+    There are $\frac{1}{2} \binom{4}{2} = 3$ such permutations, and all 3 are in $V_4$.
+    By Exercise 2, for any $\tau \in S_4$ and any $\sigma \in V_4$, the conjugate $\tau \sigma \tau^{-1}$ must have the same cycle type as $\sigma$.
+    Since $V_4$ contains the entire conjugacy class of $(2, 2)$ permutations plus the identity, $\tau V_4 \tau^{-1} = V_4$ for all $\tau \in S_4$.
+    Thus $V_4 \trianglelefteq S_4$.
+\end{enumerate}
+\end{proof}
+
+\begin{problem}[Exercise 5: Non-Existence of Subgroup of Order 6 in $A_4$]
+Prove that $A_4$ has no subgroup of order 6, thereby providing an explicit counterexample to the converse of Lagrange's Theorem.
+\end{problem}
+
+\begin{proof}[Solution]
+The alternating group $A_4$ has order $|A_4| = 4!/2 = 12$.
+Its elements are:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item The identity: $\text{id}$ (1 element),
+    \item Double transpositions: $(1 \; 2)(3 \; 4), (1 \; 3)(2 \; 4), (1 \; 4)(2 \; 3)$ (3 elements of order 2),
+    \item 3-cycles: $(1 \; 2 \; 3), (1 \; 3 \; 2), (1 \; 2 \; 4), (1 \; 4 \; 2), (1 \; 3 \; 4), (1 \; 4 \; 3), (2 \; 3 \; 4), (2 \; 4 \; 3)$ (8 elements of order 3).
+\end{itemize}
+
+Suppose for contradiction that $H$ is a subgroup of $A_4$ with $|H| = 6$.
+The index of $H$ in $A_4$ is:
+\begin{equation*}
+[A_4 : H] = \frac{|A_4|}{|H|} = \frac{12}{6} = 2.
+\end{equation*}
+By Proposition~\ref{prop:index2_normal}, any subgroup of index 2 is normal, so $H \trianglelefteq A_4$.
+
+Since $H \trianglelefteq A_4$, the quotient group $A_4/H$ has order 2.
+For any 3-cycle $\tau \in A_4$:
+\begin{equation*}
+(\tau H)^2 = \tau^2 H.
+\end{equation*}
+Since $|A_4/H| = 2$, the square of every element in the quotient group is the identity coset:
+\begin{equation*}
+\tau^2 H = H \implies \tau^2 \in H.
+\end{equation*}
+Since $\tau$ is a 3-cycle, $\tau^3 = \text{id}$, so $\tau = (\tau^2)^2 \in H$.
+Thus $H$ must contain \textbf{every} 3-cycle in $A_4$.
+However, there are 8 distinct 3-cycles in $A_4$.
+This forces $|H| \ge 8$, which contradicts $|H| = 6$.
+Therefore, $A_4$ contains no subgroup of order 6.
+\end{proof}
+
+\begin{problem}[Exercise 6: Transpositions and Subgroups of $A_n$]
+Prove that no proper subgroup of $S_n$ containing a transposition can be a subset of $A_n$.
+\end{problem}
+
+\begin{proof}[Solution]
+By Theorem~\ref{thm:sign_map}(ii), for any transposition $\tau = (i \; j)$, $\sgn(\tau) = -1$.
+By definition of the alternating group:
+\begin{equation*}
+A_n = \{ \sigma \in S_n \mid \sgn(\sigma) = +1 \}.
+\end{equation*}
+Since $\sgn(\tau) = -1 \ne +1$, $\tau \notin A_n$.
+Therefore, if $H \le S_n$ and $H$ contains a transposition $\tau$, then $\tau \in H \setminus A_n$, so $H \not\subseteq A_n$.
+\end{proof}

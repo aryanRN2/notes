@@ -674,84 +674,550 @@ Let $(X, d)$ be a metric space. A subset $F \subseteq X$ is called a \textbf{clo
 
 \newpage
 
+\subsection{Theorem: Every Derived Set in a Metric Space is Closed}
+
+\begin{exbox}{Theorem: The Derived Set $F'$ is Closed in $(X, d)$}
+\textbf{Theorem:} Let $(X, d)$ be a metric space and let $F \subseteq X$. Then the derived set $F'$ is a closed set in $(X, d)$ (that is, $(F')' \subseteq F'$).
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item We need to show that $(F')' \subseteq F'$, which by the limit point characterization means $F'$ is closed.
+    \item If $(F')' = \emptyset$, then $(F')' \subseteq F'$ holds trivially.
+    \item Now assume $(F')' \neq \emptyset$ and let $x \in (F')'$. That is, $x$ is a limit point of $F'$.
+    \item We must prove that $x \in F'$ (i.e., $x$ is a limit point of $F$).
+    \item Let $S_r(x)$ be any open sphere centered at $x$ with arbitrary radius $r > 0$.
+    \item Since $x \in (F')'$, every open sphere centered at $x$ contains at least one point of $F'$ distinct from $x$. Thus, there exists a point:
+    \begin{equation}
+        y_r \in (S_r(x) \setminus \{x\}) \cap F'
+    \end{equation}
+    \item Since $y_r \in S_r(x)$, we have $d(x, y_r) < r \implies \rho = r - d(x, y_r) > 0$.
+    \item Consider the open sphere $S_\rho(y_r)$ centered at $y_r$ with radius $\rho$.
+    \item By the Fundamental Theorem on Open Balls, $S_\rho(y_r) \subseteq S_r(x)$.
+    \item Furthermore, since $y_r \in F'$, $y_r$ is a limit point of $F$. Therefore, the open sphere $S_\rho(y_r)$ must contain a point $z_r \in F$ distinct from $y_r$:
+    \begin{equation}
+        z_r \in (S_\rho(y_r) \setminus \{y_r\}) \cap F
+    \end{equation}
+    \item Since $z_r \in S_\rho(y_r) \subseteq S_r(x)$, we have $z_r \in S_r(x)$ and $z_r \in F$.
+    \item By choosing $\rho_1 = \min(\rho, d(x, y_r)) > 0$, we can strictly guarantee that $z_r \neq x$.
+    \item Therefore, for every $r > 0$, the punctured open sphere $(S_r(x) \setminus \{x\})$ contains a point $z_r \in F$:
+    \begin{equation}
+        (S_r(x) \setminus \{x\}) \cap F \neq \emptyset
+    \end{equation}
+    \item This precisely proves that $x$ is a limit point of $F$, so $x \in F'$.
+    \item Since $x \in (F')' \implies x \in F'$, we have $(F')' \subseteq F'$.
+    \item Hence, the derived set $F'$ is a \textbf{closed set}. \qed
+\end{enumerate}
+\end{exbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Outer open sphere S_r(x)
+    \draw[dashed,ultra thick,primarynavy,fill=primarynavy!5] (0,0) circle (2.5cm);
+    \filldraw[primarynavy] (0,0) circle (2.5pt) node[below left] {$x \in (F')'$};
+    \draw[->,thick,primarynavy] (0,0) -- (1.77,1.77) node[midway,above left] {$r$};
+    \node[primarynavy,font=\bfseries] at (-1.5,2.1) {Open Ball $S_r(x)$};
+
+    % Limit point y_r in F'
+    \filldraw[secondaryteal] (1.1,-0.3) circle (2.5pt) node[below=2pt] {$y_r \in F'$};
+    \draw[thick,accentblue] (0,0) -- (1.1,-0.3) node[midway,below] {$d(x, y_r)$};
+
+    % Inscribed sphere S_rho(y_r)
+    \draw[dashed,thick,secondaryteal,fill=secondaryteal!20] (1.1,-0.3) circle (1.1cm);
+    \draw[->,thick,secondaryteal] (1.1,-0.3) -- (2.2,-0.3) node[midway,above] {$\rho$};
+
+    % Point z_r in F
+    \filldraw[crimsonred] (1.7,0.3) circle (2.5pt) node[above right] {$z_r \in F$};
+    
+    \node[darkslate,font=\bfseries\small] at (0,-2.9) {Point $z_r \in F$ lies inside $S_\rho(y_r) \subseteq S_r(x)$, proving $x \in F'$};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\subsection{Closure of a Set and Its Topological Properties}
+
+\begin{defbox}{Definition: Closure of a Set ($\overline{A}$)}
+Let $(X, d)$ be a metric space and $A \subseteq X$. The \textbf{closure} of $A$, denoted by $\overline{A}$ or $\operatorname{Cl}(A)$, is defined as the union of the set $A$ and its derived set $A'$:
+\begin{equation}
+    \overline{A} = A \cup A'
+\end{equation}
+A point $x \in \overline{A}$ is called an \textbf{adherent point} (or closure point) of $A$. That is, every open sphere $S_r(x)$ intersects $A$ ($S_r(x) \cap A \neq \emptyset$).
+\end{defbox}
+
+\begin{formulabox}{Theorem: Fundamental Properties of Closure}
+Let $(X, d)$ be a metric space and $A, B \subseteq X$. The closure operator satisfies:
+\begin{enumerate}
+    \item[\textbf{(i)}] $\overline{A}$ is a \textbf{closed set} in $(X, d)$.
+    \item[\textbf{(ii)}] \textbf{Monotonicity:} If $A \subseteq B$, then $\overline{A} \subseteq \overline{B}$.
+    \item[\textbf{(iii)}] \textbf{Characterization:} $A$ is a closed set if and only if $\overline{A} = A$.
+    \item[\textbf{(iv)}] \textbf{Minimality:} $\overline{A}$ is the \textbf{smallest closed set} containing $A$, i.e.,
+    $$\overline{A} = \bigcap \{ F \subseteq X \mid A \subseteq F \text{ and } F \text{ is closed} \}$$
+    \item[\textbf{(v)}] \textbf{Finite Additivity:} $\overline{A \cup B} = \overline{A} \cup \overline{B}$.
+    \item[\textbf{(vi)}] \textbf{Intersection Sub-additivity:} $\overline{A \cap B} \subseteq \overline{A} \cap \overline{B}$.
+    \item[\textbf{(vii)}] \textbf{Idempotence (Kuratowski Axiom):} $\overline{\overline{A}} = \overline{A}$.
+\end{enumerate}
+\end{formulabox}
+
+\subsubsection{Complete Rigorous Proofs for Closure Properties}
+
+\begin{exbox}{Proof of Property (i): $\overline{A}$ is a Closed Set}
+\textbf{To Prove:} $(\overline{A})^c$ is an open set.
+\begin{enumerate}
+    \item By definition, $\overline{A} = A \cup A'$. Using De Morgan's Law:
+    \begin{equation}
+        (\overline{A})^c = (A \cup A')^c = A^c \cap (A')^c
+    \end{equation}
+    \item Let $x \in (\overline{A})^c = A^c \cap (A')^c$. Then $x \in A^c$ and $x \in (A')^c$.
+    \item Since $x \in (A')^c \implies x \notin A'$, $x$ is \textbf{not} a limit point of $A$.
+    \item Therefore, there exists $r_1 > 0$ such that:
+    \begin{equation}
+        (S_{r_1}(x) \setminus \{x\}) \cap A = \emptyset
+    \end{equation}
+    Since $x \in A^c$ ($x \notin A$), this implies $S_{r_1}(x) \cap A = \emptyset \implies S_{r_1}(x) \subseteq A^c$.
+    \item Moreover, since $A'$ is a closed set (by the previous theorem), its complement $(A')^c$ is an open set.
+    \item Since $x \in (A')^c$, there exists $r_2 > 0$ such that $S_{r_2}(x) \subseteq (A')^c$.
+    \item Define $r^* = \min(r_1, r_2) > 0$. Then:
+    \begin{equation}
+        S_{r^*}(x) \subseteq S_{r_1}(x) \subseteq A^c \quad \text{and} \quad S_{r^*}(x) \subseteq S_{r_2}(x) \subseteq (A')^c
+    \end{equation}
+    \item Consequently:
+    \begin{equation}
+        S_{r^*}(x) \subseteq A^c \cap (A')^c = (\overline{A})^c
+    \end{equation}
+    \item Since $x \in (\overline{A})^c$ was arbitrary, every point of $(\overline{A})^c$ is an interior point.
+    \item Hence, $(\overline{A})^c$ is open, which proves that $\overline{A}$ is a \textbf{closed set}. \qed
+\end{enumerate}
+\end{exbox}
+
+\newpage
+
+\begin{exbox}{Proof of Properties (ii), (iii), and (iv)}
+\textbf{Proof of Property (ii) [$A \subseteq B \implies \overline{A} \subseteq \overline{B}$]:}
+\begin{enumerate}
+    \item Let $x \in A'$. For every $r > 0$, $(S_r(x) \setminus \{x\}) \cap A \neq \emptyset$.
+    \item Since $A \subseteq B$, we have $(S_r(x) \setminus \{x\}) \cap A \subseteq (S_r(x) \setminus \{x\}) \cap B$.
+    \item Thus $(S_r(x) \setminus \{x\}) \cap B \neq \emptyset$, which means $x \in B'$. Hence $A' \subseteq B'$.
+    \item Therefore:
+    \begin{equation}
+        \overline{A} = A \cup A' \subseteq B \cup B' = \overline{B} \quad \qed
+    \end{equation}
+\end{enumerate}
+
+\textbf{Proof of Property (iii) [$A$ is closed $\iff \overline{A} = A$]:}
+\begin{enumerate}
+    \item ($\implies$) Suppose $A$ is closed. Then $A$ contains all its limit points, so $A' \subseteq A$.
+    \begin{equation}
+        \overline{A} = A \cup A' = A
+    \end{equation}
+    \item ($\impliedby$) Conversely, suppose $\overline{A} = A$.
+    \item Since $\overline{A}$ is always a closed set (by Property (i)), it immediately follows that $A$ is closed. \qed
+\end{enumerate}
+
+\textbf{Proof of Property (iv) [$\overline{A}$ is the smallest closed set containing $A$]:}
+\begin{enumerate}
+    \item By Property (i), $\overline{A}$ is a closed set, and clearly $A \subseteq A \cup A' = \overline{A}$.
+    \item Let $F$ be any closed set containing $A$ ($A \subseteq F$).
+    \item By the monotonicity property (ii), $A \subseteq F \implies \overline{A} \subseteq \overline{F}$.
+    \item Since $F$ is closed, by Property (iii), $\overline{F} = F$.
+    \item Therefore, $\overline{A} \subseteq F$.
+    \item Since this holds for every closed superset $F$, $\overline{A}$ is indeed the \textbf{smallest closed set containing $A$}. \qed
+\end{enumerate}
+\end{exbox}
+
+\begin{exbox}{Proof of Properties (v), (vi), and (vii)}
+\textbf{Proof of Property (v) [$\overline{A \cup B} = \overline{A} \cup \overline{B}$]:}
+\begin{enumerate}
+    \item Since $A \subseteq A \cup B$ and $B \subseteq A \cup B$, by monotonicity (ii):
+    \begin{equation}
+        \overline{A} \subseteq \overline{A \cup B} \quad \text{and} \quad \overline{B} \subseteq \overline{A \cup B} \implies \overline{A} \cup \overline{B} \subseteq \overline{A \cup B} \tag{1}
+    \end{equation}
+    \item On the other hand, $A \subseteq \overline{A}$ and $B \subseteq \overline{B} \implies A \cup B \subseteq \overline{A} \cup \overline{B}$.
+    \item Since $\overline{A}$ and $\overline{B}$ are closed sets, their union $\overline{A} \cup \overline{B}$ is a closed set containing $A \cup B$.
+    \item Since $\overline{A \cup B}$ is the \textbf{smallest} closed set containing $A \cup B$ (Property (iv)), we must have:
+    \begin{equation}
+        \overline{A \cup B} \subseteq \overline{A} \cup \overline{B} \tag{2}
+    \end{equation}
+    \item Combining (1) and (2) gives $\overline{A \cup B} = \overline{A} \cup \overline{B}$. \qed
+\end{enumerate}
+
+\textbf{Proof of Property (vi) [$\overline{A \cap B} \subseteq \overline{A} \cap \overline{B}$]:}
+\begin{enumerate}
+    \item Since $A \cap B \subseteq A \implies \overline{A \cap B} \subseteq \overline{A}$, and $A \cap B \subseteq B \implies \overline{A \cap B} \subseteq \overline{B}$.
+    \item Therefore, $\overline{A \cap B} \subseteq \overline{A} \cap \overline{B}$. \qed
+    \item \textbf{Counterexample for Strict Inclusion:} In $(\mathbb{R}, |\cdot|)$, let $A = (0, 1)$ and $B = (1, 2)$.
+    $$A \cap B = \emptyset \implies \overline{A \cap B} = \overline{\emptyset} = \emptyset$$
+    However, $\overline{A} = [0, 1]$ and $\overline{B} = [1, 2]$, so $\overline{A} \cap \overline{B} = [0, 1] \cap [1, 2] = \{1\} \neq \emptyset$.
+\end{enumerate}
+
+\textbf{Proof of Property (vii) [$\overline{\overline{A}} = \overline{A}$]:}
+\begin{enumerate}
+    \item Since $\overline{A}$ is a closed set (Property (i)), applying Property (iii) directly to the closed set $\overline{A}$ yields $\overline{\overline{A}} = \overline{A}$. \qed
+\end{enumerate}
+\end{exbox}
+
+\newpage
+
+\subsection{Perfect Sets}
+
+\begin{defbox}{Definition: Perfect Set}
+Let $(X, d)$ be a metric space. A subset $A \subseteq X$ is called a \textbf{perfect set} if and only if:
+\begin{enumerate}
+    \item $A$ is a \textbf{closed set} ($A' \subseteq A$), and
+    \item Every point of $A$ is a \textbf{limit point} of $A$ ($A \subseteq A'$).
+\end{enumerate}
+Equivalently, a subset $A$ is perfect if and only if it equals its own derived set:
+\begin{equation}
+    \mathbf{A = A'}
+\end{equation}
+In other words, a perfect set is a closed set with \textbf{no isolated points}.
+\end{defbox}
+
+\begin{exbox}{Examples of Perfect and Non-Perfect Sets}
+\begin{enumerate}
+    \item \textbf{Closed Intervals in $\mathbb{R}$:}
+    Any closed interval $A = [a, b]$ with $a < b$ in $(\mathbb{R}, |\cdot|)$ is perfect because $A' = [a, b] = A$.
+    
+    \item \textbf{The Real Line $\mathbb{R}$ and Euclidean Space $\mathbb{R}^n$:}
+    $\mathbb{R}$ is closed and every real number is a limit point of $\mathbb{R}$, so $\mathbb{R}' = \mathbb{R}$, making it perfect.
+    
+    \item \textbf{The Cantor Ternary Set $\mathcal{C}$:}
+    The standard Cantor middle-thirds set is closed, totally disconnected, contains no isolated points, and $\mathcal{C}' = \mathcal{C}$. Thus, the Cantor set is a \textbf{perfect set} with Lebesgue measure $0$ and cardinality of the continuum ($\mathfrak{c}$).
+    
+    \item \textbf{Non-Perfect Set Example (Singletons and Discrete Sets):}
+    The singleton $\{x\}$ in $\mathbb{R}$ is closed, but its derived set is empty $(\{x\}' = \emptyset \neq \{x\})$. Hence singletons are \textbf{not} perfect sets.
+\end{enumerate}
+\end{exbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+    % Closed interval [a, b] - perfect set
+    \draw[ultra thick,primarynavy] (0,1.5) -- (6,1.5);
+    \filldraw[primarynavy] (0,1.5) circle (3pt) node[below] {$a$};
+    \filldraw[primarynavy] (6,1.5) circle (3pt) node[below] {$b$};
+    \node[primarynavy,font=\bfseries] at (3,2.0) {Perfect Set: $A = [a, b] \implies A' = [a, b] = A$};
+    
+    % Non-perfect set: [a, b] U {c}
+    \draw[ultra thick,secondaryteal] (0,0) -- (4,0);
+    \filldraw[secondaryteal] (0,0) circle (3pt) node[below] {$a$};
+    \filldraw[secondaryteal] (4,0) circle (3pt) node[below] {$b$};
+    \filldraw[crimsonred] (5.5,0) circle (3pt) node[below] {$c$ (Isolated Point)};
+    \node[secondaryteal,font=\bfseries] at (3,-0.7) {Not Perfect: $A = [a, b] \cup \{c\} \implies A' = [a, b] \neq A$};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\section{Module 5: Interior Operator, Boundary, and Subspace Topologies}
+
+\subsection{The Interior Operator and Its Fundamental Properties}
+
+\begin{defbox}{Definition: Interior of a Set ($A^\circ$ / $\operatorname{Int}(A)$)}
+Let $(X, d)$ be a metric space and $A \subseteq X$. The \textbf{interior} of $A$, denoted by $A^\circ$ or $\operatorname{Int}(A)$, is the set of all interior points of $A$:
+\begin{equation}
+    A^\circ = \operatorname{Int}(A) = \{ x \in A \mid \exists r > 0 \text{ such that } S_r(x) \subseteq A \}
+\end{equation}
+\end{defbox}
+
+\begin{formulabox}{Theorem: Fundamental Properties of the Interior Operator}
+Let $(X, d)$ be a metric space and $A, B \subseteq X$.
+\begin{enumerate}
+    \item[\textbf{(i)}] $A^\circ \subseteq A$.
+    \item[\textbf{(ii)}] $A^\circ$ is an \textbf{open set} in $(X, d)$.
+    \item[\textbf{(iii)}] $A$ is an open set if and only if $A^\circ = A$.
+    \item[\textbf{(iv)}] If $B \subseteq A$ and $B$ is open, then $B \subseteq A^\circ$.
+    \item[\textbf{(v)}] $A^\circ$ is the \textbf{largest open set} contained in $A$, i.e.,
+    $$A^\circ = \bigcup \{ G \subseteq X \mid G \subseteq A \text{ and } G \text{ is open} \}$$
+    \item[\textbf{(vi)}] $(A \cap B)^\circ = A^\circ \cap B^\circ$ and $A^\circ \cup B^\circ \subseteq (A \cup B)^\circ$.
+    \item[\textbf{(vii)}] $(A^\circ)^\circ = A^\circ$ (Idempotence).
+\end{enumerate}
+\end{formulabox}
+
+\subsubsection{Complete Rigorous Proofs for Interior Properties}
+
+\begin{exbox}{Proofs of Interior Properties (i) through (v)}
+\textbf{Proof of Property (i) [$A^\circ \subseteq A$]:}
+\begin{itemize}
+    \item By definition, $A^\circ = \{x \in A \mid \exists r > 0, S_r(x) \subseteq A\}$.
+    \item Thus, if $x \in A^\circ$, then by definition $x \in A$. Therefore, $A^\circ \subseteq A$. \qed
+\end{itemize}
+
+\textbf{Proof of Property (ii) [$A^\circ$ is an Open Set]:}
+\begin{enumerate}
+    \item Let $x \in A^\circ$. By definition of an interior point, there exists $r > 0$ such that $S_r(x) \subseteq A$.
+    \item We must show that there exists an open ball around $x$ entirely contained in $A^\circ$.
+    \item In fact, we claim that $S_r(x) \subseteq A^\circ$.
+    \item Let $y \in S_r(x)$ be any arbitrary point.
+    \item Since every open sphere in a metric space is an open set (Theorem 2), there exists $\rho = r - d(x, y) > 0$ such that:
+    \begin{equation}
+        S_\rho(y) \subseteq S_r(x)
+    \end{equation}
+    \item Since $S_r(x) \subseteq A$, it follows that $S_\rho(y) \subseteq A$.
+    \item This means that $y$ is an interior point of $A$, so $y \in A^\circ$.
+    \item Since $y \in S_r(x)$ was arbitrary, $S_r(x) \subseteq A^\circ$.
+    \item Hence, $x$ is an interior point of $A^\circ$. Since $x \in A^\circ$ was arbitrary, $A^\circ$ is an \textbf{open set}. \qed
+\end{enumerate}
+
+\textbf{Proof of Property (iii) [$A$ is open $\iff A^\circ = A$]:}
+\begin{enumerate}
+    \item ($\implies$) Suppose $A$ is open. By Property (i), $A^\circ \subseteq A$.
+    \item Now let $x \in A$. Since $A$ is open, by definition there exists $r > 0$ such that $S_r(x) \subseteq A \implies x \in A^\circ$.
+    \item Thus $A \subseteq A^\circ$. Combining both inclusions gives $A^\circ = A$.
+    \item ($\impliedby$) Conversely, suppose $A^\circ = A$.
+    \item Since $A^\circ$ is open by Property (ii), it immediately follows that $A$ is an open set. \qed
+\end{enumerate}
+
+\textbf{Proof of Properties (iv) and (v) [$A^\circ$ is the largest open set contained in $A$]:}
+\begin{enumerate}
+    \item Let $B \subseteq A$ with $B$ being open.
+    \item Let $x \in B$. Since $B$ is open, $\exists r > 0$ such that $S_r(x) \subseteq B \subseteq A$.
+    \item This implies $S_r(x) \subseteq A$, so $x \in A^\circ$. Hence $B \subseteq A^\circ$.
+    \item Since $A^\circ$ is itself an open set contained in $A$ (Properties (i) and (ii)), and contains any other open set $B \subseteq A$, $A^\circ$ is the \textbf{largest open set contained in $A$}. \qed
+\end{enumerate}
+\end{exbox}
+
+\newpage
+
+\subsection{Duality Between Interior, Closure, and Boundary}
+
+\begin{formulabox}{Complement Duality Relations}
+For any subset $A$ of a metric space $(X, d)$:
+\begin{equation}
+    (A^c)^\circ = (\overline{A})^c \qquad \text{and} \qquad \overline{A^c} = (A^\circ)^c
+\end{equation}
+\textbf{Boundary (Frontier) of a Set $\partial A$:}
+\begin{equation}
+    \partial A = \operatorname{Bd}(A) = \overline{A} \setminus A^\circ = \overline{A} \cap \overline{A^c}
+\end{equation}
+\end{formulabox}
+
+\subsection{Metric Subspaces and Relative Topologies}
+
+\begin{defbox}{Definition: Metric Subspace $(Y, d_Y)$}
+Let $(X, d)$ be a metric space, and let $Y$ be a non-empty subset of $X$ ($Y \subseteq X, Y \neq \emptyset$).
+\begin{itemize}
+    \item Define the distance function $d_Y: Y \times Y \to \mathbb{R}$ by restricting $d$ to $Y$:
+    \begin{equation}
+        d_Y(x, y) = d(x, y), \quad \forall x, y \in Y
+    \end{equation}
+    \item Since $d$ satisfies axioms $[M1]-[M4]$ on all of $X$, the restriction $d_Y$ automatically satisfies all metric axioms on $Y$.
+    \item The pair $(Y, d_Y)$ (or simply $(Y, d)$) is called a \textbf{Metric Subspace} of $(X, d)$.
+\end{itemize}
+\end{defbox}
+
+\begin{formulabox}{Open Spheres in a Metric Subspace}
+For any $y_0 \in Y$ and $r > 0$, the open sphere in the subspace $(Y, d_Y)$ is:
+\begin{equation}
+    S_r^Y(y_0) = \{ y \in Y \mid d_Y(y, y_0) < r \} = \{ y \in X \mid d(y, y_0) < r \} \cap Y = S_r^X(y_0) \cap Y
+\end{equation}
+That is, \textbf{an open ball in $Y$ is simply the intersection of an open ball in $X$ with $Y$}.
+\end{formulabox}
+
+\begin{exbox}{Example: Relative Openness vs. Global Openness}
+Consider the Euclidean plane $\mathbb{R}^2$ with standard metric $d_2$. Let $Y$ be the $x$-axis:
+$$Y = \{ (x, 0) \in \mathbb{R}^2 \mid x \in \mathbb{R} \}$$
+Let $E = \{ (x, 0) \in \mathbb{R}^2 \mid -1 < x < 1 \} = (-1, 1) \times \{0\}$.
+\begin{itemize}
+    \item In the subspace $(Y, d_Y)$, $E = S_1^Y((0,0))$ is an open ball of radius 1 centered at $(0,0)$. Thus, \textbf{$E$ is open relative to $Y$}.
+    \item In the full space $(\mathbb{R}^2, d_2)$, every 2D open disk $S_r^{\mathbb{R}^2}((0,0))$ contains points with non-zero $y$-coordinates (points off the $x$-axis). Thus $S_r^{\mathbb{R}^2}((0,0)) \not\subseteq E$ for any $r > 0$.
+    \item Therefore, \textbf{$E$ is NOT open in $\mathbb{R}^2$}.
+\end{itemize}
+\end{exbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % 2D Plane axes
+    \draw[->,thick,darkslate] (-3.5,0) -- (3.5,0) node[right] {$x$ (Subspace $Y$)};
+    \draw[->,thick,darkslate] (0,-1.8) -- (0,1.8) node[above] {$y$};
+    
+    % Subspace Y highlighted
+    \draw[line width=2pt,primarynavy] (-3.2,0) -- (3.2,0);
+    
+    % 2D Ball in R^2: S_r^X(0)
+    \draw[dashed,thick,warmgold,fill=warmgold!10] (0,0) circle (1.5cm);
+    \node[warmgold,font=\bfseries\footnotesize] at (1.1,1.3) {$S_r^X(p)$ in $\mathbb{R}^2$};
+    
+    % Segment E = S_r^Y(p) = S_r^X(p) \cap Y
+    \draw[line width=3.5pt,secondaryteal] (-1.5,0) -- (1.5,0);
+    \draw[fill=white,draw=secondaryteal,thick] (-1.5,0) circle (2.5pt);
+    \draw[fill=white,draw=secondaryteal,thick] (1.5,0) circle (2.5pt);
+    \filldraw[primarynavy] (0,0) circle (2.5pt) node[below=4pt] {$p=(0,0)$};
+    
+    \node[secondaryteal,font=\bfseries\small] at (0,-0.6) {$S_r^Y(p) = S_r^X(p) \cap Y = (-1.5, 1.5) \times \{0\}$};
+    \node[darkslate,font=\bfseries\small] at (0,-2.2) {Relative Open Ball: Open in subspace $Y$, but 1D line has no interior in $\mathbb{R}^2$};
+\end{tikzpicture}
+\end{center}
+
+\newpage
+
+\subsection{Fundamental Theorems on Subspace Topology}
+
+\begin{exbox}{Theorem: Characterization of Relative Open Sets}
+\textbf{Theorem:} Let $(Y, d)$ be a metric subspace of $(X, d)$. A subset $E \subseteq Y$ is \textbf{open relative to $Y$} if and only if there exists an open set $G \subseteq X$ such that:
+\begin{equation}
+    E = Y \cap G
+\end{equation}
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item \textbf{($\implies$) Direct Part:} Assume $E$ is open relative to $Y$.
+    \begin{itemize}
+        \item For each point $p \in E$, since $E$ is open in $(Y, d)$, there exists a radius $r_p > 0$ such that the subspace open ball centered at $p$ satisfies:
+        \begin{equation}
+            S_{r_p}^Y(p) \subseteq E
+        \end{equation}
+        \item Recall that $S_{r_p}^Y(p) = \{ q \in Y \mid d(p, q) < r_p \} = S_{r_p}^X(p) \cap Y$, where $S_{r_p}^X(p) = \{ q \in X \mid d(p, q) < r_p \}$.
+        \item Let $V_p = S_{r_p}^X(p)$ be the open ball in $X$. By Theorem 2, each $V_p$ is an open set in $(X, d)$.
+        \item Define $G = \bigcup_{p \in E} V_p$.
+        \item Since each $V_p$ is open in $X$ and the arbitrary union of open sets is open (Theorem 3), $G$ is an \textbf{open set in $X$}.
+        \item We now verify that $E = Y \cap G$:
+        \begin{itemize}
+            \item Since $p \in V_p$ for every $p \in E$, we have $E \subseteq \bigcup_{p \in E} V_p = G$. Since $E \subseteq Y$, it follows that $E \subseteq Y \cap G$.
+            \item Conversely, let $y \in Y \cap G$. Then $y \in Y$ and $y \in \bigcup_{p \in E} V_p$.
+            \item Thus $y \in V_{p_0} = S_{r_{p_0}}^X(p_0)$ for some specific $p_0 \in E$.
+            \item Since $y \in Y$, we have $y \in S_{r_{p_0}}^X(p_0) \cap Y = S_{r_{p_0}}^Y(p_0) \subseteq E$.
+            \item Hence $y \in E$, which proves $Y \cap G \subseteq E$.
+        \end{itemize}
+        \item Combining both inclusions yields $E = Y \cap G$.
+    \end{itemize}
+    
+    \item \textbf{($\impliedby$) Converse Part:} Assume $E = Y \cap G$ for some open set $G$ in $(X, d)$.
+    \begin{itemize}
+        \item Let $p \in E = Y \cap G$. Then $p \in Y$ and $p \in G$.
+        \item Since $G$ is open in $X$, there exists an open ball $S_r^X(p)$ in $X$ with radius $r > 0$ such that $S_r^X(p) \subseteq G$.
+        \item Then the subspace open ball in $Y$ centered at $p$ satisfies:
+        \begin{equation}
+            S_r^Y(p) = S_r^X(p) \cap Y \subseteq G \cap Y = E
+        \end{equation}
+        \item Thus $S_r^Y(p) \subseteq E$, which proves that $p$ is an interior point of $E$ in the metric space $(Y, d_Y)$.
+        \item Since $p \in E$ was arbitrary, $E$ is \textbf{open relative to $Y$}. \qed
+    \end{itemize}
+\end{enumerate}
+\end{exbox}
+
+\newpage
+
+\begin{exbox}{Theorem: Characterization of Relative Closed Sets}
+\textbf{Theorem:} Let $(Y, d)$ be a metric subspace of $(X, d)$. A subset $K \subseteq Y$ is \textbf{closed relative to $Y$} if and only if there exists a closed set $F \subseteq X$ such that:
+\begin{equation}
+    K = Y \cap F
+\end{equation}
+
+\textbf{Proof:}
+\begin{enumerate}
+    \item By definition, $K$ is closed in $Y$ if and only if its relative complement $Y \setminus K$ is an \textbf{open set in $Y$}.
+    \item By the Relative Open Set Theorem, $Y \setminus K$ is open in $Y$ if and only if there exists an open set $G \subseteq X$ such that:
+    \begin{equation}
+        Y \setminus K = Y \cap G
+    \end{equation}
+    \item Taking complements in $Y$:
+    \begin{align}
+        K &= Y \setminus (Y \setminus K) = Y \setminus (Y \cap G) \notag \\
+        &= Y \cap (X \setminus G)
+    \end{align}
+    \item Let $F = X \setminus G = G^c$.
+    \item Since $G$ is an open set in $X$, its complement $F = X \setminus G$ is a \textbf{closed set in $X$}.
+    \item Therefore, $K = Y \cap F$ for the closed set $F \subseteq X$.
+    \item Conversely, if $K = Y \cap F$ for some closed set $F \subseteq X$, then:
+    \begin{equation}
+        Y \setminus K = Y \setminus (Y \cap F) = Y \cap (X \setminus F) = Y \cap G
+    \end{equation}
+    where $G = X \setminus F$ is open in $X$.
+    \item Thus $Y \setminus K$ is open in $Y$, which means $K$ is \textbf{closed relative to $Y$}. \qed
+\end{enumerate}
+\end{exbox}
+
+\begin{formulabox}{Important Corollaries on Subspace Open/Closed Sets}
+\begin{enumerate}
+    \item \textbf{When $Y$ is Open in $X$:}
+    If the subspace $Y$ is an open subset of $X$, then a subset $E \subseteq Y$ is open in $Y$ if and only if $E$ is \textbf{open in $X$}.
+    \item \textbf{When $Y$ is Closed in $X$:}
+    If the subspace $Y$ is a closed subset of $X$, then a subset $K \subseteq Y$ is closed in $Y$ if and only if $K$ is \textbf{closed in $X$}.
+\end{enumerate}
+\end{formulabox}
+
+\newpage
+
 \section{Module 6: Master Quick Revision Cheat Sheet}
 
 \begin{formulabox}{1. Metric Axioms, Norms, and Standard Metrics}
 \begin{itemize}
     \item \textbf{Metric Space Axioms $(X, d)$:} $\forall x, y, z \in X$:
     \begin{enumerate}
-        \item \textbf{Non-negativity:} $d(x, y) \ge 0$.
-        \item \textbf{Identity of Indiscernibles:} $d(x, y) = 0 \iff x = y$.
-        \item \textbf{Symmetry:} $d(x, y) = d(y, x)$.
-        \item \textbf{Triangle Inequality:} $d(x, z) \le d(x, y) + d(y, z)$.
+        \item \textbf{[M1] Non-negativity:} $d(x, y) \ge 0$.
+        \item \textbf{[M2] Identity of Indiscernibles:} $d(x, y) = 0 \iff x = y$.
+        \item \textbf{[M3] Symmetry:} $d(x, y) = d(y, x)$.
+        \item \textbf{[M4] Triangle Inequality:} $d(x, z) \le d(x, y) + d(y, z)$.
     \end{enumerate}
     \item \textbf{Standard Metrics on $\mathbb{R}^n$:}
     \begin{itemize}
         \item Euclidean Metric ($L_2$): $d_2(x, y) = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}$
         \item Taxicab / Manhattan Metric ($L_1$): $d_1(x, y) = \sum_{i=1}^n |x_i - y_i|$
         \item Maximum / Chebyshev Metric ($L_\infty$): $d_\infty(x, y) = \max_{1 \le i \le n} |x_i - y_i|$
-        \item Discrete Metric on any set $X$: $d(x, y) = 0$ if $x = y$, and $d(x, y) = 1$ if $x \neq y$.
-        \item Semi-metric (Pseudo-metric): Satisfies non-negativity, symmetry, and triangle inequality, but $d(x, y) = 0$ is possible for distinct points $x \neq y$ (e.g., $d(x, y) = |x^2 - y^2|$ on $\mathbb{R}$).
+        \item Discrete Metric: $d(x, y) = 0$ if $x = y$, and $d(x, y) = 1$ if $x \neq y$.
+        \item Semi-metric (Pseudo-metric): $[M1], [M3], [M4]$ hold, but $d(x, y) = 0 \not\implies x = y$ (e.g., $d(x, y) = |x^2 - y^2|$).
     \end{itemize}
-    \item \textbf{Matrix Frobenius Norm on $M_{m \times n}(\mathbb{R})$:}
-    \begin{equation*}
-        d(A, B) = \|A - B\|_F = \sqrt{\sum_{i=1}^m \sum_{j=1}^n (a_{ij} - b_{ij})^2} = \sqrt{\operatorname{Tr}((A - B)^T (A - B))}
-    \end{equation*}
+    \item \textbf{Matrix Frobenius Metric on $M_{m \times n}(\mathbb{R})$:}
+    $d_F(A, B) = \|A - B\|_F = \sqrt{\sum_{i,j} (a_{ij} - b_{ij})^2} = \sqrt{\operatorname{Tr}((A - B)^T (A - B))}$.
 \end{itemize}
 \end{formulabox}
-
-\vspace{0.2cm}
 
 \begin{defbox}{2. Open Sets, Spheres, and Neighborhoods}
 \begin{itemize}
     \item \textbf{Open Sphere (Ball):} $S_r(x_0) = B(x_0, r) = \{x \in X \mid d(x, x_0) < r\}$.
-    \item \textbf{Closed Sphere (Ball):} $\overline{S}_r(x_0) = \{x \in X \mid d(x, x_0) \le r\}$.
+    \item \textbf{Closed Sphere (Ball):} $\overline{S}_r(x_0) = \bar{B}(x_0, r) = \{x \in X \mid d(x, x_0) \le r\}$.
     \item \textbf{Interior Point:} $x \in A$ is an interior point of $A$ if $\exists r > 0$ such that $S_r(x) \subseteq A$.
     \item \textbf{Open Set:} $A \subseteq X$ is open if every point of $A$ is an interior point of $A$ (i.e., $A = A^\circ$).
-    \item \textbf{Fundamental Theorem on Open Balls:} Every open sphere $S_r(x_0)$ in a metric space is an \textbf{open set}.
-    \begin{itemize}
-        \item Proof radius choice: For any $x \in S_r(x_0)$, choose radius $\mathbf{\rho = r - d(x, x_0) > 0}$, then $S_\rho(x) \subseteq S_r(x_0)$.
-    \end{itemize}
+    \item \textbf{Fundamental Theorem on Open Balls:} Every open sphere $S_r(x_0)$ in $(X, d)$ is an \textbf{open set} (choose $\rho = r - d(x, x_0) > 0$).
     \item \textbf{Topological Properties of Open Sets:}
     \begin{itemize}
         \item $\emptyset$ and $X$ are open sets.
         \item The \textbf{arbitrary union} of open sets is open: $\bigcup_{\lambda \in \Lambda} U_\lambda$ is open.
         \item The \textbf{finite intersection} of open sets is open: $\bigcap_{i=1}^n U_i$ is open.
-        \item Infinite intersections of open sets need not be open (Counterexample: $\bigcap_{n=1}^\infty \left(-\frac{1}{n}, \frac{1}{n}\right) = \{0\}$, which is not open in $\mathbb{R}$).
+        \item Infinite intersections of open sets need not be open (Counterexample: $\bigcap_{n=1}^\infty \left(-\frac{1}{n}, \frac{1}{n}\right) = \{0\}$).
     \end{itemize}
 \end{itemize}
 \end{defbox}
 
 \newpage
 
-\begin{exbox}{3. Limit Points, Derived Sets, and Closed Sets}
+\begin{exbox}{3. Limit Points, Closures, Perfect Sets, and Closed Sets}
 \begin{itemize}
-    \item \textbf{Limit Point (Accumulation Point):} A point $p \in X$ is a limit point of $A \subseteq X$ if every open sphere centered at $p$ contains at least one point of $A$ distinct from $p$:
-    \begin{equation*}
-        \forall r > 0, \quad (S_r(p) \setminus \{p\}) \cap A \neq \emptyset
-    \end{equation*}
-    (Note: $p$ need not belong to $A$).
-    \item \textbf{Derived Set $A'$:} The set of all limit points of $A$.
+    \item \textbf{Limit Point (Accumulation Point):} $p \in X$ is a limit point of $A$ if $\forall r > 0, \; (S_r(p) \setminus \{p\}) \cap A \neq \emptyset$.
+    \item \textbf{Derived Set $A'$:} Set of all limit points of $A$. \textbf{Theorem:} Every derived set $A'$ is a \textbf{closed set} ($(A')' \subseteq A'$).
+    \item \textbf{Closed Set Characterization:} $F$ is closed $\iff F^c$ is open $\iff F' \subseteq F \iff \overline{F} = F$.
+    \item \textbf{Closure of a Set $\overline{A} = A \cup A'$:}
     \begin{itemize}
-        \item For $A = (a, b) \implies A' = [a, b]$.
-        \item For Harmonic Set $A = \{1/n \mid n \in \mathbb{N}\} \implies A' = \{0\}$.
-        \item For $A = \mathbb{Q} \implies A' = \mathbb{R}$.
-        \item For $A = \mathbb{Z} \implies A' = \emptyset$.
+        \item $\overline{A}$ is closed.
+        \item $A \subseteq B \implies \overline{A} \subseteq \overline{B}$.
+        \item $\overline{A}$ is the smallest closed set containing $A$ ($\overline{A} = \bigcap \{F \supseteq A \mid F \text{ closed}\}$).
+        \item $\overline{A \cup B} = \overline{A} \cup \overline{B}$, and $\overline{A \cap B} \subseteq \overline{A} \cap \overline{B}$.
+        \item Idempotence: $\overline{\overline{A}} = \overline{A}$.
     \end{itemize}
-    \item \textbf{Isolated Point:} A point $x \in A$ which is \textbf{not} a limit point of $A$ ($\exists r > 0$ such that $S_r(x) \cap A = \{x\}$).
-    \item \textbf{Closed Set:} A subset $F \subseteq X$ is closed if its complement $F^c = X \setminus F$ is an open set.
-    \item \textbf{Theorem (Limit Point Characterization):} $F \subseteq X$ is closed if and only if $F$ contains all its limit points:
-    \begin{equation*}
-        \mathbf{F \text{ is closed} \iff F' \subseteq F}
-    \end{equation*}
-    \item \textbf{Closure of a Set $\overline{A}$:} $\overline{A} = A \cup A'$. $\overline{A}$ is the smallest closed set containing $A$.
-    \item \textbf{Topological Properties of Closed Sets:}
-    \begin{itemize}
-        \item $\emptyset$ and $X$ are closed sets.
-        \item The \textbf{arbitrary intersection} of closed sets is closed: $\bigcap_{\lambda \in \Lambda} F_\lambda$ is closed.
-        \item The \textbf{finite union} of closed sets is closed: $\bigcup_{i=1}^n F_i$ is closed.
-    \end{itemize}
+    \item \textbf{Perfect Set:} $A$ is closed and has no isolated points $\iff A = A'$. (e.g., $[a, b]$, $\mathbb{R}^n$, Cantor Set $\mathcal{C}$).
 \end{itemize}
 \end{exbox}
 
+\begin{formulabox}{4. Interior Operator, Boundary, and Subspace Topologies}
+\begin{itemize}
+    \item \textbf{Interior of a Set $A^\circ = \operatorname{Int}(A)$:}
+    \begin{itemize}
+        \item $A^\circ \subseteq A$, and $A^\circ$ is an open set.
+        \item $A$ is open $\iff A^\circ = A$.
+        \item $A^\circ$ is the largest open set contained in $A$ ($A^\circ = \bigcup \{G \subseteq A \mid G \text{ open}\}$).
+        \item $(A \cap B)^\circ = A^\circ \cap B^\circ$, and $(A^\circ)^\circ = A^\circ$.
+    \end{itemize}
+    \item \textbf{Duality \& Boundary:}
+    \begin{equation*}
+        (A^c)^\circ = (\overline{A})^c, \qquad \overline{A^c} = (A^\circ)^c, \qquad \partial A = \overline{A} \setminus A^\circ = \overline{A} \cap \overline{A^c}
+    \end{equation*}
+    \item \textbf{Metric Subspaces $(Y, d_Y)$ where $d_Y = d|_{Y \times Y}$:}
+    \begin{itemize}
+        \item Open Balls in Subspace: $S_r^Y(y) = S_r^X(y) \cap Y$.
+        \item \textbf{Relative Open Set Theorem:} $E \subseteq Y$ is open in $Y \iff \exists \text{ open } G \subseteq X \text{ such that } E = Y \cap G$.
+        \item \textbf{Relative Closed Set Theorem:} $K \subseteq Y$ is closed in $Y \iff \exists \text{ closed } F \subseteq X \text{ such that } K = Y \cap F$.
+    \end{itemize}
+\end{itemize}
+\end{formulabox}
+
 \end{document}
+

@@ -1,0 +1,737 @@
+\chapter[Numerical Integration and Newton--Cotes Quadrature]{Numerical Integration and\\Newton--Cotes Quadrature (Page 68)}
+\label{ch:numerical_integration}
+
+\begin{conceptbox}[The Numerical Quadrature Problem]
+The problem of \textbf{numerical integration} (or \textbf{quadrature}) consists of approximating the definite integral of a function $f(x)$ over an interval $[a, b]$:
+\begin{equation}
+    I = \int_{a}^{b} f(x) \, dx
+\end{equation}
+when $f(x)$ is either known only at a set of discrete tabular points or when the antiderivative cannot be expressed in terms of elementary functions.
+
+The interval $[a, b]$ is divided into $n$ equal subintervals of width $h = \frac{b - a}{n}$ using nodes:
+\begin{equation}
+    x_i = x_0 + i h, \quad y_i = f(x_i) \quad (i = 0, 1, 2, \dots, n)
+\end{equation}
+where $x_0 = a$ and $x_n = b$. The integrand $y = f(x)$ is replaced by an approximating interpolation polynomial $P_n(x)$ which is then integrated analytically.
+\end{conceptbox}
+
+% =========================================================================
+% PAGE 68: GENERAL QUADRATURE FORMULA DERIVATION
+% =========================================================================
+\section{Page 68: Complete Derivation of the General Quadrature Formula}
+\label{sec:general_quadrature_derivation}
+
+\begin{theorembox}[General Newton--Cotes Quadrature Formula]
+Let $y = f(x)$ be given at $n+1$ equidistant tabular points $x_0, x_1, \dots, x_n$ with uniform step $h$.
+Transforming the independent variable via:
+\begin{equation}
+    x = x_0 + p h \implies dx = h \, dp, \quad p = \frac{x - x_0}{h}
+\end{equation}
+The limits of integration transform as:
+\begin{equation}
+    x = x_0 \implies p = 0, \qquad x = x_0 + n h \implies p = n
+\end{equation}
+Expressing $y(x) = y(x_0 + p h) = E^p y_0 = (1 + \Delta)^p y_0$ using Newton's forward difference series:
+\begin{align}
+    I = \int_{x_0}^{x_0 + n h} y(x) \, dx &= \int_{0}^{n} (1 + \Delta)^p y_0 \cdot h \, dp \nonumber \\
+    &= h \int_{0}^{n} \left[ y_0 + p \Delta y_0 + \frac{p(p-1)}{2!} \Delta^2 y_0 + \frac{p(p-1)(p-2)}{3!} \Delta^3 y_0 \right. \nonumber \\
+    &\quad + \frac{p(p-1)(p-2)(p-3)}{4!} \Delta^4 y_0 \nonumber \\
+    &\quad \left. + \frac{p(p-1)(p-2)(p-3)(p-4)}{5!} \Delta^5 y_0 + \dots \right] dp
+\end{align}
+Evaluating the individual monomial integrals over $[0, n]$:
+\begin{enumerate}[label=(\roman*),noitemsep]
+    \item $\displaystyle \int_{0}^{n} dp = n$
+    \item $\displaystyle \int_{0}^{n} p \, dp = \left[ \frac{p^2}{2} \right]_0^n = \frac{n^2}{2}$
+    \item $\displaystyle \int_{0}^{n} \frac{p(p-1)}{2} \, dp = \frac{1}{2} \left[ \frac{p^3}{3} - \frac{p^2}{2} \right]_0^n = \frac{n^2(2n - 3)}{12}$
+    \item $\displaystyle \int_{0}^{n} \frac{p(p-1)(p-2)}{6} \, dp = \frac{1}{6} \left[ \frac{p^4}{4} - p^3 + p^2 \right]_0^n = \frac{n^2(n-2)^2}{24}$
+    \item $\displaystyle \int_{0}^{n} \frac{p^{(4)}}{24} \, dp = \frac{1}{24} \left( \frac{n^5}{5} - \frac{3n^4}{2} + \frac{11n^3}{3} - 3n^2 \right) = \frac{n}{24}\left(\frac{n^4}{5} - \frac{3n^3}{2} + \frac{11n^2}{3} - 3n\right)$
+    \item $\displaystyle \int_{0}^{n} \frac{p^{(5)}}{120} \, dp = \frac{1}{120} \left( \frac{n^6}{6} - 2n^5 + \frac{35n^4}{4} - \frac{50n^3}{3} + 12n^2 \right)$
+\end{enumerate}
+Substituting these integrals and factoring out $n$ yields the \textbf{General Quadrature Formula}:
+\begin{equation}
+\boxed{
+\begin{aligned}
+    \int_{x_0}^{x_0 + n h} y \, dx &= n h \left[ y_0 + \frac{n}{2} \Delta y_0 + \frac{n(2n-3)}{12} \Delta^2 y_0 + \frac{n(n-2)^2}{24} \Delta^3 y_0 \right. \\
+    &\quad \left. + \frac{1}{24} \left( \frac{n^4}{5} - \frac{3n^3}{2} + \frac{11n^2}{3} - 3n \right) \Delta^4 y_0 + \dots \right]
+\end{aligned}
+}
+\end{equation}
+\end{theorembox}
+
+\begin{notebox}[Manuscript Equation Correspondence (Page 68)]
+In the handwritten lecture notes on Page 68, the author presents both the un-factored and factored forms:
+\begin{align}
+    \int_{x_0}^{x_n} y \, dx &= h \left[ n y_0 + \frac{n^2}{2} \Delta y_0 + \frac{1}{2}\left(\frac{n^3}{3} - \frac{n^2}{2}\right)\Delta^2 y_0 + \frac{1}{6}\left(\frac{n^4}{4} - n^3 + n^2\right)\Delta^3 y_0 \right. \nonumber \\
+    &\quad \left. + \frac{1}{24}\left(\frac{n^5}{5} - \frac{3n^4}{2} + \frac{11n^3}{3} - 3n^2\right)\Delta^4 y_0 + \dots \right] \\
+    &= n h \left[ y_0 + \frac{n}{2}\Delta y_0 + \frac{n(2n-3)}{12}\Delta^2 y_0 + \frac{n(n-2)^2}{24}\Delta^3 y_0 + \dots \right]
+\end{align}
+This master equation serves as the mother formula for all classical closed Newton--Cotes quadrature rules.
+\end{notebox}
+
+% =========================================================================
+% DEDUCTION OF STANDARD QUADRATURE RULES
+% =========================================================================
+\section{Deduction of Classical Newton--Cotes Quadrature Formulas}
+\label{sec:deductions_newton_cotes}
+
+\subsection{1. The Trapezoidal Rule \texorpdfstring{($n = 1$)}{(n = 1)}}
+\begin{theorembox}[Trapezoidal Rule]
+Setting $n = 1$ in the General Quadrature Formula and neglecting differences of order 2 and higher ($\Delta^2 y_0 = \Delta^3 y_0 = \dots \approx 0$):
+\begin{equation}
+    \int_{x_0}^{x_1} y \, dx = 1 \cdot h \left[ y_0 + \frac{1}{2}\Delta y_0 \right] = h \left[ y_0 + \frac{1}{2}(y_1 - y_0) \right] = \boxed{\frac{h}{2}(y_0 + y_1)}
+\end{equation}
+Geometrically, the curve $y = f(x)$ over $[x_0, x_1]$ is replaced by the straight-line chord joining $(x_0, y_0)$ and $(x_1, y_1)$, forming a trapezoid of width $h$ and parallel sides $y_0, y_1$.
+
+\textbf{Composite Trapezoidal Rule:} Summing over all $n$ successive subintervals:
+\begin{align}
+    \int_{x_0}^{x_n} y \, dx &= \sum_{i=0}^{n-1} \int_{x_i}^{x_{i+1}} y \, dx = \frac{h}{2}(y_0 + y_1) + \frac{h}{2}(y_1 + y_2) + \dots + \frac{h}{2}(y_{n-1} + y_n) \nonumber \\
+    &= \boxed{\frac{h}{2} \left[ (y_0 + y_n) + 2(y_1 + y_2 + \dots + y_{n-1}) \right]}
+\end{align}
+\textbf{In Words:} $\frac{h}{2} \left[ (\text{Sum of extremes}) + 2 \times (\text{Sum of intermediate ordinates}) \right]$.
+
+\textbf{Error Analysis:}
+\begin{itemize}[noitemsep]
+    \item Local truncation error per step: $E_{\text{local}} = -\frac{h^3}{12} f''(\xi_i)$
+    \item Global truncation error over $[a, b]$:
+    \begin{equation}
+        \boxed{E_T = -\frac{(b-a)h^2}{12} f''(\xi) = \mathcal{O}(h^2)} \quad (\xi \in (a, b))
+    \end{equation}
+    \item \textbf{Degree of Exactness:} $1$ (exact for polynomials of degree $\le 1$).
+\end{itemize}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Derivation of Trapezoidal Rule Truncation Error]
+We derive both the local error over a single subinterval $[x_0, x_1]$ of width $h$ and the global composite error over $[a, b]$ using Taylor series expansions about the midpoint.
+
+\medskip
+\noindent\textbf{Step 1: Shift to midpoint coordinate system.} \\
+Let $m = \frac{x_0 + x_1}{2} = x_0 + \frac{h}{2}$ be the midpoint of $[x_0, x_1]$. Transform the coordinate variable $t = x - m$, so that $x = m + t$, with integration limits $t \in \left[-\frac{h}{2}, \frac{h}{2}\right]$.
+The exact integral is:
+\begin{equation}
+    I_{\text{exact}} = \int_{x_0}^{x_1} f(x) \, dx = \int_{-h/2}^{h/2} f(m + t) \, dt
+\end{equation}
+
+\noindent\textbf{Step 2: Taylor series expansion of the integrand about midpoint $m$.} \\
+Assuming $f \in C^2[x_0, x_1]$, expand $f(m + t)$ about $t = 0$:
+\begin{equation}
+    f(m + t) = f(m) + t f'(m) + \frac{t^2}{2!} f''(m) + \frac{t^3}{3!} f'''(m) + \frac{t^4}{4!} f^{(4)}(m) + \mathcal{O}(t^5)
+\end{equation}
+Integrating term by term over the symmetric interval $\left[-\frac{h}{2}, \frac{h}{2}\right]$:
+\begin{itemize}[noitemsep]
+    \item By symmetry, all odd powers vanish identically:
+    \begin{equation}
+        \int_{-h/2}^{h/2} t \, dt = 0, \qquad \int_{-h/2}^{h/2} t^3 \, dt = 0
+    \end{equation}
+    \item Even powers evaluate to:
+    \begin{align}
+        \int_{-h/2}^{h/2} 1 \, dt &= \frac{h}{2} - \left(-\frac{h}{2}\right) = h \\
+        \int_{-h/2}^{h/2} t^2 \, dt &= \left[ \frac{t^3}{3} \right]_{-h/2}^{h/2} = \frac{1}{3}\left[ \frac{h^3}{8} - \left(-\frac{h^3}{8}\right) \right] = \frac{h^3}{12}
+    \end{align}
+\end{itemize}
+Therefore, the exact integral evaluates to:
+\begin{equation}
+    \label{eq:trap_exact_midpoint}
+    I_{\text{exact}} = h f(m) + \frac{f''(m)}{2} \left( \frac{h^3}{12} \right) + \mathcal{O}(h^5) = h f(m) + \frac{h^3}{24} f''(m) + \mathcal{O}(h^5)
+\end{equation}
+
+\noindent\textbf{Step 3: Taylor expansion of the Trapezoidal approximation.} \\
+The Trapezoidal approximation over $[x_0, x_1]$ is:
+\begin{equation}
+    T(h) = \frac{h}{2} \left[ f(x_0) + f(x_1) \right] = \frac{h}{2} \left[ f\left(m - \frac{h}{2}\right) + f\left(m + \frac{h}{2}\right) \right]
+\end{equation}
+Expanding both ordinate values about $m$:
+\begin{align}
+    f\left(m + \frac{h}{2}\right) &= f(m) + \frac{h}{2} f'(m) + \frac{h^2}{8} f''(m) + \frac{h^3}{48} f'''(m) + \mathcal{O}(h^4) \\
+    f\left(m - \frac{h}{2}\right) &= f(m) - \frac{h}{2} f'(m) + \frac{h^2}{8} f''(m) - \frac{h^3}{48} f'''(m) + \mathcal{O}(h^4)
+\end{align}
+Adding these two expansions cancels the first and third derivative terms:
+\begin{equation}
+    f\left(m + \frac{h}{2}\right) + f\left(m - \frac{h}{2}\right) = 2 f(m) + \frac{h^2}{4} f''(m) + \mathcal{O}(h^4)
+\end{equation}
+Multiplying by $\frac{h}{2}$:
+\begin{equation}
+    \label{eq:trap_approx_midpoint}
+    T(h) = \frac{h}{2} \left[ 2 f(m) + \frac{h^2}{4} f''(m) + \mathcal{O}(h^4) \right] = h f(m) + \frac{h^3}{8} f''(m) + \mathcal{O}(h^5)
+\end{equation}
+
+\noindent\textbf{Step 4: Subtract approximation from exact integral to find local error.} \\
+Subtracting \eqref{eq:trap_approx_midpoint} from \eqref{eq:trap_exact_midpoint}:
+\begin{align}
+    E_{\text{local}} = I_{\text{exact}} - T(h) &= \left[ h f(m) + \frac{h^3}{24} f''(m) \right] - \left[ h f(m) + \frac{h^3}{8} f''(m) \right] + \mathcal{O}(h^5) \nonumber \\
+    &= \left( \frac{1}{24} - \frac{1}{8} \right) h^3 f''(m) + \mathcal{O}(h^5) \nonumber \\
+    &= \left( \frac{1 - 3}{24} \right) h^3 f''(m) + \mathcal{O}(h^5) = -\frac{2}{24} h^3 f''(m) + \mathcal{O}(h^5)
+\end{align}
+\begin{equation}
+    \boxed{E_{\text{local}} = -\frac{h^3}{12} f''(\xi_i)} \quad (\xi_i \in [x_0, x_1])
+\end{equation}
+
+\noindent\textbf{Step 5: Composite Global Truncation Error.} \\
+Over the entire interval $[a, b]$ divided into $n$ subintervals of equal width $h = \frac{b - a}{n}$:
+\begin{equation}
+    E_T = \sum_{i=1}^n E_{\text{local}, i} = \sum_{i=1}^n \left( -\frac{h^3}{12} f''(\xi_i) \right) = -\frac{h^3}{12} \sum_{i=1}^n f''(\xi_i)
+\end{equation}
+Express the sum in terms of the arithmetic mean:
+\begin{equation}
+    \frac{1}{n} \sum_{i=1}^n f''(\xi_i) = \mu
+\end{equation}
+Since $f \in C^2[a, b]$, by the Intermediate Value Theorem for continuous functions, there exists some point $\xi \in (a, b)$ such that $f''(\xi) = \mu$.
+Substituting $\sum_{i=1}^n f''(\xi_i) = n f''(\xi)$ and using $n h = b - a$:
+\begin{equation}
+    E_T = -\frac{h^3}{12} \cdot n f''(\xi) = -\frac{(n h) h^2}{12} f''(\xi) = \boxed{-\frac{(b - a) h^2}{12} f''(\xi)}
+\end{equation}
+This rigorously establishes that the global error is $\mathcal{O}(h^2)$. $\blacksquare$
+\end{proof}
+
+
+\subsection{2. Simpson's 1/3 Rule \texorpdfstring{($n = 2$)}{(n = 2)}}
+\begin{theorembox}[Simpson's 1/3 Rule]
+Setting $n = 2$ in the General Quadrature Formula and neglecting differences of order 3 and higher:
+\begin{equation}
+    \int_{x_0}^{x_2} y \, dx = 2 h \left[ y_0 + \frac{2}{2} \Delta y_0 + \frac{2(4 - 3)}{12} \Delta^2 y_0 \right] = 2 h \left[ y_0 + \Delta y_0 + \frac{1}{6} \Delta^2 y_0 \right]
+\end{equation}
+Expressing the differences in terms of ordinates $y_0, y_1, y_2$:
+\begin{align}
+    \Delta y_0 &= y_1 - y_0 \nonumber \\
+    \Delta^2 y_0 &= y_2 - 2 y_1 + y_0
+\end{align}
+Substituting:
+\begin{align}
+    \int_{x_0}^{x_2} y \, dx &= 2 h \left[ y_0 + (y_1 - y_0) + \frac{1}{6}(y_2 - 2 y_1 + y_0) \right] \nonumber \\
+    &= 2 h \left[ \frac{1}{6} y_0 + \frac{4}{6} y_1 + \frac{1}{6} y_2 \right] = \boxed{\frac{h}{3}(y_0 + 4 y_1 + y_2)}
+\end{align}
+
+\textbf{Vanishing 3rd Difference Remark (Bonus Degree of Precision):}
+Notice that the coefficient of $\Delta^3 y_0$ in the general formula is $\frac{n(n-2)^2}{24}$. For $n = 2$, this coefficient evaluates to:
+\begin{equation}
+    \frac{2(2 - 2)^2}{24} = 0
+\end{equation}
+Consequently, \textbf{the 3rd difference vanishes identically}! Even though Simpson's rule is derived by fitting a 2nd-degree parabola across three points, it is \textbf{exact for cubic polynomials} ($f(x) = x^3$).
+
+\textbf{Composite Simpson's 1/3 Rule ($n$ must be even):}
+\begin{align}
+    \int_{x_0}^{x_n} y \, dx &= \int_{x_0}^{x_2} y \, dx + \int_{x_2}^{x_4} y \, dx + \dots + \int_{x_{n-2}}^{x_n} y \, dx \nonumber \\
+    &= \frac{h}{3}(y_0 + 4y_1 + y_2) + \frac{h}{3}(y_2 + 4y_3 + y_4) + \dots + \frac{h}{3}(y_{n-2} + 4y_{n-1} + y_n)
+\end{align}
+\begin{equation}
+    \boxed{
+    \int_{x_0}^{x_n} y \, dx = \frac{h}{3} \left[ (y_0 + y_n) + 4(y_1 + y_3 + \dots + y_{n-1}) + 2(y_2 + y_4 + \dots + y_{n-2}) \right]
+    }
+\end{equation}
+In words: $\frac{h}{3} \left[ (\text{Sum of extremes}) + 4 \times (\text{Sum of odd ordinates}) + 2 \times (\text{Sum of even ordinates}) \right]$.
+
+\textbf{Error Analysis:}
+\begin{itemize}[noitemsep]
+    \item Local truncation error per double step: $E_{\text{local}} = -\frac{h^5}{90} f^{(4)}(\xi_i)$
+    \item Global truncation error over $[a, b]$:
+    \begin{equation}
+        \boxed{E_S = -\frac{(b-a)h^4}{180} f^{(4)}(\xi) = \mathcal{O}(h^4)} \quad (\xi \in (a, b))
+    \end{equation}
+    \item \textbf{Degree of Exactness:} $3$ (exact for polynomials of degree $\le 3$).
+\end{itemize}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Derivation of Simpson's 1/3 Rule Truncation Error]
+We derive the error over a double subinterval $[x_0, x_2]$ of total width $2h$ centered at the interior node $x_1 = m$, and then determine the composite global error over $[a, b]$.
+
+\medskip
+\noindent\textbf{Step 1: Coordinate transformation centered at midpoint $x_1$.} \\
+Let $m = x_1$, so that $x_0 = m - h$ and $x_2 = m + h$. Make the variable substitution $t = x - m$, so that $x = m + t$ and $t \in [-h, h]$.
+The exact integral over the double step $[x_0, x_2]$ is:
+\begin{equation}
+    I_{\text{exact}} = \int_{x_0}^{x_2} f(x) \, dx = \int_{-h}^h f(m + t) \, dt
+\end{equation}
+
+\noindent\textbf{Step 2: Taylor series expansion of the integrand about $m$.} \\
+Assuming $f \in C^4[x_0, x_2]$, expand $f(m + t)$ about $t = 0$:
+\begin{equation}
+    f(m + t) = f(m) + t f'(m) + \frac{t^2}{2!} f''(m) + \frac{t^3}{3!} f'''(m) + \frac{t^4}{4!} f^{(4)}(m) + \frac{t^5}{5!} f^{(5)}(m) + \mathcal{O}(t^6)
+\end{equation}
+Integrating term by term over the symmetric interval $[-h, h]$:
+\begin{itemize}[noitemsep]
+    \item All odd powers vanish by antisymmetry:
+    \begin{equation}
+        \int_{-h}^h t \, dt = 0, \qquad \int_{-h}^h t^3 \, dt = 0, \qquad \int_{-h}^h t^5 \, dt = 0
+    \end{equation}
+    \item Even powers integrate to:
+    \begin{align}
+        \int_{-h}^h 1 \, dt &= 2h \\
+        \int_{-h}^h t^2 \, dt &= \left[ \frac{t^3}{3} \right]_{-h}^h = \frac{2h^3}{3} \\
+        \int_{-h}^h t^4 \, dt &= \left[ \frac{t^5}{5} \right]_{-h}^h = \frac{2h^5}{5}
+    \end{align}
+\end{itemize}
+Substituting these values:
+\begin{align}
+    I_{\text{exact}} &= 2h f(m) + \frac{f''(m)}{2} \left( \frac{2h^3}{3} \right) + \frac{f^{(4)}(m)}{24} \left( \frac{2h^5}{5} \right) + \mathcal{O}(h^7) \nonumber \\
+    \label{eq:simp_exact_expansion}
+    &= 2h f(m) + \frac{h^3}{3} f''(m) + \frac{h^5}{60} f^{(4)}(m) + \mathcal{O}(h^7)
+\end{align}
+
+\noindent\textbf{Step 3: Taylor expansion of Simpson's 1/3 quadrature approximation.} \\
+Simpson's 1/3 rule for this double panel is:
+\begin{equation}
+    S(h) = \frac{h}{3} \left[ f(m - h) + 4 f(m) + f(m + h) \right]
+\end{equation}
+Expand $f(m + h)$ and $f(m - h)$ about $m$ up to 4th order:
+\begin{align}
+    f(m + h) &= f(m) + h f'(m) + \frac{h^2}{2} f''(m) + \frac{h^3}{6} f'''(m) + \frac{h^4}{24} f^{(4)}(m) + \mathcal{O}(h^5) \\
+    f(m - h) &= f(m) - h f'(m) + \frac{h^2}{2} f''(m) - \frac{h^3}{6} f'''(m) + \frac{h^4}{24} f^{(4)}(m) + \mathcal{O}(h^5)
+\end{align}
+Adding both ordinate values eliminates the odd derivatives:
+\begin{equation}
+    f(m + h) + f(m - h) = 2 f(m) + h^2 f''(m) + \frac{h^4}{12} f^{(4)}(m) + \mathcal{O}(h^6)
+\end{equation}
+Now add the central ordinate contribution $4 f(m)$:
+\begin{align}
+    f(m - h) + 4 f(m) + f(m + h) &= [2 f(m) + 4 f(m)] + h^2 f''(m) + \frac{h^4}{12} f^{(4)}(m) + \mathcal{O}(h^6) \nonumber \\
+    &= 6 f(m) + h^2 f''(m) + \frac{h^4}{12} f^{(4)}(m) + \mathcal{O}(h^6)
+\end{align}
+Multiplying the entire sum by $\frac{h}{3}$:
+\begin{align}
+    \label{eq:simp_approx_expansion}
+    S(h) &= \frac{h}{3} \left[ 6 f(m) + h^2 f''(m) + \frac{h^4}{12} f^{(4)}(m) + \mathcal{O}(h^6) \right] \nonumber \\
+    &= 2h f(m) + \frac{h^3}{3} f''(m) + \frac{h^5}{36} f^{(4)}(m) + \mathcal{O}(h^7)
+\end{align}
+
+\noindent\textbf{Step 4: Subtract approximation from exact integral to obtain local error.} \\
+Subtracting \eqref{eq:simp_approx_expansion} from \eqref{eq:simp_exact_expansion}:
+\begin{align}
+    E_{\text{local}} = I_{\text{exact}} - S(h) &= \left[ 2h f(m) + \frac{h^3}{3} f''(m) + \frac{h^5}{60} f^{(4)}(m) \right] \nonumber \\
+    &\quad - \left[ 2h f(m) + \frac{h^3}{3} f''(m) + \frac{h^5}{36} f^{(4)}(m) \right] + \mathcal{O}(h^7)
+\end{align}
+Notice the extraordinary cancellation:
+\begin{equation}
+    2h f(m) - 2h f(m) = 0, \qquad \frac{h^3}{3} f''(m) - \frac{h^3}{3} f''(m) = 0!
+\end{equation}
+This cancellation of the $f''(m)$ term is the exact mathematical reason why Simpson's rule is exact for cubic polynomials ($f''' \ne 0, f^{(4)} \equiv 0$)!
+The difference of the 4th derivative coefficients is:
+\begin{equation}
+    \frac{1}{60} - \frac{1}{36} = \frac{3 - 5}{180} = -\frac{2}{180} = -\frac{1}{90}
+\end{equation}
+Therefore:
+\begin{equation}
+    \boxed{E_{\text{local}} = -\frac{h^5}{90} f^{(4)}(\xi_i)} \quad (\xi_i \in [x_0, x_2])
+\end{equation}
+
+\noindent\textbf{Step 5: Composite Global Truncation Error.} \\
+For an even number of subintervals $n$ ($n/2$ double panels) across $[a, b]$:
+\begin{equation}
+    E_S = \sum_{j=1}^{n/2} E_{\text{local}, j} = \sum_{j=1}^{n/2} \left( -\frac{h^5}{90} f^{(4)}(\xi_j) \right) = -\frac{h^5}{90} \sum_{j=1}^{n/2} f^{(4)}(\xi_j)
+\end{equation}
+Rewriting the sum using the average of the $n/2$ values:
+\begin{equation}
+    \frac{2}{n} \sum_{j=1}^{n/2} f^{(4)}(\xi_j) = \bar{f}^{(4)}
+\end{equation}
+Since $f \in C^4[a, b]$, by the Intermediate Value Theorem, there exists $\xi \in (a, b)$ such that $f^{(4)}(\xi) = \bar{f}^{(4)}$.
+Therefore $\sum_{j=1}^{n/2} f^{(4)}(\xi_j) = \frac{n}{2} f^{(4)}(\xi)$. Substituting this in:
+\begin{equation}
+    E_S = -\frac{h^5}{90} \left( \frac{n}{2} f^{(4)}(\xi) \right) = -\frac{(n h) h^4}{180} f^{(4)}(\xi) = \boxed{-\frac{(b - a) h^4}{180} f^{(4)}(\xi)}
+\end{equation}
+This rigorously establishes that the global composite error is $\mathcal{O}(h^4)$. $\blacksquare$
+\end{proof}
+
+
+\subsection{3. Simpson's 3/8 Rule \texorpdfstring{($n = 3$)}{(n = 3)}}
+\begin{theorembox}[Simpson's 3/8 Rule]
+Setting $n = 3$ in the General Quadrature Formula and neglecting differences of order $\ge 4$:
+\begin{align}
+    \int_{x_0}^{x_3} y \, dx &= 3 h \left[ y_0 + \frac{3}{2}\Delta y_0 + \frac{3(6-3)}{12}\Delta^2 y_0 + \frac{3(3-2)^2}{24}\Delta^3 y_0 \right] \nonumber \\
+    &= 3 h \left[ y_0 + \frac{3}{2}\Delta y_0 + \frac{3}{4}\Delta^2 y_0 + \frac{1}{8}\Delta^3 y_0 \right]
+\end{align}
+Writing in terms of ordinates:
+\begin{align}
+    \Delta y_0 &= y_1 - y_0 \nonumber \\
+    \Delta^2 y_0 &= y_2 - 2 y_1 + y_0 \nonumber \\
+    \Delta^3 y_0 &= y_3 - 3 y_2 + 3 y_1 - y_0
+\end{align}
+Collecting coefficients of $y_0, y_1, y_2, y_3$:
+\begin{align}
+    \text{Coeff of } y_0 &= 3 h \left( 1 - \frac{3}{2} + \frac{3}{4} - \frac{1}{8} \right) = 3 h \left( \frac{8 - 12 + 6 - 1}{8} \right) = \frac{3 h}{8} \nonumber \\
+    \text{Coeff of } y_1 &= 3 h \left( \frac{3}{2} - \frac{6}{4} + \frac{3}{8} \right) = 3 h \left( \frac{3}{8} \right) = \frac{9 h}{8} = 3 \cdot \frac{3 h}{8} \nonumber \\
+    \text{Coeff of } y_2 &= 3 h \left( \frac{3}{4} - \frac{3}{8} \right) = 3 h \left( \frac{3}{8} \right) = \frac{9 h}{8} = 3 \cdot \frac{3 h}{8} \nonumber \\
+    \text{Coeff of } y_3 &= 3 h \left( \frac{1}{8} \right) = \frac{3 h}{8}
+\end{align}
+Thus:
+\begin{equation}
+    \boxed{\int_{x_0}^{x_3} y \, dx = \frac{3 h}{8} (y_0 + 3 y_1 + 3 y_2 + y_3)}
+\end{equation}
+
+\textbf{Composite Simpson's 3/8 Rule ($n$ must be a multiple of 3):}
+\begin{equation}
+    \boxed{
+    \int_{x_0}^{x_n} y \, dx = \frac{3 h}{8} \left[ (y_0 + y_n) + 3(y_1 + y_2 + y_4 + y_5 + \dots + y_{n-1}) + 2(y_3 + y_6 + \dots + y_{n-3}) \right]
+    }
+\end{equation}
+\textbf{Error Analysis:}
+\begin{itemize}[noitemsep]
+    \item Local truncation error per triple panel: $E_{\text{local}} = -\frac{3 h^5}{80} f^{(4)}(\xi_i)$
+    \item Global truncation error over $[a, b]$:
+    \begin{equation}
+        \boxed{E_{3/8} = -\frac{(b-a) h^4}{80} f^{(4)}(\xi) = \mathcal{O}(h^4)}
+    \end{equation}
+    \item \textbf{Degree of Exactness:} $3$. (Although Simpson's 1/3 rule has a smaller error coefficient $\frac{1}{180} < \frac{1}{80}$, the 3/8 rule is indispensable when the total number of subintervals $n$ is an odd multiple of 3).
+\end{itemize}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Derivation of Simpson's 3/8 Rule Truncation Error]
+We derive the exact local error remainder from the leading neglected term in the General Quadrature Formula and then sum across panels to establish the global error.
+
+\medskip
+\noindent\textbf{Step 1: Identify the leading neglected difference in the General Quadrature Formula.} \\
+In the General Quadrature Formula with $n = 3$, differences up to $\Delta^3 y_0$ were retained. The first omitted term is:
+\begin{equation}
+    E_{\text{local}} = h \int_0^3 \frac{p(p-1)(p-2)(p-3)}{4!} \, dp \cdot \Delta^4 y_0
+\end{equation}
+where $p^{(4)} = p(p-1)(p-2)(p-3)$.
+
+\medskip
+\noindent\textbf{Step 2: Evaluate the monomial integral analytically.} \\
+Expand the polynomial integrand:
+\begin{align}
+    p(p-1)(p-2)(p-3) &= [p(p-3)][(p-1)(p-2)] = (p^2 - 3p)(p^2 - 3p + 2) \nonumber \\
+    &= (p^2 - 3p)^2 + 2(p^2 - 3p) \nonumber \\
+    &= (p^4 - 6p^3 + 9p^2) + (2p^2 - 6p) = p^4 - 6p^3 + 11p^2 - 6p
+\end{align}
+Now integrate term by term over $[0, 3]$:
+\begin{align}
+    \int_0^3 (p^4 - 6p^3 + 11p^2 - 6p) \, dp &= \left[ \frac{p^5}{5} - \frac{6p^4}{4} + \frac{11p^3}{3} - \frac{6p^2}{2} \right]_0^3 \nonumber \\
+    &= \frac{243}{5} - \frac{3(81)}{2} + \frac{11(27)}{3} - 3(9) \nonumber \\
+    &= 48.6 - 121.5 + 99 - 27 \nonumber \\
+    &= 48.6 - 121.5 + 72 = 120.6 - 121.5 = -0.9 = -\frac{9}{10}
+\end{align}
+Dividing by $4! = 24$:
+\begin{equation}
+    \frac{1}{24} \int_0^3 p(p-1)(p-2)(p-3) \, dp = \frac{1}{24}\left( -\frac{9}{10} \right) = -\frac{9}{240} = -\frac{3}{80}
+\end{equation}
+
+\medskip
+\noindent\textbf{Step 3: Relate the fourth forward difference to the derivative.} \\
+By the Fundamental Identity relating finite differences to derivatives, $\Delta^4 y_0 = h^4 f^{(4)}(\xi_i)$ for some $\xi_i \in (x_0, x_3)$.
+Substituting this into the error expression:
+\begin{equation}
+    \boxed{E_{\text{local}} = h \left( -\frac{3}{80} \right) h^4 f^{(4)}(\xi_i) = -\frac{3 h^5}{80} f^{(4)}(\xi_i)}
+\end{equation}
+
+\medskip
+\noindent\textbf{Step 4: Composite Global Truncation Error.} \\
+When $[a, b]$ is partitioned into $n$ subintervals (where $n$ is a multiple of 3), the domain contains $M = n/3$ triple panels of width $3h$:
+\begin{equation}
+    E_{3/8} = \sum_{j=1}^{n/3} E_{\text{local}, j} = \sum_{j=1}^{n/3} \left( -\frac{3 h^5}{80} f^{(4)}(\xi_j) \right) = -\frac{3 h^5}{80} \sum_{j=1}^{n/3} f^{(4)}(\xi_j)
+\end{equation}
+By the Intermediate Value Theorem for continuous functions, there exists some point $\xi \in (a, b)$ such that:
+\begin{equation}
+    \frac{1}{n/3} \sum_{j=1}^{n/3} f^{(4)}(\xi_j) = f^{(4)}(\xi) \iff \sum_{j=1}^{n/3} f^{(4)}(\xi_j) = \frac{n}{3} f^{(4)}(\xi)
+\end{equation}
+Substituting this back into the total error expression:
+\begin{equation}
+    E_{3/8} = -\frac{3 h^5}{80} \left( \frac{n}{3} f^{(4)}(\xi) \right) = -\frac{n h^5}{80} f^{(4)}(\xi)
+\end{equation}
+Using $n h = b - a$, we obtain:
+\begin{equation}
+    \boxed{E_{3/8} = -\frac{(n h) h^4}{80} f^{(4)}(\xi) = -\frac{(b - a) h^4}{80} f^{(4)}(\xi)} \quad \blacksquare
+\end{equation}
+This completes the rigorous proof.
+\end{proof}
+
+
+\subsection{4. Boole's Rule \texorpdfstring{($n = 4$)}{(n = 4)}}
+\begin{theorembox}[Boole's Quadrature Rule]
+Setting $n = 4$ in the General Quadrature Formula and retaining terms up to $\Delta^4 y_0$:
+\begin{equation}
+    \boxed{\int_{x_0}^{x_4} y \, dx = \frac{2 h}{45} \left( 7 y_0 + 32 y_1 + 12 y_2 + 32 y_3 + 7 y_4 \right)}
+\end{equation}
+\textbf{Error Analysis:}
+\begin{itemize}[noitemsep]
+    \item Local truncation error: $E_{\text{local}} = -\frac{8 h^7}{945} f^{(6)}(\xi_i)$
+    \item Global truncation error: $\boxed{E_{\text{Boole}} = -\frac{2 (b - a) h^6}{945} f^{(6)}(\xi) = \mathcal{O}(h^6)}$
+    \item \textbf{Degree of Exactness:} $5$ (exact for all polynomials of degree $\le 5$).
+\end{itemize}
+\end{theorembox}
+
+
+\subsection{5. Weddle's Rule \texorpdfstring{($n = 6$)}{(n = 6)}}
+\begin{theorembox}[Weddle's Rule]
+Setting $n = 6$ in the General Quadrature Formula and adopting Weddle's harmonic simplification for the 6th difference:
+\begin{equation}
+    \boxed{\int_{x_0}^{x_6} y \, dx = \frac{3 h}{10} (y_0 + 5 y_1 + y_2 + 6 y_3 + y_4 + 5 y_5 + y_6)}
+\end{equation}
+\textbf{Composite Weddle's Rule ($n$ must be a multiple of 6):}
+\begin{align}
+    \int_{x_0}^{x_n} y \, dx &= \frac{3 h}{10} \left[ (y_0 + y_n) + 5(y_1 + y_5 + y_7 + y_{11} + \dots) + (y_2 + y_4 + y_8 + y_{10} + \dots) \right. \nonumber \\
+    &\quad \left. + 6(y_3 + y_9 + y_{15} + \dots) + 2(y_6 + y_{12} + \dots) \right]
+\end{align}
+\textbf{Error Analysis:}
+\begin{itemize}[noitemsep]
+    \item Local truncation error: $E_{\text{local}} = -\frac{h^7}{140} f^{(6)}(\xi_i)$
+    \item Global truncation error: $\boxed{E_W = -\frac{(b-a) h^6}{840} f^{(6)}(\xi) = \mathcal{O}(h^6)}$
+    \item \textbf{Degree of Exactness:} $5$ (exact for 5th-degree polynomials).
+\end{itemize}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Algebraic Derivation of Weddle's Rule from the General Quadrature Formula]
+We prove Weddle's formula by substituting $n = 6$ into the General Quadrature Formula and showing how the famous integer weights $(1, 5, 1, 6, 1, 5, 1)$ emerge from shift operator algebra.
+
+\medskip
+\noindent\textbf{Step 1: Evaluate Newton--Cotes integral coefficients for $n = 6$.} \\
+The General Quadrature Formula before factoring out $n$ is:
+\begin{align}
+    \int_{x_0}^{x_6} y \, dx = h \left[ n y_0 + C_1 \Delta y_0 + C_2 \Delta^2 y_0 + C_3 \Delta^3 y_0 + C_4 \Delta^4 y_0 + C_5 \Delta^5 y_0 + C_6 \Delta^6 y_0 + \dots \right]
+\end{align}
+where $C_k = \frac{1}{k!} \int_0^6 p(p-1)\dots(p-k+1) \, dp$. Evaluating these integrals at $n = 6$:
+\begin{enumerate}[noitemsep]
+    \item $C_0 = 6$.
+    \item $C_1 = \left[ \frac{p^2}{2} \right]_0^6 = \frac{36}{2} = 18$.
+    \item $C_2 = \frac{1}{2} \left[ \frac{p^3}{3} - \frac{p^2}{2} \right]_0^6 = \frac{1}{2}(72 - 18) = \frac{54}{2} = 27$.
+    \item $C_3 = \frac{1}{6} \left[ \frac{p^4}{4} - p^3 + p^2 \right]_0^6 = \frac{1}{6}(324 - 216 + 36) = \frac{144}{6} = 24$.
+    \item $C_4 = \frac{1}{24} \left[ \frac{p^5}{5} - \frac{3p^4}{2} + \frac{11p^3}{3} - 3p^2 \right]_0^6 = \frac{1}{24}\left( \frac{7776}{5} - 1944 + 792 - 108 \right) = \frac{123}{10}$.
+    \item $C_5 = \frac{1}{120} \left[ \frac{p^6}{6} - 2p^5 + \frac{35p^4}{4} - \frac{50p^3}{3} + 12p^2 \right]_0^6 = \frac{1}{120}(7776 - 15552 + 11340 - 3600 + 432) = \frac{33}{10}$.
+    \item $C_6 = \frac{1}{720} \int_0^6 p^{(6)} \, dp = \frac{41}{140}$.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Step 2: Weddle's Adjustment of the 6th Difference.} \\
+Notice that $\frac{41}{140} = \frac{42 - 1}{140} = \frac{3}{10} - \frac{1}{140}$.
+Weddle replaced $C_6 = \frac{41}{140}$ with the extremely close approximation $\frac{42}{140} = \frac{3}{10}$.
+The error introduced by this single replacement is only $-\frac{1}{140} h \Delta^6 y_0 = -\frac{h^7}{140} f^{(6)}(\xi)$, which is already of the order of the truncation error!
+Substituting $C_6 \approx \frac{3}{10}$:
+\begin{align}
+    \int_{x_0}^{x_6} y \, dx &\approx h \left[ 6 y_0 + 18 \Delta y_0 + 27 \Delta^2 y_0 + 24 \Delta^3 y_0 + \frac{123}{10} \Delta^4 y_0 + \frac{33}{10} \Delta^5 y_0 + \frac{3}{10} \Delta^6 y_0 \right] \nonumber \\
+    &= \frac{3 h}{10} \left[ 20 y_0 + 60 \Delta y_0 + 90 \Delta^2 y_0 + 80 \Delta^3 y_0 + 41 \Delta^4 y_0 + 11 \Delta^5 y_0 + \Delta^6 y_0 \right]
+\end{align}
+
+\medskip
+\noindent\textbf{Step 3: Conversion to Ordinate Form via Shift Operator Expansion.} \\
+Let $\Delta = E - 1$. The expression in brackets becomes a polynomial in $E$:
+\begin{equation}
+    P(E) = 20 + 60(E-1) + 90(E-1)^2 + 80(E-1)^3 + 41(E-1)^4 + 11(E-1)^5 + (E-1)^6
+\end{equation}
+Expanding powers of $(E-1)$ and grouping like powers of $E^k$ ($y_k = E^k y_0$):
+\begin{itemize}[noitemsep]
+    \item \textbf{Coefficient of $E^0$ ($y_0$):}
+    \begin{equation}
+        20 - 60 + 90 - 80 + 41 - 11 + 1 = \mathbf{1}
+    \end{equation}
+    \item \textbf{Coefficient of $E^1$ ($y_1$):}
+    \begin{equation}
+        60 - 2(90) + 3(80) - 4(41) + 5(11) - 6(1) = 60 - 180 + 240 - 164 + 55 - 6 = \mathbf{5}
+    \end{equation}
+    \item \textbf{Coefficient of $E^2$ ($y_2$):}
+    \begin{equation}
+        90 - 3(80) + 6(41) - 10(11) + 15(1) = 90 - 240 + 246 - 110 + 15 = \mathbf{1}
+    \end{equation}
+    \item \textbf{Coefficient of $E^3$ ($y_3$):}
+    \begin{equation}
+        80 - 4(41) + 10(11) - 20(1) = 80 - 164 + 110 - 20 = \mathbf{6}
+    \end{equation}
+    \item \textbf{Coefficient of $E^4$ ($y_4$):}
+    \begin{equation}
+        41 - 5(11) + 15(1) = 41 - 55 + 15 = \mathbf{1}
+    \end{equation}
+    \item \textbf{Coefficient of $E^5$ ($y_5$):}
+    \begin{equation}
+        11 - 6(1) = \mathbf{5}
+    \end{equation}
+    \item \textbf{Coefficient of $E^6$ ($y_6$):}
+    \begin{equation}
+        1 = \mathbf{1}
+    \end{equation}
+\end{itemize}
+The resulting polynomial simplifies identically to:
+\begin{equation}
+    P(E) y_0 = \left( 1 + 5 E + E^2 + 6 E^3 + E^4 + 5 E^5 + E^6 \right) y_0 = y_0 + 5 y_1 + y_2 + 6 y_3 + y_4 + 5 y_5 + y_6
+\end{equation}
+Multiplying by the pre-factor $\frac{3 h}{10}$:
+\begin{equation}
+    \boxed{\int_{x_0}^{x_6} y \, dx = \frac{3 h}{10} \left( y_0 + 5 y_1 + y_2 + 6 y_3 + y_4 + 5 y_5 + y_6 \right)} \quad \blacksquare
+\end{equation}
+This completes the exact algebraic proof of Weddle's Rule.
+\end{proof}
+
+% =========================================================================
+% GEOMETRIC COMPARISON & TIKZ DIAGRAM
+% =========================================================================
+\section{Geometric Comparison of Quadrature Formulas}
+\label{sec:geometric_quadrature_diagram}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.1]
+    % Axes
+    \draw[->, thick, gray!80] (-0.5,0) -- (10.5,0) node[right, black] {\small $x$};
+    \draw[->, thick, gray!80] (0,-0.5) -- (0,5.2) node[above, black] {\small $y = f(x)$};
+    
+    % True curve f(x)
+    \draw[thick, primary, domain=1:9, samples=100] plot (\x, {1.2 + 2.8*sin((\x - 1)*22.5)});
+    \node[primary, font=\bfseries] at (5.0, 4.3) {$y = f(x)$ (True Curve)};
+    
+    % Left panel: Trapezoidal Rule (Straight chord)
+    \fill[secondary!15] (1,0) -- (1,1.2) -- (4,3.7) -- (4,0) -- cycle;
+    \draw[dashed, secondary!70, thick] (1,0) -- (1,1.2);
+    \draw[dashed, secondary!70, thick] (4,0) -- (4,3.7);
+    \draw[very thick, red!80!black] (1,1.2) -- (4,3.7) node[midway, above left, font=\scriptsize\bfseries, color=red!80!black] {Secant Chord ($n=1$)};
+    
+    \node[below, font=\small] at (1,0) {$x_0$};
+    \node[below, font=\small] at (4,0) {$x_1$};
+    \fill[black] (1,1.2) circle (2.2pt) node[left, font=\scriptsize] {$(x_0, y_0)$};
+    \fill[black] (4,3.7) circle (2.2pt) node[above left, font=\scriptsize] {$(x_1, y_1)$};
+    \node[font=\footnotesize\bfseries, color=secondary!80!black] at (2.5, 1.2) {Trapezoid Area};
+    \draw[<->, gray] (1,-0.35) -- (4,-0.35) node[midway, below, font=\scriptsize] {$h$};
+
+    % Right panel: Simpson's 1/3 Rule (Parabola across 3 points)
+    \fill[accent!15] (5,0) -- (5,2.6) plot[domain=5:9] (\x, {2.6 + 0.6*(\x-5) - 0.2*(\x-5)*(\x-7)}) -- (9,0) -- cycle;
+    \draw[dashed, accent!70, thick] (5,0) -- (5,2.6);
+    \draw[dashed, accent!70, thick] (7,0) -- (7,3.95);
+    \draw[dashed, accent!70, thick] (9,0) -- (9,2.8);
+    
+    \draw[very thick, green!50!black, domain=5:9, samples=50] plot (\x, {2.6 + 0.675*(\x-5) - 0.156*(\x-5)*(\x-5)});
+    \node[green!50!black, font=\scriptsize\bfseries] at (7.0, 4.4) {Parabolic Arch ($n=2$)};
+    
+    \node[below, font=\small] at (5,0) {$x_0$};
+    \node[below, font=\small] at (7,0) {$x_1$};
+    \node[below, font=\small] at (9,0) {$x_2$};
+    \fill[black] (5,2.6) circle (2.2pt) node[left, font=\scriptsize] {$y_0$};
+    \fill[black] (7,3.95) circle (2.2pt) node[above, font=\scriptsize] {$y_1$};
+    \fill[black] (9,2.8) circle (2.2pt) node[right, font=\scriptsize] {$y_2$};
+    \node[font=\footnotesize\bfseries, color=accent!80!black] at (7.0, 1.2) {Simpson 1/3 Area};
+    \draw[<->, gray] (5,-0.35) -- (7,-0.35) node[midway, below, font=\scriptsize] {$h$};
+    \draw[<->, gray] (7,-0.35) -- (9,-0.35) node[midway, below, font=\scriptsize] {$h$};
+\end{tikzpicture}
+\caption{Geometric comparison between the Trapezoidal rule (linear chord approximation over width $h$) and Simpson's 1/3 rule (quadratic parabolic approximation over double width $2h$).}
+\label{fig:quadrature_comparison}
+\end{figure}
+
+% =========================================================================
+% SUMMARY TABLE OF NEWTON-COTES RULES
+% =========================================================================
+\section{Comprehensive Summary of Newton--Cotes Quadrature Formulas}
+\label{sec:summary_quadrature_table}
+
+\begin{table}[htbp]
+\centering
+\small
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|l|c|l|c|c|}
+\hline
+\textbf{Method} & \textbf{Subintervals $n$} & \textbf{Formula $\int_{x_0}^{x_n} y \, dx$} & \textbf{Degree} & \textbf{Global Error} \\ \hline\hline
+\textbf{Trapezoidal} & Any $n \ge 1$ & $\frac{h}{2}[(y_0 + y_n) + 2\sum_{i=1}^{n-1} y_i]$ & 1 & $-\frac{(b-a)h^2}{12} f''(\xi)$ \\ \hline
+\textbf{Simpson's 1/3} & Even $n$ & $\frac{h}{3}[(y_0 + y_n) + 4\sum y_{\text{odd}} + 2\sum y_{\text{even}}]$ & 3 & $-\frac{(b-a)h^4}{180} f^{(4)}(\xi)$ \\ \hline
+\textbf{Simpson's 3/8} & Multiple of 3 & $\frac{3h}{8}[(y_0 + y_n) + 3\sum y_{\text{rem}} + 2\sum y_{\text{mult 3}}]$ & 3 & $-\frac{3(b-a)h^4}{80} f^{(4)}(\xi)$ \\ \hline
+\textbf{Weddle's Rule} & Multiple of 6 & $\frac{3h}{10}[y_0 + 5y_1 + y_2 + 6y_3 + y_4 + 5y_5 + y_6]$ & 5 & $-\frac{(b-a)h^6}{140} f^{(6)}(\xi)$ \\ \hline
+\end{tabular}
+\caption{Classification, required partition constraints, and truncation errors for Newton--Cotes quadrature rules.}
+\end{table}
+
+% =========================================================================
+% WORKED EXAMPLES
+% =========================================================================
+\section{Exhaustive Step-by-Step Solved Examination Problems}
+\label{sec:quadrature_solved_problems}
+
+\begin{examplebox}[Standard University Benchmark: Evaluation of $\int_{0}^{6} \frac{dx}{1 + x^2}$]
+Evaluate the definite integral:
+\begin{equation}
+    I = \int_{0}^{6} \frac{1}{1 + x^2} \, dx
+\end{equation}
+by dividing the interval $[0, 6]$ into $6$ equal subintervals using:
+\begin{enumerate}[label=(\roman*),noitemsep]
+    \item Trapezoidal Rule
+    \item Simpson's 1/3 Rule
+    \item Simpson's 3/8 Rule
+    \item Weddle's Rule
+\end{enumerate}
+Compare each result with the exact analytical value:
+\begin{equation}
+    I_{\text{exact}} = \left[ \arctan(x) \right]_0^6 = \arctan(6) - \arctan(0) \approx 1.40564765 \text{ rad}
+\end{equation}
+
+\textbf{Step 1: Construction of the Ordinate Table} \\
+With $a = 0, b = 6, n = 6$, the step size is:
+\begin{equation}
+    h = \frac{b - a}{n} = \frac{6 - 0}{6} = 1
+\end{equation}
+The nodes and ordinate values $y = f(x) = \frac{1}{1 + x^2}$ to 5 decimal places are:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|l|l|}
+\hline
+$i$ & $x_i$ & $y_i = \frac{1}{1 + x_i^2}$ (Fraction) & $y_i$ (Decimal) \\ \hline
+0 & 0 & $1 / 1$ & $1.00000$ \\
+1 & 1 & $1 / 2$ & $0.50000$ \\
+2 & 2 & $1 / 5$ & $0.20000$ \\
+3 & 3 & $1 / 10$ & $0.10000$ \\
+4 & 4 & $1 / 17$ & $0.05882$ \\
+5 & 5 & $1 / 26$ & $0.03846$ \\
+6 & 6 & $1 / 37$ & $0.02703$ \\ \hline
+\end{tabular}
+\end{center}
+\end{examplebox}
+
+\subsubsection*{(i) Solution by Trapezoidal Rule}
+\begin{align}
+    I_T &= \frac{h}{2} \left[ (y_0 + y_6) + 2(y_1 + y_2 + y_3 + y_4 + y_5) \right] \nonumber \\
+    &= \frac{1}{2} \left[ (1.00000 + 0.02703) + 2(0.50000 + 0.20000 + 0.10000 + 0.05882 + 0.03846) \right] \nonumber \\
+    &= \frac{1}{2} \left[ 1.02703 + 2(0.89728) \right] = \frac{1}{2} \left[ 1.02703 + 1.79456 \right] = \frac{2.82159}{2} = \boxed{1.41080}
+\end{align}
+Absolute error: $|1.41080 - 1.40565| = 0.00515$.
+
+\subsubsection*{(ii) Solution by Simpson's 1/3 Rule}
+Since $n = 6$ is even:
+\begin{align}
+    I_{S1/3} &= \frac{h}{3} \left[ (y_0 + y_6) + 4(y_1 + y_3 + y_5) + 2(y_2 + y_4) \right] \nonumber \\
+    &= \frac{1}{3} \left[ (1.00000 + 0.02703) + 4(0.50000 + 0.10000 + 0.03846) + 2(0.20000 + 0.05882) \right] \nonumber \\
+    &= \frac{1}{3} \left[ 1.02703 + 4(0.63846) + 2(0.25882) \right] \nonumber \\
+    &= \frac{1}{3} \left[ 1.02703 + 2.55384 + 0.51764 \right] = \frac{4.09851}{3} = \boxed{1.36617}
+\end{align}
+
+\subsubsection*{(iii) Solution by Simpson's 3/8 Rule}
+Since $n = 6$ is a multiple of 3:
+\begin{align}
+    I_{S3/8} &= \frac{3h}{8} \left[ (y_0 + y_6) + 3(y_1 + y_2 + y_4 + y_5) + 2(y_3) \right] \nonumber \\
+    &= \frac{3(1)}{8} \left[ (1.00000 + 0.02703) + 3(0.50000 + 0.20000 + 0.05882 + 0.03846) + 2(0.10000) \right] \nonumber \\
+    &= \frac{3}{8} \left[ 1.02703 + 3(0.79728) + 0.20000 \right] \nonumber \\
+    &= \frac{3}{8} \left[ 1.02703 + 2.39184 + 0.20000 \right] = \frac{3}{8} [3.61887] = \boxed{1.35708}
+\end{align}
+
+\subsubsection*{(iv) Solution by Weddle's Rule}
+Since $n = 6$:
+\begin{align}
+    I_W &= \frac{3h}{10} \left[ y_0 + 5y_1 + y_2 + 6y_3 + y_4 + 5y_5 + y_6 \right] \nonumber \\
+    &= \frac{3(1)}{10} \left[ 1.00000 + 5(0.50000) + 0.20000 + 6(0.10000) + 0.05882 + 5(0.03846) + 0.02703 \right] \nonumber \\
+    &= \frac{3}{10} \left[ 1.00000 + 2.50000 + 0.20000 + 0.60000 + 0.05882 + 0.19230 + 0.02703 \right] \nonumber \\
+    &= \frac{3}{10} [4.57815] = \boxed{1.37345}
+\end{align}
+
+\begin{examplebox}[Approximation of $\pi$ via $\int_{0}^{1} \frac{dx}{1 + x^2}$]
+Calculate an approximation of $\pi$ using Simpson's 1/3 rule with $h = 0.25$ ($n = 4$) for the integral:
+\begin{equation}
+    I = \int_{0}^{1} \frac{1}{1 + x^2} \, dx = \left[ \arctan(x) \right]_0^1 = \frac{\pi}{4} \implies \pi = 4 I
+\end{equation}
+
+\textbf{Step 1: Partition and Table of Ordinates} \\
+Here $a = 0, b = 1, h = 0.25$, so the nodes are $x_0 = 0, x_1 = 0.25, x_2 = 0.5, x_3 = 0.75, x_4 = 1.0$:
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|c|c|l|l|}
+\hline
+$i$ & $x_i$ & $y_i = \frac{1}{1 + x_i^2}$ & Decimal Value \\ \hline
+0 & 0.00 & $1 / (1 + 0) = 1$ & $1.000000$ \\
+1 & 0.25 & $1 / (1 + 0.0625) = 16/17$ & $0.941176$ \\
+2 & 0.50 & $1 / (1 + 0.25) = 4/5$ & $0.800000$ \\
+3 & 0.75 & $1 / (1 + 0.5625) = 16/25$ & $0.640000$ \\
+4 & 1.00 & $1 / (1 + 1) = 1/2$ & $0.500000$ \\ \hline
+\end{tabular}
+\end{center}
+
+\textbf{Step 2: Apply Simpson's 1/3 Rule}
+\begin{align}
+    I &\approx \frac{h}{3} \left[ (y_0 + y_4) + 4(y_1 + y_3) + 2(y_2) \right] \nonumber \\
+    &= \frac{0.25}{3} \left[ (1.000000 + 0.500000) + 4(0.941176 + 0.640000) + 2(0.800000) \right] \nonumber \\
+    &= \frac{0.25}{3} \left[ 1.500000 + 4(1.581176) + 1.600000 \right] \nonumber \\
+    &= \frac{0.25}{3} \left[ 1.500000 + 6.324704 + 1.600000 \right] = \frac{0.25}{3} [9.424704] = 0.785392
+\end{align}
+
+\textbf{Step 3: Compute $\pi$}
+\begin{equation}
+    \pi \approx 4 \times 0.785392 = \boxed{3.141568}
+\end{equation}
+Compared to the true value $\pi = 3.14159265\dots$, the numerical approximation is accurate to \textbf{4 decimal places} with only 4 subintervals!
+\end{examplebox}

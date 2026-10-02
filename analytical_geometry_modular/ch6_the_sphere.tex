@@ -1,0 +1,481 @@
+\chapter{The Geometry of the Sphere in 3D (Pages 63--69)}
+\label{ch:the_sphere}
+
+% =========================================================================
+% PAGE 63
+% =========================================================================
+\section{Page 63: Definition of the Sphere and the General Equation}
+\label{sec:page63}
+
+\begin{conceptbox}[Manuscript Overview: Page 63]
+Page 63 introduces the three-dimensional geometry of the \textbf{Sphere}. It establishes the center-radius algebraic equation, expands it into the general second-degree form, identifies the center and radius formulas, and classifies real, point, and imaginary spheres.
+\end{conceptbox}
+
+\subsection{Definition of a Sphere}
+\begin{conceptbox}[Geometric Definition of a Sphere]
+A \textbf{sphere} is the locus of a point in three-dimensional space that moves such that its distance from a fixed point (termed the \textbf{center}) remains constant. The constant distance is termed the \textbf{radius} of the sphere.
+\end{conceptbox}
+
+\subsection{The Center-Radius Form}
+\begin{theorembox}[Center-Radius Form of a Sphere]
+The equation of a sphere having center $C(a, b, c)$ and radius $R > 0$ is:
+\begin{equation}
+    \boxed{(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $P(x, y, z)$ be any point on the sphere, and let $C(a, b, c)$ be the center.
+By definition, the Euclidean distance $CP$ equals the radius $R$:
+\begin{equation}
+    CP = R \iff CP^2 = R^2.
+\end{equation}
+Using the 3D distance formula (Page 15):
+\begin{equation}
+    (x - a)^2 + (y - b)^2 + (z - c)^2 = R^2.
+\end{equation}
+In the special case where the center is at the origin $O(0, 0, 0)$:
+\begin{equation}
+    \boxed{x^2 + y^2 + z^2 = R^2}
+\end{equation}
+\end{proof}
+
+\subsection{The General Second-Degree Equation of a Sphere}
+Expanding the center-radius equation:
+\begin{align}
+    (x^2 - 2ax + a^2) + (y^2 - 2by + b^2) + (z^2 - 2cz + c^2) &= R^2 \nonumber\\
+    x^2 + y^2 + z^2 - 2ax - 2by - 2cz + (a^2 + b^2 + c^2 - R^2) &= 0.
+\end{align}
+Setting $u = -a, v = -b, w = -c$, and $d = a^2 + b^2 + c^2 - R^2 = u^2 + v^2 + w^2 - R^2$:
+
+\begin{theorembox}[General Form of a Sphere]
+The general equation of a sphere is:
+\begin{equation}
+    \boxed{x^2 + y^2 + z^2 + 2ux + 2vy + 2wz + d = 0}
+\end{equation}
+with:
+\begin{itemize}[noitemsep]
+    \item \textbf{Center}: $(-u, -v, -w)$
+    \item \textbf{Radius}: $R = \sqrt{u^2 + v^2 + w^2 - d}$
+\end{itemize}
+\end{theorembox}
+
+\begin{notebox}[Characteristics of the General Equation of a Sphere]
+An equation of the second degree in $x, y, z$:
+\begin{equation}
+    ax^2 + by^2 + cz^2 + 2fyz + 2gzx + 2hxy + 2ux + 2vy + 2wz + d = 0
+\end{equation}
+represents a sphere if and only if:
+\begin{enumerate}[noitemsep]
+    \item The coefficients of $x^2, y^2, z^2$ are equal: $a = b = c \neq 0$.
+    \item The cross-product terms are absent: $f = g = h = 0$.
+\end{enumerate}
+\end{notebox}
+
+\subsection{Classification of Spheres}
+\begin{itemize}[noitemsep]
+    \item $u^2 + v^2 + w^2 - d > 0$: \textbf{Real Sphere} (with real, positive radius).
+    \item $u^2 + v^2 + w^2 - d = 0$: \textbf{Point Sphere} (radius $R = 0$, locus reduces to the single point $(-u, -v, -w)$).
+    \item $u^2 + v^2 + w^2 - d < 0$: \textbf{Imaginary (Virtual) Sphere} (radius is imaginary; no real points satisfy the equation).
+\end{itemize}
+
+% =========================================================================
+% PAGE 64
+% =========================================================================
+\section{Page 64: Diametric Form of the Sphere and Plane Sections}
+\label{sec:page64}
+
+\begin{conceptbox}[Manuscript Overview: Page 64]
+Page 64 derives:
+\begin{enumerate}[noitemsep]
+    \item The \textbf{Diametric Form} of the sphere given the coordinates of its antipodal endpoints.
+    \item The fundamental theorem proving that every plane section of a sphere is a circle.
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{The Diametric Form of a Sphere}
+\begin{theorembox}[Diametric Form]
+The equation of the sphere described on the line segment joining $A(x_1, y_1, z_1)$ and $B(x_2, y_2, z_2)$ as diameter is:
+\begin{equation}
+    \boxed{(x - x_1)(x - x_2) + (y - y_1)(y - y_2) + (z - z_1)(z - z_2) = 0}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $P(x, y, z)$ be any point on the sphere distinct from $A$ and $B$.
+Join $PA$ and $PB$.
+By elementary Euclidean geometry in space, the angle subtended by a diameter at any point on the spherical surface is a right angle:
+\begin{equation}
+    \angle APB = 90^\circ \iff \vec{PA} \perp \vec{PB} \iff \vec{PA} \cdot \vec{PB} = 0.
+\end{equation}
+The direction ratios of $PA$ and $PB$ are:
+\begin{align}
+    \vec{PA} &= (x_1 - x)\,\hat{i} + (y_1 - y)\,\hat{j} + (z_1 - z)\,\hat{k}, \\
+    \vec{PB} &= (x_2 - x)\,\hat{i} + (y_2 - y)\,\hat{j} + (z_2 - z)\,\hat{k}.
+\end{align}
+Taking their scalar dot product:
+\begin{align}
+    \vec{PA} \cdot \vec{PB} &= (x_1 - x)(x_2 - x) + (y_1 - y)(y_2 - y) + (z_1 - z)(z_2 - z) = 0 \nonumber\\
+    &= (x - x_1)(x - x_2) + (y - y_1)(y - y_2) + (z - z_1)(z - z_2) = 0.
+\end{align}
+\end{proof}
+
+\subsection{Theorem: Plane Section of a Sphere is a Circle}
+\begin{theorembox}[Plane Section of a Sphere]
+The section of a sphere by any plane intersecting it is a \textbf{circle}.
+\end{theorembox}
+
+\begin{proof}
+Let $S$ be a sphere of radius $R$ and center $C$.
+Let $\Pi$ be an intersecting plane.
+Draw the perpendicular $CN$ from the center $C$ to the plane $\Pi$, meeting it at $N$.
+Let $p = |CN|$ be the perpendicular distance from $C$ to $\Pi$.
+Let $P$ be any point on the curve of intersection of the sphere and the plane. Join $CP$ and $NP$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    % Sphere circle cross section
+    \draw[thick, primary] (0,0) circle (2.5);
+    \coordinate (C) at (0,0);
+    \fill[primary] (C) circle (2pt) node[below left] {$C \text{ (Center)}$};
+
+    % Cutting plane line
+    \draw[very thick, secondary] (-3, 1.4) -- (3, 1.4) node[right] {Plane $\Pi$};
+    \coordinate (N) at (0, 1.4);
+    \fill[accent] (N) circle (2pt) node[below] {$N$};
+
+    % Distance p = CN
+    \draw[very thick, accent] (C) -- (N) node[midway, left] {$p = CN$};
+
+    % Point P on circle of intersection
+    \coordinate (P) at ({sqrt(2.5^2 - 1.4^2)}, 1.4);
+    \fill[secondary] (P) circle (2pt) node[above right] {$P$};
+
+    % Segment CP = R and NP = r
+    \draw[very thick, primary] (C) -- (P) node[midway, below right] {$R = CP$};
+    \draw[very thick, secondary] (N) -- (P) node[midway, above] {$r = NP$};
+
+    % Right angle marker
+    \draw (0, 1.6) -- (0.2, 1.6) -- (0.2, 1.4);
+\end{tikzpicture}
+\end{center}
+
+Since $CN \perp \Pi$, $CN$ is perpendicular to every line in $\Pi$ through $N$.
+Hence, $CN \perp NP$, so $\triangle C NP$ is a right-angled triangle at $N$.
+By the Pythagorean theorem:
+\begin{equation}
+    NP^2 = CP^2 - CN^2 = R^2 - p^2.
+\end{equation}
+Since $R$ and $p$ are both constant for the given sphere and plane:
+\begin{equation}
+    NP = \sqrt{R^2 - p^2} = \text{constant } r.
+\end{equation}
+Thus, the point $P$ in plane $\Pi$ is always at a fixed distance $r$ from the fixed point $N$.
+This is the definition of a circle with center $N$ and radius $r = \sqrt{R^2 - p^2}$.
+\end{proof}
+
+% =========================================================================
+% PAGE 65
+% =========================================================================
+\section{Page 65: Great Circles, Small Circles, and the Radical Plane}
+\label{sec:page65}
+
+\begin{conceptbox}[Manuscript Overview: Page 65]
+Page 65 distinguishes between \textbf{Great Circles} and \textbf{Small Circles} on a sphere, and derives the equation and properties of the \textbf{Radical Plane} formed by two intersecting spheres.
+\end{conceptbox}
+
+\subsection{Great Circles and Small Circles}
+From the circular section formula $r = \sqrt{R^2 - p^2}$:
+\begin{enumerate}
+    \item \textbf{Great Circle} ($p = 0$):
+    When the cutting plane passes through the center $C$ of the sphere, $p = 0$.
+    The radius of the circular section attains its maximum possible value:
+    \begin{equation}
+        r = \sqrt{R^2 - 0} = R.
+    \end{equation}
+    The center of the great circle coincides with the center of the sphere.
+    \item \textbf{Small Circle} ($0 < p < R$):
+    When the cutting plane does not pass through the center, $r = \sqrt{R^2 - p^2} < R$.
+    \item \textbf{Tangent Plane} ($p = R$):
+    When $p = R$, $r = 0$; the plane section shrinks to a single point of tangency.
+    \item \textbf{Non-Intersecting Plane} ($p > R$):
+    When $p > R$, $R^2 - p^2 < 0$; no real points of intersection exist.
+\end{enumerate}
+
+\subsection{The Radical Plane of Two Spheres}
+\begin{theorembox}[Radical Plane of Two Spheres]
+Let two spheres be given by:
+\begin{align}
+    S_1 &\equiv x^2 + y^2 + z^2 + 2u_1 x + 2v_1 y + 2w_1 z + d_1 = 0, \label{eq:p65_s1} \\
+    S_2 &\equiv x^2 + y^2 + z^2 + 2u_2 x + 2v_2 y + 2w_2 z + d_2 = 0. \label{eq:p65_s2}
+\end{align}
+The locus of points from which the lengths of tangents drawn to both spheres are equal is a plane, known as the \textbf{Radical Plane}, given by:
+\begin{equation}
+    \boxed{S_1 - S_2 = 0 \iff 2(u_1 - u_2)x + 2(v_1 - v_2)y + 2(w_1 - w_2)z + (d_1 - d_2) = 0}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Subtracting equation \eqref{eq:p65_s2} from \eqref{eq:p65_s1} eliminates all the second-degree quadratic terms $x^2 + y^2 + z^2$:
+\begin{equation}
+    2(u_1 - u_2)x + 2(v_1 - v_2)y + 2(w_1 - w_2)z + (d_1 - d_2) = 0.
+\end{equation}
+This is a first-degree linear equation in $x, y, z$, which by Page 25 represents a plane.
+If the two spheres intersect, this plane contains their common circle of intersection.
+\end{proof}
+
+\begin{notebox}[Key Property of the Radical Plane]
+The direction ratios of the normal to the radical plane are:
+\begin{equation}
+    \vec{N} = \bigl(2(u_1 - u_2), \; 2(v_1 - v_2), \; 2(w_1 - w_2)\bigr) \sim (u_1 - u_2, \; v_1 - v_2, \; w_1 - w_2).
+\end{equation}
+The centers of the two spheres are $C_1(-u_1, -v_1, -w_1)$ and $C_2(-u_2, -v_2, -w_2)$.
+The direction ratios of the line of centers $C_1 C_2$ are:
+\begin{equation}
+    \vec{C_1 C_2} = (-u_2 - (-u_1), \; -v_2 - (-v_1), \; -w_2 - (-w_1)) = (u_1 - u_2, \; v_1 - v_2, \; w_1 - w_2).
+\end{equation}
+Thus, the normal to the radical plane is parallel to the line of centers.
+\textbf{The radical plane is always strictly perpendicular to the line joining the centers of the two spheres.}
+\end{notebox}
+
+% =========================================================================
+% PAGE 66
+% =========================================================================
+\section{Page 66: Condition of Tangency Between a Plane and a Sphere}
+\label{sec:page66}
+
+\begin{conceptbox}[Manuscript Overview: Page 66]
+Page 66 establishes the condition under which a given plane touches a sphere, providing the analytical link between the perpendicular distance from the center and the radius.
+\end{conceptbox}
+
+\begin{theorembox}[Condition of Tangency ($p = R$)]
+A plane $Ax + By + Cz + D = 0$ is tangent to the sphere $x^2 + y^2 + z^2 + 2ux + 2vy + 2wz + d = 0$ if and only if the perpendicular distance from the center $C(-u, -v, -w)$ to the plane is equal to the radius $R = \sqrt{u^2 + v^2 + w^2 - d}$:
+\begin{equation}
+    \boxed{\frac{|-Au - Bv - Cw + D|}{\sqrt{A^2 + B^2 + C^2}} = \sqrt{u^2 + v^2 + w^2 - d}}
+\end{equation}
+\end{theorembox}
+
+\subsection{Standard Sphere Centered at the Origin}
+For the central sphere $x^2 + y^2 + z^2 = a^2$ (center $(0,0,0)$, radius $a$):
+\begin{enumerate}
+    \item If the plane is in normal form $lx + my + nz = p$ (with $l^2+m^2+n^2=1$):
+    The perpendicular distance from $(0,0,0)$ is $p$.
+    The condition of tangency is:
+    \begin{equation}
+        \boxed{p = a \iff lx + my + nz = a}
+    \end{equation}
+    \item If the plane is in general form $Ax + By + Cz + D = 0$:
+    \begin{equation}
+        \frac{|D|}{\sqrt{A^2 + B^2 + C^2}} = a \iff \boxed{D^2 = a^2(A^2 + B^2 + C^2)}
+    \end{equation}
+\end{enumerate}
+
+% =========================================================================
+% PAGE 67
+% =========================================================================
+\section{Page 67: Tangent Plane to a Sphere at a Given Point}
+\label{sec:page67}
+
+\begin{conceptbox}[Manuscript Overview: Page 67]
+Page 67 derives the standard equation of the tangent plane to a sphere at a given point $P_1(x_1, y_1, z_1)$ on its surface.
+\end{conceptbox}
+
+\begin{theorembox}[Tangent Plane at Point $(x_1, y_1, z_1)$]
+The equation of the tangent plane to the sphere:
+\begin{equation}
+    S \equiv x^2 + y^2 + z^2 + 2ux + 2vy + 2wz + d = 0
+\end{equation}
+at the point of contact $P_1(x_1, y_1, z_1)$ lying on the sphere is:
+\begin{equation}
+    \boxed{x x_1 + y y_1 + z z_1 + u(x + x_1) + v(y + y_1) + w(z + z_1) + d = 0}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+The center of the sphere is $C(-u, -v, -w)$.
+Since the tangent plane touches the sphere at $P_1(x_1, y_1, z_1)$, the radius $C P_1$ is normal to the tangent plane.
+The direction ratios of the normal $C P_1$ are:
+\begin{equation}
+    (x_1 - (-u), \; y_1 - (-v), \; z_1 - (-w)) = (x_1 + u, \; y_1 + v, \; z_1 + w).
+\end{equation}
+The equation of a plane passing through $P_1(x_1, y_1, z_1)$ with these normal direction ratios is:
+\begin{equation}
+    (x_1 + u)(x - x_1) + (y_1 + v)(y - y_1) + (z_1 + w)(z - z_1) = 0.
+\end{equation}
+Expanding this expression:
+\begin{align}
+    (x_1 + u)x - x_1(x_1 + u) + (y_1 + v)y - y_1(y_1 + v) + (z_1 + w)z - z_1(z_1 + w) &= 0 \nonumber\\
+    (x x_1 + y y_1 + z z_1) + u x + v y + w z - (x_1^2 + y_1^2 + z_1^2 + u x_1 + v y_1 + w z_1) &= 0. \label{eq:p67_tang_exp}
+\end{align}
+Since $P_1(x_1, y_1, z_1)$ lies on the sphere:
+\begin{align}
+    x_1^2 + y_1^2 + z_1^2 + 2ux_1 + 2vy_1 + 2wz_1 + d &= 0 \nonumber\\
+    \implies x_1^2 + y_1^2 + z_1^2 + ux_1 + vy_1 + wz_1 &= -(ux_1 + vy_1 + wz_1 + d).
+\end{align}
+Substituting this relation into \eqref{eq:p67_tang_exp}:
+\begin{align}
+    (x x_1 + y y_1 + z z_1) + ux + vy + wz - \bigl[-(ux_1 + vy_1 + wz_1 + d)\bigr] &= 0 \nonumber\\
+    x x_1 + y y_1 + z z_1 + u(x + x_1) + v(y + y_1) + w(z + z_1) + d &= 0.
+\end{align}
+\end{proof}
+
+\begin{notebox}[Central Sphere Tangent Plane]
+For $x^2 + y^2 + z^2 = a^2$, the tangent plane at $(x_1, y_1, z_1)$ simplifies to:
+\begin{equation}
+    \boxed{x x_1 + y y_1 + z z_1 = a^2}
+\end{equation}
+\end{notebox}
+
+% =========================================================================
+% PAGE 68
+% =========================================================================
+\section{Page 68: Normal to a Sphere, Length of Tangent, and Plane of Contact}
+\label{sec:page68}
+
+\begin{conceptbox}[Manuscript Overview: Page 68]
+Page 68 explores:
+\begin{enumerate}[noitemsep]
+    \item The equations of the normal line to a sphere at a given surface point.
+    \item The formula for the length of a tangent drawn from an external point to a sphere ($\sqrt{S_1}$).
+    \item The \textbf{Plane of Contact} of tangents from an external point.
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{Equations of the Normal Line to a Sphere}
+The \textbf{normal} to a sphere at any point $P_1(x_1, y_1, z_1)$ is the straight line perpendicular to the tangent plane at $P_1$.
+Since the radius $C P_1$ is perpendicular to the tangent plane, the normal line is simply the line passing through the center $C(-u, -v, -w)$ and the point $P_1(x_1, y_1, z_1)$:
+\begin{equation}
+    \boxed{\frac{x - x_1}{x_1 + u} = \frac{y - y_1}{y_1 + v} = \frac{z - z_1}{z_1 + w}}
+\end{equation}
+\textbf{Fundamental Geometric Property}: The normal to a sphere at \emph{every} point on its surface passes through the center of the sphere!
+
+\subsection{Length of Tangent from an External Point}
+\begin{theorembox}[Length of Tangent $\sqrt{S_1}$]
+The length of any tangent drawn from an external point $P_1(x_1, y_1, z_1)$ to the sphere $S \equiv x^2 + y^2 + z^2 + 2ux + 2vy + 2wz + d = 0$ is:
+\begin{equation}
+    \boxed{L = \sqrt{S_1} = \sqrt{x_1^2 + y_1^2 + z_1^2 + 2ux_1 + 2vy_1 + 2wz_1 + d}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $T$ be the point of contact of a tangent drawn from $P_1(x_1, y_1, z_1)$ to the sphere.
+Let $C(-u, -v, -w)$ be the center and $R = \sqrt{u^2+v^2+w^2-d}$ be the radius.
+The radius $CT$ is perpendicular to the tangent $P_1 T$, so $\triangle C T P_1$ is right-angled at $T$.
+By the Pythagorean theorem:
+\begin{equation}
+    P_1 T^2 = P_1 C^2 - CT^2 = P_1 C^2 - R^2.
+\end{equation}
+Using the 3D distance formula:
+\begin{align}
+    P_1 C^2 &= (x_1 + u)^2 + (y_1 + v)^2 + (z_1 + w)^2 \nonumber\\
+    &= (x_1^2 + y_1^2 + z_1^2) + 2(ux_1 + vy_1 + wz_1) + (u^2 + v^2 + w^2).
+\end{align}
+Subtracting $R^2 = u^2 + v^2 + w^2 - d$:
+\begin{align}
+    P_1 T^2 &= (x_1^2 + y_1^2 + z_1^2 + 2ux_1 + 2vy_1 + 2wz_1) + (u^2 + v^2 + w^2) - (u^2 + v^2 + w^2 - d) \nonumber\\
+    &= x_1^2 + y_1^2 + z_1^2 + 2ux_1 + 2vy_1 + 2wz_1 + d = S_1.
+\end{align}
+Taking the positive square root:
+\begin{equation}
+    L = P_1 T = \sqrt{S_1}.
+\end{equation}
+\end{proof}
+
+\subsection{Plane of Contact}
+\begin{theorembox}[Plane of Contact of Tangents]
+The locus of the points of contact of all tangents drawn from an external point $P_1(x_1, y_1, z_1)$ to the sphere $S = 0$ is a circle lying in the plane:
+\begin{equation}
+    \boxed{T = 0 \iff x x_1 + y y_1 + z z_1 + u(x + x_1) + v(y + y_1) + w(z + z_1) + d = 0}
+\end{equation}
+This plane is called the \textbf{Plane of Contact} of $P_1$ with respect to the sphere.
+\end{theorembox}
+
+% =========================================================================
+% PAGE 69
+% =========================================================================
+\section{Page 69: Comprehensive Solved Examination Problem and Course Summary}
+\label{sec:page69}
+
+\begin{conceptbox}[Manuscript Overview: Page 69]
+Page 69 completes the entire 69-page handwritten curriculum with an examination problem on parameter determination for tangent planes, followed by a global review of Analytical Geometry.
+\end{conceptbox}
+
+\begin{examplebox}[Examination Problem: Tangent Planes to a Sphere]
+Find the values of the parameter $c$ for which the plane:
+\begin{equation}
+    x + y + z = c
+\end{equation}
+touches the sphere:
+\begin{equation}
+    x^2 + y^2 + z^2 - 2x - 4y - 6z + 5 = 0.
+\end{equation}
+For each such value of $c$, write down the equation of the corresponding tangent plane.
+\end{examplebox}
+
+\begin{proof}[Complete Step-by-Step Analytical Solution]
+\textbf{Step 1: Identify Center and Radius of the Sphere}:
+Comparing with the general form $x^2 + y^2 + z^2 + 2ux + 2vy + 2wz + d = 0$:
+\begin{equation}
+    2u = -2 \implies u = -1, \quad 2v = -4 \implies v = -2, \quad 2w = -6 \implies w = -3, \quad d = 5.
+\end{equation}
+The center of the sphere is:
+\begin{equation}
+    C = (-u, -v, -w) = (1, 2, 3).
+\end{equation}
+The radius $R$ is:
+\begin{align}
+    R &= \sqrt{u^2 + v^2 + w^2 - d} \nonumber\\
+    &= \sqrt{(-1)^2 + (-2)^2 + (-3)^2 - 5} \nonumber\\
+    &= \sqrt{1 + 4 + 9 - 5} = \sqrt{14 - 5} = \sqrt{9} = \mathbf{3}.
+\end{align}
+
+\textbf{Step 2: Apply the Condition of Tangency ($p = R$)}:
+The given plane is:
+\begin{equation}
+    x + y + z - c = 0.
+\end{equation}
+The perpendicular distance $p$ from the center $C(1, 2, 3)$ to this plane is (Page 31):
+\begin{align}
+    p &= \frac{|Ax_0 + By_0 + Cz_0 + D|}{\sqrt{A^2 + B^2 + C^2}} \nonumber\\
+    &= \frac{|1(1) + 1(2) + 1(3) - c|}{\sqrt{1^2 + 1^2 + 1^2}} = \frac{|6 - c|}{\sqrt{3}}.
+\end{align}
+Setting $p = R = 3$:
+\begin{align}
+    \frac{|6 - c|}{\sqrt{3}} &= 3 \nonumber\\
+    |6 - c| &= 3\sqrt{3}.
+\end{align}
+
+\textbf{Step 3: Solve for Parameter $c$}:
+\begin{align}
+    6 - c = \pm 3\sqrt{3} &\implies c = 6 \mp 3\sqrt{3} \nonumber\\
+    &\implies \boxed{c = 3(2 \pm \sqrt{3})}
+\end{align}
+
+\textbf{Step 4: Equations of the Tangent Planes}:
+There exist two distinct parallel tangent planes touching opposite poles of the sphere:
+\begin{align}
+    \Pi_1 &: \quad \boxed{x + y + z = 3(2 + \sqrt{3}) = 6 + 3\sqrt{3}}, \\
+    \Pi_2 &: \quad \boxed{x + y + z = 3(2 - \sqrt{3}) = 6 - 3\sqrt{3}}.
+\end{align}
+\end{proof}
+
+\begin{notebox}[Manuscript Arithmetic Note]
+In the handwritten student manuscript on Page 69, an arithmetic slip occurred during the summation of center coordinates: $1 + 2 = 3$ was recorded without adding $z = 3$, leading to $|3 - c| = 3\sqrt{3} \implies c = 3(1 \pm \sqrt{3})$.
+The rigorous mathematical derivation above corrects this slip ($1 + 2 + 3 = 6$), yielding the correct value $c = 3(2 \pm \sqrt{3})$.
+\end{notebox}
+
+\subsection{Curriculum Summary of Analytical Geometry (Pages 1--69)}
+\begin{center}
+\begin{tabular}{|c|l|l|}
+\hline
+\textbf{Pages} & \textbf{Core Topic} & \textbf{Key Formulas and Results} \\
+\hline
+1--14 & Polar Conics & $\frac{l}{r} = 1 + e\cos\theta$, Tangent: $\frac{l}{r} = e\cos\theta + \cos(\theta-\alpha)$ \\
+15--24 & 3D Coordinates \& DCs & $l^2+m^2+n^2=1$, $\cos\theta = l_1 l_2 + m_1 m_2 + n_1 n_2$, Cube: $\cos^{-1}(1/3)$ \\
+25--36 & The Plane & $lx+my+nz=p$, $\frac{x}{a}+\frac{y}{b}+\frac{z}{c}=1$, Bisectors: $\frac{P_1}{|\vec{N}_1|} = \pm\frac{P_2}{|\vec{N}_2|}$ \\
+37--52 & Straight Lines \& Skew & Symmetrical form, Coplanarity: $\det[\Delta\vec{r}, \vec{b}_1, \vec{b}_2]=0$, S.D. $= 3\sqrt{30}$ \\
+53--62 & Vector Geometry & $\vec{r}\cdot\hat{n}=p$, $\vec{r}=\vec{a}+\lambda\vec{b}$, S.D. $= \frac{|(\vec{a}_2-\vec{a}_1)\cdot(\vec{b}_1\times\vec{b}_2)|}{|\vec{b}_1\times\vec{b}_2|}$ \\
+63--69 & The Sphere & $x^2+y^2+z^2+2ux+2vy+2wz+d=0$, Tangent: $T=0$, $p=R$ \\
+\hline
+\end{tabular}
+\end{center}

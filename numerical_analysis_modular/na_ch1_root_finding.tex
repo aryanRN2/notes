@@ -1,0 +1,1361 @@
+\chapter{Numerical Solution of Algebraic and Transcendental Equations (Pages 1--23)}
+\label{ch:root_finding}
+
+\begin{conceptbox}[Foundational Principles of Nonlinear Root-Finding]
+A fundamental problem in numerical analysis is determining the root $\alpha \in \mathbb{R}$ of a nonlinear equation:
+\begin{equation}
+    f(x) = 0
+\end{equation}
+where $f(x)$ is an algebraic polynomial or transcendental function (involving trigonometric, exponential, or logarithmic terms). In general, closed-form analytic solutions do not exist for polynomials of degree $n \ge 5$ (Abel--Ruffini theorem) or for transcendental equations. Consequently, iterative numerical algorithms are essential.
+
+An iterative method generates a sequence of approximations $\{x_k\}_{k=0}^\infty$ from one or more initial guesses that converges asymptotically to the true root $\alpha$:
+\begin{equation}
+    \lim_{k \to \infty} x_k = \alpha
+\end{equation}
+The effectiveness of an iterative method is governed by its \textbf{order of convergence}, computational cost per iteration (function and derivative evaluations), and \textbf{basin of convergence}.
+\end{conceptbox}
+
+% =========================================================================
+% PAGE 1: SECANT METHOD
+% =========================================================================
+\section{Page 1: The Secant Method --- Geometric Derivation and Formulation}
+\label{sec:page1_secant}
+
+\begin{theorembox}[Geometric Derivation of the Secant Iteration Formula]
+Let $f(x) = 0$ possess a continuous real root in $[a, b]$. In the Secant method, we do not require the derivative $f'(x)$. Instead, we select two initial approximations:
+\begin{equation}
+    x_0 = a, \quad x_1 = b
+\end{equation}
+Consider the two points on the curve $y = f(x)$:
+\begin{equation}
+    A\big(x_0, f(x_0)\big) \quad \text{and} \quad B\big(x_1, f(x_1)\big)
+\end{equation}
+The secant line (chord) connecting $A$ and $B$ has the two-point Cartesian equation:
+\begin{equation}
+    y - f(x_1) = \frac{f(x_1) - f(x_0)}{x_1 - x_0}(x - x_1)
+\end{equation}
+The next approximation $x_2$ is defined as the $x$-intercept of this secant line (setting $y = 0$):
+\begin{equation}
+    0 - f(x_1) = \frac{f(x_1) - f(x_0)}{x_1 - x_0}(x_2 - x_1)
+\end{equation}
+Solving for $x_2$:
+\begin{equation}
+    \boxed{x_2 = x_1 - \frac{x_1 - x_0}{f(x_1) - f(x_0)} f(x_1)}
+\end{equation}
+Repeating this process through the points $\big(x_1, f(x_1)\big)$ and $\big(x_2, f(x_2)\big)$, the subsequent root estimate $x_3$ is:
+\begin{equation}
+    x_3 = x_2 - \frac{x_2 - x_1}{f(x_2) - f(x_1)} f(x_2)
+\end{equation}
+By mathematical induction, the general $(k+1)$-th Secant iteration formula is:
+\begin{equation}
+    \boxed{x_{k+1} = x_k - \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})} f(x_k) = \frac{x_{k-1}f(x_k) - x_k f(x_{k-1})}{f(x_k) - f(x_{k-1})}} \quad (k = 1, 2, 3, \dots)
+\end{equation}
+\end{theorembox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.15]
+    % Axes
+    \draw[->, thick, primary] (-0.5, 0) -- (6.5, 0) node[right, primary] {$x$};
+    \draw[->, thick, primary] (0, -2.5) -- (0, 3.5) node[above, primary] {$y$};
+    
+    % Curve f(x)
+    \draw[very thick, secondary, domain=0.8:5.5, samples=100] 
+        plot (\x, {0.25*(\x-1.5)*(\x-1.5)*(\x-1.5) - 0.7}) 
+        node[right] {$y = f(x)$};
+    
+    % Exact root alpha
+    \coordinate (Alpha) at (3.154, 0);
+    \filldraw[accent] (Alpha) circle (2pt) node[below=4pt, accent] {$\alpha$ (Exact Root)};
+    
+    % Points x0 and x1
+    \coordinate (X0) at (1.2, 0);
+    \coordinate (FX0) at (1.2, -0.7067);
+    \coordinate (X1) at (5.0, 0);
+    \coordinate (FX1) at (5.0, 2.372);
+    
+    % Secant line 1 through (x0, f(x0)) and (x1, f(x1))
+    \draw[thick, ForestGreen, dashed] (1.0, -0.869) -- (5.2, 2.534);
+    
+    % Intersection x2
+    \coordinate (X2) at (2.072, 0);
+    \coordinate (FX2) at (2.072, -0.653);
+    
+    % Secant line 2 through (x1, f(x1)) and (x2, f(x2))
+    \draw[thick, DarkOrange, dashed] (1.8, -0.934) -- (5.2, 2.579);
+    \coordinate (X3) at (2.703, 0);
+    
+    % Drop lines
+    \draw[dotted, gray] (X0) -- (FX0);
+    \draw[dotted, gray] (X1) -- (FX1);
+    \draw[dotted, gray] (X2) -- (FX2);
+    
+    % Dots and labels
+    \filldraw[ForestGreen] (FX0) circle (2pt) node[left=2pt] {$A\big(x_0, f(x_0)\big)$};
+    \filldraw[ForestGreen] (FX1) circle (2pt) node[above left=2pt] {$B\big(x_1, f(x_1)\big)$};
+    \filldraw[DarkOrange] (FX2) circle (2pt) node[right=3pt] {$C\big(x_2, f(x_2)\big)$};
+    
+    \filldraw[primary] (X0) circle (1.5pt) node[above=2pt] {$x_0$};
+    \filldraw[primary] (X1) circle (1.5pt) node[below=2pt] {$x_1$};
+    \filldraw[ForestGreen] (X2) circle (1.8pt) node[below=2pt, ForestGreen] {$x_2$};
+    \filldraw[DarkOrange] (X3) circle (1.8pt) node[below=2pt, DarkOrange] {$x_3$};
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[Manuscript Problem: Locating Root for $x^3 + x^2 - 1 = 0$]
+\textbf{Problem Statement (Manuscript Page 1):}
+Find the real root of the cubic equation:
+\begin{equation}
+    f(x) \equiv x^3 + x^2 - 1 = 0
+\end{equation}
+\textbf{Initial Root Bracketing:}
+We evaluate $f(x)$ at convenient integer points:
+\begin{align}
+    f(0) &= 0^3 + 0^2 - 1 = -1 < 0 \\
+    f(1) &= 1^3 + 1^2 - 1 = +1 > 0
+\end{align}
+By the Intermediate Value Theorem, since $f(0) \cdot f(1) < 0$, at least one real root lies in the interval:
+\begin{equation}
+    [a, b] = [0, 1] \implies x_0 = 0, \quad x_1 = 1
+\end{equation}
+\end{examplebox}
+
+% =========================================================================
+% PAGE 2: REGULA-FALSI COMPARISON
+% =========================================================================
+\section{Page 2: Regula-Falsi (False Position) Method and Comparative Iterations}
+\label{sec:page2_regula_falsi}
+
+\begin{conceptbox}[The Regula-Falsi (False Position) Principle]
+The \textbf{Regula-Falsi Method} uses the exact same chord formula as the Secant method, but enforces a strict \textbf{bracketing condition} at every step:
+\begin{equation}
+    f(a_k) \cdot f(b_k) < 0
+\end{equation}
+The chord intercept $c$ is computed as:
+\begin{equation}
+    \boxed{c = \frac{a f(b) - b f(a)}{f(b) - f(a)}}
+\end{equation}
+After computing $f(c)$:
+\begin{itemize}[noitemsep]
+    \item If $f(a) \cdot f(c) < 0$, the root lies in $[a, c]$, so we set $b \leftarrow c$.
+    \item If $f(c) \cdot f(b) < 0$, the root lies in $[c, b]$, so we set $a \leftarrow c$.
+\end{itemize}
+This ensures guaranteed global convergence, but one of the endpoints often becomes ``stagnant'' (fixed), which degrades the convergence rate to linear ($p = 1$).
+\end{conceptbox}
+
+\begin{examplebox}[Step-by-Step Regula-Falsi Iterations for $f(x) = x^3 + x^2 - 1 = 0$]
+\textbf{Iteration 1:} $a = 0$, $b = 1$, $f(a) = -1$, $f(b) = +1$:
+\begin{equation}
+    c_1 = \frac{0(1) - 1(-1)}{1 - (-1)} = \frac{1}{2} = 0.5
+\end{equation}
+Evaluate function at $c_1$:
+\begin{equation}
+    f(0.5) = (0.5)^3 + (0.5)^2 - 1 = 0.125 + 0.25 - 1 = 0.375 - 1 = -0.625 < 0
+\end{equation}
+Since $f(0.5) < 0$ and $f(1) > 0$, the new bracket is $[0.5, 1]$. We update $a \leftarrow 0.5$.
+
+\textbf{Iteration 2:} $a = 0.5$, $b = 1$, $f(a) = -0.625$, $f(b) = +1$:
+\begin{equation}
+    c_2 = \frac{0.5(1) - 1(-0.625)}{1 - (-0.625)} = \frac{0.5 + 0.625}{1.625} = \frac{1.125}{1.625} \approx 0.692307
+\end{equation}
+Evaluate function:
+\begin{equation}
+    f(0.692307) = (0.692307)^3 + (0.692307)^2 - 1 \approx 0.331818 + 0.479289 - 1 = -0.188916 < 0
+\end{equation}
+New bracket is $[0.692307, 1]$. Update $a \leftarrow 0.692307$.
+
+\textbf{Iteration 3:} $a = 0.692307$, $b = 1$:
+\begin{equation}
+    c_3 = \frac{0.692307(1) - 1(-0.188916)}{1 - (-0.188916)} = \frac{0.881223}{1.188916} \approx 0.741198
+\end{equation}
+\begin{equation}
+    f(0.741198) \approx -0.043430 < 0
+\end{equation}
+
+\textbf{Iteration 4:} $a = 0.741198$, $b = 1$:
+\begin{equation}
+    c_4 = \frac{0.741198(1) - 1(-0.043430)}{1 - (-0.043430)} = \frac{0.784628}{1.043430} \approx 0.751969
+\end{equation}
+\begin{equation}
+    f(0.751969) \approx -0.009336 < 0
+\end{equation}
+
+\textbf{Iteration 5:} $a = 0.751969$, $b = 1$:
+\begin{equation}
+    c_5 = \frac{0.751969(1) - 1(-0.009336)}{1 - (-0.009336)} = \frac{0.761305}{1.009336} \approx 0.754263
+\end{equation}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Iteration $k$} & \textbf{Left Bracket $a_k$} & \textbf{Right Bracket $b_k$} & \textbf{Chord Root $c_k$} & \textbf{Residual $f(c_k)$} \\
+\hline
+1 & $0$ & $1$ & $0.500000$ & $-0.625000$ \\
+2 & $0.500000$ & $1$ & $0.692307$ & $-0.188916$ \\
+3 & $0.692307$ & $1$ & $0.741198$ & $-0.043430$ \\
+4 & $0.741198$ & $1$ & $0.751969$ & $-0.009336$ \\
+5 & $0.751969$ & $1$ & $0.754263$ & $-0.001966$ \\
+\hline
+\end{tabular}
+\end{center}
+Notice how $b = 1$ remains fixed throughout! This confirms the theoretical stagnation of the right endpoint.
+\end{examplebox}
+
+% =========================================================================
+% PAGE 3: SECANT METHOD NUMERICAL TABLE & NEWTON-RAPHSON INTRODUCTION
+% =========================================================================
+\section{Page 3: Secant Method Iterations and Introduction to Newton--Raphson}
+\label{sec:page3_secant_table}
+
+\begin{examplebox}[Comparative Secant Method Numerical Computation (Manuscript Page 3)]
+In the Secant method, we do not require $f(x_{k-1}) \cdot f(x_k) < 0$. We always use the most recent two points:
+\begin{equation}
+    x_{k+1} = x_k - \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})} f(x_k)
+\end{equation}
+Starting with $x_0 = 0$, $x_1 = 1$:
+\begin{align}
+    x_2 &= 1 - \frac{1 - 0}{1 - (-1)}(1) = 0.5, \quad f(x_2) = -0.625 \\
+    x_3 &= 0.5 - \frac{0.5 - 1}{-0.625 - 1}(-0.625) = 0.692307, \quad f(x_3) = -0.188916 \\
+    x_4 &= 0.692307 - \frac{0.692307 - 0.5}{-0.188916 - (-0.625)}(-0.188916) \approx 0.775607, \quad f(x_4) = +0.067342
+\end{align}
+Notice that for $x_4$, both $x_2$ and $x_3$ have negative values ($f(x_2) < 0, f(x_3) < 0$). The Secant method extrapolates across the $x$-axis and lands on the other side at $0.775607$ with positive residual!
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|c|c|c|l|}
+\hline
+\textbf{Step $k$} & $x_k$ & $f(x_k)$ & \textbf{Observation} \\
+\hline
+0 & $0$ & $-1.000000$ & Initial point 1 \\
+1 & $1$ & $+1.000000$ & Initial point 2 \\
+2 & $0.500000$ & $-0.625000$ & First interpolation \\
+3 & $0.692307$ & $-0.188916$ & Approach from left \\
+4 & $0.775607$ & $+0.067342$ & Overshoots root to right \\
+5 & $0.753818$ & $-0.003463$ & Rapid convergence to $\alpha \approx 0.754878$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{examplebox}
+
+% =========================================================================
+% PAGE 4: NEWTON-RAPHSON METHOD DERIVATION
+% =========================================================================
+\section{Page 4: The Newton--Raphson Method --- Tangent Line Formulation}
+\label{sec:page4_newton_raphson}
+
+\begin{theorembox}[Geometric Derivation of Newton--Raphson Iteration]
+Let $f(x) = 0$ be a differentiable function with real root $\alpha$. Let $x_0$ be an initial approximation near $\alpha$.
+\begin{enumerate}
+    \item Evaluate the function value $f(x_0)$ and the derivative slope $f'(x_0)$ at $P_0\big(x_0, f(x_0)\big)$.
+    \item The tangent line to the curve $y = f(x)$ at $P_0$ is:
+    \begin{equation}
+        y - f(x_0) = f'(x_0)(x - x_0)
+    \end{equation}
+    \item The next approximation $x_1$ is the $x$-intercept of this tangent line. Setting $y = 0$:
+    \begin{equation}
+        0 - f(x_0) = f'(x_0)(x_1 - x_0) \implies x_1 - x_0 = -\frac{f(x_0)}{f'(x_0)}
+    \end{equation}
+    \begin{equation}
+        \boxed{x_1 = x_0 - \frac{f(x_0)}{f'(x_0)}}
+    \end{equation}
+    \item Repeating this construction by drawing the tangent at $P_1\big(x_1, f(x_1)\big)$ yields $x_2 = x_1 - \frac{f(x_1)}{f'(x_1)}$.
+    \item In general, for $k = 0, 1, 2, \dots$:
+    \begin{equation}
+        \boxed{x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}} \quad \text{provided } f'(x_k) \ne 0
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.15]
+    % Axes
+    \draw[->, thick, primary] (-0.5, 0) -- (6.5, 0) node[right, primary] {$x$};
+    \draw[->, thick, primary] (0, -1.0) -- (0, 4.0) node[above, primary] {$y$};
+    
+    % Curve f(x) = (x-2)^2 - 0.5 (scaled)
+    \draw[very thick, secondary, domain=1.0:5.2, samples=100] 
+        plot (\x, {0.35*(\x-1.5)*(\x-1.5) - 0.2}) 
+        node[right] {$y = f(x)$};
+    
+    % Exact root alpha: at y=0 => 0.35*(x-1.5)^2 = 0.2 => x = 1.5 + sqrt(0.2/0.35) = 2.256
+    \coordinate (Alpha) at (2.256, 0);
+    \filldraw[accent] (Alpha) circle (2pt) node[below=4pt, accent] {$\alpha$ (Exact Root)};
+    
+    % Initial point x0 = 4.5
+    \coordinate (X0) at (4.5, 0);
+    % f(4.5) = 0.35*(3.0)^2 - 0.2 = 3.15 - 0.2 = 2.95
+    \coordinate (P0) at (4.5, 2.95);
+    % f'(4.5) = 0.7*(3.0) = 2.1
+    % Tangent at x0: y - 2.95 = 2.1*(x - 4.5) => at y=0, x1 = 4.5 - 2.95/2.1 = 3.095
+    \coordinate (X1) at (3.095, 0);
+    \coordinate (P1) at (3.095, 0.69);
+    % f'(3.095) = 0.7*(1.595) = 1.1165
+    % Tangent at x1: y - 0.69 = 1.1165*(x - 3.095) => at y=0, x2 = 3.095 - 0.69/1.1165 = 2.477
+    \coordinate (X2) at (2.477, 0);
+    
+    % Tangent lines
+    \draw[thick, Crimson, dashed] (2.7, -0.83) -- (4.8, 3.58) node[above right] {Tangent at $P_0$};
+    \draw[thick, ForestGreen, dashed] (2.2, -0.31) -- (3.6, 1.25) node[above] {Tangent at $P_1$};
+    
+    % Drop lines
+    \draw[dotted, gray] (X0) -- (P0);
+    \draw[dotted, gray] (X1) -- (P1);
+    
+    % Points
+    \filldraw[primary] (X0) circle (1.5pt) node[below=2pt] {$x_0$};
+    \filldraw[Crimson] (P0) circle (2pt) node[right=2pt] {$P_0\big(x_0, f(x_0)\big)$};
+    \filldraw[ForestGreen] (X1) circle (1.8pt) node[below=2pt, ForestGreen] {$x_1$};
+    \filldraw[ForestGreen] (P1) circle (2pt) node[right=2pt] {$P_1\big(x_1, f(x_1)\big)$};
+    \filldraw[DarkOrange] (X2) circle (1.8pt) node[below=2pt, DarkOrange] {$x_2$};
+\end{tikzpicture}
+\end{center}
+
+% =========================================================================
+% PAGE 5: NEWTON-RAPHSON SOLVED PROBLEM
+% =========================================================================
+\section{Page 5: Newton--Raphson Iterative Implementation and Solved Problem}
+\label{sec:page5_nr_example}
+
+\begin{examplebox}[Detailed Analytical Solution for $x^3 + x^2 - 1 = 0$]
+Given:
+\begin{equation}
+    f(x) = x^3 + x^2 - 1 \implies f'(x) = 3x^2 + 2x
+\end{equation}
+Substituting into the Newton--Raphson formula:
+\begin{align}
+    x_{k+1} &= x_k - \frac{x_k^3 + x_k^2 - 1}{3x_k^2 + 2x_k} \nonumber \\
+    &= \frac{x_k(3x_k^2 + 2x_k) - (x_k^3 + x_k^2 - 1)}{3x_k^2 + 2x_k} \nonumber \\
+    &= \frac{3x_k^3 + 2x_k^2 - x_k^3 - x_k^2 + 1}{3x_k^2 + 2x_k} \nonumber \\
+    \Aboxed{x_{k+1} &= \frac{2x_k^3 + x_k^2 + 1}{3x_k^2 + 2x_k}}
+\end{align}
+Choose initial approximation $x_0 = 1$:
+
+\textbf{Iteration 1 ($k = 0$):}
+\begin{equation}
+    x_1 = \frac{2(1)^3 + (1)^2 + 1}{3(1)^2 + 2(1)} = \frac{2 + 1 + 1}{3 + 2} = \frac{4}{5} = \mathbf{0.8}
+\end{equation}
+
+\textbf{Iteration 2 ($k = 1$):}
+\begin{align}
+    x_2 &= \frac{2(0.8)^3 + (0.8)^2 + 1}{3(0.8)^2 + 2(0.8)} = \frac{2(0.512) + 0.64 + 1}{3(0.64) + 1.6} \nonumber \\
+    &= \frac{1.024 + 0.64 + 1}{1.92 + 1.6} = \frac{2.664}{3.52} \approx \mathbf{0.756818}
+\end{align}
+
+\textbf{Iteration 3 ($k = 2$):}
+\begin{align}
+    x_3 &= \frac{2(0.756818)^3 + (0.756818)^2 + 1}{3(0.756818)^2 + 2(0.756818)} \nonumber \\
+    &= \frac{2(0.433485) + 0.572774 + 1}{3(0.572774) + 1.513636} = \frac{2.439744}{3.231958} \approx \mathbf{0.754880}
+\end{align}
+After just 3 iterations, $x_3 = 0.754880$ matches the true root $\alpha = 0.754878$ to 5 decimal places! Compare this to the Regula-Falsi method which needed 5 iterations to reach $0.754263$.
+\end{examplebox}
+
+% =========================================================================
+% PAGES 6-7: CONVERGENCE ORDER OF REGULA-FALSI
+% =========================================================================
+\section{Pages 6--7: Rigorous Derivation of the Order of Convergence for Regula--Falsi}
+\label{sec:page6_7_regula_convergence}
+
+\begin{theorembox}[Linear Convergence of the Regula--Falsi Method ($p = 1$)]
+Let $\alpha$ be a simple root of $f(x) = 0$ in $[a, b]$. In the Regula--Falsi (false position) method, suppose without loss of generality that $f''(x) > 0$ (concave upward) throughout $[a, b]$, with $f(a) < 0$ and $f(b) > 0$. Under these conditions, the left endpoint $a$ remains stagnant ($x_0 = a$), while the sequence of iterates $\{x_k\}$ approaches $\alpha$ monotonically from the right.
+
+The order of convergence is strictly \textbf{linear}:
+\begin{equation}
+    \boxed{p = 1} \quad \text{with asymptotic error constant } C = \left| \frac{(a - \alpha)^2 f''(\alpha)}{2 f(a)} \right|
+\end{equation}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Proof of Linear Convergence ($p = 1$)]
+\noindent\textbf{Step 1: Cartesian Equation of the Chord and the Iteration Formula} \\
+The secant line connecting the stagnant point $(a, f(a))$ and the current iterate $(x_k, f(x_k))$ has slope:
+\begin{equation}
+    m_k = \frac{f(x_k) - f(a)}{x_k - a}
+\end{equation}
+The point-slope equation of this chord is:
+\begin{equation}
+    y - f(a) = \frac{f(x_k) - f(a)}{x_k - a}(x - a)
+\end{equation}
+Setting $y = 0$ to find the next approximation $x_{k+1}$ (the $x$-intercept):
+\begin{equation}
+    0 - f(a) = \frac{f(x_k) - f(a)}{x_k - a}(x_{k+1} - a) \implies x_{k+1} - a = -f(a) \frac{x_k - a}{f(x_k) - f(a)}
+\end{equation}
+Adding $a$ to both sides and putting over a common denominator:
+\begin{equation}
+    x_{k+1} = a - \frac{f(a)(x_k - a)}{f(x_k) - f(a)} = \frac{a[f(x_k) - f(a)] - f(a)(x_k - a)}{f(x_k) - f(a)} = \frac{a f(x_k) - x_k f(a)}{f(x_k) - f(a)}
+\end{equation}
+
+\noindent\textbf{Step 2: Exact Algebraic Error Recurrence} \\
+Define the error at iteration $k$ as $e_k = x_k - \alpha$, and the fixed displacement of the stagnant endpoint as $e_a = a - \alpha$. Subtracting the true root $\alpha$ from both sides:
+\begin{align}
+    e_{k+1} &= x_{k+1} - \alpha = \frac{a f(x_k) - x_k f(a)}{f(x_k) - f(a)} - \alpha \nonumber \\
+    &= \frac{a f(x_k) - x_k f(a) - \alpha[f(x_k) - f(a)]}{f(x_k) - f(a)} \nonumber \\
+    &= \frac{(a - \alpha) f(x_k) - (x_k - \alpha) f(a)}{f(x_k) - f(a)} \nonumber \\
+    &= \frac{e_a f(x_k) - e_k f(a)}{f(x_k) - f(a)}
+    \label{eq:regula_exact_error_ratio}
+\end{align}
+
+\noindent\textbf{Step 3: Taylor Series Expansion of $f(x_k)$ about the Root $\alpha$} \\
+Since $\alpha$ is a root ($f(\alpha) = 0$), expanding $f(x_k) = f(\alpha + e_k)$ in powers of $e_k$:
+\begin{equation}
+    f(x_k) = f(\alpha) + e_k f'(\alpha) + \frac{e_k^2}{2!} f''(\alpha) + \frac{e_k^3}{3!} f'''(\alpha) + \mathcal{O}(e_k^4) = e_k f'(\alpha) + \frac{e_k^2}{2} f''(\alpha) + \mathcal{O}(e_k^3)
+\end{equation}
+
+\noindent\textbf{Step 4: Expansion of the Numerator} \\
+Substitute the expansion of $f(x_k)$ into the numerator of Equation~\eqref{eq:regula_exact_error_ratio}:
+\begin{align}
+    \text{Numerator} &= e_a \left[ e_k f'(\alpha) + \frac{e_k^2}{2} f''(\alpha) + \mathcal{O}(e_k^3) \right] - e_k f(a) \nonumber \\
+    &= e_k \left[ e_a f'(\alpha) - f(a) \right] + \frac{e_a f''(\alpha)}{2} e_k^2 + \mathcal{O}(e_k^3)
+\end{align}
+Now expand $f(a) = f(\alpha + e_a)$ about $\alpha$ in powers of $e_a$:
+\begin{equation}
+    f(a) = f(\alpha) + e_a f'(\alpha) + \frac{e_a^2}{2} f''(\alpha) + \mathcal{O}(e_a^3) = e_a f'(\alpha) + \frac{e_a^2}{2} f''(\alpha) + \mathcal{O}(e_a^3)
+\end{equation}
+Subtracting $f(a)$ from $e_a f'(\alpha)$:
+\begin{equation}
+    e_a f'(\alpha) - f(a) = e_a f'(\alpha) - \left[ e_a f'(\alpha) + \frac{e_a^2}{2} f''(\alpha) + \mathcal{O}(e_a^3) \right] = -\frac{e_a^2}{2} f''(\alpha) + \mathcal{O}(e_a^3)
+\end{equation}
+Substituting this back into the numerator:
+\begin{align}
+    \text{Numerator} &= e_k \left[ -\frac{e_a^2}{2} f''(\alpha) + \mathcal{O}(e_a^3) \right] + \frac{e_a f''(\alpha)}{2} e_k^2 + \mathcal{O}(e_k^3) \nonumber \\
+    &= -\frac{e_a^2 f''(\alpha)}{2} e_k + \mathcal{O}(e_k^2)
+\end{align}
+
+\noindent\textbf{Step 5: Expansion and Inversion of the Denominator} \\
+The denominator is:
+\begin{equation}
+    \text{Denominator} = f(x_k) - f(a) = \left[ e_k f'(\alpha) + \mathcal{O}(e_k^2) \right] - f(a) = -f(a) \left[ 1 - \frac{f'(\alpha)}{f(a)} e_k + \mathcal{O}(e_k^2) \right]
+\end{equation}
+Using the geometric/binomial series $(1 - u)^{-1} = 1 + u + \mathcal{O}(u^2)$:
+\begin{equation}
+    \frac{1}{f(x_k) - f(a)} = -\frac{1}{f(a)} \left[ 1 + \frac{f'(\alpha)}{f(a)} e_k + \mathcal{O}(e_k^2) \right]
+\end{equation}
+
+\noindent\textbf{Step 6: Asymptotic Error Ratio and Order of Convergence} \\
+Multiplying the numerator and inverted denominator:
+\begin{align}
+    e_{k+1} &= \left( -\frac{e_a^2 f''(\alpha)}{2} e_k + \mathcal{O}(e_k^2) \right) \left( -\frac{1}{f(a)} \right) \left( 1 + \frac{f'(\alpha)}{f(a)} e_k + \mathcal{O}(e_k^2) \right) \nonumber \\
+    &= \left[ \frac{e_a^2 f''(\alpha)}{2 f(a)} \right] e_k + \mathcal{O}(e_k^2)
+\end{align}
+Taking absolute values and the limit as $k \to \infty$:
+\begin{equation}
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|^1} = \left| \frac{e_a^2 f''(\alpha)}{2 f(a)} \right| = \left| \frac{(a - \alpha)^2 f''(\alpha)}{2 f(a)} \right| = C
+\end{equation}
+Because the denominator exponent of $|e_k|$ is $1$ and the asymptotic constant $C \in (0, 1)$ is non-zero, the order of convergence of the Regula--Falsi method is strictly:
+\begin{equation}
+    \boxed{p = 1} \quad \text{\textbf{(Linear Convergence)}}
+\end{equation}
+\end{proof}
+
+\begin{notebox}[Physical Insight: Why Regula--Falsi Stalls while Secant Accelerates]
+In the Secant method, both endpoints $x_{k-1}$ and $x_k$ update dynamically at every single step, allowing the chord length $x_k - x_{k-1} \to 0$ to shrink alongside the error, driving superlinear convergence ($p \approx 1.618$).
+
+In contrast, the Regula--Falsi method strictly enforces the bracketing condition $f(a) f(x_k) < 0$. If $f''(x) > 0$, the chord always lies above the curve, ensuring that every new approximation $x_{k+1}$ falls strictly on the \textbf{same side} of the root. As a direct consequence, the endpoint $a$ never updates—it becomes \textbf{stagnant}. The chord pivots perpetually around the fixed anchor point $(a, f(a))$, dropping the rate of convergence from superlinear ($p = 1.618$) to purely linear ($p = 1$).
+\end{notebox}
+
+% =========================================================================
+% PAGES 8-9: CONVERGENCE ORDER OF SECANT METHOD
+% =========================================================================
+\section{Pages 8--9: Rigorous Derivation of the Order of Convergence for the Secant Method}
+\label{sec:page8_9_secant_convergence}
+
+\begin{theorembox}[Superlinear Convergence of the Secant Method \texorpdfstring{($p \approx 1.618$)}{(p approx 1.618)}]
+Let $\alpha$ be a simple root of $f(x) = 0$ ($f(\alpha) = 0, f'(\alpha) \ne 0$). The order of convergence of the Secant method is superlinear:
+\begin{equation}
+    \boxed{p = \frac{1 + \sqrt{5}}{2} \approx 1.618034} \quad \text{\textbf{(The Golden Ratio $\Phi$)}}
+\end{equation}
+with asymptotic error constant $C = \left(\frac{f''(\alpha)}{2f'(\alpha)}\right)^{p-1}$.
+\end{theorembox}
+
+\begin{proof}[Rigorous Mathematical Derivation (Manuscript Pages 8--9)]
+\noindent\textbf{Step 1: Error Difference Equation} \\
+The Secant recurrence is:
+\begin{equation}
+    x_{k+1} = x_k - \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})} f(x_k)
+\end{equation}
+Let $e_k = x_k - \alpha, e_{k-1} = x_{k-1} - \alpha, e_{k+1} = x_{k+1} - \alpha$. Subtracting $\alpha$:
+\begin{align}
+    e_{k+1} &= x_k - \alpha - \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})} f(x_k) \nonumber \\
+    &= e_k - \frac{e_k - e_{k-1}}{f(x_k) - f(x_{k-1})} f(x_k) \nonumber \\
+    &= \frac{e_k[f(x_k) - f(x_{k-1})] - (e_k - e_{k-1}) f(x_k)}{f(x_k) - f(x_{k-1})} \nonumber \\
+    &= \frac{e_k f(x_k) - e_k f(x_{k-1}) - e_k f(x_k) + e_{k-1} f(x_k)}{f(x_k) - f(x_{k-1})} \nonumber \\
+    &= \frac{e_{k-1} f(x_k) - e_k f(x_{k-1})}{f(x_k) - f(x_{k-1})}
+    \label{eq:secant_error_ratio_master}
+\end{align}
+
+\noindent\textbf{Step 2: Taylor Series Expansions to Third Order} \\
+Since $f(\alpha) = 0$, expanding $f(x_k)$ and $f(x_{k-1})$ in powers of errors:
+\begin{align}
+    f(x_k) &= f'(\alpha) e_k + \frac{f''(\alpha)}{2} e_k^2 + \frac{f'''(\alpha)}{6} e_k^3 + \mathcal{O}(e_k^4) \\
+    f(x_{k-1}) &= f'(\alpha) e_{k-1} + \frac{f''(\alpha)}{2} e_{k-1}^2 + \frac{f'''(\alpha)}{6} e_{k-1}^3 + \mathcal{O}(e_{k-1}^4)
+\end{align}
+
+\noindent\textbf{Step 3: Expansion and Factorization of the Numerator} \\
+Multiply by $e_{k-1}$ and $e_k$ respectively:
+\begin{align}
+    e_{k-1} f(x_k) &= f'(\alpha) e_k e_{k-1} + \frac{f''(\alpha)}{2} e_k^2 e_{k-1} + \frac{f'''(\alpha)}{6} e_k^3 e_{k-1} + \dots \\
+    e_k f(x_{k-1}) &= f'(\alpha) e_k e_{k-1} + \frac{f''(\alpha)}{2} e_k e_{k-1}^2 + \frac{f'''(\alpha)}{6} e_k e_{k-1}^3 + \dots
+\end{align}
+Subtracting the two equations, the first-order terms $f'(\alpha) e_k e_{k-1}$ cancel identically:
+\begin{align}
+    e_{k-1} f(x_k) - e_k f(x_{k-1}) &= \frac{f''(\alpha)}{2} e_k e_{k-1}(e_k - e_{k-1}) + \frac{f'''(\alpha)}{6} e_k e_{k-1}(e_k^2 - e_{k-1}^2) + \dots \nonumber \\
+    &= e_k e_{k-1}(e_k - e_{k-1}) \left[ \frac{f''(\alpha)}{2} + \frac{f'''(\alpha)}{6}(e_k + e_{k-1}) + \dots \right]
+\end{align}
+
+\noindent\textbf{Step 4: Expansion and Factorization of the Denominator}
+\begin{align}
+    f(x_k) - f(x_{k-1}) &= f'(\alpha)(e_k - e_{k-1}) + \frac{f''(\alpha)}{2}(e_k^2 - e_{k-1}^2) + \dots \nonumber \\
+    &= (e_k - e_{k-1}) \left[ f'(\alpha) + \frac{f''(\alpha)}{2}(e_k + e_{k-1}) + \dots \right]
+\end{align}
+
+\noindent\textbf{Step 5: Exact Cancellation of the Discrepancy Factor $(e_k - e_{k-1})$} \\
+Substituting numerator and denominator into Equation~\eqref{eq:secant_error_ratio_master}:
+\begin{align}
+    e_{k+1} &= \frac{e_k e_{k-1}(e_k - e_{k-1}) \left[ \frac{f''(\alpha)}{2} + \dots \right]}{(e_k - e_{k-1}) \left[ f'(\alpha) + \frac{f''(\alpha)}{2}(e_k + e_{k-1}) + \dots \right]} \nonumber \\
+    &= e_k e_{k-1} \frac{\frac{f''(\alpha)}{2} + \mathcal{O}(e_k + e_{k-1})}{f'(\alpha) \left[ 1 + \frac{f''(\alpha)}{2 f'(\alpha)}(e_k + e_{k-1}) + \dots \right]} \nonumber \\
+    &= \left[ \frac{f''(\alpha)}{2 f'(\alpha)} \right] e_k e_{k-1} + \mathcal{O}\big(e_k e_{k-1}(e_k + e_{k-1})\big)
+\end{align}
+Neglecting higher-order terms, we obtain the pivotal coupled error recurrence:
+\begin{equation}
+    \label{eq:secant_asymptotic_recurrence_explicit}
+    \boxed{e_{k+1} \approx M e_k e_{k-1}} \quad \text{where } M = \frac{f''(\alpha)}{2 f'(\alpha)}
+\end{equation}
+
+\noindent\textbf{Step 6: Determination of the Order of Convergence $p$} \\
+We present two complementary, rigorous proofs of the convergence order:
+
+\paragraph{Method 1: Direct Power Ansatz}
+Assume an asymptotic convergence relation of the form:
+\begin{equation}
+    e_{k+1} = A e_k^p \iff e_k = A e_{k-1}^p \iff e_{k-1} = \left(\frac{e_k}{A}\right)^{1/p} = A^{-1/p} e_k^{1/p}
+\end{equation}
+Substitute $e_{k+1} = A e_k^p$ and $e_{k-1} = A^{-1/p} e_k^{1/p}$ into Equation~\eqref{eq:secant_asymptotic_recurrence_explicit}:
+\begin{equation}
+    A e_k^p = M e_k \left( A^{-1/p} e_k^{1/p} \right) = M A^{-1/p} e_k^{1 + 1/p}
+\end{equation}
+Equating exponents of $e_k$ on both sides:
+\begin{equation}
+    p = 1 + \frac{1}{p} \iff p^2 - p - 1 = 0
+\end{equation}
+The roots of this characteristic equation are:
+\begin{equation}
+    p = \frac{1 \pm \sqrt{(-1)^2 - 4(1)(-1)}}{2} = \frac{1 \pm \sqrt{5}}{2}
+\end{equation}
+Since an iterative sequence cannot have a negative convergence exponent ($p > 0$ for decreasing error sequences), we discard the negative root:
+\begin{equation}
+    \boxed{p = \frac{1 + \sqrt{5}}{2} \approx 1.6180339887\dots} \quad \text{\textbf{(The Golden Ratio $\Phi$)}}
+\end{equation}
+Equating coefficients:
+\begin{equation}
+    A = M A^{-1/p} \implies A^{1 + 1/p} = M \implies A^p = M \implies A = M^{1/p} = M^{p-1} = \left( \frac{f''(\alpha)}{2 f'(\alpha)} \right)^{p-1}
+\end{equation}
+
+\paragraph{Method 2: Logarithmic Transformation and Fibonacci Sequence}
+Multiply both sides of $e_{k+1} = M e_k e_{k-1}$ by $M$:
+\begin{equation}
+    M e_{k+1} = (M e_k)(M e_{k-1})
+\end{equation}
+Taking the natural logarithm of absolute values, let $\epsilon_k = \ln|M e_k|$:
+\begin{equation}
+    \ln|M e_{k+1}| = \ln|M e_k| + \ln|M e_{k-1}| \iff \boxed{\epsilon_{k+1} = \epsilon_k + \epsilon_{k-1}}
+\end{equation}
+This is precisely the \textbf{Fibonacci recurrence relation}!
+The general solution of this linear difference equation is:
+\begin{equation}
+    \epsilon_k = C_1 r_1^k + C_2 r_2^k, \quad \text{where } r_{1,2} = \frac{1 \pm \sqrt{5}}{2}
+\end{equation}
+Since $|r_2| = \left|\frac{1-\sqrt{5}}{2}\right| \approx 0.618 < 1$, the term $r_2^k \to 0$ rapidly as $k \to \infty$. Thus:
+\begin{equation}
+    \epsilon_k \approx C_1 r_1^k \implies \epsilon_{k+1} \approx C_1 r_1^{k+1} = r_1 (C_1 r_1^k) \approx r_1 \epsilon_k
+\end{equation}
+Substituting back $\epsilon_k = \ln|M e_k|$:
+\begin{equation}
+    \ln|M e_{k+1}| \approx r_1 \ln|M e_k| = \ln\left(|M e_k|^{r_1}\right)
+\end{equation}
+Exponentiating both sides:
+\begin{equation}
+    |M e_{k+1}| \approx |M e_k|^{r_1} \implies |e_{k+1}| \approx M^{r_1 - 1} |e_k|^{r_1}
+\end{equation}
+This rigorously establishes that the order of convergence is identically the Golden Ratio $r_1 = \frac{1+\sqrt{5}}{2} \approx 1.618$.
+\end{proof}
+
+% =========================================================================
+% PAGES 10-12: CONVERGENCE ORDER OF NEWTON-RAPHSON & CUBE ROOT
+% =========================================================================
+\section{Pages 10--12: Quadratic Convergence of Newton--Raphson and Fast Radical Extraction}
+\label{sec:page10_12_nr_convergence}
+
+\begin{theorembox}[Quadratic Convergence of the Newton--Raphson Method ($p = 2$)]
+Let $\alpha$ be a simple root of $f(x) = 0$ ($f(\alpha) = 0, f'(\alpha) \ne 0$) with $f \in C^2[a, b]$. If the initial approximation $x_0$ is chosen sufficiently close to $\alpha$, the Newton--Raphson iteration:
+\begin{equation}
+    x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}
+\end{equation}
+converges to $\alpha$ with \textbf{quadratic order of convergence} ($p = 2$):
+\begin{equation}
+    \boxed{\lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|^2} = \left| \frac{f''(\alpha)}{2 f'(\alpha)} \right| \equiv C}
+\end{equation}
+where $e_k = x_k - \alpha$ is the signed error at iteration $k$, and $C$ is the asymptotic error constant.
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Proof of Quadratic Convergence for Newton--Raphson]
+We present two complementary proofs: first, the asymptotic Taylor series expansion with explicit binomial inversion showing all cross-terms; second, the exact non-asymptotic closed form using Taylor's Theorem with Lagrange remainder.
+
+\medskip
+\noindent\textbf{Method 1: Asymptotic Taylor Series Expansion with Explicit Binomial Inversion}
+
+\noindent\textbf{Step 1: Express iteration in terms of error variables.} \\
+Let $x_k = \alpha + e_k$ and $x_{k+1} = \alpha + e_{k+1}$. Subtracting the true root $\alpha$ from both sides of the Newton--Raphson formula gives:
+\begin{equation}
+    x_{k+1} - \alpha = (x_k - \alpha) - \frac{f(x_k)}{f'(x_k)} \implies e_{k+1} = e_k - \frac{f(\alpha + e_k)}{f'(\alpha + e_k)}
+\end{equation}
+
+\noindent\textbf{Step 2: Taylor series expansion of numerator $f(\alpha + e_k)$.} \\
+Expanding $f(\alpha + e_k)$ about the root $\alpha$, using $f(\alpha) = 0$:
+\begin{align}
+    f(\alpha + e_k) &= f(\alpha) + e_k f'(\alpha) + \frac{e_k^2}{2!} f''(\alpha) + \frac{e_k^3}{3!} f'''(\alpha) + \mathcal{O}(e_k^4) \nonumber \\
+    &= e_k f'(\alpha) \left[ 1 + \frac{f''(\alpha)}{2 f'(\alpha)} e_k + \frac{f'''(\alpha)}{6 f'(\alpha)} e_k^2 + \mathcal{O}(e_k^3) \right]
+\end{align}
+For compact notation, define the normalized derivative ratios:
+\begin{equation}
+    c_2 = \frac{f''(\alpha)}{2 f'(\alpha)}, \qquad c_3 = \frac{f'''(\alpha)}{6 f'(\alpha)}
+\end{equation}
+Then the numerator simplifies to:
+\begin{equation}
+    f(\alpha + e_k) = f'(\alpha) e_k \left[ 1 + c_2 e_k + c_3 e_k^2 + \mathcal{O}(e_k^3) \right]
+\end{equation}
+
+\noindent\textbf{Step 3: Taylor series expansion of denominator $f'(\alpha + e_k)$.} \\
+Differentiating the Taylor series or expanding $f'(\alpha + e_k)$ directly about $\alpha$:
+\begin{align}
+    f'(\alpha + e_k) &= f'(\alpha) + e_k f''(\alpha) + \frac{e_k^2}{2!} f'''(\alpha) + \mathcal{O}(e_k^3) \nonumber \\
+    &= f'(\alpha) \left[ 1 + \frac{f''(\alpha)}{f'(\alpha)} e_k + \frac{f'''(\alpha)}{2 f'(\alpha)} e_k^2 + \mathcal{O}(e_k^3) \right] \nonumber \\
+    &= f'(\alpha) \left[ 1 + 2 c_2 e_k + 3 c_3 e_k^2 + \mathcal{O}(e_k^3) \right]
+\end{align}
+
+\noindent\textbf{Step 4: Division via series expansion $(1 + z)^{-1}$.} \\
+Set $z = 2 c_2 e_k + 3 c_3 e_k^2 + \mathcal{O}(e_k^3)$. As $e_k \to 0$, $|z| < 1$, so we expand:
+\begin{equation}
+    (1 + z)^{-1} = 1 - z + z^2 - z^3 + \dots
+\end{equation}
+Computing powers of $z$ up to second order in $e_k$:
+\begin{align}
+    z &= 2 c_2 e_k + 3 c_3 e_k^2 + \mathcal{O}(e_k^3) \\
+    z^2 &= \left( 2 c_2 e_k + 3 c_3 e_k^2 \right)^2 = 4 c_2^2 e_k^2 + \mathcal{O}(e_k^3)
+\end{align}
+Substituting into the inverse series:
+\begin{align}
+    \left[ 1 + 2 c_2 e_k + 3 c_3 e_k^2 + \mathcal{O}(e_k^3) \right]^{-1} &= 1 - \left( 2 c_2 e_k + 3 c_3 e_k^2 \right) + 4 c_2^2 e_k^2 + \mathcal{O}(e_k^3) \nonumber \\
+    &= 1 - 2 c_2 e_k + (4 c_2^2 - 3 c_3) e_k^2 + \mathcal{O}(e_k^3)
+\end{align}
+
+\noindent\textbf{Step 5: Multiply numerator by inverted denominator.} \\
+The quotient evaluates to:
+\begin{align}
+    \frac{f(\alpha + e_k)}{f'(\alpha + e_k)} &= \frac{f'(\alpha) e_k \left[ 1 + c_2 e_k + c_3 e_k^2 + \mathcal{O}(e_k^3) \right]}{f'(\alpha) \left[ 1 + 2 c_2 e_k + 3 c_3 e_k^2 + \mathcal{O}(e_k^3) \right]} \nonumber \\
+    &= e_k \left[ 1 + c_2 e_k + c_3 e_k^2 + \mathcal{O}(e_k^3) \right] \left[ 1 - 2 c_2 e_k + (4 c_2^2 - 3 c_3) e_k^2 + \mathcal{O}(e_k^3) \right]
+\end{align}
+Expanding the polynomial product term by term:
+\begin{align}
+    \left[ 1 + c_2 e_k + c_3 e_k^2 \right] &\left[ 1 - 2 c_2 e_k + (4 c_2^2 - 3 c_3) e_k^2 \right] \nonumber \\
+    &= 1 \cdot \left[ 1 - 2 c_2 e_k + (4 c_2^2 - 3 c_3) e_k^2 \right] \nonumber \\
+    &\quad + c_2 e_k \cdot \left[ 1 - 2 c_2 e_k \right] + c_3 e_k^2 \cdot [1] + \mathcal{O}(e_k^3) \nonumber \\
+    &= 1 - 2 c_2 e_k + 4 c_2^2 e_k^2 - 3 c_3 e_k^2 + c_2 e_k - 2 c_2^2 e_k^2 + c_3 e_k^2 + \mathcal{O}(e_k^3) \nonumber \\
+    &= 1 + (-2 c_2 + c_2) e_k + (4 c_2^2 - 2 c_2^2 - 3 c_3 + c_3) e_k^2 + \mathcal{O}(e_k^3) \nonumber \\
+    &= 1 - c_2 e_k + (2 c_2^2 - 2 c_3) e_k^2 + \mathcal{O}(e_k^3)
+\end{align}
+Multiplying by the leading $e_k$:
+\begin{equation}
+    \frac{f(\alpha + e_k)}{f'(\alpha + e_k)} = e_k - c_2 e_k^2 + 2(c_2^2 - c_3) e_k^3 + \mathcal{O}(e_k^4)
+\end{equation}
+
+\noindent\textbf{Step 6: Substitute back into error recurrence.} \\
+\begin{align}
+    e_{k+1} &= e_k - \frac{f(\alpha + e_k)}{f'(\alpha + e_k)} \nonumber \\
+    &= e_k - \left[ e_k - c_2 e_k^2 + 2(c_2^2 - c_3) e_k^3 + \mathcal{O}(e_k^4) \right] \nonumber \\
+    &= c_2 e_k^2 - 2(c_2^2 - c_3) e_k^3 + \mathcal{O}(e_k^4)
+\end{align}
+Substituting $c_2 = \frac{f''(\alpha)}{2 f'(\alpha)}$:
+\begin{equation}
+    \boxed{e_{k+1} = \left[ \frac{f''(\alpha)}{2 f'(\alpha)} \right] e_k^2 + \mathcal{O}(e_k^3)}
+\end{equation}
+Taking the absolute ratio in the limit as $k \to \infty$ ($e_k \to 0$):
+\begin{equation}
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|^2} = \left| \frac{f''(\alpha)}{2 f'(\alpha)} \right| \ne 0
+\end{equation}
+This proves unequivocally that the order of convergence is \textbf{strictly quadratic} ($p = 2$).
+
+\bigskip
+\noindent\textbf{Method 2: Exact Closed-Form Error Formula via Taylor's Theorem with Lagrange Remainder}
+
+\noindent Taylor's theorem with exact second-order Lagrange remainder for $f(\alpha)$ expanded about $x_k$ states that there exists $\xi_k$ strictly between $x_k$ and $\alpha$ such that:
+\begin{equation}
+    f(\alpha) = f(x_k) + (\alpha - x_k) f'(x_k) + \frac{(\alpha - x_k)^2}{2!} f''(\xi_k)
+\end{equation}
+Since $\alpha$ is a root, $f(\alpha) = 0$. Recalling $\alpha - x_k = -e_k$:
+\begin{equation}
+    0 = f(x_k) - e_k f'(x_k) + \frac{e_k^2}{2} f''(\xi_k)
+\end{equation}
+Isolating $f(x_k)$:
+\begin{equation}
+    f(x_k) = e_k f'(x_k) - \frac{e_k^2}{2} f''(\xi_k)
+\end{equation}
+Dividing throughout by $f'(x_k)$ (which is non-zero in a neighborhood of $\alpha$):
+\begin{equation}
+    \frac{f(x_k)}{f'(x_k)} = e_k - \frac{f''(\xi_k)}{2 f'(x_k)} e_k^2
+\end{equation}
+Substituting this directly into the Newton--Raphson iteration formula:
+\begin{align}
+    x_{k+1} &= x_k - \frac{f(x_k)}{f'(x_k)} \nonumber \\
+    x_{k+1} - \alpha &= (x_k - \alpha) - \left( e_k - \frac{f''(\xi_k)}{2 f'(x_k)} e_k^2 \right) \nonumber \\
+    e_{k+1} &= e_k - e_k + \frac{f''(\xi_k)}{2 f'(x_k)} e_k^2
+\end{align}
+\begin{equation}
+    \boxed{e_{k+1} = \frac{f''(\xi_k)}{2 f'(x_k)} e_k^2}
+\end{equation}
+This is the \textbf{exact error equation} holding at every finite iteration $k$ without truncating any higher-order terms! Since $x_k \to \alpha$ and $\xi_k$ lies between $x_k$ and $\alpha$, $\lim_{k \to \infty} \xi_k = \alpha$, which immediately gives:
+\begin{equation}
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|^2} = \lim_{k \to \infty} \frac{|f''(\xi_k)|}{2|f'(x_k)|} = \frac{|f''(\alpha)|}{2|f'(\alpha)|} = C
+\end{equation}
+\end{proof}
+
+
+\begin{examplebox}[{Manuscript Problem: Computation of Cube Root $\sqrt[3]{N}$ (Page 11)}]
+Let $x = \sqrt[3]{N} \implies x^3 - N = 0$.
+Here $f(x) = x^3 - N$ and $f'(x) = 3x^2$. Applying Newton--Raphson:
+\begin{equation}
+    x_{k+1} = x_k - \frac{x_k^3 - N}{3x_k^2} = \frac{3x_k^3 - x_k^3 + N}{3x_k^2} = \boxed{\frac{2x_k^3 + N}{3x_k^2} = \frac{1}{3}\left( 2x_k + \frac{N}{x_k^2} \right)}
+\end{equation}
+\textbf{Numerical Application (Compute $\sqrt[3]{37}$):}
+Here $N = 37$. Since $3^3 = 27 < 37 < 64 = 4^3$, choose $x_0 = 3$.
+
+\textbf{Iteration 1 ($k = 0$):}
+\begin{equation}
+    x_1 = \frac{2(3)^3 + 37}{3(3)^2} = \frac{2(27) + 37}{3(9)} = \frac{54 + 37}{27} = \frac{91}{27} \approx \mathbf{3.370370}
+\end{equation}
+
+\textbf{Iteration 2 ($k = 1$):}
+\begin{equation}
+    x_2 = \frac{1}{3}\left( 2(3.370370) + \frac{37}{(3.370370)^2} \right) = \frac{1}{3}(6.740741 + 3.257223) = \frac{9.997964}{3} \approx \mathbf{3.332655}
+\end{equation}
+Since $(3.332655)^3 \approx 37.016$, after two iterations the result is within $0.015\%$ of the true value $\sqrt[3]{37} \approx 3.332222$.
+\end{examplebox}
+
+% =========================================================================
+% PAGES 12-13: CONVERGENCE CONDITIONS & RECIPROCAL ALGORITHM
+% =========================================================================
+\section{Pages 12--13: Domain of Convergence and Division-Free Reciprocal Algorithm}
+\label{sec:page12_13_convergence_conditions}
+
+\begin{theorembox}[Fourier's Sufficient Condition for Newton--Raphson Convergence]
+The Newton--Raphson iteration converges unconditionally to the unique root $\alpha$ in $[a, b]$ if:
+\begin{enumerate}
+    \item $f(a) \cdot f(b) < 0$ (Root existence).
+    \item $f'(x) \ne 0$ for all $x \in [a, b]$ (Monotonicity and non-vanishing slope).
+    \item $f''(x)$ does not change sign on $[a, b]$ (Strict convexity or concavity).
+    \item The initial guess $x_0$ is chosen such that:
+    \begin{equation}
+        \boxed{f(x_0) \cdot f''(x_0) > 0}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Mathematical Proof of Fourier's Convergence Theorem]
+We prove that under Fourier's conditions, the sequence generated by Newton--Raphson is strictly monotonic and bounded by the root $\alpha$, guaranteeing unconditional convergence via the Monotone Convergence Theorem of real analysis.
+
+\medskip
+\noindent\textbf{Step 1: Existence and Uniqueness of the Root.} \\
+Since $f \in C^2[a, b]$ and $f(a) \cdot f(b) < 0$, the Intermediate Value Theorem guarantees the existence of at least one root $\alpha \in (a, b)$ such that $f(\alpha) = 0$.
+Furthermore, because $f'(x) \ne 0$ on $[a, b]$, $f'(x)$ cannot change sign (by Darboux's Theorem on derivatives). Hence $f(x)$ is strictly monotonic on $[a, b]$, which guarantees that the root $\alpha$ is \textbf{strictly unique}.
+
+\medskip
+\noindent\textbf{Step 2: Convexity Analysis ($f''(x) > 0$).} \\
+Without loss of generality, assume $f''(x) > 0$ for all $x \in [a, b]$ (the curve is strictly convex; if $f''(x) < 0$, consider the function $-f(x)$ which has identical roots and identical Newton iterations).
+By Condition 4, $x_0$ is chosen such that $f(x_0) \cdot f''(x_0) > 0$. Since $f'' > 0$, this implies:
+\begin{equation}
+    f(x_0) > 0
+\end{equation}
+Now consider the sign of $f'(x)$:
+\begin{itemize}
+    \item \textbf{Subcase A ($f'(x) > 0$ on $[a, b]$):}
+    Here $f$ is strictly increasing. Since $f(a) < 0 < f(b)$, the root $\alpha$ satisfies $f(x) < 0$ for $x \in [a, \alpha)$ and $f(x) > 0$ for $x \in (\alpha, b]$.
+    Thus $f(x_0) > 0$ implies $x_0 \in (\alpha, b]$, i.e., $x_0 > \alpha$.
+    
+    \item \textbf{Subcase B ($f'(x) < 0$ on $[a, b]$):}
+    Here $f$ is strictly decreasing with $f(a) > 0 > f(b)$. The condition $f(x_0) > 0$ implies $x_0 \in [a, \alpha)$, i.e., $x_0 < \alpha$.
+\end{itemize}
+
+\medskip
+\noindent\textbf{Step 3: Establish Boundedness and Monotonicity by Induction.} \\
+We analyze Subcase A ($f' > 0, f'' > 0, x_0 > \alpha$). We prove by induction that for all $k \ge 0$:
+\begin{equation}
+    \alpha < x_{k+1} < x_k \le b
+\end{equation}
+\begin{enumerate}
+    \item \textbf{Inductive Hypothesis:} Assume $x_k > \alpha$.
+    \item \textbf{Error Relation via Taylor's Theorem:}
+    Expand $f(\alpha)$ in a Taylor series about the current iterate $x_k$ with exact Lagrange remainder:
+    \begin{equation}
+        0 = f(\alpha) = f(x_k) + f'(x_k)(\alpha - x_k) + \frac{1}{2} f''(\xi_k)(\alpha - x_k)^2
+    \end{equation}
+    for some point $\xi_k \in (\alpha, x_k) \subset (a, b)$.
+    
+    From the definition of the Newton--Raphson step, $x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$, which gives the exact identity:
+    \begin{equation}
+        f(x_k) = f'(x_k)(x_k - x_{k+1})
+    \end{equation}
+    Substituting this into the Taylor expansion:
+    \begin{align}
+        0 &= f'(x_k)(x_k - x_{k+1}) + f'(x_k)(\alpha - x_k) + \frac{1}{2} f''(\xi_k)(\alpha - x_k)^2 \nonumber \\
+        &= f'(x_k)\big[ (x_k - x_{k+1}) + (\alpha - x_k) \big] + \frac{1}{2} f''(\xi_k)(\alpha - x_k)^2 \nonumber \\
+        &= f'(x_k)(\alpha - x_{k+1}) + \frac{1}{2} f''(\xi_k)(\alpha - x_k)^2
+    \end{align}
+    Rearranging terms:
+    \begin{equation}
+        f'(x_k)(x_{k+1} - \alpha) = \frac{1}{2} f''(\xi_k)(x_k - \alpha)^2
+    \end{equation}
+    Dividing by $f'(x_k) > 0$:
+    \begin{equation}
+        \boxed{x_{k+1} - \alpha = \frac{f''(\xi_k)}{2 f'(x_k)} (x_k - \alpha)^2}
+    \end{equation}
+    Since $f''(\xi_k) > 0$, $f'(x_k) > 0$, and $(x_k - \alpha)^2 > 0$ (since $x_k \ne \alpha$), the right-hand side is \textbf{strictly positive}:
+    \begin{equation}
+        x_{k+1} - \alpha > 0 \implies \boxed{x_{k+1} > \alpha}
+    \end{equation}
+    Thus, every iterate remains strictly to the right of the root $\alpha$.
+    
+    \item \textbf{Strict Monotonic Decrease:}
+    Compute the difference between successive iterates:
+    \begin{equation}
+        x_k - x_{k+1} = \frac{f(x_k)}{f'(x_k)}
+    \end{equation}
+    Since $x_k > \alpha$ and $f(x)$ is strictly increasing, $f(x_k) > f(\alpha) = 0$. Since $f'(x_k) > 0$:
+    \begin{equation}
+        x_k - x_{k+1} = \frac{f(x_k)}{f'(x_k)} > 0 \implies \boxed{x_{k+1} < x_k}
+    \end{equation}
+\end{enumerate}
+Therefore, by mathematical induction, the sequence $\{x_k\}$ satisfies:
+\begin{equation}
+    \alpha < \dots < x_2 < x_1 < x_0 \le b
+\end{equation}
+
+\medskip
+\noindent\textbf{Step 4: Convergence to the Root via Monotone Convergence Theorem.} \\
+The sequence $\{x_k\}$ is strictly decreasing and bounded below by $\alpha$. By the Monotone Convergence Theorem of real analysis, the sequence is guaranteed to converge to a finite real limit $L$:
+\begin{equation}
+    \lim_{k \to \infty} x_k = L \ge \alpha
+\end{equation}
+Taking the limit as $k \to \infty$ on both sides of the iteration formula $x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$:
+\begin{equation}
+    L = L - \frac{f(L)}{f'(L)} \implies \frac{f(L)}{f'(L)} = 0 \implies f(L) = 0
+\end{equation}
+Since $\alpha$ is the \textbf{unique} root of $f(x) = 0$ in $[a, b]$, we conclude:
+\begin{equation}
+    \boxed{L = \alpha \iff \lim_{k \to \infty} x_k = \alpha}
+\end{equation}
+An identical proof holds for Subcase B, where $\{x_k\}$ is strictly increasing and bounded above by $\alpha$.
+This concludes the complete and rigorous proof of Fourier's Theorem. $\blacksquare$
+\end{proof}
+
+\begin{examplebox}[Manuscript Problem: Reciprocal Algorithm Without Division (Pages 12--13)]
+\textbf{Problem Statement:} Compute $1/N$ using only multiplication and subtraction (hardware division algorithm).
+Let $x = 1/N \implies f(x) = \frac{1}{x} - N = 0$.
+The derivative is $f'(x) = -\frac{1}{x^2}$.
+Applying Newton--Raphson:
+\begin{equation}
+    x_{k+1} = x_k - \frac{\frac{1}{x_k} - N}{-\frac{1}{x_k^2}} = x_k + x_k^2\left(\frac{1}{x_k} - N\right) = x_k + x_k - N x_k^2
+\end{equation}
+\begin{equation}
+    \boxed{x_{k+1} = x_k(2 - N x_k)}
+\end{equation}
+\textbf{Convergence Domain Analysis:}
+The relative error is $\epsilon_k = 1 - N x_k$. Then:
+\begin{equation}
+    \epsilon_{k+1} = 1 - N x_{k+1} = 1 - N x_k(2 - N x_k) = 1 - 2 N x_k + N^2 x_k^2 = (1 - N x_k)^2 = \epsilon_k^2
+\end{equation}
+For convergence, we require $|\epsilon_{k+1}| < |\epsilon_k| \iff |\epsilon_0| < 1$:
+\begin{equation}
+    |1 - N x_0| < 1 \iff -1 < 1 - N x_0 < 1 \iff 0 < N x_0 < 2 \iff \boxed{0 < x_0 < \frac{2}{N}}
+\end{equation}
+This rigorously establishes the manuscript condition: the initial approximation $x_0$ must satisfy $0 < x_0 < 2/N$.
+\end{examplebox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+    % Axes
+    \draw[->, thick, primary] (-0.5, 0) -- (5.5, 0) node[right, primary] {$x$};
+    \draw[->, thick, primary] (0, -0.5) -- (0, 3.5) node[above, primary] {$y$};
+    
+    % y = x line
+    \draw[thick, gray, dashed] (0, 0) -- (3.2, 3.2) node[above right] {$y = x$};
+    
+    % Inverted Parabola: y = x(2 - Nx). Let 1/N = 2.0 (so N = 0.5) => y = x(2 - 0.5*x) = 2x - 0.5 x^2.
+    % Roots at x = 0 and x = 4 (= 2/N). Vertex at x = 2 (= 1/N), y = 2 (= 1/N).
+    \draw[very thick, accent, domain=0:4.2, smooth] 
+        plot (\x, {2.0*\x - 0.5*\x*\x}) 
+        node[right] {$y = x(2 - Nx)$};
+    
+    % Intercept 2/N
+    \filldraw[primary] (4.0, 0) circle (2pt) node[below] {$\frac{2}{N}$};
+    \filldraw[primary] (0, 0) circle (2pt) node[below left] {$0$};
+    
+    % Vertex (1/N, 1/N)
+    \coordinate (Vertex) at (2.0, 2.0);
+    \filldraw[secondary] (Vertex) circle (2.5pt);
+    \draw[dashed, secondary] (2.0, 0) node[below, secondary] {$\frac{1}{N} = \alpha$} -- (Vertex) -- (0, 2.0) node[left, secondary] {$\frac{1}{N}$};
+    
+    % Convergence interval label
+    \draw[<->, thick, ForestGreen] (0.05, -0.7) -- (3.95, -0.7);
+    \node[ForestGreen, below] at (2.0, -0.7) {\textbf{Convergence Basin:} $0 < x_0 < \frac{2}{N}$};
+\end{tikzpicture}
+\end{center}
+
+
+% =========================================================================
+% PAGES 13-17: FIXED-POINT ITERATION METHOD
+% =========================================================================
+\section{Pages 13--17: Fixed-Point Iteration Method \texorpdfstring{($x = \phi(x)$)}{(x = phi(x))} and Cobweb Analysis}
+\label{sec:page13_17_fixed_point}
+
+\begin{theorembox}[Contraction Mapping Theorem for Fixed-Point Iteration]
+To solve the nonlinear equation $f(x) = 0$, rewrite it in the equivalent fixed-point form:
+\begin{equation}
+    x = \phi(x)
+\end{equation}
+The fixed-point iterative algorithm is defined by:
+\begin{equation}
+    \boxed{x_{k+1} = \phi(x_k)} \quad (k = 0, 1, 2, \dots)
+\end{equation}
+\textbf{Convergence Theorem:} Suppose $\phi(x)$ satisfies the following two conditions on a closed interval $[a, b]$:
+\begin{enumerate}
+    \item \textbf{Self-Mapping Property}: $\phi(x) \in [a, b]$ for all $x \in [a, b]$ (i.e., $\phi([a, b]) \subseteq [a, b]$).
+    \item \textbf{Contraction Property}: $\phi(x)$ is continuously differentiable on $[a, b]$, and there exists a Lipschitz constant $L$ strictly less than 1 such that:
+    \begin{equation}
+        \boxed{|\phi'(x)| \le L < 1 \quad \forall x \in [a, b]}
+    \end{equation}
+\end{enumerate}
+Then:
+\begin{enumerate}[label=(\alph*)]
+    \item There exists a \textbf{unique} fixed point $\alpha \in [a, b]$ satisfying $\alpha = \phi(\alpha)$.
+    \item The sequence $\{x_k\}$ converges unconditionally to $\alpha$ for \textbf{any} starting guess $x_0 \in [a, b]$.
+    \item The error satisfies the \textbf{A Priori Error Bound}:
+    \begin{equation}
+        \boxed{|x_k - \alpha| \le \frac{L^k}{1 - L} |x_1 - x_0|}
+    \end{equation}
+    \item The error satisfies the \textbf{A Posteriori Error Bound}:
+    \begin{equation}
+        \boxed{|x_k - \alpha| \le \frac{L}{1 - L} |x_k - x_{k-1}|}
+    \end{equation}
+    \item The asymptotic convergence is \textbf{linear} ($p = 1$) with asymptotic error constant $C = |\phi'(\alpha)|$.
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Multi-Part Proof of the Contraction Mapping Theorem]
+We prove each assertion systematically from first principles.
+
+\medskip
+\noindent\textbf{Part 1: Proof of Existence of a Fixed Point} \\
+Define the auxiliary continuous function:
+\begin{equation}
+    g(x) = \phi(x) - x, \quad x \in [a, b]
+\end{equation}
+Since $\phi$ maps $[a, b]$ into $[a, b]$, the endpoint values satisfy:
+\begin{align}
+    \phi(a) \in [a, b] &\implies \phi(a) \ge a \implies g(a) = \phi(a) - a \ge 0 \\
+    \phi(b) \in [a, b] &\implies \phi(b) \le b \implies g(b) = \phi(b) - b \le 0
+\end{align}
+We consider two cases:
+\begin{itemize}
+    \item If $g(a) = 0$, then $\alpha = a$ is a fixed point.
+    \item If $g(b) = 0$, then $\alpha = b$ is a fixed point.
+    \item If $g(a) > 0$ and $g(b) < 0$: since $\phi(x)$ is continuous on $[a, b]$, $g(x)$ is continuous on $[a, b]$. By the \textbf{Intermediate Value Theorem (IVT)}, there exists at least one number $\alpha \in (a, b)$ such that:
+    \begin{equation}
+        g(\alpha) = 0 \iff \phi(\alpha) - \alpha = 0 \iff \boxed{\alpha = \phi(\alpha)}
+    \end{equation}
+\end{itemize}
+Hence, at least one fixed point $\alpha \in [a, b]$ always exists.
+
+\medskip
+\noindent\textbf{Part 2: Proof of Uniqueness of the Fixed Point} \\
+Suppose for contradiction that there exist two distinct fixed points $\alpha_1, \alpha_2 \in [a, b]$ with $\alpha_1 \ne \alpha_2$, so that $\phi(\alpha_1) = \alpha_1$ and $\phi(\alpha_2) = \alpha_2$. Then:
+\begin{equation}
+    |\alpha_1 - \alpha_2| = |\phi(\alpha_1) - \phi(\alpha_2)|
+\end{equation}
+By the Mean Value Theorem applied to $\phi$ on the interval between $\alpha_1$ and $\alpha_2$, there exists $\xi \in (\min(\alpha_1, \alpha_2), \max(\alpha_1, \alpha_2))$ such that:
+\begin{equation}
+    \phi(\alpha_1) - \phi(\alpha_2) = \phi'(\xi)(\alpha_1 - \alpha_2)
+\end{equation}
+Taking absolute values and using the hypothesis $|\phi'(x)| \le L < 1$:
+\begin{equation}
+    |\alpha_1 - \alpha_2| = |\phi'(\xi)| \cdot |\alpha_1 - \alpha_2| \le L |\alpha_1 - \alpha_2|
+\end{equation}
+Rearranging gives:
+\begin{equation}
+    (1 - L)|\alpha_1 - \alpha_2| \le 0
+\end{equation}
+Since $L < 1$, the factor $(1 - L) > 0$. Since $\alpha_1 \ne \alpha_2$, the distance $|\alpha_1 - \alpha_2| > 0$. The product of two strictly positive real numbers must be strictly positive:
+\begin{equation}
+    (1 - L)|\alpha_1 - \alpha_2| > 0
+\end{equation}
+This directly contradicts $(1 - L)|\alpha_1 - \alpha_2| \le 0$. Therefore, the assumption $\alpha_1 \ne \alpha_2$ is false, establishing that the fixed point $\alpha$ is \textbf{strictly unique}.
+
+\medskip
+\noindent\textbf{Part 3: Proof of Convergence via Cauchy Sequence} \\
+Let $x_0 \in [a, b]$ be arbitrary. By induction, every iterate $x_k \in [a, b]$ because $\phi([a, b]) \subseteq [a, b]$.
+For any step $k \ge 1$:
+\begin{equation}
+    |x_{k+1} - x_k| = |\phi(x_k) - \phi(x_{k-1})|
+\end{equation}
+Applying the Mean Value Theorem, there exists $\eta_k$ between $x_k$ and $x_{k-1}$ such that:
+\begin{equation}
+    |\phi(x_k) - \phi(x_{k-1})| = |\phi'(\eta_k)| \cdot |x_k - x_{k-1}| \le L |x_k - x_{k-1}|
+\end{equation}
+Applying this inequality recursively $k$ times:
+\begin{equation}
+    |x_{k+1} - x_k| \le L |x_k - x_{k-1}| \le L^2 |x_{k-1} - x_{k-2}| \le \dots \le L^k |x_1 - x_0|
+\end{equation}
+Now consider any two integers $m$ and $n$ with $m > n \ge 0$. Using the telescoping sum representation and the triangle inequality:
+\begin{align}
+    |x_m - x_n| &= \left| \sum_{j=n}^{m-1} (x_{j+1} - x_j) \right| \le \sum_{j=n}^{m-1} |x_{j+1} - x_j| \nonumber \\
+    &\le \sum_{j=n}^{m-1} L^j |x_1 - x_0| = |x_1 - x_0| L^n \sum_{i=0}^{m-n-1} L^i
+\end{align}
+Since $0 \le L < 1$, the finite geometric series is bounded by the infinite series:
+\begin{equation}
+    \sum_{i=0}^{m-n-1} L^i < \sum_{i=0}^\infty L^i = \frac{1}{1 - L}
+\end{equation}
+Therefore:
+\begin{equation}
+    \label{eq:cauchy_bound}
+    |x_m - x_n| \le \frac{L^n}{1 - L} |x_1 - x_0|
+\end{equation}
+Since $0 \le L < 1$, we have $\lim_{n \to \infty} L^n = 0$. Given any $\epsilon > 0$, we can choose $N \in \mathbb{N}$ sufficiently large such that for all $m > n \ge N$:
+\begin{equation}
+    |x_m - x_n| < \epsilon
+\end{equation}
+Thus, $\{x_k\}_{k=0}^\infty$ is a \textbf{Cauchy sequence} in $\mathbb{R}$. Since $\mathbb{R}$ is a complete metric space, every Cauchy sequence converges to a limit in $\mathbb{R}$. Furthermore, since $[a, b]$ is a closed subset of $\mathbb{R}$:
+\begin{equation}
+    \lim_{k \to \infty} x_k = \alpha^* \in [a, b]
+\end{equation}
+Taking the limit on both sides of $x_{k+1} = \phi(x_k)$ and utilizing the continuity of $\phi$:
+\begin{equation}
+    \alpha^* = \lim_{k \to \infty} x_{k+1} = \lim_{k \to \infty} \phi(x_k) = \phi\left( \lim_{k \to \infty} x_k \right) = \phi(\alpha^*)
+\end{equation}
+Thus $\alpha^*$ is a fixed point of $\phi$. By the uniqueness proved in Part 2, $\alpha^* = \alpha$.
+
+\medskip
+\noindent\textbf{Part 4: Proof of A Priori and A Posteriori Error Bounds} \\
+\textbf{(i) A Priori Bound:} In inequality \eqref{eq:cauchy_bound}, hold $n = k$ fixed and let $m \to \infty$. By continuity of the absolute value function:
+\begin{equation}
+    |x_m - x_k| \to |\alpha - x_k| \implies \boxed{|\alpha - x_k| \le \frac{L^k}{1 - L}|x_1 - x_0|}
+\end{equation}
+This bound allows determining the exact number of iterations needed to reach a prescribed tolerance \textit{before} running the computation.
+
+\medskip
+\noindent\textbf{(ii) A Posteriori Bound:} By the triangle inequality:
+\begin{align}
+    |x_k - \alpha| &\le |x_k - x_{k+1}| + |x_{k+1} - \alpha| = |x_k - x_{k+1}| + |\phi(x_k) - \phi(\alpha)| \nonumber \\
+    &\le |x_{k+1} - x_k| + L |x_k - \alpha|
+\end{align}
+Subtracting $L |x_k - \alpha|$ from both sides:
+\begin{equation}
+    (1 - L)|x_k - \alpha| \le |x_{k+1} - x_k| \implies |x_k - \alpha| \le \frac{1}{1 - L}|x_{k+1} - x_k|
+\end{equation}
+Shifting indices back by one step ($k \leftarrow k - 1$ and using $|x_k - x_{k-1}| \le L|x_{k-1} - x_{k-2}|$):
+\begin{equation}
+    \boxed{|x_k - \alpha| \le \frac{L}{1 - L}|x_k - x_{k-1}|}
+\end{equation}
+
+\medskip
+\noindent\textbf{Part 5: Order of Convergence and Asymptotic Constant} \\
+Let $e_k = x_k - \alpha$. Expanding $\phi(x_k)$ in a Taylor series about $\alpha$:
+\begin{equation}
+    x_{k+1} = \phi(x_k) = \phi(\alpha + e_k) = \phi(\alpha) + e_k \phi'(\alpha) + \frac{e_k^2}{2} \phi''(\xi_k)
+\end{equation}
+Subtracting $\alpha = \phi(\alpha)$:
+\begin{equation}
+    e_{k+1} = \phi'(\alpha) e_k + \frac{\phi''(\xi_k)}{2} e_k^2
+\end{equation}
+Dividing by $e_k$:
+\begin{equation}
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|} = \lim_{k \to \infty} \left| \phi'(\alpha) + \frac{\phi''(\xi_k)}{2} e_k \right| = |\phi'(\alpha)| = C
+\end{equation}
+Provided $\phi'(\alpha) \ne 0$, the order of convergence is \textbf{linear} ($p = 1$) with asymptotic error constant $C = |\phi'(\alpha)|$.
+\end{proof}
+
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1]
+    % Axes
+    \draw[->, thick, primary] (-0.5, 0) -- (6.0, 0) node[right, primary] {$x$};
+    \draw[->, thick, primary] (0, -0.5) -- (0, 6.0) node[above, primary] {$y$};
+    
+    % y = x line
+    \draw[thick, gray, dashed] (0, 0) -- (5.5, 5.5) node[above right] {$y = x$};
+    
+    % phi(x) curve: phi(x) = 0.45*x + 1.6 => fixed point x = 0.45*x + 1.6 => 0.55*x = 1.6 => x = 2.909
+    \draw[very thick, secondary, domain=0.5:5.2] 
+        plot (\x, {0.35*\x + 1.89}) 
+        node[right] {$y = \phi(x) \quad (|\phi'| < 1)$};
+    
+    % Fixed point coordinate (2.909, 2.909)
+    \coordinate (Fixed) at (2.909, 2.909);
+    \filldraw[accent] (Fixed) circle (2pt) node[above left=3pt, accent] {$\alpha = \phi(\alpha)$};
+    
+    % Cobweb Iteration starting at x0 = 0.8
+    \coordinate (C0) at (0.8, 0);
+    \coordinate (C1) at (0.8, 2.17);  % phi(0.8) = 0.35*0.8 + 1.89 = 2.17
+    \coordinate (C2) at (2.17, 2.17);  % to y = x
+    \coordinate (C3) at (2.17, 2.65);  % phi(2.17) = 2.65
+    \coordinate (C4) at (2.65, 2.65);
+    \coordinate (C5) at (2.65, 2.82);
+    \coordinate (C6) at (2.82, 2.82);
+    
+    % Draw staircase path
+    \draw[thick, Crimson, ->] (C0) -- (C1);
+    \draw[thick, Crimson, ->] (C1) -- (C2);
+    \draw[thick, Crimson, ->] (C2) -- (C3);
+    \draw[thick, Crimson, ->] (C3) -- (C4);
+    \draw[thick, Crimson, ->] (C4) -- (C5);
+    \draw[thick, Crimson, ->] (C5) -- (C6);
+    
+    % Labels
+    \filldraw[primary] (C0) circle (1.5pt) node[below=2pt] {$x_0$};
+    \filldraw[ForestGreen] (2.17, 0) circle (1.5pt) node[below=2pt] {$x_1$};
+    \filldraw[DarkOrange] (2.65, 0) circle (1.5pt) node[below=2pt] {$x_2$};
+    \draw[dotted, gray] (C2) -- (2.17, 0);
+    \draw[dotted, gray] (C4) -- (2.65, 0);
+\end{tikzpicture}
+\end{center}
+
+\begin{examplebox}[Manuscript Problem: Iterative Selection for $x^3 - 3x + 1 = 0$ (Page 16)]
+Given $f(x) = x^3 - 3x + 1 = 0$.
+Evaluate at endpoints: $f(0) = 1 > 0$, $f(1) = -1 < 0$. Root lies in $[0, 1]$.
+
+\textbf{Formulation A:} $3x = x^3 + 1 \implies \phi(x) = \frac{x^3 + 1}{3}$.
+Check convergence derivative:
+\begin{equation}
+    \phi'(x) = \frac{3x^2}{3} = x^2
+\end{equation}
+For $x \in [0, 1]$:
+\begin{equation}
+    |\phi'(x)| = |x^2| \le 1, \quad \text{and strictly } |\phi'(x)| < 1 \text{ on } [0, 1)
+\end{equation}
+Thus, Formulation A is \textbf{guaranteed to converge}!
+
+\textbf{Numerical Execution ($x_0 = 0$):}
+\begin{align}
+    x_1 &= \phi(0) = \frac{0^3 + 1}{3} = \frac{1}{3} \approx 0.333333 \\
+    x_2 &= \phi(0.333333) = \frac{(0.333333)^3 + 1}{3} = \frac{0.037037 + 1}{3} \approx 0.345679 \\
+    x_3 &= \phi(0.345679) = \frac{(0.345679)^3 + 1}{3} = \frac{0.041306 + 1}{3} \approx 0.347102 \\
+    x_4 &= \phi(0.347102) \approx 0.347271
+\end{align}
+The sequence rapidly converges to the root $\alpha \approx 0.347296$.
+
+\textbf{Formulation B (Fails):} $x^3 = 3x - 1 \implies \phi(x) = (3x - 1)^{1/3}$.
+\begin{equation}
+    \phi'(x) = \frac{1}{3}(3x - 1)^{-2/3}(3) = (3x - 1)^{-2/3} = \frac{1}{(3x - 1)^{2/3}}
+\end{equation}
+At $x = 0.3$, $\phi'(0.3) = (-0.1)^{-2/3} \approx 4.64 > 1$. The iterations oscillate violently and diverge! This illustrates why verifying $|\phi'(x)| < 1$ is indispensable.
+\end{examplebox}
+
+% =========================================================================
+% PAGES 18-20: ACCELERATION & MULTIPOINT SCHEMES
+% =========================================================================
+\section{Pages 18--20: Multipoint Acceleration Schemes and High-Order Iterations}
+\label{sec:page18_20_acceleration}
+
+\begin{theorembox}[Parameter Determination for High-Order Multipoint Iterations]
+Consider the generalized iteration scheme (Manuscript Page 19):
+\begin{equation}
+    x_{k+1} = x_k - \gamma_1 f(x_k) + \gamma_2 f(x_k)^2 - \gamma_3 f(x_k)^3
+\end{equation}
+We wish to determine coefficients $\gamma_1, \gamma_2, \gamma_3$ to maximize the convergence order.
+Let $x_k = \alpha + e_k$ where $f(\alpha) = 0$. Taylor expansion yields:
+\begin{equation}
+    f(x_k) = e_k f'(\alpha) + \frac{e_k^2}{2} f''(\alpha) + \frac{e_k^3}{6} f'''(\alpha) + O(e_k^4)
+\end{equation}
+Substituting into the error relation $e_{k+1} = x_{k+1} - \alpha$:
+\begin{align}
+    e_{k+1} &= e_k - \gamma_1 \left( e_k f' + \frac{e_k^2}{2} f'' + \frac{e_k^3}{6} f''' \right) + \gamma_2 \left( e_k f' + \frac{e_k^2}{2} f'' \right)^2 - \gamma_3 (e_k f')^3 + O(e_k^4) \nonumber \\
+    &= e_k \big( 1 - \gamma_1 f' \big) + e_k^2 \left( -\frac{\gamma_1}{2} f'' + \gamma_2 (f')^2 \right) + e_k^3 \left( -\frac{\gamma_1}{6} f''' + \gamma_2 f' f'' - \gamma_3 (f')^3 \right) + O(e_k^4)
+\end{align}
+To achieve maximum order of convergence:
+\begin{enumerate}
+    \item For $p \ge 2$, annihilate the $e_k$ coefficient:
+    \begin{equation}
+        1 - \gamma_1 f'(\alpha) = 0 \implies \boxed{\gamma_1 = \frac{1}{f'(\alpha)}} \quad \text{(Newton--Raphson)}
+    \end{equation}
+    \item For $p \ge 3$ (Cubic Convergence), simultaneously annihilate the $e_k^2$ coefficient:
+    \begin{equation}
+        -\frac{1}{2}\left(\frac{1}{f'}\right) f'' + \gamma_2 (f')^2 = 0 \implies \boxed{\gamma_2 = \frac{f''(\alpha)}{2 [f'(\alpha)]^3}} \quad \text{(Chebyshev Method of Order 3)}
+    \end{equation}
+    \item For $p \ge 4$ (Quartic Convergence), also annihilate the $e_k^3$ coefficient:
+    \begin{equation}
+        \boxed{\gamma_3 = \frac{3[f''(\alpha)]^2 - f'(\alpha)f'''(\alpha)}{6 [f'(\alpha)]^5}}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{examplebox}[Manuscript Problem: Optimal Relaxation Parameter for Fastest Convergence (Page 20)]
+\textbf{Problem Statement:} The algebraic equation $x^3 - 5x^2 + 11x - 3 = 0$ has a root near $x \approx 3$. Consider the parameterized fixed-point iterative scheme:
+\begin{equation}
+    x_{n+1} = 3 + (1 - \lambda)x_n + 5x_n^2 - x_n^3 \equiv \phi(x_n, \lambda)
+\end{equation}
+Determine the value of the parameter $\lambda$ that yields the \textbf{fastest rate of convergence} to the root $\alpha$.
+
+\medskip
+\noindent\textbf{Analytical Solution:} \\
+From the general theory of fixed-point iteration, the error evolves as:
+\begin{equation}
+    e_{n+1} = \phi'(\alpha, \lambda) e_n + \frac{\phi''(\alpha, \lambda)}{2} e_n^2 + \mathcal{O}(e_n^3)
+\end{equation}
+The convergence is linear ($p = 1$) whenever $\phi'(\alpha, \lambda) \ne 0$. The \textbf{fastest convergence} (superlinear / quadratic rate $p \ge 2$) occurs when the linear error term vanishes:
+\begin{equation}
+    \boxed{\phi'(\alpha, \lambda) = 0}
+\end{equation}
+Differentiating $\phi(x, \lambda)$ with respect to $x$:
+\begin{equation}
+    \phi'(x, \lambda) = \frac{d}{dx}\left[ 3 + (1 - \lambda)x + 5x^2 - x^3 \right] = (1 - \lambda) + 10x - 3x^2
+\end{equation}
+Evaluating at the root $x = \alpha$:
+\begin{equation}
+    \phi'(\alpha, \lambda) = (1 - \lambda) + 10\alpha - 3\alpha^2 = 0
+\end{equation}
+Solving explicitly for $\lambda$:
+\begin{equation}
+    \boxed{\lambda = 1 + 10\alpha - 3\alpha^2}
+\end{equation}
+For the root $\alpha \approx 3$:
+\begin{equation}
+    \lambda = 1 + 10(3) - 3(3^2) = 1 + 30 - 27 = \mathbf{4}
+\end{equation}
+Choosing $\lambda = 4$ annihilates the first derivative $\phi'(3, 4) = 0$, elevating the iteration from linear to \textbf{quadratic convergence}!
+\end{examplebox}
+
+% =========================================================================
+% PAGES 20-22: BIRGE-VIETA METHOD
+% =========================================================================
+\section{Pages 20--22: The Birge--Vieta Method for Real Roots of Polynomials}
+\label{sec:page20_22_birge_vieta}
+
+\begin{theorembox}[Theoretical Formulation of the Birge--Vieta Method]
+The \textbf{Birge--Vieta method} is an optimized implementation of the Newton--Raphson method tailored specifically for polynomials:
+\begin{equation}
+    P_n(x) = a_0 x^n + a_1 x^{n-1} + a_2 x^{n-2} + \dots + a_{n-1} x + a_n \quad (a_0 \ne 0)
+\end{equation}
+Dividing $P_n(x)$ by the linear factor $(x - p)$ by Horner's synthetic division yields quotient $Q_{n-1}(x)$ and remainder $R$:
+\begin{equation}
+    P_n(x) = (x - p) Q_{n-1}(x) + R
+\end{equation}
+where $Q_{n-1}(x) = b_0 x^{n-1} + b_1 x^{n-2} + \dots + b_{n-1}$, and the remainder is $R = b_n = P_n(p)$.
+Differentiating with respect to $x$ and setting $x = p$:
+\begin{equation}
+    P'_n(p) = Q_{n-1}(p) = c_{n-1}
+\end{equation}
+where $c_{n-1}$ is the remainder obtained by dividing $Q_{n-1}(x)$ by $(x - p)$.
+
+The Newton--Raphson update on the parameter $p$ is:
+\begin{equation}
+    \boxed{p_{k+1} = p_k - \frac{P_n(p_k)}{P'_n(p_k)} = p_k - \frac{b_n}{c_{n-1}}}
+\end{equation}
+\textbf{Synthetic Division Algorithm:}
+\begin{align}
+    b_0 &= a_0, & b_i &= a_i + p b_{i-1} \quad (i = 1, 2, \dots, n) \\
+    c_0 &= b_0, & c_i &= b_i + p c_{i-1} \quad (i = 1, 2, \dots, n-1)
+\end{align}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Mathematical Proof of the Horner Derivative Identity $P'_n(p) = c_{n-1}$]
+We prove that both the polynomial value $P_n(p)$ and its exact derivative $P'_n(p)$ can be computed using two successive synthetic divisions.
+
+\medskip
+\noindent\textbf{Step 1: First Horner factorization.} \\
+By the polynomial division algorithm, dividing $P_n(x)$ by $(x - p)$ yields:
+\begin{equation}
+    \label{eq:first_horner}
+    P_n(x) = (x - p) Q_{n-1}(x) + R_1
+\end{equation}
+where $Q_{n-1}(x) = b_0 x^{n-1} + b_1 x^{n-2} + \dots + b_{n-1}$ and $R_1$ is a constant. Evaluating at $x = p$:
+\begin{equation}
+    P_n(p) = (p - p) Q_{n-1}(p) + R_1 = 0 + R_1 \implies R_1 = b_n = P_n(p)
+\end{equation}
+
+\noindent\textbf{Step 2: Differentiating the Horner identity.} \\
+Differentiate identity \eqref{eq:first_horner} with respect to $x$ using the product rule:
+\begin{align}
+    P'_n(x) &= \frac{d}{dx}\left[ (x - p) Q_{n-1}(x) + b_n \right] \nonumber \\
+    &= \frac{d}{dx}(x - p) \cdot Q_{n-1}(x) + (x - p) \cdot \frac{d}{dx} Q_{n-1}(x) + 0 \nonumber \\
+    &= 1 \cdot Q_{n-1}(x) + (x - p) Q'_{n-1}(x)
+\end{align}
+Now evaluate this derivative at $x = p$:
+\begin{equation}
+    P'_n(p) = Q_{n-1}(p) + (p - p) Q'_{n-1}(p) = Q_{n-1}(p) + 0 = \boxed{Q_{n-1}(p)}
+\end{equation}
+
+\noindent\textbf{Step 3: Second Horner factorization.} \\
+Now divide the quotient polynomial $Q_{n-1}(x)$ by the identical linear factor $(x - p)$:
+\begin{equation}
+    Q_{n-1}(x) = (x - p) S_{n-2}(x) + R_2
+\end{equation}
+where $S_{n-2}(x) = c_0 x^{n-2} + c_1 x^{n-3} + \dots + c_{n-2}$ and $R_2 = c_{n-1}$.
+Evaluating at $x = p$:
+\begin{equation}
+    Q_{n-1}(p) = (p - p) S_{n-2}(p) + c_{n-1} = 0 + c_{n-1} = c_{n-1}
+\end{equation}
+Combining Step 2 and Step 3:
+\begin{equation}
+    \boxed{P'_n(p) = Q_{n-1}(p) = c_{n-1}}
+\end{equation}
+Therefore, substituting into Newton--Raphson's formula $p_{k+1} = p_k - \frac{P_n(p_k)}{P'_n(p_k)}$ yields:
+\begin{equation}
+    p_{k+1} = p_k - \frac{b_n}{c_{n-1}} \quad \blacksquare
+\end{equation}
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Complete Solution of $x^5 - x + 1 = 0$ (Pages 22--23)]
+Find a real root of $P_5(x) = x^5 - x + 1 = 0$.
+The polynomial coefficients are:
+\begin{equation}
+    a_0 = 1, \quad a_1 = 0, \quad a_2 = 0, \quad a_3 = 0, \quad a_4 = -1, \quad a_5 = 1
+\end{equation}
+$P_5(-1) = (-1)^5 - (-1) + 1 = 1 > 0$, and $P_5(-2) = -32 + 2 + 1 = -29 < 0$. Root lies in $[-2, -1]$.
+Initial guess: $p_0 = -1$.
+
+\textbf{Iteration 1 ($k = 0, p_0 = -1$):}
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c|cccccc}
+& $a_0 = 1$ & $a_1 = 0$ & $a_2 = 0$ & $a_3 = 0$ & $a_4 = -1$ & $a_5 = 1$ \\
+$p_0 = -1$ & & $-1$ & $1$ & $-1$ & $1$ & $0$ \\
+\hline
+$b_i$ & $1$ & $-1$ & $1$ & $-1$ & $0$ & $\mathbf{b_5 = 1}$ \\
+$p_0 = -1$ & & $-1$ & $2$ & $-3$ & $4$ & \\
+\hline
+$c_i$ & $1$ & $-2$ & $3$ & $-4$ & $\mathbf{c_4 = 4}$ &
+\end{tabular}
+\end{center}
+Compute next iterate:
+\begin{equation}
+    p_1 = p_0 - \frac{b_5}{c_4} = -1 - \frac{1}{4} = -1 - 0.25 = \mathbf{-1.25}
+\end{equation}
+
+\textbf{Iteration 2 ($k = 1, p_1 = -1.25$):}
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{c|cccccc}
+& $a_0 = 1$ & $a_1 = 0$ & $a_2 = 0$ & $a_3 = 0$ & $a_4 = -1$ & $a_5 = 1$ \\
+$p_1 = -1.25$ & & $-1.25$ & $1.5625$ & $-1.953125$ & $2.441406$ & $-1.801758$ \\
+\hline
+$b_i$ & $1$ & $-1.25$ & $1.5625$ & $-1.953125$ & $1.441406$ & $\mathbf{b_5 = -0.801758}$ \\
+$p_1 = -1.25$ & & $-1.25$ & $3.1250$ & $-5.859375$ & $9.765625$ & \\
+\hline
+$c_i$ & $1$ & $-2.50$ & $4.6875$ & $-7.812500$ & $\mathbf{c_4 = 11.207031}$ &
+\end{tabular}
+\end{center}
+Compute next iterate:
+\begin{equation}
+    p_2 = p_1 - \frac{b_5}{c_4} = -1.25 - \frac{-0.801758}{11.207031} = -1.25 + 0.071541 = \mathbf{-1.178459}
+\end{equation}
+This matches the manuscript derivation value $p_2 \approx -1.178379$ to 4 significant digits.
+\end{examplebox}

@@ -1,0 +1,619 @@
+\chapter{Calculus of Finite Differences and Difference Operators (Pages 37--51)}
+\label{ch:finite_differences}
+
+\begin{conceptbox}[Foundations of Discrete Difference Calculus]
+In classical continuous calculus, the fundamental operational entity is the differential operator $D = \frac{d}{dx}$. In numerical mathematics, where functions are known only at discrete, equispaced grid points $x_i = x_0 + i h$ ($i = 0, 1, 2, \dots$), continuous derivatives are replaced by \textbf{finite difference operators}.
+
+Difference calculus forms the theoretical backbone for:
+\begin{enumerate}[noitemsep]
+    \item Polynomial interpolation and extrapolation.
+    \item Numerical differentiation and boundary value discretizations.
+    \item Numerical quadrature (Newton--Cotes formulas).
+    \item Closed-form summation of finite arithmetic-algebraic series.
+\end{enumerate}
+\end{conceptbox}
+
+% =========================================================================
+% PAGES 37-40: THE OPERATOR ALGEBRA
+% =========================================================================
+\section{Pages 37--40: Fundamental Operators \texorpdfstring{($\Delta, \nabla, E, \delta, \mu, D$)}{(Delta, Nabla, E, delta, mu, D)}}
+\label{sec:difference_operators}
+
+\begin{theorembox}[Definitions of Primary Difference Operators]
+Let $\{x_i\}_{i=-\infty}^\infty$ be an equidistant mesh with constant step size $h > 0$, so that $x_i = x_0 + ih$, and let $y_i = y(x_i) = f(x_i)$.
+\begin{enumerate}
+    \item \textbf{Forward Difference Operator ($\Delta$)}:
+    \begin{equation}
+        \boxed{\Delta y_i = y_{i+1} - y_i \iff \Delta f(x) = f(x + h) - f(x)}
+    \end{equation}
+    Higher-order forward differences are defined recursively: $\Delta^k y_i = \Delta(\Delta^{k-1} y_i)$.
+    \item \textbf{Backward Difference Operator ($\nabla$)}:
+    \begin{equation}
+        \boxed{\nabla y_i = y_i - y_{i-1} \iff \nabla f(x) = f(x) - f(x - h)}
+    \end{equation}
+    \item \textbf{Shift (Displacement) Operator ($E$)}:
+    \begin{equation}
+        \boxed{E y_i = y_{i+1} \iff E f(x) = f(x + h)}
+    \end{equation}
+    In general, for any real scalar $p$: $E^p f(x) = f(x + p h)$.
+    \item \textbf{Central Difference Operator ($\delta$)}:
+    \begin{equation}
+        \boxed{\delta y_i = y_{i+1/2} - y_{i-1/2} \iff \delta f(x) = f\left(x + \frac{h}{2}\right) - f\left(x - \frac{h}{2}\right)}
+    \end{equation}
+    \item \textbf{Averaging (Mean) Operator ($\mu$)}:
+    \begin{equation}
+        \boxed{\mu y_i = \frac{1}{2}\left(y_{i+1/2} + y_{i-1/2}\right) \iff \mu f(x) = \frac{1}{2}\left[ f\left(x + \frac{h}{2}\right) + f\left(x - \frac{h}{2}\right) \right]}
+    \end{equation}
+    \item \textbf{Differential Operator ($D$)}:
+    \begin{equation}
+        \boxed{D f(x) = \frac{d}{dx}f(x) \implies D^k f(x) = \frac{d^k f}{dx^k}}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Taylor Series and the Fundamental Relation $E = e^{hD}$]
+By Taylor's theorem, expanding $f(x + h)$ in an infinite series of derivatives about $x$:
+\begin{align}
+    E f(x) = f(x + h) &= f(x) + h f'(x) + \frac{h^2}{2!} f''(x) + \frac{h^3}{3!} f'''(x) + \dots \nonumber \\
+    &= \left( 1 + hD + \frac{h^2 D^2}{2!} + \frac{h^3 D^3}{3!} + \dots \right) f(x) \nonumber \\
+    &= \left( \sum_{k=0}^\infty \frac{(hD)^k}{k!} \right) f(x)
+\end{align}
+Recognizing the exponential series, we obtain the pivotal operational identity:
+\begin{equation}
+    \boxed{E = e^{hD}}
+\end{equation}
+This profound identity bridges discrete difference equations with continuous differential calculus!
+\end{theorembox}
+
+% =========================================================================
+% PAGES 41-42: OPERATOR IDENTITIES & PROOFS
+% =========================================================================
+\section{Pages 41--42: Master Operator Identities and Analytical Proofs}
+\label{sec:operator_identities}
+
+\begin{theorembox}[Master Operational Difference Identities]
+For the fundamental discrete operators $\Delta, \nabla, \delta, E, \mu, D$ with uniform grid spacing $h$, the following operational identities hold identically:
+\begin{enumerate}[label=(\roman*),noitemsep]
+    \item $\displaystyle \mu \delta = \frac{1}{2}(\Delta + \nabla) = \sinh(hD)$ \quad (Manuscript Page 41)
+    \item $\displaystyle \Delta - \nabla = \Delta \nabla = \delta^2$
+    \item $\displaystyle \frac{\Delta}{\nabla} - \frac{\nabla}{\Delta} = \Delta + \nabla$ \quad (Manuscript Page 41)
+    \item $\displaystyle \mu = \sqrt{1 + \frac{\delta^2}{4}}$ \quad (Manuscript Page 42)
+    \item $\displaystyle \Delta = \frac{1}{2}\delta^2 + \delta \sqrt{1 + \frac{\delta^2}{4}}$ \quad (Manuscript Page 48)
+    \item $\displaystyle \delta = \Delta(1 + \Delta)^{-1/2} = \nabla(1 - \nabla)^{-1/2}$ \quad (Manuscript Page 42)
+    \item $\displaystyle \Delta \ln f(x) = \ln\left[ 1 + \frac{\Delta f(x)}{f(x)} \right]$ \quad (Manuscript Page 42)
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Algebraic Proofs of the Operational Identities]
+We verify each identity rigorously from operator first principles.
+
+\medskip
+\noindent\textbf{1. Proof of Identity (i): $\mu \delta = \frac{1}{2}(\Delta + \nabla) = \sinh(hD)$} \\
+Express $\mu$ and $\delta$ in terms of the shift operator $E$:
+\begin{equation}
+    \mu = \frac{1}{2}\left(E^{1/2} + E^{-1/2}\right), \quad \delta = E^{1/2} - E^{-1/2}
+\end{equation}
+Multiplying them directly:
+\begin{align}
+    \mu \delta &= \frac{1}{2}\left(E^{1/2} + E^{-1/2}\right)\left(E^{1/2} - E^{-1/2}\right) \nonumber \\
+    &= \frac{1}{2}\left[\left(E^{1/2}\right)^2 - \left(E^{-1/2}\right)^2\right] = \frac{1}{2}\left(E - E^{-1}\right)
+\end{align}
+Since $E = 1 + \Delta$ and $E^{-1} = 1 - \nabla$:
+\begin{equation}
+    \frac{1}{2}\left(E - E^{-1}\right) = \frac{1}{2}\big[(1 + \Delta) - (1 - \nabla)\big] = \boxed{\frac{1}{2}(\Delta + \nabla)}
+\end{equation}
+Furthermore, substituting $E = e^{hD}$ and $E^{-1} = e^{-hD}$:
+\begin{equation}
+    \frac{1}{2}\left(E - E^{-1}\right) = \frac{e^{hD} - e^{-hD}}{2} = \boxed{\sinh(hD)} \quad \blacksquare
+\end{equation}
+
+\medskip
+\noindent\textbf{2. Proof of Identity (ii): $\Delta - \nabla = \Delta \nabla = \delta^2$} \\
+Expand each expression in terms of $E$:
+\begin{align}
+    \Delta - \nabla &= (E - 1) - (1 - E^{-1}) = E - 2 + E^{-1} \\
+    \Delta \nabla &= (E - 1)(1 - E^{-1}) = E - 1 - 1 + E^{-1} = E - 2 + E^{-1} \\
+    \delta^2 &= \left(E^{1/2} - E^{-1/2}\right)^2 = E - 2 + E^{-1}
+\end{align}
+All three expressions evaluate to the identically same operator $E - 2 + E^{-1}$. $\blacksquare$
+
+\medskip
+\noindent\textbf{3. Proof of Identity (iii): $\frac{\Delta}{\nabla} - \frac{\nabla}{\Delta} = \Delta + \nabla$} \\
+Combining fractions over a common denominator:
+\begin{align}
+    \text{LHS} &= \frac{\Delta^2 - \nabla^2}{\Delta \nabla} = \frac{(\Delta - \nabla)(\Delta + \nabla)}{\Delta \nabla}
+\end{align}
+Using the previous identity $\Delta - \nabla = \Delta \nabla$:
+\begin{equation}
+    \text{LHS} = \frac{\Delta \nabla (\Delta + \nabla)}{\Delta \nabla} = \Delta + \nabla = \text{RHS} \quad \blacksquare
+\end{equation}
+
+\medskip
+\noindent\textbf{4. Proof of Identity (iv): $\mu = \sqrt{1 + \frac{\delta^2}{4}}$} \\
+Express $\delta^2 = E - 2 + E^{-1}$:
+\begin{align}
+    1 + \frac{\delta^2}{4} &= 1 + \frac{E - 2 + E^{-1}}{4} = \frac{4 + E - 2 + E^{-1}}{4} = \frac{E + 2 + E^{-1}}{4} \nonumber \\
+    &= \left(\frac{E^{1/2} + E^{-1/2}}{2}\right)^2 = \mu^2 \implies \boxed{\mu = \sqrt{1 + \frac{\delta^2}{4}}} \quad \blacksquare
+\end{align}
+
+\medskip
+\noindent\textbf{5. Proof of Identity (v): $\Delta = \frac{1}{2}\delta^2 + \delta \sqrt{1 + \frac{\delta^2}{4}}$} \\
+Using $\mu = \sqrt{1 + \frac{\delta^2}{4}}$, the right-hand side is:
+\begin{equation}
+    \text{RHS} = \frac{1}{2}\delta^2 + \delta \mu
+\end{equation}
+Recalling $\delta^2 = E - 2 + E^{-1}$ and $\mu \delta = \frac{1}{2}(E - E^{-1})$:
+\begin{align}
+    \frac{1}{2}\delta^2 + \delta \mu &= \frac{1}{2}\left(E - 2 + E^{-1}\right) + \frac{1}{2}\left(E - E^{-1}\right) \nonumber \\
+    &= \frac{1}{2}\left(E - 2 + E^{-1} + E - E^{-1}\right) = \frac{1}{2}(2E - 2) \nonumber \\
+    &= E - 1 = \boxed{\Delta} = \text{LHS} \quad \blacksquare
+\end{align}
+
+\medskip
+\noindent\textbf{6. Proof of Identity (vi): $\delta = \Delta(1 + \Delta)^{-1/2} = \nabla(1 - \nabla)^{-1/2}$} \\
+Factor $E^{-1/2}$ from the definition of $\delta$:
+\begin{equation}
+    \delta = E^{1/2} - E^{-1/2} = E^{-1/2}(E - 1)
+\end{equation}
+Since $E - 1 = \Delta$ and $E^{-1/2} = (1 + \Delta)^{-1/2}$:
+\begin{equation}
+    \delta = (1 + \Delta)^{-1/2} \Delta = \boxed{\Delta(1 + \Delta)^{-1/2}}
+\end{equation}
+Similarly, factoring $E^{1/2}$:
+\begin{equation}
+    \delta = E^{1/2}(1 - E^{-1})
+\end{equation}
+Since $1 - E^{-1} = \nabla$ and $E^{-1} = 1 - \nabla \implies E^{1/2} = (1 - \nabla)^{-1/2}$:
+\begin{equation}
+    \delta = (1 - \nabla)^{-1/2} \nabla = \boxed{\nabla(1 - \nabla)^{-1/2}} \quad \blacksquare
+\end{equation}
+
+\medskip
+\noindent\textbf{7. Proof of Identity (vii): $\Delta \ln f(x) = \ln\left[ 1 + \frac{\Delta f(x)}{f(x)} \right]$} \\
+By definition of the forward difference:
+\begin{equation}
+    \Delta \ln f(x) = \ln f(x + h) - \ln f(x) = \ln\left( \frac{f(x + h)}{f(x)} \right)
+\end{equation}
+Since $f(x + h) = f(x) + \Delta f(x)$:
+\begin{equation}
+    \frac{f(x + h)}{f(x)} = \frac{f(x) + \Delta f(x)}{f(x)} = 1 + \frac{\Delta f(x)}{f(x)}
+\end{equation}
+Substituting this into the logarithm gives:
+\begin{equation}
+    \boxed{\Delta \ln f(x) = \ln\left[ 1 + \frac{\Delta f(x)}{f(x)} \right]} \quad \blacksquare
+\end{equation}
+This concludes the exhaustive proofs of all master identities.
+\end{proof}
+
+% =========================================================================
+% PAGES 43-45: FUNDAMENTAL THEOREM OF FINITE DIFFERENCES
+% =========================================================================
+\section{Pages 43--45: Fundamental Theorem of Finite Differences and Missing Terms}
+\label{sec:fundamental_theorem_differences}
+
+\begin{theorembox}[Fundamental Theorem of Finite Differences]
+Let $P_n(x) = a_0 x^n + a_1 x^{n-1} + \dots + a_n$ ($a_0 \ne 0$) be an algebraic polynomial of degree $n \in \mathbb{N}$ with constant difference step size $h > 0$.
+\begin{enumerate}
+    \item The $n$-th forward difference $\Delta^n P_n(x)$ is a \textbf{constant}:
+    \begin{equation}
+        \boxed{\Delta^n P_n(x) = a_0 \cdot n! \cdot h^n}
+    \end{equation}
+    \item All higher-order forward differences vanish identically:
+    \begin{equation}
+        \boxed{\Delta^{n+k} P_n(x) = 0 \quad \forall k \ge 1}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Mathematical Induction Proof of the Fundamental Theorem]
+We proceed by mathematical induction on the degree $n$ of the polynomial.
+
+\medskip
+\noindent\textbf{Part 1: Base Case ($n = 1$)} \\
+Consider a general linear polynomial $P_1(x) = a_0 x + a_1$ with $a_0 \ne 0$.
+Computing the first forward difference directly from the operator definition:
+\begin{align}
+    \Delta P_1(x) &= P_1(x + h) - P_1(x) \nonumber \\
+    &= [a_0(x + h) + a_1] - [a_0 x + a_1] \nonumber \\
+    &= a_0 x + a_0 h + a_1 - a_0 x - a_1 \nonumber \\
+    &= a_0 h = a_0 \cdot 1! \cdot h^1
+\end{align}
+This result is independent of $x$, hence a constant. Furthermore:
+\begin{equation}
+    \Delta^2 P_1(x) = \Delta[\Delta P_1(x)] = \Delta[a_0 h] = a_0 h - a_0 h = 0
+\end{equation}
+Thus, the base case $n = 1$ holds with complete precision.
+
+\medskip
+\noindent\textbf{Part 2: Inductive Hypothesis} \\
+Assume the theorem holds for all polynomials of degree $k - 1$. That is, for any polynomial $Q_{k-1}(x) = b_0 x^{k-1} + b_1 x^{k-2} + \dots + b_{k-1}$ ($b_0 \ne 0$):
+\begin{equation}
+    \Delta^{k-1} Q_{k-1}(x) = b_0 (k - 1)! h^{k-1} \quad \text{and} \quad \Delta^k Q_{k-1}(x) = 0
+\end{equation}
+
+\medskip
+\noindent\textbf{Part 3: Inductive Step for Degree $k$} \\
+Let $P_k(x) = a_0 x^k + a_1 x^{k-1} + \dots + a_k$ be an arbitrary polynomial of degree $k$ ($a_0 \ne 0$).
+By linearity of the forward difference operator $\Delta$:
+\begin{equation}
+    \Delta P_k(x) = a_0 \Delta [x^k] + \sum_{j=1}^k a_j \Delta [x^{k-j}]
+\end{equation}
+Now evaluate the first forward difference of the monomial $x^k$:
+\begin{equation}
+    \Delta [x^k] = (x + h)^k - x^k
+\end{equation}
+By the Binomial Theorem:
+\begin{equation}
+    (x + h)^k = \sum_{m=0}^k \binom{k}{m} x^{k-m} h^m = x^k + \binom{k}{1} h x^{k-1} + \binom{k}{2} h^2 x^{k-2} + \dots + h^k
+\end{equation}
+Subtracting $x^k$:
+\begin{equation}
+    \Delta [x^k] = k h x^{k-1} + \sum_{m=2}^k \binom{k}{m} h^m x^{k-m}
+\end{equation}
+Similarly, for each lower-order term $x^{k-j}$ ($j \ge 1$), $\Delta [x^{k-j}]$ is a polynomial in $x$ of degree at most $k - 2$.
+Therefore, substituting back into $\Delta P_k(x)$:
+\begin{align}
+    \Delta P_k(x) &= a_0 \left[ k h x^{k-1} + \sum_{m=2}^k \binom{k}{m} h^m x^{k-m} \right] + \sum_{j=1}^k a_j \Delta [x^{k-j}] \nonumber \\
+    &= (a_0 k h) x^{k-1} + R_{k-2}(x)
+\end{align}
+where $R_{k-2}(x)$ collects all terms of degree $\le k - 2$.
+Notice that $\Delta P_k(x)$ is a polynomial of degree $k - 1$ with leading coefficient:
+\begin{equation}
+    b_0 = a_0 k h \ne 0
+\end{equation}
+Now apply the $(k - 1)$-th difference operator to both sides:
+\begin{equation}
+    \Delta^k P_k(x) = \Delta^{k-1}[\Delta P_k(x)] = \Delta^{k-1}\left[ (a_0 k h) x^{k-1} + R_{k-2}(x) \right]
+\end{equation}
+By linearity of $\Delta^{k-1}$:
+\begin{equation}
+    \Delta^k P_k(x) = \Delta^{k-1}[(a_0 k h) x^{k-1}] + \Delta^{k-1}[R_{k-2}(x)]
+\end{equation}
+By our induction hypothesis:
+\begin{enumerate}
+    \item The leading term $(a_0 k h) x^{k-1}$ has degree $k - 1$, so its $(k-1)$-th difference is:
+    \begin{equation}
+        \Delta^{k-1}[(a_0 k h) x^{k-1}] = (a_0 k h) \cdot (k - 1)! h^{k-1} = a_0 \cdot [k(k-1)!] \cdot [h \cdot h^{k-1}] = a_0 k! h^k
+    \end{equation}
+    \item The polynomial $R_{k-2}(x)$ has degree $\le k - 2 < k - 1$. By the induction hypothesis, its $(k-1)$-th difference vanishes identically:
+    \begin{equation}
+        \Delta^{k-1}[R_{k-2}(x)] = 0
+    \end{equation}
+\end{enumerate}
+Combining these two results:
+\begin{equation}
+    \boxed{\Delta^k P_k(x) = a_0 k! h^k + 0 = a_0 k! h^k}
+\end{equation}
+This completes the inductive step. By the principle of mathematical induction, $\Delta^n P_n(x) = a_0 n! h^n$ holds for all $n \ge 1$.
+
+\medskip
+\noindent\textbf{Part 4: Proof for Higher Differences} \\
+Since $C = a_0 n! h^n$ is a constant independent of $x$:
+\begin{equation}
+    \Delta^{n+1} P_n(x) = \Delta [\Delta^n P_n(x)] = \Delta [C] = C - C = 0
+\end{equation}
+Repeated application of $\Delta$ ensures $\Delta^{n+k} P_n(x) = 0$ for all $k \ge 1$. $\blacksquare$
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Missing Term Technique (Pages 44--45)]
+Given data from an underlying cubic polynomial ($n = 3$):
+\begin{center}
+\begin{tabular}{c|ccccc}
+$x$ & $0$ & $1$ & $2$ & $3$ & $4$ \\
+\hline
+$y$ & $1$ & $3$ & $9$ & $y_3$ & $81$
+\end{tabular}
+\end{center}
+Find the missing entry $y_3$.
+\textbf{Solution:}
+Since the underlying curve is a cubic polynomial of degree $n = 3$, all 4-th differences must vanish:
+\begin{equation}
+    \Delta^4 y_0 = 0
+\end{equation}
+Express $\Delta^4$ in terms of the shift operator $E$:
+\begin{equation}
+    (E - 1)^4 y_0 = 0 \iff (E^4 - 4E^3 + 6E^2 - 4E + 1) y_0 = 0
+\end{equation}
+Expanding this gives the linear relation:
+\begin{equation}
+    y_4 - 4 y_3 + 6 y_2 - 4 y_1 + y_0 = 0
+\end{equation}
+Substitute known values $y_0 = 1, y_1 = 3, y_2 = 9, y_4 = 81$:
+\begin{equation}
+    81 - 4 y_3 + 6(9) - 4(3) + 1 = 0 \implies 81 - 4 y_3 + 54 - 12 + 1 = 0
+\end{equation}
+\begin{equation}
+    124 - 4 y_3 = 0 \implies 4 y_3 = 124 \implies \boxed{y_3 = 31}
+\end{equation}
+\textbf{Remarkable Insight (Manuscript Page 45):} If $y(x) = 3^x$, then at $x = 3$, $y(3) = 3^3 = 27$. But under a 3rd-degree polynomial approximation, $y_3 = 31$, showing how finite polynomial truncation differs from exponential growth!
+\end{examplebox}
+
+% =========================================================================
+% PAGES 45-48: FACTORIAL POLYNOMIALS
+% =========================================================================
+\section{Pages 45--48: Factorial Notation and Synthetic Conversion}
+\label{sec:factorial_polynomials}
+
+\begin{theorembox}[Factorial Polynomials and Discrete Differentiation]
+The \textbf{factorial polynomial} of degree $n$ with step size $h$ is defined as:
+\begin{equation}
+    \boxed{x^{(n)} = [x]_n = x(x - h)(x - 2h)\dots(x - (n-1)h)} \quad (x^{(0)} = 1)
+\end{equation}
+For $h = 1$:
+\begin{equation}
+    x^{(n)} = x(x - 1)(x - 2)\dots(x - n + 1)
+\end{equation}
+\textbf{Fundamental Property:}
+The forward difference of a factorial polynomial mimics the ordinary derivative of a monomial $x^n$:
+\begin{align}
+    \Delta x^{(n)} &= (x + h)^{(n)} - x^{(n)} \nonumber \\
+    &= (x + h)x(x - h)\dots(x - (n-2)h) - x(x - h)\dots(x - (n-2)h)(x - (n-1)h) \nonumber \\
+    &= x(x - h)\dots(x - (n-2)h) \big[ (x + h) - (x - (n-1)h) \big] \nonumber \\
+    &= x(x - h)\dots(x - (n-2)h) [n h]
+\end{align}
+\begin{equation}
+    \boxed{\Delta x^{(n)} = n h x^{(n-1)}} \iff \frac{\Delta x^{(n)}}{h} = n x^{(n-1)}
+\end{equation}
+In general, for the $k$-th difference:
+\begin{equation}
+    \boxed{\Delta^k x^{(n)} = n(n-1)\dots(n-k+1) h^k x^{(n-k)}}
+\end{equation}
+and $\Delta^n x^{(n)} = n! h^n$.
+\end{theorembox}
+
+\begin{theorembox}[Negative Factorial Powers and Discrete Differentiation]
+For any positive integer $n \in \mathbb{N}$, the \textbf{negative factorial power} is defined as the reciprocal product:
+\begin{equation}
+    \boxed{x^{(-n)} = \frac{1}{(x + h)(x + 2h)(x + 3h)\dots(x + nh)}}
+\end{equation}
+\textbf{Differentiation Formula:}
+\begin{equation}
+    \boxed{\Delta x^{(-n)} = -n h x^{-(n+1)}} \iff \frac{\Delta x^{(-n)}}{h} = -n x^{-(n+1)}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}[Step-by-Step Proof for Negative Factorial Power Difference]
+From the forward difference operator definition:
+\begin{equation}
+    \Delta x^{(-n)} = (x + h)^{(-n)} - x^{(-n)}
+\end{equation}
+Substituting the definition of negative factorial powers:
+\begin{equation}
+    (x + h)^{(-n)} = \frac{1}{(x + 2h)(x + 3h)\dots(x + (n+1)h)}
+\end{equation}
+\begin{equation}
+    x^{(-n)} = \frac{1}{(x + h)(x + 2h)\dots(x + nh)}
+\end{equation}
+Subtracting the two fractions:
+\begin{equation}
+    \Delta x^{(-n)} = \frac{1}{(x + 2h)(x + 3h)\dots(x + (n+1)h)} - \frac{1}{(x + h)(x + 2h)\dots(x + nh)}
+\end{equation}
+Find the least common denominator, which contains all factors from $(x+h)$ to $(x+(n+1)h)$:
+\begin{equation}
+    \text{LCD} = (x + h)(x + 2h)\dots(x + nh)(x + (n+1)h)
+\end{equation}
+Forming a single fraction:
+\begin{align}
+    \Delta x^{(-n)} &= \frac{(x + h) - (x + (n+1)h)}{(x + h)(x + 2h)\dots(x + nh)(x + (n+1)h)} \nonumber \\
+    &= \frac{x + h - x - nh - h}{(x + h)(x + 2h)\dots(x + nh)(x + (n+1)h)} \nonumber \\
+    &= \frac{-nh}{(x + h)(x + 2h)\dots(x + nh)(x + (n+1)h)}
+\end{align}
+Recognizing the denominator as $x^{-(n+1)}$:
+\begin{equation}
+    \boxed{\Delta x^{(-n)} = -n h x^{-(n+1)}} \quad \blacksquare
+\end{equation}
+This perfectly mirrors the continuous differential calculus power rule $\frac{d}{dx}[x^{-n}] = -n x^{-(n+1)}$.
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Expressing Polynomial in Factorial Form (Page 46)]
+Express $y = 2x^3 - 3x^2 + 3x - 1$ in factorial notation with $h = 1$, and compute its successive differences.
+\textbf{Synthetic Division Method:}
+Let $y = A x^{(3)} + B x^{(2)} + C x^{(1)} + D$.
+We divide successively by $x, x-1, x-2$:
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{c|cccc}
+& $2$ & $-3$ & $3$ & $-1$ \\
+$x = 0$ & & $0$ & $0$ & $0$ \\
+\hline
+& $2$ & $-3$ & $3$ & $\mathbf{D = -1}$ \\
+$x = 1$ & & $2$ & $-1$ & \\
+\hline
+& $2$ & $-1$ & $\mathbf{C = 2}$ & \\
+$x = 2$ & & $4$ & & \\
+\hline
+& $\mathbf{A = 2}$ & $\mathbf{B = 3}$ & &
+\end{tabular}
+\end{center}
+Therefore:
+\begin{equation}
+    \boxed{y = 2 x^{(3)} + 3 x^{(2)} + 2 x^{(1)} - 1}
+\end{equation}
+\textbf{Successive Differences:}
+\begin{align}
+    \Delta y &= 2(3) x^{(2)} + 3(2) x^{(1)} + 2(1) = \mathbf{6 x^{(2)} + 6 x^{(1)} + 2} \\
+    \Delta^2 y &= 6(2) x^{(1)} + 6(1) = \mathbf{12 x^{(1)} + 6} \\
+    \Delta^3 y &= 12(1) = \mathbf{12} \quad \text{(Constant)} \\
+    \Delta^4 y &= \mathbf{0}
+\end{align}
+\end{examplebox}
+
+% =========================================================================
+% PAGES 47-48: MONTMORT'S THEOREM OF SERIES TRANSFORMATION
+% =========================================================================
+\section{Pages 47--48: Montmort's Series Transformation Theorem and Proof}
+\label{sec:montmort_theorem}
+
+\begin{theorembox}[Montmort / Euler Series Transformation Theorem (Manuscript Page 47)]
+Let $\{y_k\}_{k=0}^\infty$ be a sequence with initial differences $\Delta^m y_0$ ($m = 0, 1, 2, \dots$). For any scalar $|x| < 1$, the power series with general coefficients $y_k$ can be summed and transformed into:
+\begin{equation}
+    \boxed{\sum_{k=0}^\infty x^k y_k = y_0 + x y_1 + x^2 y_2 + \dots = \frac{y_0}{1 - x} + \frac{x \Delta y_0}{(1 - x)^2} + \frac{x^2 \Delta^2 y_0}{(1 - x)^3} + \frac{x^3 \Delta^3 y_0}{(1 - x)^4} + \dots}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Operator Proof (Manuscript Page 47)]
+We establish the identity by expressing the sequence terms in terms of the shift operator $E$ and the forward difference operator $\Delta = E - 1$.
+
+\medskip
+\noindent\textbf{Step 1: Express the series in terms of the shift operator $E$.} \\
+By definition of the shift operator, $y_k = E^k y_0$. Substituting this into the left-hand side:
+\begin{align}
+    \text{LHS} &= y_0 + x y_1 + x^2 y_2 + x^3 y_3 + \dots \nonumber \\
+    &= y_0 + x E y_0 + x^2 E^2 y_0 + x^3 E^3 y_0 + \dots \nonumber \\
+    &= \left( 1 + x E + x^2 E^2 + x^3 E^3 + \dots \right) y_0
+\end{align}
+Summing the formal geometric series of operators (valid since $|x| < 1$):
+\begin{equation}
+    1 + x E + x^2 E^2 + x^3 E^3 + \dots = (1 - x E)^{-1} = \frac{1}{1 - x E}
+\end{equation}
+Therefore:
+\begin{equation}
+    \text{LHS} = (1 - x E)^{-1} y_0
+\end{equation}
+
+\noindent\textbf{Step 2: Express $E$ in terms of the difference operator $\Delta$.} \\
+Since $E = 1 + \Delta$, substitute $E$ into the denominator:
+\begin{align}
+    1 - x E &= 1 - x(1 + \Delta) \nonumber \\
+    &= 1 - x - x \Delta \nonumber \\
+    &= (1 - x) - x \Delta
+\end{align}
+Factor out the scalar $(1 - x)$:
+\begin{equation}
+    1 - x E = (1 - x) \left[ 1 - \frac{x}{1 - x}\Delta \right]
+\end{equation}
+
+\noindent\textbf{Step 3: Expand the inverse operator binomially.} \\
+Taking the reciprocal:
+\begin{equation}
+    (1 - x E)^{-1} = \frac{1}{(1 - x) \left[ 1 - \frac{x}{1 - x}\Delta \right]} = \frac{1}{1 - x} \left[ 1 - \frac{x}{1 - x}\Delta \right]^{-1}
+\end{equation}
+Using the operator series $(1 - Z)^{-1} = 1 + Z + Z^2 + Z^3 + \dots$ where $Z = \frac{x}{1 - x}\Delta$:
+\begin{equation}
+    \left[ 1 - \frac{x}{1 - x}\Delta \right]^{-1} = 1 + \frac{x}{1 - x}\Delta + \frac{x^2}{(1 - x)^2}\Delta^2 + \frac{x^3}{(1 - x)^3}\Delta^3 + \dots
+\end{equation}
+Distributing the scalar factor $\frac{1}{1 - x}$ through the series:
+\begin{equation}
+    (1 - x E)^{-1} = \frac{1}{1 - x} + \frac{x}{(1 - x)^2}\Delta + \frac{x^2}{(1 - x)^3}\Delta^2 + \frac{x^3}{(1 - x)^4}\Delta^3 + \dots
+\end{equation}
+
+\noindent\textbf{Step 4: Operate on $y_0$.} \\
+Applying this expanded operator to $y_0$:
+\begin{align}
+    (1 - x E)^{-1} y_0 &= \left[ \frac{1}{1 - x} + \frac{x}{(1 - x)^2}\Delta + \frac{x^2}{(1 - x)^3}\Delta^2 + \frac{x^3}{(1 - x)^4}\Delta^3 + \dots \right] y_0 \nonumber \\
+    &= \frac{y_0}{1 - x} + \frac{x \Delta y_0}{(1 - x)^2} + \frac{x^2 \Delta^2 y_0}{(1 - x)^3} + \frac{x^3 \Delta^3 y_0}{(1 - x)^4} + \dots = \text{RHS}
+\end{align}
+Thus:
+\begin{equation}
+    \boxed{\sum_{k=0}^\infty x^k y_k = \frac{y_0}{1 - x} + \frac{x \Delta y_0}{(1 - x)^2} + \frac{x^2 \Delta^2 y_0}{(1 - x)^3} + \dots} \quad \blacksquare
+\end{equation}
+This establishes Montmort's theorem in its exact manuscript form!
+\end{proof}
+
+% =========================================================================
+% PAGES 49-51: SUMMATION OF SERIES BY FINITE DIFFERENCES
+% =========================================================================
+\section{Pages 49--51: Summation of Series by Difference Calculus}
+\label{sec:summation_series}
+
+\begin{theorembox}[The Summation Operator $\Delta^{-1}$ (Indefinite Summation)]
+Let $\Delta F(x) = f(x)$. The inverse difference operator $\Delta^{-1}$ satisfies:
+\begin{equation}
+    \Delta^{-1} f(x) = F(x) + C
+\end{equation}
+Applying this to the definite sum from $x = 1$ to $n$:
+\begin{equation}
+    \sum_{x=1}^n f(x) = \sum_{x=1}^n [F(x+1) - F(x)] = F(n+1) - F(1) = \boxed{\left[ \Delta^{-1} f(x) \right]_1^{n+1}}
+\end{equation}
+For factorial polynomials:
+\begin{equation}
+    \boxed{\Delta^{-1} x^{(m)} = \frac{x^{(m+1)}}{m + 1} + C}
+\end{equation}
+\end{theorembox}
+
+\begin{examplebox}[Manuscript Problem: Sum of Series $2 \cdot 5 + 5 \cdot 8 + 8 \cdot 11 + \dots$ (Page 50)]
+\textbf{Problem Statement:} Find the sum to $n$ terms of the series:
+\begin{equation}
+    S_n = 2 \cdot 5 + 5 \cdot 8 + 8 \cdot 11 + 11 \cdot 14 + \dots \text{ to } n \text{ terms}
+\end{equation}
+\textbf{Step 1: Determine the general $k$-th term $u_k$:} \\
+The factors in the first positions form an AP: $2, 5, 8, 11, \dots \implies a_k = 2 + (k - 1)3 = 3k - 1$. \\
+The factors in the second positions form an AP: $5, 8, 11, 14, \dots \implies b_k = 5 + (k - 1)3 = 3k + 2$. \\
+Therefore:
+\begin{equation}
+    u_k = (3k - 1)(3k + 2) = 9k^2 + 3k - 2
+\end{equation}
+
+\textbf{Step 2: Express in factorial notation ($h = 1$):} \\
+Recall $k^2 = k^{(2)} + k^{(1)}$. Then:
+\begin{align}
+    u_k &= 9\left[ k^{(2)} + k^{(1)} \right] + 3 k^{(1)} - 2 \nonumber \\
+    &= 9 k^{(2)} + 12 k^{(1)} - 2
+\end{align}
+
+\textbf{Step 3: Integrate using the summation operator $\Delta^{-1}$:} \\
+\begin{equation}
+    \Delta^{-1} u_k = 9 \frac{k^{(3)}}{3} + 12 \frac{k^{(2)}}{2} - 2 k^{(1)} = 3 k^{(3)} + 6 k^{(2)} - 2 k^{(1)}
+\end{equation}
+Applying the limits from $k = 1$ to $n + 1$:
+\begin{align}
+    S_n &= \left[ 3 k^{(3)} + 6 k^{(2)} - 2 k^{(1)} \right]_1^{n+1} \nonumber \\
+    &= \Big[ 3 (n+1)^{(3)} + 6 (n+1)^{(2)} - 2 (n+1)^{(1)} \Big] - \Big[ 3(1)^{(3)} + 6(1)^{(2)} - 2(1)^{(1)} \Big]
+\end{align}
+Since $(1)^{(3)} = 1(0)(-1) = 0$, $(1)^{(2)} = 1(0) = 0$, and $(1)^{(1)} = 1$:
+the lower limit evaluation is $0 + 0 - 2(1) = -2$.
+Evaluating the upper limit at $k = n + 1$:
+\begin{align}
+    (n+1)^{(3)} &= (n+1)n(n-1) = n(n^2 - 1) = n^3 - n \\
+    (n+1)^{(2)} &= (n+1)n = n^2 + n \\
+    (n+1)^{(1)} &= n + 1
+\end{align}
+Substituting:
+\begin{align}
+    S_n &= 3(n^3 - n) + 6(n^2 + n) - 2(n + 1) - (-2) \nonumber \\
+    &= 3n^3 - 3n + 6n^2 + 6n - 2n - 2 + 2 \nonumber \\
+    &= 3n^3 + 6n^2 + n = \boxed{n\left( 3n^2 + 6n + 1 \right)}
+\end{align}
+\textbf{Verification:} For $n = 1$: $S_1 = 1(3 + 6 + 1) = 10 = 2 \cdot 5$. Correct! \\
+For $n = 2$: $S_2 = 2(3(4) + 12 + 1) = 2(12 + 12 + 1) = 2(25) = 50 = 10 + 40 = 2\cdot 5 + 5 \cdot 8$. Exact match!
+\end{examplebox}
+
+\begin{examplebox}[Manuscript Problem: Sum of Squares $\sum_{k=1}^n k^2$ (Page 50)]
+Express $k^2$ in factorial form:
+\begin{equation}
+    k^2 = k(k-1) + k = k^{(2)} + k^{(1)}
+\end{equation}
+Applying the inverse difference operator:
+\begin{equation}
+    \Delta^{-1}[k^2] = \frac{k^{(3)}}{3} + \frac{k^{(2)}}{2}
+\end{equation}
+Evaluating between limits $1$ and $n + 1$:
+\begin{align}
+    \sum_{k=1}^n k^2 &= \left[ \frac{k^{(3)}}{3} + \frac{k^{(2)}}{2} \right]_1^{n+1} = \frac{(n+1)n(n-1)}{3} + \frac{(n+1)n}{2} - 0 \nonumber \\
+    &= \frac{n(n+1)}{6}\big[ 2(n-1) + 3 \big] = \frac{n(n+1)}{6}[2n - 2 + 3] = \boxed{\frac{n(n+1)(2n+1)}{6}}
+\end{align}
+\end{examplebox}
+
+\begin{examplebox}[Manuscript Problem: Sum of Cubes $\sum_{k=1}^n k^3$ (Pages 50--51)]
+Express $k^3$ in factorial form:
+\begin{equation}
+    k^3 = k(k-1)(k-2) + 3k(k-1) + k = k^{(3)} + 3 k^{(2)} + k^{(1)}
+\end{equation}
+Evaluate the indefinite sum:
+\begin{equation}
+    \Delta^{-1}[k^3] = \frac{k^{(4)}}{4} + 3\frac{k^{(3)}}{3} + \frac{k^{(2)}}{2} = \frac{k^{(4)}}{4} + k^{(3)} + \frac{k^{(2)}}{2}
+\end{equation}
+Applying limits from $1$ to $n+1$:
+\begin{align}
+    \sum_{k=1}^n k^3 &= \left[ \frac{k^{(4)}}{4} + k^{(3)} + \frac{k^{(2)}}{2} \right]_1^{n+1} \nonumber \\
+    &= \frac{(n+1)^{(4)}}{4} + (n+1)^{(3)} + \frac{(n+1)^{(2)}}{2} - 0 \nonumber \\
+    &= \frac{(n+1)n(n-1)(n-2)}{4} + (n+1)n(n-1) + \frac{(n+1)n}{2} \nonumber \\
+    &= \frac{n(n+1)}{4}\Big[ (n-1)(n-2) + 4(n-1) + 2 \Big] \nonumber \\
+    &= \frac{n(n+1)}{4}\big[ n^2 - 3n + 2 + 4n - 4 + 2 \big] = \frac{n(n+1)}{4}[n^2 + n] \nonumber \\
+    &= \frac{n^2(n+1)^2}{4} = \boxed{\left[\frac{n(n+1)}{2}\right]^2}
+\end{align}
+This re-derives Nicomachus' famous theorem purely through the calculus of finite differences!
+\end{examplebox}
+

@@ -1,0 +1,808 @@
+\chapter{The Analytical Geometry of the Plane (Pages 25--36)}
+\label{ch:the_plane}
+
+% =========================================================================
+% PAGE 25
+% =========================================================================
+\section{Page 25: Definition of a Plane and the General Equation of First Degree}
+\label{sec:page25}
+
+\begin{conceptbox}[Manuscript Overview: Page 25]
+Page 25 initiates the study of planes in Euclidean space $\mathbb{R}^3$. It establishes the classical geometric definition of a plane, proves that every first-degree algebraic equation in three variables represents a plane, and demonstrates that the general plane equation possesses three independent parameters.
+\end{conceptbox}
+
+\subsection{Geometric Definition of a Plane}
+\begin{conceptbox}[Geometric Definition of a Plane]
+A surface is called a \textbf{plane} if, given any two arbitrary points $P$ and $Q$ on the surface, every point on the straight line segment joining $P$ and $Q$ lies wholly and completely on that surface.
+\end{conceptbox}
+
+\subsection{Every First-Degree Equation Represents a Plane}
+\begin{theorembox}[General Linear Equation Represents a Plane]
+Every algebraic equation of the first degree in $x, y, z$, of the form:
+\begin{equation}
+    Ax + By + Cz + D = 0
+\end{equation}
+where $A, B, C$ are not all simultaneously zero ($A^2+B^2+C^2 \neq 0$), represents a plane in three-dimensional space.
+\end{theorembox}
+
+\begin{proof}
+Let $S$ denote the locus of points whose coordinates satisfy:
+\begin{equation}
+    Ax + By + Cz + D = 0. \label{eq:plane_gen}
+\end{equation}
+Let $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$ be any two distinct points lying on the surface $S$.
+Since $P$ and $Q$ lie on $S$, their coordinates must satisfy equation \eqref{eq:plane_gen}:
+\begin{align}
+    Ax_1 + By_1 + Cz_1 + D &= 0, \label{eq:pt_P} \\
+    Ax_2 + By_2 + Cz_2 + D &= 0. \label{eq:pt_Q}
+\end{align}
+Now, let $R(x, y, z)$ be any arbitrary point on the straight line passing through $P$ and $Q$.
+By the section formula (Page 15), $R$ divides the segment $PQ$ in some real ratio $k : 1$ (where $k \neq -1$):
+\begin{equation}
+    x = \frac{k x_2 + x_1}{k + 1}, \quad y = \frac{k y_2 + y_1}{k + 1}, \quad z = \frac{k z_2 + z_1}{k + 1}. \label{eq:pt_R_coords}
+\end{equation}
+To determine whether $R$ lies on the surface $S$, substitute its coordinates into the left-hand side of equation \eqref{eq:plane_gen}:
+\begin{align}
+    Ax + By + Cz + D &= A\left(\frac{k x_2 + x_1}{k + 1}\right) + B\left(\frac{k y_2 + y_1}{k + 1}\right) + C\left(\frac{k z_2 + z_1}{k + 1}\right) + D \nonumber\\
+    &= \frac{1}{k + 1} \Bigl[ k(A x_2 + B y_2 + C z_2 + D) + (A x_1 + B y_1 + C z_1 + D) \Bigr].
+\end{align}
+Using relations \eqref{eq:pt_P} and \eqref{eq:pt_Q}:
+\begin{equation}
+    Ax + By + Cz + D = \frac{1}{k + 1} \bigl[ k(0) + (0) \bigr] = 0.
+\end{equation}
+Thus, the coordinates of $R$ identically satisfy equation \eqref{eq:plane_gen} for \emph{every} value of $k \in \mathbb{R}$.
+Consequently, every point on the line $PQ$ lies entirely on the surface.
+By the geometric definition, the surface represented by $Ax + By + Cz + D = 0$ is a plane.
+\end{proof}
+
+\subsection{Number of Independent Arbitrary Constants}
+Although the general equation $Ax + By + Cz + D = 0$ contains four coefficients $A, B, C, D$, dividing through by any non-zero coefficient (say $D \neq 0$) gives:
+\begin{equation}
+    \left(\frac{A}{D}\right)x + \left(\frac{B}{D}\right)y + \left(\frac{C}{D}\right)z + 1 = 0 \iff a_1 x + b_1 y + c_1 z + 1 = 0.
+\end{equation}
+Hence, the equation of a plane involves precisely \textbf{three independent arbitrary constants}.
+A plane is therefore uniquely determined by three independent geometrical conditions (such as passing through three non-collinear points).
+
+% =========================================================================
+% PAGE 26
+% =========================================================================
+\section{Page 26: Equation of a Plane Passing Through a Given Point}
+\label{sec:page26}
+
+\begin{conceptbox}[Manuscript Overview: Page 26]
+Page 26 derives the standard one-point form of a plane equation and reveals the geometric significance of the linear coefficients $(A, B, C)$ as the direction ratios of the normal vector to the plane.
+\end{conceptbox}
+
+\subsection{One-Point Form of the Plane Equation}
+\begin{theorembox}[Plane Passing Through a Given Point]
+The general equation of a plane passing through a given point $P_1(x_1, y_1, z_1)$ is:
+\begin{equation}
+    \boxed{A(x - x_1) + B(y - y_1) + C(z - z_1) = 0}
+\end{equation}
+where $A, B, C$ are arbitrary constants not all zero.
+\end{theorembox}
+
+\begin{proof}
+Let the general equation of the plane be:
+\begin{equation}
+    Ax + By + Cz + D = 0. \label{eq:p26_gen}
+\end{equation}
+Since the plane passes through $P_1(x_1, y_1, z_1)$, the point satisfies the equation:
+\begin{equation}
+    Ax_1 + By_1 + Cz_1 + D = 0 \implies D = -(Ax_1 + By_1 + Cz_1). \label{eq:p26_D}
+\end{equation}
+Subtracting equation \eqref{eq:p26_D} from equation \eqref{eq:p26_gen}:
+\begin{equation}
+    A(x - x_1) + B(y - y_1) + C(z - z_1) = 0.
+\end{equation}
+\end{proof}
+
+\subsection{Geometrical Meaning of the Coefficients $(A, B, C)$}
+\begin{theorembox}[Normal Vector Theorem]
+In the general equation of a plane $Ax + By + Cz + D = 0$, the coefficients $(A, B, C)$ are the direction ratios of the straight line perpendicular (normal) to the plane.
+\end{theorembox}
+
+\begin{proof}
+Let $P_1(x_1, y_1, z_1)$ and $P_2(x_2, y_2, z_2)$ be any two distinct points lying in the plane $Ax + By + Cz + D = 0$.
+The directed line segment $P_1 P_2$ lies completely in the plane. Its direction ratios are:
+\begin{equation}
+    (x_2 - x_1, \; y_2 - y_1, \; z_2 - z_1).
+\end{equation}
+Since both points lie on the plane:
+\begin{align}
+    Ax_1 + By_1 + Cz_1 + D &= 0, \\
+    Ax_2 + By_2 + Cz_2 + D &= 0.
+\end{align}
+Subtracting the first equation from the second:
+\begin{equation}
+    A(x_2 - x_1) + B(y_2 - y_1) + C(z_2 - z_1) = 0. \label{eq:orthog_plane}
+\end{equation}
+Comparing equation \eqref{eq:orthog_plane} with the condition of perpendicularity between two directed lines with direction ratios $(a_1,b_1,c_1)$ and $(a_2,b_2,c_2)$, namely $a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$ (Page 21):
+Equation \eqref{eq:orthog_plane} proves that a directed line with direction ratios $(A, B, C)$ is perpendicular to the segment $P_1 P_2$.
+Since $P_1$ and $P_2$ were arbitrarily chosen in the plane, the vector $\vec{N} = A\,\hat{i} + B\,\hat{j} + C\,\hat{k}$ is perpendicular to \emph{every} line lying in the plane.
+Therefore, $(A, B, C)$ are the direction ratios of the normal to the plane.
+\end{proof}
+
+% =========================================================================
+% PAGE 27
+% =========================================================================
+\section{Page 27: The Normal Form of the Equation of a Plane}
+\label{sec:page27}
+
+\begin{conceptbox}[Manuscript Overview: Page 27]
+Page 27 derives the fundamental \textbf{Normal Form} (or Perpendicular Form) of the equation of a plane: $lx + my + nz = p$, where $p$ is the length of the normal from the origin and $(l, m, n)$ are its direction cosines.
+\end{conceptbox}
+
+\subsection{Derivation of the Normal Form}
+\begin{theorembox}[Normal Form of a Plane]
+The equation of a plane at a perpendicular distance $p$ from the origin, whose normal has direction cosines $(l, m, n)$ directed from the origin toward the plane, is:
+\begin{equation}
+    \boxed{lx + my + nz = p} \quad (p \ge 0)
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $ON$ be the perpendicular (normal) drawn from the origin $O(0,0,0)$ to the plane.
+The length of $ON$ is $p \ge 0$.
+Let $(l, m, n)$ be the direction cosines of the directed segment $ON$.
+The coordinates of the foot of the perpendicular $N$ are obtained by setting $r = p$ in the projection formulas (Page 17):
+\begin{equation}
+    N = (lp, \; mp, \; np).
+\end{equation}
+Let $P(x, y, z)$ be any arbitrary point on the plane. Join $NP$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth, 3d view={120}{20}]
+    % Coordinate axes
+    \draw[->, thick, gray] (0,0,0) -- (4,0,0) node[anchor=north east]{$x$};
+    \draw[->, thick, gray] (0,0,0) -- (0,4.5,0) node[anchor=north west]{$y$};
+    \draw[->, thick, gray] (0,0,0) -- (0,0,3.5) node[anchor=south]{$z$};
+
+    % Origin
+    \coordinate (O) at (0,0,0);
+    \node[below left] at (O) {$O(0,0,0)$};
+    \fill (O) circle (2pt);
+
+    % Plane patch
+    \coordinate (V1) at (3.5, 0.5, 0);
+    \coordinate (V2) at (1.0, 4.0, 0);
+    \coordinate (V3) at (0, 3.0, 3.0);
+    \coordinate (V4) at (2.0, 0, 2.5);
+    \fill[primary!8, opacity=0.8] (V1) -- (V2) -- (V3) -- (V4) -- cycle;
+    \draw[thick, primary] (V1) -- (V2) -- (V3) -- (V4) -- cycle;
+
+    % Normal ON
+    \coordinate (N) at (1.8, 1.8, 1.2);
+    \draw[very thick, accent, ->] (O) -- (N) node[midway, below right] {$p = ON$};
+    \fill[accent] (N) circle (2pt) node[above right] {$N(lp, mp, np)$};
+
+    % Point P
+    \coordinate (P) at (1.2, 2.8, 2.0);
+    \fill[secondary] (P) circle (2pt) node[above] {$P(x,y,z)$};
+
+    % Line NP in plane
+    \draw[very thick, secondary] (N) -- (P) node[midway, right] {$NP \perp ON$};
+    \draw[thick, primary] (O) -- (P) node[midway, left] {$\vec{r}$};
+
+    % Right angle marker
+    \draw[dashed, gray] ($(N)!0.2!(P)$) -- ++($(N)!0.2!(O)-(N)$);
+\end{tikzpicture}
+\end{center}
+
+Since $ON$ is perpendicular to the entire plane, it is perpendicular to every line lying in the plane through $N$.
+In particular, $ON \perp NP$, so the triangle $\triangle ONP$ is right-angled at $N$.
+By the Pythagorean theorem or orthogonality:
+The direction ratios of $NP$ are $(x - lp, \; y - mp, \; z - np)$.
+The direction cosines of $ON$ are $(l, m, n)$.
+Applying the condition of perpendicularity:
+\begin{align}
+    l(x - lp) + m(y - mp) + n(z - np) &= 0 \nonumber\\
+    lx + my + nz - p(l^2 + m^2 + n^2) &= 0.
+\end{align}
+Since $(l, m, n)$ are direction cosines, $l^2 + m^2 + n^2 = 1$. Therefore:
+\begin{equation}
+    \boxed{lx + my + nz = p}
+\end{equation}
+\end{proof}
+
+% =========================================================================
+% PAGE 28
+% =========================================================================
+\section{Page 28: Reduction of the General Equation to the Normal Form}
+\label{sec:page28}
+
+\begin{conceptbox}[Manuscript Overview: Page 28]
+Page 28 addresses the algorithmic reduction of any given first-degree equation $Ax + By + Cz + D = 0$ into the canonical normal form $lx + my + nz = p$, rigorously establishing the sign conventions ensuring $p \ge 0$.
+\end{conceptbox}
+
+\subsection{The Reduction Algorithm}
+Let the general equation of a plane be:
+\begin{equation}
+    Ax + By + Cz + D = 0 \iff Ax + By + Cz = -D. \label{eq:p28_gen}
+\end{equation}
+We wish to express this in the normal form:
+\begin{equation}
+    lx + my + nz = p \quad (p \ge 0). \label{eq:p28_norm}
+\end{equation}
+Equations \eqref{eq:p28_gen} and \eqref{eq:p28_norm} represent the exact same plane if and only if their corresponding coefficients are strictly proportional:
+\begin{equation}
+    \frac{l}{A} = \frac{m}{B} = \frac{n}{C} = \frac{p}{-D} = k.
+\end{equation}
+From this proportionality:
+\begin{equation}
+    l = kA, \quad m = kB, \quad n = kC, \quad p = -kD.
+\end{equation}
+Squaring and adding the direction cosines:
+\begin{equation}
+    l^2 + m^2 + n^2 = k^2(A^2 + B^2 + C^2) \implies 1 = k^2(A^2 + B^2 + C^2).
+\end{equation}
+Hence, the multiplier $k$ is:
+\begin{equation}
+    k = \pm \frac{1}{\sqrt{A^2 + B^2 + C^2}}.
+\end{equation}
+
+\subsection{Sign Convention for the Perpendicular Distance $p \ge 0$}
+Since $p$ is a geometric length ($p \ge 0$), the sign of $k$ must be chosen so that $p = -kD \ge 0$:
+\begin{itemize}
+    \item \textbf{Case 1 ($D < 0$)}: If the constant term $D$ is negative, then $-D > 0$. We choose the positive root:
+    \begin{equation}
+        k = +\frac{1}{\sqrt{A^2 + B^2 + C^2}}.
+    \end{equation}
+    \item \textbf{Case 2 ($D > 0$)}: If the constant term $D$ is positive, then $-D < 0$. To make $p$ positive, we must choose the negative root:
+    \begin{equation}
+        k = -\frac{1}{\sqrt{A^2 + B^2 + C^2}}.
+    \end{equation}
+\end{itemize}
+
+\begin{theorembox}[Normalized Plane Parameters]
+For any plane $Ax + By + Cz + D = 0$:
+\begin{enumerate}
+    \item The perpendicular distance from the origin is:
+    \begin{equation}
+        \boxed{p = \frac{|D|}{\sqrt{A^2 + B^2 + C^2}}}
+    \end{equation}
+    \item The direction cosines of the normal from the origin to the plane are:
+    \begin{equation}
+        \boxed{l = \frac{\mp A}{\sqrt{A^2 + B^2 + C^2}}, \quad m = \frac{\mp B}{\sqrt{A^2 + B^2 + C^2}}, \quad n = \frac{\mp C}{\sqrt{A^2 + B^2 + C^2}}}
+    \end{equation}
+    where the sign is chosen opposite to the sign of $D$.
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 29
+% =========================================================================
+\section{Page 29: Intercept Form and the Three-Point Determinant Form}
+\label{sec:page29}
+
+\begin{conceptbox}[Manuscript Overview: Page 29]
+Page 29 derives two essential representations of a plane:
+\begin{enumerate}[noitemsep]
+    \item The \textbf{Intercept Form}, expressing the plane via its intercepts $(a, b, c)$ on the axes.
+    \item The \textbf{Three-Point Determinant Form}, establishing the unique plane passing through three non-collinear spatial points.
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{The Intercept Form of a Plane}
+\begin{theorembox}[Intercept Form]
+The equation of a plane making non-zero intercepts $a, b, c$ on the coordinate axes $OX, OY, OZ$ respectively is:
+\begin{equation}
+    \boxed{\frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let the plane meet the coordinate axes at $A(a, 0, 0)$, $B(0, b, 0)$, and $C(0, 0, c)$.
+Let the general equation of the plane be $Ax + By + Cz + D = 0$.
+Since $A, B, C$ lie on the plane:
+\begin{align}
+    A(a) + B(0) + C(0) + D = 0 &\implies Aa + D = 0 \implies A = -\frac{D}{a}, \\
+    A(0) + B(b) + C(0) + D = 0 &\implies Bb + D = 0 \implies B = -\frac{D}{b}, \\
+    A(0) + B(0) + C(c) + D = 0 &\implies Cc + D = 0 \implies C = -\frac{D}{c}.
+\end{align}
+Substituting these into the general equation:
+\begin{equation}
+    -\frac{D}{a}x - \frac{D}{b}y - \frac{D}{c}z + D = 0.
+\end{equation}
+Dividing by $-D$ (since $D \neq 0$ for non-zero intercepts):
+\begin{equation}
+    \boxed{\frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1}
+\end{equation}
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth, 3d view={125}{20}]
+    \draw[->, thick] (0,0,0) -- (4.5,0,0) node[anchor=north east]{$x$};
+    \draw[->, thick] (0,0,0) -- (0,4.8,0) node[anchor=north west]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,0,4.2) node[anchor=south]{$z$};
+
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (3.2,0,0);
+    \coordinate (B) at (0,3.8,0);
+    \coordinate (C) at (0,0,3.0);
+
+    % Intercept triangle
+    \fill[primary!12, opacity=0.7] (A) -- (B) -- (C) -- cycle;
+    \draw[very thick, primary] (A) -- (B) node[midway, below] {};
+    \draw[very thick, primary] (B) -- (C);
+    \draw[very thick, primary] (C) -- (A);
+
+    \fill[accent] (A) circle (2pt) node[below left] {$A(a,0,0)$};
+    \fill[accent] (B) circle (2pt) node[right] {$B(0,b,0)$};
+    \fill[accent] (C) circle (2pt) node[above left] {$C(0,0,c)$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Plane Through Three Non-Collinear Points}
+\begin{theorembox}[Three-Point Determinant Form]
+The equation of the plane passing through three non-collinear points $P_1(x_1, y_1, z_1)$, $P_2(x_2, y_2, z_2)$, and $P_3(x_3, y_3, z_3)$ is:
+\begin{equation}
+    \boxed{\begin{vmatrix}
+    x & y & z & 1 \\
+    x_1 & y_1 & z_1 & 1 \\
+    x_2 & y_2 & z_2 & 1 \\
+    x_3 & y_3 & z_3 & 1
+    \end{vmatrix} = 0 \iff
+    \begin{vmatrix}
+    x - x_1 & y - y_1 & z - z_1 \\
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    x_3 - x_1 & y_3 - y_1 & z_3 - z_1
+    \end{vmatrix} = 0}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+The general plane through $P_1(x_1, y_1, z_1)$ is:
+\begin{equation}
+    A(x - x_1) + B(y - y_1) + C(z - z_1) = 0. \label{eq:p29_onept}
+\end{equation}
+Since $P_2$ and $P_3$ also lie on the plane:
+\begin{align}
+    A(x_2 - x_1) + B(y_2 - y_1) + C(z_2 - z_1) &= 0, \label{eq:p29_pt2} \\
+    A(x_3 - x_1) + B(y_3 - y_1) + C(z_3 - z_1) &= 0. \label{eq:p29_pt3}
+\end{align}
+Equations \eqref{eq:p29_onept}, \eqref{eq:p29_pt2}, and \eqref{eq:p29_pt3} form a homogeneous linear system in the unknowns $A, B, C$.
+For non-trivial solutions $(A, B, C) \neq (0, 0, 0)$ to exist, the determinant of the coefficient matrix must vanish:
+\begin{equation}
+    \begin{vmatrix}
+    x - x_1 & y - y_1 & z - z_1 \\
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    x_3 - x_1 & y_3 - y_1 & z_3 - z_1
+    \end{vmatrix} = 0.
+\end{equation}
+\end{proof}
+
+% =========================================================================
+% PAGE 30
+% =========================================================================
+\section{Page 30: Solved Examination Problems on Plane Equations}
+\label{sec:page30}
+
+\begin{conceptbox}[Manuscript Overview: Page 30]
+Page 30 works through standard university examination problems illustrating the application of the three-point determinant form and the intercept relations.
+\end{conceptbox}
+
+\begin{examplebox}[Problem 1: Plane Through Three Given Points]
+Find the Cartesian equation of the plane passing through the three points:
+\begin{equation}
+    P_1(2, 2, -1), \quad P_2(3, 4, 2), \quad P_3(7, 0, 6).
+\end{equation}
+\end{examplebox}
+
+\begin{proof}[Step-by-Step Analytical Solution]
+We apply the three-point determinant formula with $(x_1, y_1, z_1) = (2, 2, -1)$:
+\begin{equation}
+    \begin{vmatrix}
+    x - 2 & y - 2 & z - (-1) \\
+    3 - 2 & 4 - 2 & 2 - (-1) \\
+    7 - 2 & 0 - 2 & 6 - (-1)
+    \end{vmatrix} = 0.
+\end{equation}
+Simplifying the numerical entries in rows 2 and 3:
+\begin{equation}
+    \begin{vmatrix}
+    x - 2 & y - 2 & z + 1 \\
+    1 & 2 & 3 \\
+    5 & -2 & 7
+    \end{vmatrix} = 0.
+\end{equation}
+Expanding the determinant along the first row:
+\begin{align}
+    (x - 2) \begin{vmatrix} 2 & 3 \\ -2 & 7 \end{vmatrix}
+    - (y - 2) \begin{vmatrix} 1 & 3 \\ 5 & 7 \end{vmatrix}
+    + (z + 1) \begin{vmatrix} 1 & 2 \\ 5 & -2 \end{vmatrix} &= 0.
+\end{align}
+Evaluating each $2 \times 2$ minor:
+\begin{align}
+    \begin{vmatrix} 2 & 3 \\ -2 & 7 \end{vmatrix} &= (2)(7) - (3)(-2) = 14 + 6 = 20, \\
+    \begin{vmatrix} 1 & 3 \\ 5 & 7 \end{vmatrix} &= (1)(7) - (3)(5) = 7 - 15 = -8, \\
+    \begin{vmatrix} 1 & 2 \\ 5 & -2 \end{vmatrix} &= (1)(-2) - (2)(5) = -2 - 10 = -12.
+\end{align}
+Substituting the minors back:
+\begin{align}
+    20(x - 2) - (-8)(y - 2) + (-12)(z + 1) &= 0 \nonumber\\
+    20(x - 2) + 8(y - 2) - 12(z + 1) &= 0.
+\end{align}
+Expanding the brackets:
+\begin{align}
+    20x - 40 + 8y - 16 - 12z - 12 &= 0 \nonumber\\
+    20x + 8y - 12z - 68 &= 0.
+\end{align}
+Dividing throughout by the common factor $4$:
+\begin{equation}
+    \boxed{5x + 2y - 3z - 17 = 0}
+\end{equation}
+\textbf{Verification}:
+\begin{itemize}[noitemsep]
+    \item Point $P_1(2, 2, -1)$: $5(2) + 2(2) - 3(-1) - 17 = 10 + 4 + 3 - 17 = 0$ \quad \checkmark
+    \item Point $P_2(3, 4, 2)$: $5(3) + 2(4) - 3(2) - 17 = 15 + 8 - 6 - 17 = 0$ \quad \checkmark
+    \item Point $P_3(7, 0, 6)$: $5(7) + 2(0) - 3(6) - 17 = 35 + 0 - 18 - 17 = 0$ \quad \checkmark
+\end{itemize}
+\end{proof}
+
+% =========================================================================
+% PAGE 31
+% =========================================================================
+\section{Page 31: Perpendicular Distance of a Point from a Plane}
+\label{sec:page31}
+
+\begin{conceptbox}[Manuscript Overview: Page 31]
+Page 31 derives the formula for the perpendicular distance of a given point $P(x_1, y_1, z_1)$ from an arbitrary plane $Ax + By + Cz + D = 0$.
+\end{conceptbox}
+
+\subsection{Derivation of the Distance Formula}
+\begin{theorembox}[Perpendicular Distance of a Point from a Plane]
+The perpendicular distance $d$ from the point $P(x_1, y_1, z_1)$ to the plane $Ax + By + Cz + D = 0$ is:
+\begin{equation}
+    \boxed{d = \frac{|Ax_1 + By_1 + Cz_1 + D|}{\sqrt{A^2 + B^2 + C^2}}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+First, transform the plane equation into normal form:
+\begin{equation}
+    lx + my + nz - p = 0
+\end{equation}
+where $l = \frac{A}{\sqrt{\sum A^2}}, m = \frac{B}{\sqrt{\sum A^2}}, n = \frac{C}{\sqrt{\sum A^2}}$, and $p = \frac{-D}{\sqrt{\sum A^2}}$.
+Draw a plane parallel to the given plane passing through $P(x_1, y_1, z_1)$.
+Since it is parallel, it possesses the identical normal direction cosines $(l, m, n)$. Its equation is:
+\begin{equation}
+    lx + my + nz = p'
+\end{equation}
+where $p'$ is the perpendicular distance of this parallel plane from the origin.
+Since $P(x_1, y_1, z_1)$ lies on this parallel plane:
+\begin{equation}
+    p' = lx_1 + my_1 + nz_1.
+\end{equation}
+The perpendicular distance $d$ from $P$ to the original plane is simply the distance between the two parallel planes:
+\begin{equation}
+    d = |p' - p| = |lx_1 + my_1 + nz_1 - p|.
+\end{equation}
+Substituting the expressions for $l, m, n, p$:
+\begin{align}
+    d &= \left| \frac{A}{\sqrt{A^2+B^2+C^2}}x_1 + \frac{B}{\sqrt{A^2+B^2+C^2}}y_1 + \frac{C}{\sqrt{A^2+B^2+C^2}}z_1 - \left(\frac{-D}{\sqrt{A^2+B^2+C^2}}\right) \right| \nonumber\\
+    &= \frac{|Ax_1 + By_1 + Cz_1 + D|}{\sqrt{A^2 + B^2 + C^2}}.
+\end{align}
+\end{proof}
+
+\subsection{Distance Between Two Parallel Planes}
+If two planes are parallel, their linear terms can be scaled to be identical:
+\begin{equation}
+    \Pi_1: Ax + By + Cz + D_1 = 0, \quad \Pi_2: Ax + By + Cz + D_2 = 0.
+\end{equation}
+The perpendicular distance between them is:
+\begin{equation}
+    \boxed{d = \frac{|D_1 - D_2|}{\sqrt{A^2 + B^2 + C^2}}}
+\end{equation}
+
+% =========================================================================
+% PAGE 32
+% =========================================================================
+\section{Page 32: Position of Points Relative to a Plane and Systems of Planes}
+\label{sec:page32}
+
+\begin{conceptbox}[Manuscript Overview: Page 32]
+Page 32 analyzes:
+\begin{enumerate}[noitemsep]
+    \item The relative position of two points with respect to a plane (whether they lie on the same side or opposite sides).
+    \item The one-parameter family of planes passing through the line of intersection of two given planes ($U + \lambda V = 0$).
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{Position of Two Points Relative to a Plane}
+\begin{theorembox}[Same Side vs. Opposite Sides Criterion]
+Two points $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$ lie on the \textbf{same side} or \textbf{opposite sides} of the plane $\Pi: Ax + By + Cz + D = 0$ according to whether the expressions:
+\begin{equation}
+    Ax_1 + By_1 + Cz_1 + D \quad \text{and} \quad Ax_2 + By_2 + Cz_2 + D
+\end{equation}
+have the \textbf{same sign} or \textbf{opposite signs}.
+\end{theorembox}
+
+\begin{proof}
+Let the segment $PQ$ meet the plane $\Pi$ at point $R$.
+Let $R$ divide $PQ$ in the ratio $k : 1$. The coordinates of $R$ are:
+\begin{equation}
+    R = \left(\frac{kx_2 + x_1}{k + 1}, \; \frac{ky_2 + y_1}{k + 1}, \; \frac{kz_2 + z_1}{k + 1}\right).
+\end{equation}
+Since $R$ lies on the plane $Ax + By + Cz + D = 0$:
+\begin{align}
+    A\left(\frac{kx_2 + x_1}{k+1}\right) + B\left(\frac{ky_2 + y_1}{k+1}\right) + C\left(\frac{kz_2 + z_1}{k+1}\right) + D &= 0 \nonumber\\
+    k(Ax_2 + By_2 + Cz_2 + D) + (Ax_1 + By_1 + Cz_1 + D) &= 0 \nonumber\\
+    \implies k &= -\frac{Ax_1 + By_1 + Cz_1 + D}{Ax_2 + By_2 + Cz_2 + D}.
+\end{align}
+\begin{itemize}
+    \item If $k > 0$, the division is internal $\implies$ $R$ lies strictly between $P$ and $Q$ $\implies P$ and $Q$ lie on \textbf{opposite sides} of the plane. This requires $\frac{Ax_1+By_1+Cz_1+D}{Ax_2+By_2+Cz_2+D} < 0$, i.e., they have \textbf{opposite signs}.
+    \item If $k < 0$, the division is external $\implies R$ does not lie between $P$ and $Q$ $\implies P$ and $Q$ lie on the \textbf{same side} of the plane. This requires $\frac{Ax_1+By_1+Cz_1+D}{Ax_2+By_2+Cz_2+D} > 0$, i.e., they have the \textbf{same sign}.
+\end{itemize}
+\end{proof}
+
+\subsection{Plane Passing Through the Intersection of Two Given Planes}
+\begin{theorembox}[Family of Planes $U + \lambda V = 0$]
+Let $U \equiv A_1 x + B_1 y + C_1 z + D_1 = 0$ and $V \equiv A_2 x + B_2 y + C_2 z + D_2 = 0$ be two intersecting planes.
+The equation of any plane passing through their line of intersection is given by:
+\begin{equation}
+    \boxed{U + \lambda V = 0 \iff (A_1 x + B_1 y + C_1 z + D_1) + \lambda(A_2 x + B_2 y + C_2 z + D_2) = 0}
+\end{equation}
+where $\lambda$ is an arbitrary scalar parameter ($-\infty < \lambda < \infty$).
+\end{theorembox}
+
+\begin{proof}
+\begin{enumerate}
+    \item Equation $U + \lambda V = 0$ is of the first degree in $x, y, z$:
+    \begin{equation}
+        (A_1 + \lambda A_2)x + (B_1 + \lambda B_2)y + (C_1 + \lambda C_2)z + (D_1 + \lambda D_2) = 0.
+    \end{equation}
+    By Page 25, this represents a plane for every value of $\lambda$.
+    \item Any point $(x_0, y_0, z_0)$ lying on the line of intersection of $U=0$ and $V=0$ satisfies $U(x_0, y_0, z_0) = 0$ and $V(x_0, y_0, z_0) = 0$.
+    Consequently, $U(x_0, y_0, z_0) + \lambda V(x_0, y_0, z_0) = 0 + \lambda(0) = 0$.
+    Thus, the plane contains every point of the line of intersection.
+\end{enumerate}
+\end{proof}
+
+% =========================================================================
+% PAGE 33
+% =========================================================================
+\section{Page 33: Planes Bisecting the Dihedral Angles Between Two Planes}
+\label{sec:page33}
+
+\begin{conceptbox}[Manuscript Overview: Page 33]
+Page 33 investigates the geometry of dihedral angles between two non-parallel planes and derives the algebraic equations representing the pair of planes that bisect these dihedral angles.
+\end{conceptbox}
+
+\subsection{Definition and Geometric Derivation}
+Let two non-parallel planes be:
+\begin{align}
+    \Pi_1 &: A_1 x + B_1 y + C_1 z + D_1 = 0, \\
+    \Pi_2 &: A_2 x + B_2 y + C_2 z + D_2 = 0.
+\end{align}
+A point $P(x, y, z)$ lies on a plane bisecting the dihedral angle between $\Pi_1$ and $\Pi_2$ if and only if it is \textbf{equidistant} from both planes.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    % Intersecting planes in cross section
+    \draw[thick, primary] (-3.5,-1.5) -- (3.5,1.5) node[right] {$\Pi_1 = 0$};
+    \draw[thick, primary] (-3.5,1.5) -- (3.5,-1.5) node[right] {$\Pi_2 = 0$};
+
+    % Bisectors
+    \draw[very thick, secondary, dashed] (0,-2.5) -- (0,2.5) node[above] {Bisector $B_1$ (Acute/Obtuse)};
+    \draw[very thick, accent, dashed] (-3.5,0) -- (3.5,0) node[right] {Bisector $B_2$};
+
+    % Point P on bisector
+    \coordinate (P) at (0, 1.8);
+    \fill[accent] (P) circle (2pt) node[above right] {$P(x,y,z)$};
+
+    % Perpendiculars to planes
+    \draw[dashed, red, thick] (P) -- (-1.26, 0.54) node[midway, left] {$d_1$};
+    \draw[dashed, red, thick] (P) -- (1.26, 0.54) node[midway, right] {$d_2$};
+
+    \node at (0.3, 0.8) {$d_1 = d_2$};
+\end{tikzpicture}
+\end{center}
+
+Applying the perpendicular distance formula (Page 31):
+\begin{align}
+    d_1 &= \frac{|A_1 x + B_1 y + C_1 z + D_1|}{\sqrt{A_1^2 + B_1^2 + C_1^2}}, \\
+    d_2 &= \frac{|A_2 x + B_2 y + C_2 z + D_2|}{\sqrt{A_2^2 + B_2^2 + C_2^2}}.
+\end{align}
+Setting $d_1 = d_2$:
+\begin{equation}
+    \frac{|A_1 x + B_1 y + C_1 z + D_1|}{\sqrt{A_1^2 + B_1^2 + C_1^2}} = \frac{|A_2 x + B_2 y + C_2 z + D_2|}{\sqrt{A_2^2 + B_2^2 + C_2^2}}.
+\end{equation}
+Removing the absolute value signs yields the two bisecting planes:
+\begin{equation}
+    \boxed{\frac{A_1 x + B_1 y + C_1 z + D_1}{\sqrt{A_1^2 + B_1^2 + C_1^2}} = \pm \frac{A_2 x + B_2 y + C_2 z + D_2}{\sqrt{A_2^2 + B_2^2 + C_2^2}}}
+\end{equation}
+
+\subsection{Orthogonality of the Two Bisector Planes}
+\begin{theorembox}[Mutual Perpendicularity of Angle Bisectors]
+The two bisector planes corresponding to the $+$ and $-$ signs are mutually perpendicular.
+\end{theorembox}
+
+\begin{proof}
+Let $k_1 = \sqrt{A_1^2+B_1^2+C_1^2}$ and $k_2 = \sqrt{A_2^2+B_2^2+C_2^2}$.
+The equations of the two planes can be written as:
+\begin{align}
+    B^+ &: \left(\frac{A_1}{k_1} - \frac{A_2}{k_2}\right)x + \left(\frac{B_1}{k_1} - \frac{B_2}{k_2}\right)y + \left(\frac{C_1}{k_1} - \frac{C_2}{k_2}\right)z + \left(\frac{D_1}{k_1} - \frac{D_2}{k_2}\right) = 0, \\
+    B^- &: \left(\frac{A_1}{k_1} + \frac{A_2}{k_2}\right)x + \left(\frac{B_1}{k_1} + \frac{B_2}{k_2}\right)y + \left(\frac{C_1}{k_1} + \frac{C_2}{k_2}\right)z + \left(\frac{D_1}{k_1} + \frac{D_2}{k_2}\right) = 0.
+\end{align}
+The scalar dot product of their normal vectors $\vec{N}_1$ and $\vec{N}_2$ is:
+\begin{align}
+    \vec{N}_1 \cdot \vec{N}_2 &= \left(\frac{A_1}{k_1} - \frac{A_2}{k_2}\right)\left(\frac{A_1}{k_1} + \frac{A_2}{k_2}\right) + \left(\frac{B_1}{k_1} - \frac{B_2}{k_2}\right)\left(\frac{B_1}{k_1} + \frac{B_2}{k_2}\right) + \left(\frac{C_1}{k_1} - \frac{C_2}{k_2}\right)\left(\frac{C_1}{k_1} + \frac{C_2}{k_2}\right) \nonumber\\
+    &= \left(\frac{A_1^2}{k_1^2} - \frac{A_2^2}{k_2^2}\right) + \left(\frac{B_1^2}{k_1^2} - \frac{B_2^2}{k_2^2}\right) + \left(\frac{C_1^2}{k_1^2} - \frac{C_2^2}{k_2^2}\right) \nonumber\\
+    &= \frac{A_1^2 + B_1^2 + C_1^2}{k_1^2} - \frac{A_2^2 + B_2^2 + C_2^2}{k_2^2} = \frac{k_1^2}{k_1^2} - \frac{k_2^2}{k_2^2} = 1 - 1 = \boxed{0}.
+\end{align}
+Since $\vec{N}_1 \cdot \vec{N}_2 = 0$, the two bisecting planes are perpendicular to each other.
+\end{proof}
+
+% =========================================================================
+% PAGE 34
+% =========================================================================
+\section{Page 34: Discrimination Between Acute and Obtuse Angle Bisectors}
+\label{sec:page34}
+
+\begin{conceptbox}[Manuscript Overview: Page 34]
+Page 34 establishes the rigorous analytical criteria used to distinguish between the \textbf{acute angle bisector} and the \textbf{obtuse angle bisector}, as well as identifying which bisector contains the origin.
+\end{conceptbox}
+
+\subsection{The Standard University Algorithm}
+To systematically classify the bisectors:
+\begin{enumerate}
+    \item \textbf{Standardize Constant Terms}:
+    Write both plane equations such that their constant terms are \textbf{strictly positive}:
+    \begin{align}
+        A_1 x + B_1 y + C_1 z + D_1 &= 0 \quad (D_1 > 0), \\
+        A_2 x + B_2 y + C_2 z + D_2 &= 0 \quad (D_2 > 0).
+    \end{align}
+    (If any constant term is negative, multiply that entire equation by $-1$).
+    \item \textbf{Bisector Containing the Origin}:
+    With $D_1 > 0$ and $D_2 > 0$, the origin $(0,0,0)$ substituted into both planes yields positive values ($D_1 > 0$ and $D_2 > 0$).
+    Therefore, the origin lies in the region where both plane expressions have the same sign.
+    Hence, the \textbf{bisector containing the origin} is given by the \textbf{positive ($+$) sign}:
+    \begin{equation}
+        \boxed{\frac{A_1 x + B_1 y + C_1 z + D_1}{\sqrt{A_1^2 + B_1^2 + C_1^2}} = +\frac{A_2 x + B_2 y + C_2 z + D_2}{\sqrt{A_2^2 + B_2^2 + C_2^2}}}
+    \end{equation}
+    The bisector not containing the origin is given by the negative ($-$) sign.
+    \item \textbf{Evaluate the Coefficient Scalar Product}:
+    Calculate the sum of products of direction coefficients:
+    \begin{equation}
+        \Delta = A_1 A_2 + B_1 B_2 + C_1 C_2.
+    \end{equation}
+\end{enumerate}
+
+\begin{theorembox}[Classification Criterion for Acute and Obtuse Bisectors]
+Provided $D_1 > 0$ and $D_2 > 0$:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Sign of } $\Delta = A_1 A_2 + B_1 B_2 + C_1 C_2$ & \textbf{Origin Lies In} & \textbf{Acute Angle Bisector} \\
+\hline
+$\Delta > 0$ & Obtuse Angle & Negative ($-$) sign \\
+$\Delta < 0$ & Acute Angle & Positive ($+$) sign \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorembox}
+
+\begin{proof}
+Let $\theta$ be the angle between the normal vectors $\vec{N}_1 = (A_1, B_1, C_1)$ and $\vec{N}_2 = (A_2, B_2, C_2)$ directed away from the origin:
+\begin{equation}
+    \cos\theta = \frac{A_1 A_2 + B_1 B_2 + C_1 C_2}{\sqrt{\sum A_1^2}\sqrt{\sum A_2^2}}.
+\end{equation}
+\begin{itemize}
+    \item If $\Delta > 0 \implies \cos\theta > 0 \implies \theta$ is acute $\implies$ the angle between the planes containing the origin is supplementary to $\theta$, i.e., $180^\circ - \theta$, which is \textbf{obtuse}.
+    Thus, the origin lies in the obtuse angle.
+    The positive sign (which contains the origin) bisects the obtuse angle, and the negative sign bisects the acute angle.
+    \item If $\Delta < 0 \implies \cos\theta < 0 \implies \theta$ is obtuse $\implies 180^\circ - \theta$ is \textbf{acute}.
+    Thus, the origin lies in the acute angle.
+    The positive sign bisects the acute angle, and the negative sign bisects the obtuse angle.
+\end{itemize}
+\end{proof}
+
+% =========================================================================
+% PAGE 35
+% =========================================================================
+\section{Page 35: Method 2 (Point Method) and Comprehensive Worked Problem}
+\label{sec:page35}
+
+\begin{conceptbox}[Manuscript Overview: Page 35]
+Page 35 presents the alternative geometric method (the \textbf{Point Method} or Tangent Half-Angle Method) for verifying the nature of a bisector, followed by a complete numerical examination problem.
+\end{conceptbox}
+
+\subsection{Method 2: The Tangent Half-Angle (Point) Method}
+If one is unsure of the sign convention, the following constructive procedure can be used:
+\begin{enumerate}
+    \item Obtain the two bisector planes $B_1$ and $B_2$.
+    \item Choose any convenient point $P$ on one of the bisector planes (say $B_1$).
+    \item Calculate the perpendicular distance $p$ from $P$ to one of the original planes $\Pi_1$.
+    \item Calculate the distance $r$ from $P$ to the line of intersection of the two planes.
+    \item If $\theta$ is the dihedral angle between the original planes, then in the right triangle formed by $P$, its projection on $\Pi_1$, and its projection on the intersection line:
+    \begin{equation}
+        \sin(\theta/2) = \frac{p}{r} \implies \tan(\theta/2) = \frac{p}{\sqrt{r^2 - p^2}}.
+    \end{equation}
+    \item If $|\tan(\theta/2)| < 1 \implies \theta/2 < 45^\circ \implies \theta < 90^\circ$: $B_1$ is the \textbf{acute angle bisector}.
+    \item If $|\tan(\theta/2)| > 1 \implies \theta/2 > 45^\circ \implies \theta > 90^\circ$: $B_1$ is the \textbf{obtuse angle bisector}.
+\end{enumerate}
+
+\subsection{Worked Examination Problem Setup}
+\begin{examplebox}[Problem: Dihedral Angle Bisectors]
+Find the equations of the planes bisecting the dihedral angles between the planes:
+\begin{align}
+    \Pi_1 &: 2x - y + 2z + 3 = 0, \label{eq:ex_p1} \\
+    \Pi_2 &: 3x - 2y + 6z + 8 = 0. \label{eq:ex_p2}
+\end{align}
+Determine which bisector bisects the acute angle, which bisects the obtuse angle, and which bisector contains the origin.
+\end{examplebox}
+
+\begin{proof}[Analytical Setup]
+First, check the constant terms:
+In $\Pi_1$, $D_1 = +3 > 0$.
+In $\Pi_2$, $D_2 = +8 > 0$.
+Both constant terms are strictly positive; hence no signs need adjustment.
+Calculate the square root denominators:
+\begin{align}
+    \sqrt{A_1^2 + B_1^2 + C_1^2} &= \sqrt{2^2 + (-1)^2 + 2^2} = \sqrt{4 + 1 + 4} = \sqrt{9} = 3, \\
+    \sqrt{A_2^2 + B_2^2 + C_2^2} &= \sqrt{3^2 + (-2)^2 + 6^2} = \sqrt{9 + 4 + 36} = \sqrt{49} = 7.
+\end{align}
+The equations of the bisecting planes are:
+\begin{equation}
+    \frac{2x - y + 2z + 3}{3} = \pm \frac{3x - 2y + 6z + 8}{7}.
+\end{equation}
+\end{proof}
+
+% =========================================================================
+% PAGE 36
+% =========================================================================
+\section{Page 36: Continued Solution of Angle Bisector Problem and Summary}
+\label{sec:page36}
+
+\begin{conceptbox}[Manuscript Overview: Page 36]
+Page 36 carries out the complete algebraic simplification of the examination problem posed on Page 35, evaluating the discriminants and explicitly formulating the final equations of the bisectors.
+\end{conceptbox}
+
+\subsection{Algebraic Simplification of the Bisectors}
+Cross-multiplying by $21 = 3 \times 7$:
+\begin{equation}
+    7(2x - y + 2z + 3) = \pm 3(3x - 2y + 6z + 8).
+\end{equation}
+
+\subsubsection{Case 1: Taking the Positive Sign ($+$)}
+\begin{align}
+    7(2x - y + 2z + 3) &= +3(3x - 2y + 6z + 8) \nonumber\\
+    14x - 7y + 14z + 21 &= 9x - 6y + 18z + 24 \nonumber\\
+    (14 - 9)x + (-7 + 6)y + (14 - 18)z + (21 - 24) &= 0 \nonumber\\
+    \Aboxed{5x - y - 4z - 3 &= 0} \label{eq:bis_plus}
+\end{align}
+
+\subsubsection{Case 2: Taking the Negative Sign ($-$)}
+\begin{align}
+    7(2x - y + 2z + 3) &= -3(3x - 2y + 6z + 8) \nonumber\\
+    14x - 7y + 14z + 21 &= -9x + 6y - 18z - 24 \nonumber\\
+    (14 + 9)x + (-7 - 6)y + (14 + 18)z + (21 + 24) &= 0 \nonumber\\
+    \Aboxed{23x - 13y + 32z + 45 &= 0} \label{eq:bis_minus}
+\end{align}
+
+\subsection{Determination of Acute and Obtuse Character}
+Evaluate the scalar product $\Delta = A_1 A_2 + B_1 B_2 + C_1 C_2$:
+\begin{align}
+    \Delta &= (2)(3) + (-1)(-2) + (2)(6) \nonumber\\
+    &= 6 + 2 + 12 = \mathbf{20} > 0.
+\end{align}
+Since $\Delta > 0$:
+\begin{enumerate}
+    \item The angle between the planes that contains the origin is \textbf{obtuse}.
+    \item The bisector corresponding to the \textbf{positive sign} ($5x - y - 4z - 3 = 0$) contains the origin and is the \textbf{obtuse angle bisector}.
+    \item The bisector corresponding to the \textbf{negative sign} ($23x - 13y + 32z + 45 = 0$) is the \textbf{acute angle bisector}.
+\end{enumerate}
+
+\subsection{Verification of Mutual Perpendicularity}
+Let us verify that the two bisectors are orthogonal using their normal direction ratios:
+\begin{align}
+    \vec{N}_+ &= (5, -1, -4), \\
+    \vec{N}_- &= (23, -13, 32).
+\end{align}
+Computing their scalar product:
+\begin{align}
+    \vec{N}_+ \cdot \vec{N}_- &= (5)(23) + (-1)(-13) + (-4)(32) \nonumber\\
+    &= 115 + 13 - 128 = 128 - 128 = \mathbf{0}.
+\end{align}
+The dot product vanishes identically, confirming the mathematical accuracy of the solution.

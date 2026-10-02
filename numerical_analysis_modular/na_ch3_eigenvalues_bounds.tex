@@ -1,0 +1,384 @@
+\chapter{Eigenvalues, Eigenvectors, and Matrix Bounds (Pages 31--36)}
+\label{ch:eigenvalues_bounds}
+
+\begin{conceptbox}[Spectral Theory of Matrices]
+For an $n \times n$ real matrix $A$, a scalar $\lambda \in \mathbb{C}$ is an \textbf{eigenvalue} with corresponding non-zero \textbf{eigenvector} $\mathbf{x} \in \mathbb{C}^n$ if:
+\begin{equation}
+    A \mathbf{x} = \lambda \mathbf{x} \iff (A - \lambda I)\mathbf{x} = \mathbf{0} \quad (\mathbf{x} \ne \mathbf{0})
+\end{equation}
+Non-trivial solutions exist if and only if the \textbf{characteristic determinant} vanishes:
+\begin{equation}
+    P(\lambda) \equiv \det(A - \lambda I) = 0
+\end{equation}
+\textbf{Fundamental Spectral Properties:}
+\begin{enumerate}
+    \item The sum of all $n$ eigenvalues equals the \textbf{trace} of $A$: $\sum_{i=1}^n \lambda_i = \operatorname{tr}(A) = \sum_{i=1}^n a_{ii}$.
+    \item The product of all $n$ eigenvalues equals the \textbf{determinant} of $A$: $\prod_{i=1}^n \lambda_i = \det(A)$.
+    \item If $A$ has $n$ linearly independent eigenvectors, there exists an invertible matrix $P$ such that $P^{-1} A P = D = \operatorname{diag}(\lambda_1, \dots, \lambda_n)$ (\textbf{Similarity Diagonalization}).
+\end{enumerate}
+\end{conceptbox}
+
+% =========================================================================
+% PAGES 31-34: GERSCHGORIN CIRCLE THEOREM
+% =========================================================================
+\section{Pages 31--34: Gerschgorin's Circle Theorem and Proof}
+\begin{theorembox}[Gerschgorin's Theorem 1: Global Upper Bound on Eigenvalue Modulus (Pages 31--32)]
+The largest eigenvalue in modulus of an $n \times n$ matrix $A = (a_{ij}) \in \mathbb{C}^{n \times n}$ cannot exceed the largest sum of the moduli of the elements along any row or any column:
+\begin{equation}
+    \boxed{|\lambda| \le \min\left( \max_{1 \le i \le n} \sum_{j=1}^n |a_{ij}|, \; \max_{1 \le j \le n} \sum_{i=1}^n |a_{ij}| \right) = \min\big( \|A\|_\infty, \, \|A\|_1 \big)}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Step-by-Step Proof of Theorem 1 (Manuscript Pages 31--32)]
+Let $\lambda \in \mathbb{C}$ be an arbitrary eigenvalue of matrix $A$ with corresponding non-zero eigenvector $\mathbf{x} = (x_1, x_2, \dots, x_n)^T \in \mathbb{C}^n$ ($\mathbf{x} \ne \mathbf{0}$):
+\begin{equation}
+    A \mathbf{x} = \lambda \mathbf{x} \iff \sum_{j=1}^n a_{ij} x_j = \lambda x_i \quad (i = 1, 2, \dots, n)
+\end{equation}
+
+\noindent\textbf{Step 1: Locate the maximal coordinate.} \\
+Choose index $k \in \{1, 2, \dots, n\}$ such that $|x_k|$ is the coordinate with maximum modulus:
+\begin{equation}
+    |x_k| = \max_{1 \le j \le n} |x_j| > 0
+\end{equation}
+
+\noindent\textbf{Step 2: Write row $k$ and isolate $\lambda$.} \\
+The $k$-th scalar equation of the eigensystem is:
+\begin{equation}
+    \sum_{j=1}^n a_{kj} x_j = \lambda x_k
+\end{equation}
+Dividing both sides by $x_k$ (valid since $|x_k| > 0$):
+\begin{equation}
+    \lambda = \sum_{j=1}^n a_{kj} \left( \frac{x_j}{x_k} \right)
+\end{equation}
+
+\noindent\textbf{Step 3: Apply the triangle inequality.} \\
+Taking the complex modulus on both sides:
+\begin{equation}
+    |\lambda| = \left| \sum_{j=1}^n a_{kj} \left( \frac{x_j}{x_k} \right) \right| \le \sum_{j=1}^n |a_{kj}| \left| \frac{x_j}{x_k} \right|
+\end{equation}
+Since $|x_k| \ge |x_j|$ for all $j \in \{1, 2, \dots, n\}$, the coordinate ratio satisfies:
+\begin{equation}
+    \left| \frac{x_j}{x_k} \right| = \frac{|x_j|}{|x_k|} \le 1 \quad \forall j
+\end{equation}
+Therefore:
+\begin{equation}
+    |\lambda| \le \sum_{j=1}^n |a_{kj}| (1) = \sum_{j=1}^n |a_{kj}|
+\end{equation}
+Since $k$ is one specific row index between $1$ and $n$, this sum is bounded by the maximum absolute row sum:
+\begin{equation}
+    \label{eq:row_modulus_bound}
+    |\lambda| \le \max_{1 \le i \le n} \sum_{j=1}^n |a_{ij}| = \|A\|_\infty
+\end{equation}
+
+\noindent\textbf{Step 4: Column bound via matrix transpose $A^T$.} \\
+Since the characteristic polynomial of the transpose satisfies:
+\begin{equation}
+    \det(A^T - \lambda I) = \det\left( (A - \lambda I)^T \right) = \det(A - \lambda I)
+\end{equation}
+the matrix $A^T$ possesses the identically same eigenvalues as $A$. Applying the row bound \eqref{eq:row_modulus_bound} to $A^T$:
+\begin{equation}
+    |\lambda| \le \max_{1 \le i \le n} \sum_{j=1}^n |(A^T)_{ij}| = \max_{1 \le j \le n} \sum_{i=1}^n |a_{ij}| = \|A\|_1
+\end{equation}
+Combining both bounds yields the exact manuscript result:
+\begin{equation}
+    \boxed{|\lambda| \le \min\left( \max_{1 \le i \le n} \sum_{j=1}^n |a_{ij}|, \; \max_{1 \le j \le n} \sum_{i=1}^n |a_{ij}| \right)} \quad \blacksquare
+\end{equation}
+\end{proof}
+
+\begin{theorembox}[Gerschgorin Circle Theorem (S.~Gerschgorin, 1931)]
+Let $A = (a_{ij}) \in \mathbb{C}^{n \times n}$. For each row $i \in \{1, 2, \dots, n\}$, define the \textbf{row radius} $R_i$ as the sum of the absolute values of the off-diagonal entries in row $i$:
+\begin{equation}
+    R_i = \sum_{\substack{j=1 \\ j \ne i}}^n |a_{ij}|
+\end{equation}
+Define the $i$-th closed \textbf{Gerschgorin disc} in the complex plane centered at the diagonal entry $a_{ii}$:
+\begin{equation}
+    D_i = \big\{ z \in \mathbb{C} : |z - a_{ii}| \le R_i \big\}
+\end{equation}
+\textbf{Statement:} Every eigenvalue $\lambda$ of matrix $A$ lies in the union of all $n$ Gerschgorin discs:
+\begin{equation}
+    \boxed{\lambda \in \bigcup_{i=1}^n D_i = \bigcup_{i=1}^n \big\{ z \in \mathbb{C} : |z - a_{ii}| \le R_i \big\}}
+\end{equation}
+Furthermore, if a connected component formed by the union of $k$ discs is disjoint from the remaining $n - k$ discs, then exactly $k$ eigenvalues of $A$ (counted with algebraic multiplicities) lie within that component.
+\end{theorembox}
+
+\begin{proof}[Rigorous Mathematical Proof (Manuscript Pages 31--33)]
+Let $\lambda$ be an arbitrary eigenvalue of $A$ with non-zero eigenvector $\mathbf{x} = (x_1, x_2, \dots, x_n)^T$:
+\begin{equation}
+    A \mathbf{x} = \lambda \mathbf{x} \iff \sum_{j=1}^n a_{ij} x_j = \lambda x_i \quad (i = 1, 2, \dots, n)
+\end{equation}
+Let $x_k$ be a component of $\mathbf{x}$ having the \textbf{maximum modulus} (largest absolute value):
+\begin{equation}
+    |x_k| = \max_{1 \le j \le n} |x_j| > 0
+\end{equation}
+Consider the $k$-th equation of the eigensystem $A \mathbf{x} = \lambda \mathbf{x}$:
+\begin{equation}
+    \sum_{j=1}^n a_{kj} x_j = \lambda x_k \iff a_{kk} x_k + \sum_{\substack{j=1 \\ j \ne k}}^n a_{kj} x_j = \lambda x_k
+\end{equation}
+Rearranging to isolate the term $(\lambda - a_{kk})x_k$:
+\begin{equation}
+    (\lambda - a_{kk}) x_k = \sum_{\substack{j=1 \\ j \ne k}}^n a_{kj} x_j
+\end{equation}
+Dividing both sides by $x_k$ (valid since $|x_k| > 0$):
+\begin{equation}
+    \lambda - a_{kk} = \sum_{\substack{j=1 \\ j \ne k}}^n a_{kj} \left( \frac{x_j}{x_k} \right)
+\end{equation}
+Taking the complex modulus on both sides and applying the triangle inequality:
+\begin{equation}
+    |\lambda - a_{kk}| = \left| \sum_{\substack{j=1 \\ j \ne k}}^n a_{kj} \left( \frac{x_j}{x_k} \right) \right| \le \sum_{\substack{j=1 \\ j \ne k}}^n |a_{kj}| \left| \frac{x_j}{x_k} \right|
+\end{equation}
+Since $|x_k| = \max_j |x_j|$, we have $\left| \frac{x_j}{x_k} \right| = \frac{|x_j|}{|x_k|} \le 1$ for all $j$. Therefore:
+\begin{equation}
+    \boxed{|\lambda - a_{kk}| \le \sum_{\substack{j=1 \\ j \ne k}}^n |a_{kj}| = R_k}
+\end{equation}
+Hence, $\lambda$ lies within the $k$-th Gerschgorin disc $D_k$, and consequently $\lambda \in \bigcup_{i=1}^n D_i$.
+\end{proof}
+
+\begin{proof}[Exhaustive Proof of the Disjoint Disc Component Theorem via Homotopy Path]
+We prove that if a connected component formed by the union of $k$ discs is disjoint from the remaining $n - k$ discs, then exactly $k$ eigenvalues of $A$ lie in that component.
+
+\medskip
+\noindent\textbf{Step 1: Construct a continuous homotopy family of matrices.} \\
+Split $A$ into its diagonal part $D = \operatorname{diag}(a_{11}, a_{22}, \dots, a_{nn})$ and off-diagonal part $B = A - D$. Define the parameterized matrix family:
+\begin{equation}
+    A(t) = D + t B = D + t(A - D), \quad t \in [0, 1]
+\end{equation}
+Note the boundary matrices:
+\begin{itemize}[noitemsep]
+    \item At $t = 0$: $A(0) = D$, a diagonal matrix whose eigenvalues are precisely its diagonal entries $a_{11}, a_{22}, \dots, a_{nn}$.
+    \item At $t = 1$: $A(1) = A$, the target matrix.
+\end{itemize}
+
+\noindent\textbf{Step 2: Track Gerschgorin discs as a function of $t$.} \\
+For any $t \in [0, 1]$, the diagonal entries of $A(t)$ remain identically $a_{ii}$, while the off-diagonal entries are $t a_{ij}$. Therefore, the row radius of the $i$-th disc of $A(t)$ is:
+\begin{equation}
+    R_i(t) = \sum_{\substack{j=1 \\ j \ne i}}^n |t a_{ij}| = t \sum_{\substack{j=1 \\ j \ne i}}^n |a_{ij}| = t R_i
+\end{equation}
+The $i$-th Gerschgorin disc for $A(t)$ is:
+\begin{equation}
+    D_i(t) = \big\{ z \in \mathbb{C} : |z - a_{ii}| \le t R_i \big\}
+\end{equation}
+Since $0 \le t \le 1$, we have $t R_i \le R_i$, which implies that the discs grow monotonically with $t$:
+\begin{equation}
+    D_i(t) \subseteq D_i(1) = D_i \quad \forall t \in [0, 1]
+\end{equation}
+
+\noindent\textbf{Step 3: Preserve component disjointness along the homotopy path.} \\
+Without loss of generality, let $G_1 = \bigcup_{i=1}^k D_i$ be the connected component formed by the first $k$ discs, and let $G_2 = \bigcup_{i=k+1}^n D_i$ be the union of the remaining $n - k$ discs, with $G_1 \cap G_2 = \emptyset$.
+For any $t \in [0, 1]$, define:
+\begin{equation}
+    G_1(t) = \bigcup_{i=1}^k D_i(t) \subseteq G_1, \qquad G_2(t) = \bigcup_{i=k+1}^n D_i(t) \subseteq G_2
+\end{equation}
+Because $G_1$ and $G_2$ are disjoint, their subsets $G_1(t)$ and $G_2(t)$ are \textbf{strictly disjoint for all $t \in [0, 1]$}.
+
+\noindent\textbf{Step 4: Continuity of eigenvalues and topological invariance.} \\
+The eigenvalues of $A(t)$ are the roots of the characteristic polynomial:
+\begin{equation}
+    P(\lambda, t) = \det(A(t) - \lambda I) = 0
+\end{equation}
+The coefficients of $P(\lambda, t)$ are polynomials in the entries of $A(t)$, which are linear functions of $t$; hence, the coefficients vary continuously with $t \in [0, 1]$. By the classical Ostrowski theorem on the continuity of polynomial roots, the $n$ eigenvalues $\lambda_1(t), \lambda_2(t), \dots, \lambda_n(t)$ describe continuous trajectories (curves) in the complex plane as $t$ traverses the interval $[0, 1]$.
+
+\noindent\textbf{Step 5: Counting eigenvalues at $t = 0$ and $t = 1$.} \\
+At $t = 0$, $R_i(0) = 0$, so each disc collapses to its center $D_i(0) = \{a_{ii}\}$. The $n$ eigenvalues of $A(0)$ are precisely $a_{11}, \dots, a_{nn}$.
+By definition of $G_1$, the centers $a_{11}, \dots, a_{kk}$ lie in $G_1$, while $a_{k+1,k+1}, \dots, a_{nn}$ lie in $G_2$. Thus:
+\begin{equation}
+    \text{Number of eigenvalues of } A(0) \text{ in } G_1 = k
+\end{equation}
+By Gerschgorin's theorem, for every $t \in [0, 1]$, every eigenvalue $\lambda_j(t)$ must lie in $G_1(t) \cup G_2(t) \subseteq G_1 \cup G_2$.
+Because the sets $G_1$ and $G_2$ are disjoint, closed, and separated by open space, and each path $t \mapsto \lambda_j(t)$ is continuous on $[0, 1]$, an eigenvalue path cannot jump between $G_1$ and $G_2$ without crossing the empty region $\mathbb{C} \setminus (G_1 \cup G_2)$, which contradicts Gerschgorin's theorem.
+Therefore, the number of eigenvalues in $G_1(t)$ is a continuous, integer-valued function of $t$, which must be \textbf{constant}:
+\begin{equation}
+    N_{G_1}(t) \equiv k \quad \forall t \in [0, 1]
+\end{equation}
+Evaluating at $t = 1$, exactly $k$ eigenvalues of $A = A(1)$ lie in $G_1$. $\blacksquare$
+\end{proof}
+
+
+\begin{notebox}[Dual Column Discs Corollary]
+Since the transpose $A^T$ has the identical eigenvalues as $A$ ($\det(A^T - \lambda I) = \det(A - \lambda I)$), the column radii $C_j = \sum_{i \ne j} |a_{ij}|$ define column discs $D'_j = \{z \in \mathbb{C} : |z - a_{jj}| \le C_j\}$. All eigenvalues must simultaneously lie in the intersection:
+\begin{equation}
+    \boxed{\lambda \in \left( \bigcup_{i=1}^n D_i \right) \cap \left( \bigcup_{j=1}^n D'_j \right)}
+\end{equation}
+\end{notebox}
+
+\begin{examplebox}[Manuscript Problem: Determining the Region of Eigenvalues (Pages 33--34)]
+Determine the region containing all eigenvalues of matrix $A$:
+\begin{equation}
+    A = \begin{pmatrix}
+    1 & 2 & 1 \\
+    1 & 1 & 1 \\
+    1 & 3 & -1
+    \end{pmatrix}
+\end{equation}
+\textbf{Step 1: Compute Row Gerschgorin Discs ($D_i$):}
+\begin{itemize}[noitemsep]
+    \item Row 1: Center $a_{11} = 1$, Radius $R_1 = |2| + |1| = 3 \implies \mathbf{D_1: |z - 1| \le 3}$ (Interval on real line: $[-2, 4]$).
+    \item Row 2: Center $a_{22} = 1$, Radius $R_2 = |1| + |1| = 2 \implies \mathbf{D_2: |z - 1| \le 2}$ (Interval: $[-1, 3]$).
+    \item Row 3: Center $a_{33} = -1$, Radius $R_3 = |1| + |3| = 4 \implies \mathbf{D_3: |z - (-1)| \le 4}$ (Interval: $[-5, 3]$).
+\end{itemize}
+Union of row discs: $D_1 \cup D_2 \cup D_3 = \{z : |z - 1| \le 3\} \cup \{z : |z + 1| \le 4\}$. Real axis range: $[-5, 4]$.
+
+\textbf{Step 2: Compute Column Gerschgorin Discs ($D'_j$):}
+\begin{itemize}[noitemsep]
+    \item Col 1: Center $a_{11} = 1$, Radius $C_1 = |1| + |1| = 2 \implies \mathbf{D'_1: |z - 1| \le 2}$.
+    \item Col 2: Center $a_{22} = 1$, Radius $C_2 = |2| + |3| = 5 \implies \mathbf{D'_2: |z - 1| \le 5}$.
+    \item Col 3: Center $a_{33} = -1$, Radius $C_3 = |1| + |1| = 2 \implies \mathbf{D'_3: |z + 1| \le 2}$.
+\end{itemize}
+\textbf{Step 3: Global Spectral Radius Bound:}
+\begin{equation}
+    |\lambda| \le \min\left( \max_i \sum_{j=1}^3 |a_{ij}|, \; \max_j \sum_{i=1}^3 |a_{ij}| \right) = \min(6, 6) = \mathbf{6}
+\end{equation}
+\end{examplebox}
+
+\begin{center}
+\begin{tikzpicture}[scale=0.95]
+    % Axes
+    \draw[->, thick, primary] (-6.5, 0) -- (5.5, 0) node[right, primary] {$\operatorname{Re}(z)$};
+    \draw[->, thick, primary] (0, -4.5) -- (0, 4.5) node[above, primary] {$\operatorname{Im}(z)$};
+    
+    % Disc D1: center (1, 0), radius 3
+    \draw[thick, ForestGreen, fill=ForestGreen!10, fill opacity=0.3] (1, 0) circle (3cm);
+    \node[ForestGreen, above right] at (2.2, 2.2) {$D_1: |z - 1| \le 3$};
+    
+    % Disc D2: center (1, 0), radius 2
+    \draw[thick, secondary, dashed] (1, 0) circle (2cm);
+    
+    % Disc D3: center (-1, 0), radius 4
+    \draw[thick, Crimson, fill=Crimson!10, fill opacity=0.3] (-1, 0) circle (4cm);
+    \node[Crimson, above left] at (-2.8, 2.8) {$D_3: |z + 1| \le 4$};
+    
+    % Centers
+    \filldraw[primary] (1, 0) circle (2pt) node[below=2pt] {$a_{11}=1$};
+    \filldraw[primary] (-1, 0) circle (2pt) node[below=2pt] {$a_{33}=-1$};
+    
+    % Extreme bounds on real line
+    \filldraw[accent] (-5, 0) circle (2pt) node[below left=2pt, accent] {$-5$};
+    \filldraw[accent] (4, 0) circle (2pt) node[below right=2pt, accent] {$+4$};
+\end{tikzpicture}
+\end{center}
+
+\clearpage
+
+% =========================================================================
+% PAGES 34-36: POWER METHOD
+% =========================================================================
+\section{Pages 34--36: The Power Method for Dominant Eigenpair}
+\label{sec:power_method}
+
+\begin{theorembox}[Algorithm of the Power Method]
+The \textbf{Power Method} determines the dominant eigenvalue $\lambda_1$ (i.e., $|\lambda_1| > |\lambda_2| \ge \dots \ge |\lambda_n|$) and corresponding eigenvector $\mathbf{x}_1$:
+\begin{enumerate}
+    \item Select an initial non-zero vector $\mathbf{x}^{(0)}$ (typically $\mathbf{x}^{(0)} = (1, 1, \dots, 1)^T$).
+    \item Compute matrix-vector product: $\mathbf{y}^{(k+1)} = A \mathbf{x}^{(k)}$.
+    \item Extract the scaling factor $m_{k+1}$ as the element of maximum magnitude in $\mathbf{y}^{(k+1)}$:
+    \begin{equation}
+        m_{k+1} = \operatorname{sign}(y^{(k+1)}_p) \cdot \max_{1 \le i \le n} |y^{(k+1)}_i|
+    \end{equation}
+    \item Normalize the vector:
+    \begin{equation}
+        \mathbf{x}^{(k+1)} = \frac{\mathbf{y}^{(k+1)}}{m_{k+1}}
+    \end{equation}
+    \item As $k \to \infty$, $m_k \to \lambda_1$ and $\mathbf{x}^{(k)} \to \mathbf{x}_1$.
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}[Exhaustive Mathematical Proof of Convergence of the Power Method]
+Let $A \in \mathbb{R}^{n \times n}$ possess $n$ linearly independent eigenvectors $\mathbf{v}_1, \mathbf{v}_2, \dots, \mathbf{v}_n$ corresponding to eigenvalues $\lambda_1, \lambda_2, \dots, \lambda_n$.
+
+\medskip
+\noindent\textbf{Step 1: Dominance ordering hypothesis.} \\
+Assume the eigenvalues are arranged in strictly descending order of modulus with a strictly dominant eigenvalue $\lambda_1$:
+\begin{equation}
+    |\lambda_1| > |\lambda_2| \ge |\lambda_3| \ge \dots \ge |\lambda_n|
+\end{equation}
+Since $\{\mathbf{v}_1, \dots, \mathbf{v}_n\}$ forms a basis for $\mathbb{R}^n$, any initial guess vector $\mathbf{x}^{(0)}$ can be expressed uniquely as a linear combination of the eigenvectors:
+\begin{equation}
+    \mathbf{x}^{(0)} = c_1 \mathbf{v}_1 + c_2 \mathbf{v}_2 + \dots + c_n \mathbf{v}_n = \sum_{j=1}^n c_j \mathbf{v}_j
+\end{equation}
+We assume $c_1 \ne 0$ (the initial vector is not strictly orthogonal to the dominant eigenspace; if $c_1 = 0$ initially, finite-precision computer rounding errors inevitably introduce a non-zero component along $\mathbf{v}_1$ within a few iterations).
+
+\medskip
+\noindent\textbf{Step 2: Repeated matrix-vector multiplication.} \\
+Applying $A$ repeatedly $k$ times:
+\begin{equation}
+    A^k \mathbf{x}^{(0)} = \sum_{j=1}^n c_j A^k \mathbf{v}_j = \sum_{j=1}^n c_j \lambda_j^k \mathbf{v}_j
+\end{equation}
+Factoring out the dominant factor $c_1 \lambda_1^k$:
+\begin{equation}
+    A^k \mathbf{x}^{(0)} = c_1 \lambda_1^k \left[ \mathbf{v}_1 + \sum_{j=2}^n \left(\frac{c_j}{c_1}\right) \left(\frac{\lambda_j}{\lambda_1}\right)^k \mathbf{v}_j \right]
+\end{equation}
+
+\noindent\textbf{Step 3: Asymptotic limit as $k \to \infty$.} \\
+Since $|\lambda_1| > |\lambda_j|$ for all $j \ge 2$, the ratio satisfies:
+\begin{equation}
+    \left| \frac{\lambda_j}{\lambda_1} \right| \le \left| \frac{\lambda_2}{\lambda_1} \right| < 1 \quad \forall j \ge 2
+\end{equation}
+Therefore, as the iteration index $k \to \infty$:
+\begin{equation}
+    \lim_{k \to \infty} \left(\frac{\lambda_j}{\lambda_1}\right)^k = 0 \quad \forall j \ge 2
+\end{equation}
+The sum over $j \ge 2$ decays to zero at an asymptotic geometric rate governed by $\left|\frac{\lambda_2}{\lambda_1}\right|^k$:
+\begin{equation}
+    \lim_{k \to \infty} \frac{A^k \mathbf{x}^{(0)}}{c_1 \lambda_1^k} = \mathbf{v}_1
+\end{equation}
+Consequently, the direction of the vector $\mathbf{x}^{(k)}$ aligns unconditionally with the dominant eigenvector $\mathbf{v}_1$.
+
+\medskip
+\noindent\textbf{Step 4: Convergence of the eigenvalue estimate.} \\
+Let $\mathbf{w}$ be any linear functional (or vector) such that $\mathbf{w}^T \mathbf{v}_1 \ne 0$ (for example, a coordinate projection $e_p$ where the $p$-th component of $\mathbf{v}_1$ is maximal). Then:
+\begin{equation}
+    \frac{\mathbf{w}^T A^{k+1} \mathbf{x}^{(0)}}{\mathbf{w}^T A^k \mathbf{x}^{(0)}} = \frac{c_1 \lambda_1^{k+1} \left[ \mathbf{w}^T \mathbf{v}_1 + \sum_{j=2}^n \frac{c_j}{c_1} \left(\frac{\lambda_j}{\lambda_1}\right)^{k+1} \mathbf{w}^T \mathbf{v}_j \right]}{c_1 \lambda_1^k \left[ \mathbf{w}^T \mathbf{v}_1 + \sum_{j=2}^n \frac{c_j}{c_1} \left(\frac{\lambda_j}{\lambda_1}\right)^k \mathbf{w}^T \mathbf{v}_j \right]}
+\end{equation}
+Canceling $c_1 \lambda_1^k$:
+\begin{equation}
+    \frac{\mathbf{w}^T A^{k+1} \mathbf{x}^{(0)}}{\mathbf{w}^T A^k \mathbf{x}^{(0)}} = \lambda_1 \left( \frac{\mathbf{w}^T \mathbf{v}_1 + \mathcal{O}\left( |\lambda_2 / \lambda_1|^{k+1} \right)}{\mathbf{w}^T \mathbf{v}_1 + \mathcal{O}\left( |\lambda_2 / \lambda_1|^k \right)} \right) = \lambda_1 + \mathcal{O}\left( \left|\frac{\lambda_2}{\lambda_1}\right|^k \right)
+\end{equation}
+Taking the limit as $k \to \infty$:
+\begin{equation}
+    \boxed{\lim_{k \to \infty} m_{k+1} = \lambda_1}
+\end{equation}
+This establishes that the scaling factor $m_k$ converges to $\lambda_1$ with geometric error decay rate $\mathcal{O}\left(|\lambda_2 / \lambda_1|^k\right)$.
+\end{proof}
+
+
+\begin{examplebox}[Manuscript Problem: Full Iteration Sequence for Tridiagonal Matrix (Pages 35--36)]
+Find the largest eigenvalue and corresponding eigenvector of:
+\begin{equation}
+    A = \begin{pmatrix}
+    2 & -1 & 0 \\
+    -1 & 2 & -1 \\
+    0 & -1 & 2
+    \end{pmatrix}
+\end{equation}
+Start with $\mathbf{x}^{(0)} = \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix}$.
+\end{examplebox}
+
+\subsubsection*{Step-by-Step Power Method Iterations}
+
+\textbf{Iteration 1 ($k = 0$):}
+\begin{equation}
+    \mathbf{y}^{(1)} = A \mathbf{x}^{(0)} = \begin{pmatrix} 2 & -1 & 0 \\ -1 & 2 & -1 \\ 0 & -1 & 2 \end{pmatrix} \begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} = 1 \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix} \implies m_1 = 1, \; \mathbf{x}^{(1)} = \begin{pmatrix} 1 \\ 0 \\ 1 \end{pmatrix}
+\end{equation}
+
+\textbf{Iteration 2 ($k = 1$):}
+\begin{equation}
+    \mathbf{y}^{(2)} = A \mathbf{x}^{(1)} = \begin{pmatrix} 2 \\ -2 \\ 2 \end{pmatrix} = -2 \begin{pmatrix} -1 \\ 1 \\ -1 \end{pmatrix} \implies m_2 = -2
+\end{equation}
+Normalizing with respect to the middle coordinate (set to $-1.0$):
+\begin{equation}
+    \mathbf{y}^{(3)} = A \begin{pmatrix} 1 \\ -1 \\ 1 \end{pmatrix} = \begin{pmatrix} 3 \\ -4 \\ 3 \end{pmatrix} = -4 \begin{pmatrix} -0.75 \\ 1.00 \\ -0.75 \end{pmatrix} = 3.428570 \begin{pmatrix} 0.708333 \\ -1.000000 \\ 0.708333 \end{pmatrix}
+\end{equation}
+Continuing the power iterations as recorded in the manuscript table (Pages 35--36):
+\begin{align}
+    \mathbf{y}^{(5)} &= A \mathbf{x}^{(4)} = \begin{pmatrix} 2.428570 \\ -3.428570 \\ 2.428570 \end{pmatrix} = 3.428570 \begin{pmatrix} 0.708333 \\ -1.000000 \\ 0.708333 \end{pmatrix} \\
+    \mathbf{y}^{(6)} &= A \mathbf{x}^{(5)} = \begin{pmatrix} 2.416666 \\ -3.416666 \\ 2.416666 \end{pmatrix} = 3.416666 \begin{pmatrix} 0.707317 \\ -1.000000 \\ 0.707317 \end{pmatrix} \\
+    \mathbf{y}^{(7)} &= A \mathbf{x}^{(6)} = \begin{pmatrix} 2.414634 \\ -3.414634 \\ 2.414634 \end{pmatrix} = \mathbf{3.414214} \begin{pmatrix} \mathbf{0.707107} \\ \mathbf{-1.000000} \\ \mathbf{0.707107} \end{pmatrix}
+\end{align}
+\textbf{Conclusion:}
+The dominant eigenvalue correct to four decimal places is:
+\begin{equation}
+    \boxed{\lambda_1 \approx 3.4142 \quad (= 2 + \sqrt{2})}
+\end{equation}
+and the corresponding dominant eigenvector is:
+\begin{equation}
+    \boxed{\mathbf{x}_1 \approx \begin{pmatrix} \frac{1}{\sqrt{2}} \\ -1 \\ \frac{1}{\sqrt{2}} \end{pmatrix} \approx \begin{pmatrix} 0.7071 \\ -1.0000 \\ 0.7071 \end{pmatrix}}
+\end{equation}

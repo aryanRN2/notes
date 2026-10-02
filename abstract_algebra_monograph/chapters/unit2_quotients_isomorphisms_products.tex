@@ -1,0 +1,743 @@
+\chapter{Quotient Groups, Isomorphism Theorems, and Direct Products}
+\label{chap:unit2}
+
+In this chapter, we develop the core machinery of modern group theory: normal subgroups, quotient (factor) groups, the four classical Isomorphism Theorems, the direct product of groups, and the commutator subgroup with its associated abelianization. Every theorem is proved in complete, rigorous detail.
+
+% =========================================================
+\section{Normal Subgroups and Quotient Groups}
+\label{sec:normal_subgroups}
+
+\begin{definition}[Normal Subgroup]
+A subgroup $N$ of a group $G$ is called a \textbf{normal subgroup}, denoted $N \trianglelefteq G$, if for every $g \in G$ and every $n \in N$:
+\begin{equation}
+g n g^{-1} \in N.
+\end{equation}
+Equivalently, $g N g^{-1} = N$ for all $g \in G$, or $gN = Ng$ for all $g \in G$.
+\end{definition}
+
+\begin{proposition}[Comprehensive Normality Criteria]
+\label{prop:normality_criteria}
+Let $N$ be a subgroup of $G$ ($N \le G$). The following statements are logically equivalent:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $N \trianglelefteq G$ (i.e., $gng^{-1} \in N$ for all $g \in G$ and $n \in N$).
+    \item $gNg^{-1} = N$ for all $g \in G$.
+    \item $N_G(N) = G$.
+    \item $gN = Ng$ for all $g \in G$ (every left coset equals the corresponding right coset).
+    \item The set of left cosets $G/N = \{ gN \mid g \in G \}$ forms a group under the operation:
+    \begin{equation}
+    (aN)(bN) = (ab)N.
+    \end{equation}
+    \item $N$ is the kernel of some group homomorphism $\varphi: G \to H$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+We establish the circular chain of implications $(1) \implies (2) \implies (3) \implies (4) \implies (5) \implies (6) \implies (1)$:
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Implication $(1) \implies (2)$:}
+    Assume $gng^{-1} \in N$ for all $g \in G$ and $n \in N$.
+    This means $gNg^{-1} \subseteq N$ for all $g \in G$.
+    Replacing $g$ with $g^{-1}$ (which also belongs to $G$):
+    \begin{equation*}
+    g^{-1}N(g^{-1})^{-1} \subseteq N \implies g^{-1}Ng \subseteq N.
+    \end{equation*}
+    Multiplying on the left by $g$ and on the right by $g^{-1}$:
+    \begin{equation*}
+    g(g^{-1}Ng)g^{-1} \subseteq gNg^{-1} \implies (gg^{-1})N(gg^{-1}) \subseteq gNg^{-1} \implies N \subseteq gNg^{-1}.
+    \end{equation*}
+    Since $gNg^{-1} \subseteq N$ and $N \subseteq gNg^{-1}$, we have $gNg^{-1} = N$ for all $g \in G$.
+
+    \item \textbf{Implication $(2) \implies (3)$:}
+    The normalizer of $N$ in $G$ is defined as $N_G(N) = \{ g \in G \mid gNg^{-1} = N \}$.
+    If $gNg^{-1} = N$ for all $g \in G$, then every element of $G$ belongs to $N_G(N)$.
+    Thus $N_G(N) = G$.
+
+    \item \textbf{Implication $(3) \implies (4)$:}
+    If $N_G(N) = G$, then for every $g \in G$, $gNg^{-1} = N$.
+    Multiplying both sides on the right by $g$:
+    \begin{equation*}
+    (gNg^{-1})g = Ng \implies gN(g^{-1}g) = Ng \implies gN = Ng.
+    \end{equation*}
+
+    \item \textbf{Implication $(4) \implies (5)$:}
+    Suppose $gN = Ng$ for all $g \in G$. We must prove that coset multiplication $(aN)(bN) = (ab)N$ is well-defined and satisfies the group axioms.
+    
+    \emph{Well-definedness:} Let $aN = a'N$ and $bN = b'N$.
+    Then $a' = an_1$ and $b' = bn_2$ for some $n_1, n_2 \in N$.
+    We must show that $(a'b')N = (ab)N$.
+    Compute $a'b'$:
+    \begin{equation*}
+    a'b' = (an_1)(bn_2) = a(n_1 b)n_2.
+    \end{equation*}
+    Since $n_1 \in N$ and $Nb = bN$, we have $n_1 b \in Nb = bN$, so there exists $n_3 \in N$ such that $n_1 b = bn_3$.
+    Substituting this in:
+    \begin{equation*}
+    a'b' = a(bn_3)n_2 = (ab)(n_3 n_2).
+    \end{equation*}
+    Since $n_3, n_2 \in N$ and $N$ is a subgroup, $n_3 n_2 \in N$.
+    Therefore, $a'b' \in (ab)N$, which implies $(a'b')N = (ab)N$.
+    Thus the operation is well-defined.
+    
+    \emph{Group Axioms for $G/N$:}
+    \begin{enumerate}[label=\alph*., leftmargin=*]
+        \item \emph{Associativity:} For all $aN, bN, cN \in G/N$:
+        \begin{align*}
+        \bigl((aN)(bN)\bigr)(cN) &= \bigl((ab)N\bigr)(cN) = \bigl((ab)c\bigr)N \\
+        &= \bigl(a(bc)\bigr)N = (aN)\bigl((bc)N\bigr) = (aN)\bigl((bN)(cN)\bigr).
+        \end{align*}
+        \item \emph{Identity:} $(1_G N)(aN) = (1_G a)N = aN = (a \cdot 1_G)N = (aN)(1_G N)$. Thus $1_G N = N$ is the identity element.
+        \item \emph{Inverses:} For any $aN \in G/N$, $(a^{-1}N)(aN) = (a^{-1}a)N = N = (a a^{-1})N = (aN)(a^{-1}N)$. Thus $(aN)^{-1} = a^{-1}N$.
+    \end{enumerate}
+    Thus $G/N$ is a group.
+
+    \item \textbf{Implication $(5) \implies (6)$:}
+    Assume $G/N$ is a group. Define the canonical projection map:
+    \begin{align*}
+    \pi: G &\longrightarrow G/N \\
+    g &\longmapsto gN.
+    \end{align*}
+    For any $x, y \in G$, $\pi(xy) = (xy)N = (xN)(yN) = \pi(x)\pi(y)$.
+    Thus $\pi$ is a group homomorphism.
+    The kernel of $\pi$ is:
+    \begin{align*}
+    \ker(\pi) &= \{ g \in G \mid \pi(g) = 1_{G/N} \} \\
+    &= \{ g \in G \mid gN = N \} \\
+    &= \{ g \in G \mid g \in N \} \\
+    &= N.
+    \end{align*}
+    Thus $N = \ker(\pi)$, so $N$ is the kernel of a homomorphism.
+
+    \item \textbf{Implication $(6) \implies (1)$:}
+    Suppose $N = \ker(\varphi)$ for some homomorphism $\varphi: G \to H$.
+    By Proposition~\ref{prop:inj_ker}(i), $\ker(\varphi) \trianglelefteq G$.
+    Thus $N \trianglelefteq G$.
+\end{itemize}
+\end{proof}
+
+\begin{definition}[Quotient Group]
+Let $N \trianglelefteq G$. The group $G/N = \{ gN \mid g \in G \}$ with operation $(aN)(bN) = (ab)N$ is called the \textbf{quotient group} (or \textbf{factor group}) of $G$ by $N$.
+By Lagrange's Theorem, if $G$ is finite:
+\begin{equation}
+|G/N| = [G : N] = \frac{|G|}{|N|}.
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Subgroups of Index 2 are Normal]
+\label{prop:index2_normal}
+Let $G$ be a group. If $H \le G$ and $[G : H] = 2$, then $H \trianglelefteq G$.
+\end{proposition}
+
+\begin{proof}
+Since $[G : H] = 2$, the set of left cosets consists of exactly two cosets: $H$ and $gH$ (where $g \notin H$).
+Since left cosets partition $G$:
+\begin{equation*}
+G = H \cup gH \quad (\text{disjoint union}) \implies gH = G \setminus H.
+\end{equation*}
+Similarly, the right cosets of $H$ in $G$ are $H$ and $Hg$ for $g \notin H$.
+Since right cosets also partition $G$:
+\begin{equation*}
+G = H \cup Hg \quad (\text{disjoint union}) \implies Hg = G \setminus H.
+\end{equation*}
+Therefore, $gH = G \setminus H = Hg$ for all $g \notin H$.
+For $g \in H$, $gH = H = Hg$.
+Thus $gH = Hg$ for all $g \in G$. By Proposition~\ref{prop:normality_criteria}(4), $H \trianglelefteq G$.
+\end{proof}
+
+% =========================================================
+\section{The Four Isomorphism Theorems}
+\label{sec:isomorphism_theorems}
+
+\begin{theorem}[First Isomorphism Theorem / Fundamental Homomorphism Theorem]
+\label{thm:first_iso}
+Let $\varphi: G \to H$ be a group homomorphism. Then:
+\begin{equation}
+\ker(\varphi) \trianglelefteq G \quad \text{and} \quad G/\ker(\varphi) \cong \im(\varphi).
+\end{equation}
+Specifically, the map:
+\begin{align}
+\bar{\varphi}: G/\ker(\varphi) &\longrightarrow \im(\varphi) \\
+g \ker(\varphi) &\longmapsto \varphi(g)
+\end{align}
+is a well-defined group isomorphism.
+\end{theorem}
+
+\begin{proof}
+Let $K = \ker(\varphi)$. By Proposition~\ref{prop:inj_ker}(i), $K \trianglelefteq G$, so the quotient group $G/K$ is well-defined.
+We verify the four essential properties of $\bar{\varphi}$:
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Well-Definedness:}
+    Suppose $aK = bK$ in $G/K$. We must show $\bar{\varphi}(aK) = \bar{\varphi}(bK)$, i.e., $\varphi(a) = \varphi(b)$.
+    By Lemma~\ref{lem:coset_props}(iii), $aK = bK \implies b^{-1}a \in K = \ker(\varphi)$.
+    Applying $\varphi$:
+    \begin{align*}
+    \varphi(b^{-1}a) = 1_H 
+    &\implies \varphi(b^{-1})\varphi(a) = 1_H \\
+    &\implies \bigl(\varphi(b)\bigr)^{-1}\varphi(a) = 1_H \\
+    &\implies \varphi(a) = \varphi(b) \\
+    &\implies \bar{\varphi}(aK) = \bar{\varphi}(bK).
+    \end{align*}
+    Thus $\bar{\varphi}$ is well-defined (independent of the coset representative).
+
+    \item \textbf{Homomorphism Property:}
+    For any two cosets $aK, bK \in G/K$:
+    \begin{align*}
+    \bar{\varphi}\bigl((aK)(bK)\bigr) &= \bar{\varphi}\bigl((ab)K\bigr) \quad \text{(definition of quotient group multiplication)} \\
+    &= \varphi(ab) \quad \text{(definition of $\bar{\varphi}$)} \\
+    &= \varphi(a)\varphi(b) \quad \text{(since $\varphi$ is a homomorphism)} \\
+    &= \bar{\varphi}(aK)\bar{\varphi}(bK) \quad \text{(definition of $\bar{\varphi}$)}.
+    \end{align*}
+    Thus $\bar{\varphi}$ is a group homomorphism.
+
+    \item \textbf{Injectivity (Kernel Triviality):}
+    We compute the kernel of $\bar{\varphi}$:
+    \begin{align*}
+    \ker(\bar{\varphi}) &= \{ gK \in G/K \mid \bar{\varphi}(gK) = 1_H \} \\
+    &= \{ gK \in G/K \mid \varphi(g) = 1_H \} \\
+    &= \{ gK \in G/K \mid g \in \ker(\varphi) \} \\
+    &= \{ gK \in G/K \mid g \in K \} \\
+    &= \{ 1_G K \} = \{ K \}.
+    \end{align*}
+    Since the kernel of $\bar{\varphi}$ contains only the identity element $K = 1_{G/K}$ of the quotient group $G/K$, Proposition~\ref{prop:inj_ker}(iii) implies that $\bar{\varphi}$ is injective.
+
+    \item \textbf{Surjectivity:}
+    Let $h \in \im(\varphi)$.
+    By definition of the image, there exists some element $g \in G$ such that $\varphi(g) = h$.
+    Consider the coset $gK \in G/K$.
+    Then:
+    \begin{equation*}
+    \bar{\varphi}(gK) = \varphi(g) = h.
+    \end{equation*}
+    Thus every element of $\im(\varphi)$ is mapped to by $\bar{\varphi}$, so $\bar{\varphi}$ is surjective.
+\end{enumerate}
+Since $\bar{\varphi}$ is a well-defined bijective homomorphism, it is a group isomorphism:
+\begin{equation*}
+G/\ker(\varphi) \cong \im(\varphi).
+\end{equation*}
+\end{proof}
+
+\begin{theorem}[Second Isomorphism Theorem / Diamond Isomorphism Theorem]
+\label{thm:second_iso}
+Let $G$ be a group, let $A \le G$, and let $B \trianglelefteq G$. Then:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $AB = \{ ab \mid a \in A, b \in B \} \le G$.
+    \item $B \trianglelefteq AB$.
+    \item $A \cap B \trianglelefteq A$.
+    \item $AB / B \cong A / (A \cap B)$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Proof that $AB \le G$:}
+    We show that $AB = BA$.
+    Let $a \in A$ and $b \in B$.
+    Since $B \trianglelefteq G$, $a^{-1}ba \in B$.
+    Then:
+    \begin{equation*}
+    ba = a(a^{-1}ba) \in AB \implies BA \subseteq AB.
+    \end{equation*}
+    Similarly, $aba^{-1} \in B$, so $ab = (aba^{-1})a \in BA \implies AB \subseteq BA$.
+    Thus $AB = BA$.
+    
+    Now use the One-Step Subgroup Criterion on $AB$:
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item Since $1_G \in A$ and $1_G \in B$, $1_G = 1_G \cdot 1_G \in AB$, so $AB \ne \emptyset$.
+        \item Let $x, y \in AB$. Write $x = a_1 b_1$ and $y = a_2 b_2$ with $a_i \in A, b_i \in B$.
+        Then:
+        \begin{align*}
+        xy^{-1} &= (a_1 b_1)(a_2 b_2)^{-1} = a_1 b_1 b_2^{-1} a_2^{-1} \\
+        &= a_1 (b_1 b_2^{-1}) a_2^{-1}.
+        \end{align*}
+        Let $b_3 = b_1 b_2^{-1} \in B$. Since $B \trianglelefteq G$, $a_2^{-1}(a_2 b_3 a_2^{-1}) = b_3 a_2^{-1}$, so $b_3 a_2^{-1} = a_2^{-1} b_4$ for some $b_4 \in B$.
+        Then:
+        \begin{equation*}
+        xy^{-1} = a_1 (a_2^{-1} b_4) = (a_1 a_2^{-1}) b_4 \in AB.
+        \end{equation*}
+        Thus $AB \le G$.
+    \end{itemize}
+
+    \item \textbf{Proof that $B \trianglelefteq AB$:}
+    Since $B \trianglelefteq G$ and $B \subseteq AB \subseteq G$, for any $x \in AB$, $xbx^{-1} \in B$ because normality holds for all elements of $G$. Thus $B \trianglelefteq AB$.
+
+    \item \textbf{Proof of Isomorphism and $A \cap B \trianglelefteq A$:}
+    Define the mapping:
+    \begin{align*}
+    \varphi: A &\longrightarrow AB/B \\
+    a &\longmapsto aB.
+    \end{align*}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Homomorphism:} For any $a_1, a_2 \in A$:
+        \begin{equation*}
+        \varphi(a_1 a_2) = (a_1 a_2)B = (a_1 B)(a_2 B) = \varphi(a_1)\varphi(a_2).
+        \end{equation*}
+        \item \emph{Surjectivity:} Any coset in $AB/B$ has the form $(ab)B$ for $a \in A, b \in B$.
+        Since $b \in B$, $bB = B$.
+        Thus $(ab)B = a(bB) = aB = \varphi(a)$.
+        Hence $\varphi$ is surjective onto $AB/B$.
+        \item \emph{Kernel Calculation:}
+        \begin{align*}
+        \ker(\varphi) &= \{ a \in A \mid \varphi(a) = 1_{AB/B} \} \\
+        &= \{ a \in A \mid aB = B \} \\
+        &= \{ a \in A \mid a \in B \} \\
+        &= A \cap B.
+        \end{align*}
+    \end{itemize}
+    By the First Isomorphism Theorem (Theorem~\ref{thm:first_iso}):
+    \begin{equation*}
+    \ker(\varphi) = A \cap B \trianglelefteq A \quad \text{and} \quad A / (A \cap B) \cong AB / B.
+    \end{equation*}
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[Third Isomorphism Theorem]
+\label{thm:third_iso}
+Let $G$ be a group and let $H, K \trianglelefteq G$ with $H \le K$. Then:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $K/H \trianglelefteq G/H$.
+    \item $(G/H) / (K/H) \cong G/K$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Define the projection mapping:
+\begin{align*}
+\psi: G/H &\longrightarrow G/K \\
+gH &\longmapsto gK.
+\end{align*}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Well-Definedness:}
+    Suppose $g_1 H = g_2 H$.
+    Then $g_2^{-1}g_1 \in H$.
+    Since $H \subseteq K$, this implies $g_2^{-1}g_1 \in K$.
+    By Lemma~\ref{lem:coset_props}(iii), $g_1 K = g_2 K$.
+    Thus $\psi(g_1 H) = \psi(g_2 H)$, so $\psi$ is well-defined.
+
+    \item \textbf{Homomorphism Property:}
+    For any $aH, bH \in G/H$:
+    \begin{equation*}
+    \psi\bigl((aH)(bH)\bigr) = \psi\bigl((ab)H\bigr) = (ab)K = (aK)(bK) = \psi(aH)\psi(bH).
+    \end{equation*}
+
+    \item \textbf{Surjectivity:}
+    For any $gK \in G/K$, the coset $gH \in G/H$ satisfies $\psi(gH) = gK$. Thus $\psi$ is surjective.
+
+    \item \textbf{Kernel Calculation:}
+    \begin{align*}
+    \ker(\psi) &= \{ gH \in G/H \mid \psi(gH) = 1_{G/K} \} \\
+    &= \{ gH \in G/H \mid gK = K \} \\
+    &= \{ gH \in G/H \mid g \in K \} \\
+    &= K/H.
+    \end{align*}
+\end{enumerate}
+Applying the First Isomorphism Theorem to $\psi$ proves:
+\begin{equation*}
+K/H = \ker(\psi) \trianglelefteq G/H \quad \text{and} \quad (G/H)/(K/H) \cong G/K.
+\end{equation*}
+\end{proof}
+
+\begin{theorem}[Fourth Isomorphism Theorem / Lattice Correspondence Theorem]
+\label{thm:lattice_iso}
+Let $N \trianglelefteq G$. Let $\mathcal{S}(G, N) = \{ A \le G \mid N \le A \}$ be the collection of subgroups of $G$ containing $N$, and let $\mathcal{S}(G/N)$ be the collection of all subgroups of $G/N$.
+The mapping:
+\begin{align}
+\Phi: \mathcal{S}(G, N) &\longrightarrow \mathcal{S}(G/N) \\
+A &\longmapsto A/N = \{ aN \mid a \in A \}
+\end{align}
+is an inclusion-preserving bijection. Its two-sided inverse mapping is:
+\begin{align}
+\Psi: \mathcal{S}(G/N) &\longrightarrow \mathcal{S}(G, N) \\
+\bar{A} &\longmapsto \pi^{-1}(\bar{A}) = \{ g \in G \mid gN \in \bar{A} \},
+\end{align}
+where $\pi: G \to G/N$ is the canonical projection.
+
+Furthermore, this correspondence satisfies the following structural properties for all $A, B \in \mathcal{S}(G, N)$:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item \textbf{Order/Inclusion Preservation:} $A \le B \iff A/N \le B/N$.
+    \item \textbf{Index Preservation:} If $A \le B$, then $[B : A] = [B/N : A/N]$.
+    \item \textbf{Join Preservation:} $\langle A, B \rangle / N = \langle A/N, B/N \rangle$.
+    \item \textbf{Intersection Preservation:} $(A \cap B)/N = (A/N) \cap (B/N)$.
+    \item \textbf{Normality Preservation:} $A \trianglelefteq G \iff A/N \trianglelefteq G/N$, and in this case:
+    \begin{equation}
+    (G/N)/(A/N) \cong G/A.
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Proof that $\Phi$ and $\Psi$ are Mutual Inverses (Bijectivity):}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item Let $A \in \mathcal{S}(G, N)$.
+        Since $N \trianglelefteq A$ (because $N \trianglelefteq G$), $A/N$ is a well-defined subgroup of $G/N$.
+        Now compute $\Psi(\Phi(A)) = \pi^{-1}(A/N)$:
+        \begin{equation*}
+        \pi^{-1}(A/N) = \{ g \in G \mid gN \in A/N \} = \{ g \in G \mid \exists a \in A, gN = aN \}.
+        \end{equation*}
+        $gN = aN \iff a^{-1}g \in N \subseteq A \iff g \in aN \subseteq A$.
+        Thus $\pi^{-1}(A/N) = A$, so $\Psi \circ \Phi = \text{id}$.
+        
+        \item Let $\bar{A} \le G/N$.
+        First, $\pi^{-1}(\bar{A})$ is a subgroup of $G$ containing $\ker(\pi) = N$.
+        Now compute $\Phi(\Psi(\bar{A})) = \pi(\pi^{-1}(\bar{A}))$.
+        Since $\pi$ is surjective, $\pi(\pi^{-1}(\bar{A})) = \bar{A}$.
+        Thus $\Phi \circ \Psi = \text{id}$.
+    \end{itemize}
+    Therefore, $\Phi$ is a bijection.
+
+    \item \textbf{Proof of (i) (Inclusion):}
+    $A \subseteq B \implies A/N = \{aN \mid a \in A\} \subseteq \{bN \mid b \in B\} = B/N$.
+    Conversely, $A/N \subseteq B/N \implies A = \pi^{-1}(A/N) \subseteq \pi^{-1}(B/N) = B$.
+
+    \item \textbf{Proof of (ii) (Index):}
+    Define a map between coset spaces $\Gamma: \{ bA \mid b \in B \} \to \{ (bN)(A/N) \mid b \in B \}$ by $\Gamma(bA) = (bN)(A/N)$.
+    Since $b_1 A = b_2 A \iff b_2^{-1}b_1 \in A \iff (b_2^{-1}b_1)N \in A/N \iff (b_2 N)^{-1}(b_1 N) \in A/N \iff (b_1 N)(A/N) = (b_2 N)(A/N)$, $\Gamma$ is a well-defined bijection.
+    Thus $[B : A] = [B/N : A/N]$.
+
+    \item \textbf{Proof of (iv) (Intersection):}
+    $xN \in (A \cap B)/N \iff x \in A \cap B \iff x \in A \text{ and } x \in B \iff xN \in A/N \text{ and } xN \in B/N \iff xN \in (A/N) \cap (B/N)$.
+
+    \item \textbf{Proof of (iii) (Join):}
+    Since $A \le \langle A, B \rangle$ and $B \le \langle A, B \rangle$, by (i) we have $A/N \le \langle A, B \rangle/N$ and $B/N \le \langle A, B \rangle/N$, so $\langle A/N, B/N \rangle \le \langle A, B \rangle/N$.
+    Conversely, $\pi^{-1}(\langle A/N, B/N \rangle)$ is a subgroup of $G$ containing both $\pi^{-1}(A/N) = A$ and $\pi^{-1}(B/N) = B$, so it contains $\langle A, B \rangle$. Applying $\pi$ gives $\langle A, B \rangle/N \le \langle A/N, B/N \rangle$.
+
+    \item \textbf{Proof of (v) (Normality):}
+    \begin{align*}
+    A \trianglelefteq G 
+    &\iff \forall g \in G, \, gAg^{-1} = A \\
+    &\iff \forall g \in G, \, (gN)(A/N)(gN)^{-1} = A/N \\
+    &\iff A/N \trianglelefteq G/N.
+    \end{align*}
+    When $A \trianglelefteq G$, the isomorphism $(G/N)/(A/N) \cong G/A$ is precisely the Third Isomorphism Theorem (Theorem~\ref{thm:third_iso}).
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section{Direct Products of Groups}
+\label{sec:direct_products}
+
+\begin{definition}[External Direct Product]
+Let $G_1, G_2, \dots, G_n$ be groups. The \textbf{external direct product}:
+\begin{equation}
+G_1 \times G_2 \times \dots \times G_n = \{ (g_1, g_2, \dots, g_n) \mid g_i \in G_i \}
+\end{equation}
+is a group under componentwise multiplication:
+\begin{equation}
+(g_1, g_2, \dots, g_n)(h_1, h_2, \dots, h_n) = (g_1 h_1, g_2 h_2, \dots, g_n h_n).
+\end{equation}
+The identity is $(1_{G_1}, \dots, 1_{G_n})$ and $(g_1, \dots, g_n)^{-1} = (g_1^{-1}, \dots, g_n^{-1})$.
+\end{definition}
+
+\begin{proposition}[Properties of Direct Products]
+\label{prop:direct_product_props}
+Let $G = G_1 \times G_2 \times \dots \times G_n$.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $|G| = |G_1| \cdot |G_2| \cdots |G_n|$.
+    \item The order of an element $(g_1, \dots, g_n) \in G$ is:
+    \begin{equation}
+    |(g_1, \dots, g_n)| = \lcm(|g_1|, \dots, |g_n|).
+    \end{equation}
+    \item $G$ is abelian if and only if each $G_i$ is abelian.
+    \item $\Z_m \times \Z_n \cong \Z_{mn} \iff \gcd(m, n) = 1$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=6pt]
+    \item Direct consequence of the rule of product for Cartesian sets.
+    \item For any integer $k \ge 1$:
+    \begin{align*}
+    (g_1, \dots, g_n)^k = (1, \dots, 1) 
+    &\iff (g_1^k, \dots, g_n^k) = (1, \dots, 1) \\
+    &\iff g_i^k = 1_{G_i} \text{ for all } i \in \{1, \dots, n\} \\
+    &\iff |g_i| \text{ divides } k \text{ for all } i \\
+    &\iff \lcm(|g_1|, \dots, |g_n|) \text{ divides } k.
+    \end{align*}
+    Thus the smallest positive integer is $k = \lcm(|g_1|, \dots, |g_n|)$.
+
+    \item Commutativity holds componentwise: $(g_1 h_1, \dots) = (h_1 g_1, \dots) \iff g_i h_i = h_i g_i$ for all $i$.
+
+    \item Consider the generator candidate $(1, 1) \in \Z_m \times \Z_n$. Its order is:
+    \begin{equation*}
+    |(1, 1)| = \lcm(m, n) = \frac{mn}{\gcd(m, n)}.
+    \end{equation*}
+    Since $|\Z_m \times \Z_n| = mn$, the group has an element of order $mn$ if and only if $\lcm(m, n) = mn$, which occurs if and only if $\gcd(m, n) = 1$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[Internal Direct Product Recognition]
+\label{thm:internal_direct_product}
+Let $G$ be a group with subgroups $H$ and $K$. Then $G \cong H \times K$ if and only if:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $H \trianglelefteq G$ and $K \trianglelefteq G$,
+    \item $H \cap K = \{ 1_G \}$, and
+    \item $HK = G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\implies)$:} If $G \cong H \times K$, identifying $H$ with $H \times \{1_K\}$ and $K$ with $\{1_H\} \times K$ makes both subgroups normal, with intersection $(H \times \{1\}) \cap (\{1\} \times K) = \{(1, 1)\}$ and product $G$.
+    
+    \item \textbf{Direction $(\impliedby)$:} 
+    First, we show that elements of $H$ and $K$ commute.
+    Let $h \in H$ and $k \in K$. Consider the commutator:
+    \begin{equation*}
+    [h, k] = h k h^{-1} k^{-1} = (h k h^{-1}) k^{-1} = h (k h^{-1} k^{-1}).
+    \end{equation*}
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item Since $K \trianglelefteq G$, $h k h^{-1} \in K$, so $[h, k] = (h k h^{-1}) k^{-1} \in K$.
+        \item Since $H \trianglelefteq G$, $k h^{-1} k^{-1} \in H$, so $[h, k] = h (k h^{-1} k^{-1}) \in H$.
+    \end{itemize}
+    Therefore, $[h, k] \in H \cap K$. Since $H \cap K = \{ 1_G \}$:
+    \begin{equation*}
+    h k h^{-1} k^{-1} = 1_G \implies hk = kh.
+    \end{equation*}
+
+    Now define the multiplication map:
+    \begin{align*}
+    \theta: H \times K &\longrightarrow G \\
+    (h, k) &\longmapsto hk.
+    \end{align*}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Homomorphism:} Using $k_1 h_2 = h_2 k_1$:
+        \begin{align*}
+        \theta\bigl((h_1, k_1)(h_2, k_2)\bigr) &= \theta(h_1 h_2, k_1 k_2) \\
+        &= (h_1 h_2)(k_1 k_2) \\
+        &= h_1 (h_2 k_1) k_2 \\
+        &= h_1 (k_1 h_2) k_2 \\
+        &= (h_1 k_1)(h_2 k_2) \\
+        &= \theta(h_1, k_1)\theta(h_2, k_2).
+        \end{align*}
+        \item \emph{Injectivity:} Suppose $\theta(h, k) = 1_G$. Then:
+        \begin{equation*}
+        hk = 1_G \implies h = k^{-1} \in H \cap K = \{ 1_G \} \implies h = 1_G \text{ and } k = 1_G.
+        \end{equation*}
+        Thus $\ker(\theta) = \{ (1_G, 1_G) \}$, so $\theta$ is injective.
+        \item \emph{Surjectivity:} Since $HK = G$, every $g \in G$ can be written as $g = hk = \theta(h, k)$ for some $h \in H, k \in K$.
+    \end{itemize}
+    Thus $\theta$ is an isomorphism, so $G \cong H \times K$.
+\end{itemize}
+\end{proof}
+
+% =========================================================
+\section{Commutators and Abelianization}
+\label{sec:commutator_abelianization}
+
+\begin{definition}[Commutator]
+For $x, y \in G$, the \textbf{commutator} of $x$ and $y$ is:
+\begin{equation}
+[x, y] = x^{-1} y^{-1} x y.
+\end{equation}
+Notice that $[x, y] = 1_G \iff xy = yx$.
+\end{definition}
+
+\begin{definition}[Commutator Subgroup / Derived Subgroup]
+The \textbf{commutator subgroup} of $G$, denoted $G'$ or $[G, G]$, is the subgroup generated by all commutators:
+\begin{equation}
+G' = [G, G] = \langle [x, y] \mid x, y \in G \rangle.
+\end{equation}
+\end{definition}
+
+\begin{theorem}[Properties of the Commutator Subgroup and Abelianization]
+\label{thm:commutator_props}
+Let $G$ be a group.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $G' \trianglelefteq G$.
+    \item The quotient group $G/G'$ is abelian, called the \textbf{abelianization} of $G$, denoted $G^{\text{ab}}$.
+    \item \textbf{Universal Property of Abelianization}: If $N \trianglelefteq G$, then $G/N$ is abelian if and only if $G' \le N$.
+    \item Any homomorphism $\varphi: G \to A$ into an abelian group $A$ factors uniquely through $G^{\text{ab}} = G/G'$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Normality of $G'$:}
+    Let $g \in G$ and let $[x, y] \in G'$. Compute the conjugate of the commutator:
+    \begin{align*}
+    g [x, y] g^{-1} &= g (x^{-1} y^{-1} x y) g^{-1} \\
+    &= (g x^{-1} g^{-1})(g y^{-1} g^{-1})(g x g^{-1})(g y g^{-1}) \\
+    &= (g x g^{-1})^{-1}(g y g^{-1})^{-1}(g x g^{-1})(g y g^{-1}) \\
+    &= [gxg^{-1}, gyg^{-1}] \in G'.
+    \end{align*}
+    Since the conjugate of every generator of $G'$ lies in $G'$, $g G' g^{-1} = G'$ for all $g \in G$.
+    Thus $G' \trianglelefteq G$.
+
+    \item \textbf{$G/G'$ is Abelian:}
+    Let $xG', yG' \in G/G'$. Then:
+    \begin{align*}
+    (xG')(yG') &= (xy)G' \\
+    &= \bigl(yx(x^{-1}y^{-1}xy)\bigr)G' \\
+    &= \bigl(yx[x, y]\bigr)G' \\
+    &= (yx)G' \quad \text{(since $[x, y] \in G'$)} \\
+    &= (yG')(xG').
+    \end{align*}
+    Thus $G/G'$ is abelian.
+
+    \item \textbf{Universal Criterion for Abelian Quotients:}
+    For any $N \trianglelefteq G$:
+    \begin{align*}
+    G/N \text{ is abelian} 
+    &\iff \forall x, y \in G, \, (xN)(yN) = (yN)(xN) \\
+    &\iff \forall x, y \in G, \, (xy)N = (yx)N \\
+    &\iff \forall x, y \in G, \, (yx)^{-1}(xy) \in N \\
+    &\iff \forall x, y \in G, \, x^{-1}y^{-1}xy \in N \\
+    &\iff \forall x, y \in G, \, [x, y] \in N \\
+    &\iff G' = \langle [x, y] \rangle \le N.
+    \end{align*}
+
+    \item \textbf{Factorization of Homomorphisms:}
+    Let $\varphi: G \to A$ where $A$ is an abelian group.
+    By the First Isomorphism Theorem, $G/\ker(\varphi) \cong \im(\varphi) \le A$.
+    Since $A$ is abelian, $\im(\varphi)$ is abelian, so $G/\ker(\varphi)$ is abelian.
+    By part (iii), $G' \le \ker(\varphi)$.
+    
+    Define $\bar{\varphi}: G/G' \to A$ by $\bar{\varphi}(gG') = \varphi(g)$.
+    If $g_1 G' = g_2 G'$, then $g_2^{-1}g_1 \in G' \le \ker(\varphi)$, so:
+    \begin{equation*}
+    \varphi(g_2^{-1}g_1) = 1_A \implies \varphi(g_1) = \varphi(g_2).
+    \end{equation*}
+    Thus $\bar{\varphi}$ is well-defined, and it is the unique homomorphism making the diagram commute.
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section{Exercises and Step-by-Step Solutions}
+\label{sec:unit2_exercises}
+
+\begin{problem}[Exercise 1: Image of a Normal Subgroup]
+Let $\varphi: G \to H$ be a \textbf{surjective} homomorphism of groups. Prove that if $N \trianglelefteq G$, then $\varphi(N) \trianglelefteq H$.
+\end{problem}
+
+\begin{proof}[Solution]
+First, $\varphi(N)$ is a subgroup of $H$ by Proposition~\ref{prop:inj_ker}(ii).
+To prove normality, let $h \in H$ and let $y \in \varphi(N)$.
+By definition of $\varphi(N)$, $y = \varphi(n)$ for some $n \in N$.
+Since $\varphi$ is surjective, there exists $g \in G$ such that $\varphi(g) = h$.
+Now compute the conjugate $h y h^{-1}$ in $H$:
+\begin{align*}
+h y h^{-1} &= \varphi(g)\varphi(n)\bigl(\varphi(g)\bigr)^{-1} \\
+&= \varphi(g)\varphi(n)\varphi(g^{-1}) \quad \text{(by Proposition~\ref{prop:hom_props}(ii))} \\
+&= \varphi(gng^{-1}) \quad \text{(homomorphism property)}.
+\end{align*}
+Since $N \trianglelefteq G$, $gng^{-1} \in N$.
+Therefore, $\varphi(gng^{-1}) \in \varphi(N)$, so $h y h^{-1} \in \varphi(N)$.
+Thus $\varphi(N) \trianglelefteq H$.
+\end{proof}
+
+\begin{problem}[Exercise 2: Intersection with Normal Subgroup]
+Let $H \le G$ and $N \trianglelefteq G$. Prove that $H \cap N \trianglelefteq H$.
+\end{problem}
+
+\begin{proof}[Solution]
+By Proposition~\ref{prop:subgroup_intersection}, $H \cap N \le G$, and since $H \cap N \subseteq H$, we have $H \cap N \le H$.
+Let $h \in H$ and let $x \in H \cap N$.
+We must show $hxh^{-1} \in H \cap N$:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item Since $h \in H$ and $x \in H$, and $H$ is a subgroup, $hxh^{-1} \in H$.
+    \item Since $h \in G$ and $x \in N$, and $N \trianglelefteq G$, $hxh^{-1} \in N$.
+\end{itemize}
+Therefore, $hxh^{-1} \in H \cap N$ for all $h \in H$ and $x \in H \cap N$.
+Thus $H \cap N \trianglelefteq H$.
+\end{proof}
+
+\begin{problem}[Exercise 3: Cyclic Quotient by Center]
+Show that if $G/Z(G)$ is cyclic, then $G$ is abelian (and hence $G = Z(G)$ and $G/Z(G) \cong \{1\}$).
+\end{problem}
+
+\begin{proof}[Solution]
+Suppose $G/Z(G)$ is cyclic. Let $g Z(G)$ be a generator of $G/Z(G)$, so:
+\begin{equation*}
+G/Z(G) = \langle g Z(G) \rangle = \{ g^k Z(G) \mid k \in \Z \}.
+\end{equation*}
+Let $x, y \in G$ be arbitrary elements.
+Since cosets partition $G$, $x \in g^a Z(G)$ and $y \in g^b Z(G)$ for some integers $a, b \in \Z$.
+Thus there exist $z_1, z_2 \in Z(G)$ such that:
+\begin{equation*}
+x = g^a z_1 \quad \text{and} \quad y = g^b z_2.
+\end{equation*}
+Now compute the product $xy$:
+\begin{align*}
+xy &= (g^a z_1)(g^b z_2) \\
+&= g^a (z_1 g^b) z_2 \\
+&= g^a (g^b z_1) z_2 \quad \text{(since $z_1 \in Z(G)$ commutes with all elements)} \\
+&= (g^a g^b)(z_1 z_2) \\
+&= g^{a+b}(z_2 z_1) \quad \text{(since $Z(G)$ is abelian)} \\
+&= (g^b g^a)(z_2 z_1) \\
+&= g^b (g^a z_2) z_1 \\
+&= g^b (z_2 g^a) z_1 \quad \text{(since $z_2 \in Z(G)$)} \\
+&= (g^b z_2)(g^a z_1) \\
+&= yx.
+\end{align*}
+Since $xy = yx$ for all $x, y \in G$, $G$ is abelian.
+\end{proof}
+
+\begin{problem}[Exercise 4: Intersection of Normal Subgroups]
+Prove that the intersection of any arbitrary collection of normal subgroups of $G$ is a normal subgroup of $G$.
+\end{problem}
+
+\begin{proof}[Solution]
+Let $\{ N_i \}_{i \in I}$ be a family of normal subgroups of $G$, and let $N = \bigcap_{i \in I} N_i$.
+By Proposition~\ref{prop:subgroup_intersection}, $N \le G$.
+To prove normality, let $g \in G$ and $x \in N$.
+Since $x \in N$, $x \in N_i$ for every $i \in I$.
+Since each $N_i \trianglelefteq G$, $gxg^{-1} \in N_i$ for every $i \in I$.
+Therefore:
+\begin{equation*}
+gxg^{-1} \in \bigcap_{i \in I} N_i = N.
+\end{equation*}
+Thus $gNg^{-1} \subseteq N$ for all $g \in G$, proving $N \trianglelefteq G$.
+\end{proof}
+
+\begin{problem}[Exercise 5: Commutators in $S_3$]
+Let $G = S_3$. Compute the commutator subgroup $G'$ and the abelianization $G/G'$.
+\end{problem}
+
+\begin{proof}[Solution]
+The symmetric group $S_3$ has order $|S_3| = 6$:
+\begin{equation*}
+S_3 = \{ 1, (1 \; 2), (2 \; 3), (1 \; 3), (1 \; 2 \; 3), (1 \; 3 \; 2) \}.
+\end{equation*}
+Compute the commutator of two transpositions $(1 \; 2)$ and $(2 \; 3)$:
+\begin{align*}
+[(1 \; 2), (2 \; 3)] &= (1 \; 2)^{-1}(2 \; 3)^{-1}(1 \; 2)(2 \; 3) \\
+&= (1 \; 2)(2 \; 3)(1 \; 2)(2 \; 3) \\
+&= (1 \; 2 \; 3)(1 \; 2 \; 3) \\
+&= (1 \; 3 \; 2).
+\end{align*}
+Its inverse is $(1 \; 3 \; 2)^{-1} = (1 \; 2 \; 3) \in G'$.
+Thus $A_3 = \{ 1, (1 \; 2 \; 3), (1 \; 3 \; 2) \} \le G'$.
+
+Since $S_3$ is non-abelian, $G' \ne \{1\}$, so $|G'| \ge 3$.
+Moreover, $S_3 / A_3$ has order $|S_3|/|A_3| = 6/3 = 2$, which is cyclic and therefore abelian.
+By Theorem~\ref{thm:commutator_props}(iii), $G' \le A_3$.
+Since $A_3 \le G'$ and $G' \le A_3$, we conclude:
+\begin{equation*}
+G' = [S_3, S_3] = A_3 \cong \Z_3.
+\end{equation*}
+The abelianization is:
+\begin{equation*}
+S_3^{\text{ab}} = S_3 / G' = S_3 / A_3 \cong \Z_2.
+\end{equation*}
+\end{proof}
+
+\begin{problem}[Exercise 6: Groups of Exponent 2]
+Let $G$ be a group such that $x^2 = 1_G$ for all $x \in G$. Prove that $G$ is abelian and that $G' = \{1_G\}$.
+\end{problem}
+
+\begin{proof}[Solution]
+Since $x^2 = 1_G$ for all $x \in G$, multiplying by $x^{-1}$ gives $x = x^{-1}$ for all $x \in G$.
+Now let $a, b \in G$. Since $ab \in G$, we also have $(ab) = (ab)^{-1}$.
+Using the socks-shoes property for group inverses:
+\begin{align*}
+ab &= (ab)^{-1} \\
+&= b^{-1}a^{-1} \\
+&= ba \quad \text{(since $b^{-1} = b$ and $a^{-1} = a$)}.
+\end{align*}
+Thus $ab = ba$ for all $a, b \in G$, so $G$ is abelian.
+
+Since $G$ is abelian, for all $x, y \in G$:
+\begin{equation*}
+[x, y] = x^{-1}y^{-1}xy = x^{-1}x y^{-1}y = 1_G \cdot 1_G = 1_G.
+\end{equation*}
+Therefore, the commutator subgroup is trivial: $G' = [G, G] = \{1_G\}$.
+\end{proof}

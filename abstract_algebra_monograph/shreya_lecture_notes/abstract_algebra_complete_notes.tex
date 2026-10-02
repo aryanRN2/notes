@@ -1,0 +1,3368 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{centernot}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+\setcounter{MaxMatrixCols}{20}
+\geometry{a4paper, margin=1in}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    citecolor=red
+}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{problem}[definition]{Problem}
+\newtheorem*{note}{Note}
+\newtheorem*{remark}{Remark}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{\textbf{\huge Abstract Algebra: Complete Unified Lecture Notes}\\[0.5em]
+\Large Groups, Homomorphisms, Permutations, Factor Groups, Isomorphism Theorems, Commutator Subgroups, and Group Actions}
+\author{\textbf{\Huge Anushka}\\[0.4em] \Large Mathematics III}
+\date{}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{3cm}
+    
+    {\textbf{\Huge Abstract Algebra}\\[0.4em]
+    \textbf{\huge Complete Unified Lecture Notes}\par}
+    
+    \vspace{1.2cm}
+    {\Large Groups, Homomorphisms, Permutations, Factor Groups,\\[0.3em]
+    Isomorphism Theorems, Commutator Subgroups, and Group Actions\par}
+    
+    \vspace{1.5cm}
+    \rule{0.5\textwidth}{1pt}
+    
+    \vspace{1.5cm}
+    {\textbf{\Huge Anushka}\par}
+    \vspace{0.4cm}
+    {\Large Mathematics III\par}
+    
+    \vfill
+    \vspace*{1.5cm}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\section{Group Homomorphisms and Isomorphisms}
+
+\subsection{Definitions and Elementary Examples}
+
+\begin{definition}[Group Homomorphism]
+Let $(G, \circ)$ and $(G', \circ')$ be two groups. Then a map:
+\begin{enumerate}
+    \item $f: G \longrightarrow G'$ is called a \textbf{homomorphism} if:
+    \[
+    f(a \circ b) = f(a) \circ' f(b) \quad \forall\ a, b \in G.
+    \]
+    \item $f: G \longrightarrow G'$ is called an \textbf{isomorphism} if $f$ is a group homomorphism and a bijective map.
+\end{enumerate}
+In this case, $G$ is called \textbf{isomorphic} to $G'$, and is denoted as:
+\[
+G \cong G'.
+\]
+\end{definition}
+
+\begin{example}[Zero Homomorphism]
+Let $(G, \circ)$ and $(G', \circ')$ be two groups. Then the map $f: G \longrightarrow G'$ defined by:
+\[
+f(a) = 0' \quad \forall\ a \in G
+\]
+(where $0'$ is the identity element of $G'$) is a group homomorphism, known as the \textbf{zero homomorphism}.
+
+\begin{proof}[Verification]
+Let $a, b \in G$. Then:
+\[
+f(a) = 0', \quad f(b) = 0'.
+\]
+Now:
+\[
+f(a \circ b) = 0' = 0' \circ' 0' = f(a) \circ' f(b).
+\]
+Hence, $f$ is a group homomorphism.
+\end{proof}
+\end{example}
+
+\begin{example}[Identity Homomorphism]
+Let $(G, \circ)$ be a group. The map $I_G: G \longrightarrow G$ defined by:
+\[
+I_G(x) = x \quad \forall\ x \in G
+\]
+is a group homomorphism, known as the \textbf{identity homomorphism}.
+Moreover, $I_G$ is also an \textbf{isomorphism}.
+\end{example}
+
+\begin{example}[Multiplication Map on Integers]
+Consider the map $f: (\mathbb{Z}, +) \longrightarrow (m\mathbb{Z}, +)$ defined by:
+\[
+f(x) = mx \quad \forall\ x \in \mathbb{Z}, \; m \in \mathbb{Z}.
+\]
+\begin{proof}[Verification]
+Let $x, y \in \mathbb{Z}$. Then:
+\begin{align*}
+f(x + y) &= m(x + y) \\
+&= mx + my \\
+&= f(x) + f(y).
+\end{align*}
+$\therefore f$ is a group homomorphism.
+\end{proof}
+\end{example}
+
+\begin{example}[A Non-Homomorphism]
+The map $f: (\mathbb{Z}, +) \longrightarrow (\mathbb{Z}, +)$ defined by:
+\[
+f(x) = 5 \quad \forall\ x \in \mathbb{Z}.
+\]
+\begin{proof}[Verification]
+For any $x, y \in \mathbb{Z}$:
+\[
+f(x) = 5, \quad f(y) = 5.
+\]
+\begin{enumerate}[label=(\Alph*)]
+    \item Testing the identity preservation:
+    \[
+    f(0) = 5 \neq 0. \tag{A}
+    \]
+    \item Testing the homomorphism condition:
+    \begin{align*}
+        f(x + y) &= 5, \\
+        f(x) + f(y) &= 5 + 5 = 10. \\
+        \therefore f(x + y) &\neq f(x) + f(y). \tag{B}
+    \end{align*}
+\end{enumerate}
+From both (A) or (B), we can conclude that $f$ is \textbf{not} a group homomorphism.
+\end{proof}
+\end{example}
+
+\begin{example}[Logarithmic Homomorphism]
+Consider the map $f: (\mathbb{R}^+, \cdot) \longrightarrow (\mathbb{R}, +)$ defined by:
+\[
+f(x) = \log_e x \quad \forall\ x \in \mathbb{R}^+.
+\]
+\begin{proof}[Verification]
+Let $x, y \in \mathbb{R}^+$. Then:
+\begin{align*}
+f(x) &= \log_e x, \\
+f(y) &= \log_e y.
+\end{align*}
+Now:
+\begin{align*}
+f(x \cdot y) &= \log_e (x \cdot y) \\
+&= \log_e x + \log_e y \\
+&= f(x) + f(y).
+\end{align*}
+$\therefore f$ is a group homomorphism.
+\end{proof}
+\end{example}
+
+\subsection{Properties of Homomorphisms}
+
+\begin{theorem}[Properties of Homomorphisms]
+If $f: (G, \circ) \longrightarrow (G', \circ')$ is a group homomorphism, then:
+\begin{enumerate}
+    \item $f(e) = e'$, where $e$ and $e'$ are the identity elements of $G$ and $G'$ respectively.
+    \item $f(a^{-1}) = (f(a))^{-1} \quad \forall\ a \in G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item Since $e \circ e = e$, we have:
+    \begin{align*}
+        \implies f(e \circ e) &= f(e) \\
+        \implies f(e) \circ' f(e) &= f(e) \circ' e'.
+    \end{align*}
+    By the left cancellation law in $(G', \circ')$:
+    \[
+    \implies f(e) = e'.
+    \]
+
+    \item Let $a \in G$. Then:
+    \[
+    a \circ a^{-1} = e = a^{-1} \circ a.
+    \]
+    Applying $f$:
+    \begin{align*}
+        \implies f(a \circ a^{-1}) &= f(e) = f(a^{-1} \circ a) \\
+        \implies f(a) \circ' f(a^{-1}) &= e' = f(a^{-1}) \circ' f(a) \\
+        \implies f(a^{-1}) &= (f(a))^{-1}.
+    \end{align*}
+\end{enumerate}
+\end{proof}
+
+\subsection{Composition of Homomorphisms and Isomorphisms}
+
+\begin{theorem}[Composition of Two Group Homomorphisms]
+Composition of two group homomorphisms is a group homomorphism.
+\end{theorem}
+
+\begin{proof}
+Let $f: (G, \circ) \longrightarrow (G', \circ')$ and $g: (G', \circ') \longrightarrow (G'', \circ'')$ be two group homomorphisms.
+Then:
+\[
+g \circ f: (G, \circ) \longrightarrow (G'', \circ'').
+\]
+Let $x, y \in G$, then:
+\begin{align*}
+(g \circ f)(x \circ y) &= g\{f(x \circ y)\} \\
+&= g\{f(x) \circ' f(y)\} \quad \{\text{as } f \text{ is a homomorphism}\} \\
+&= g(f(x)) \circ'' g(f(y)) \quad \{\text{as } g \text{ is a homomorphism}\} \\
+&= (g \circ f)(x) \circ'' (g \circ f)(y).
+\end{align*}
+$\therefore g \circ f$ is a group homomorphism.
+\end{proof}
+
+\begin{theorem}[Composition of Two Isomorphisms]
+Composition of two isomorphisms is an isomorphism.
+\end{theorem}
+
+\begin{proof}
+Let $f: (G, \circ) \longrightarrow (G', \circ')$ and $g: (G', \circ') \longrightarrow (G'', \circ'')$ be two isomorphisms.
+Then $f$ and $g$ are homomorphisms and bijective maps.
+\begin{align*}
+\implies & g \circ f \text{ is a homomorphism and bijective map.} \\
+\implies & g \circ f \text{ is also a group isomorphism.}
+\end{align*}
+\end{proof}
+
+\begin{theorem}[Inverse of an Isomorphism]
+If $f: G \longrightarrow G'$ is a group isomorphism, then $f^{-1}: G' \longrightarrow G$ is also a group isomorphism.
+\end{theorem}
+
+\begin{proof}
+If $f$ is an isomorphism, then it is a bijective map and group homomorphism.
+Also, so $f^{-1}: G' \longrightarrow G$ exists and is also bijective.
+
+Let $x', y' \in G'$. Then there must exist unique $x, y \in G$ such that:
+\[
+f(x) = x' \quad \text{and} \quad f(y) = y'.
+\]
+\[
+\left[\text{To show: } f^{-1}(x' \circ' y') = f^{-1}(x') \circ f^{-1}(y')\right]
+\]
+Now:
+\begin{align*}
+\implies f^{-1}\{x' \circ' y'\} &= f^{-1}\{f(x) \circ' f(y)\} \\
+&= f^{-1}\{f(x \circ y)\} \quad \{\text{as } f \text{ is a group homomorphism}\} \\
+&= x \circ y \\
+&= f^{-1}(x') \circ f^{-1}(y') \quad \{\because f \text{ is bijective}\}.
+\end{align*}
+So, $f^{-1}$ is a group homomorphism, and hence, an isomorphism.
+\end{proof}
+
+\begin{theorem}[Isomorphism as an Equivalence Relation]
+Relation of isomorphism on the set of all groups is an equivalence relation.
+\end{theorem}
+
+\begin{proof}
+Let $X$ be the set of all groups, and $G_1, G_2 \in X$. Define a relation $\sim$ on $X$ as:
+\[
+G_1 \sim G_2 \iff G_1 \cong G_2.
+\]
+\begin{enumerate}
+    \item \textbf{Reflexive:}
+    Now, let $G \in X$, then the identity map $I_G: G \longrightarrow G$ is an isomorphism.
+    So, $G \cong G$, i.e., $G \sim G$.
+    \[
+    \therefore \sim \text{ is a reflexive relation on } X.
+    \]
+
+    \item \textbf{Symmetric:}
+    Let $G_1, G_2 \in X$ such that $G_1 \sim G_2$.
+    So, $\exists$ an isomorphism $f: G_1 \longrightarrow G_2$.
+    Then by the previous result, $f^{-1}: G_2 \longrightarrow G_1$ is an isomorphism.
+    Hence $G_2 \cong G_1$, i.e., $G_2 \sim G_1$.
+    \[
+    \text{So, } \sim \text{ is a symmetric relation on } X.
+    \]
+
+    \item \textbf{Transitive:}
+    Let $G_1, G_2, G_3 \in X$ such that $G_1 \sim G_2$ and $G_2 \sim G_3$.
+    \[
+    \implies G_1 \cong G_2 \quad \text{and} \quad G_2 \cong G_3.
+    \]
+    So, $\exists$ isomorphisms $f: G_1 \longrightarrow G_2$ and $g: G_2 \longrightarrow G_3$.
+    By the earlier result:
+    \[
+    g \circ f: G_1 \longrightarrow G_3 \text{ is an isomorphism.}
+    \]
+    Hence $G_1 \cong G_3$, i.e., $G_1 \sim G_3$.
+    \[
+    \therefore \sim \text{ is a transitive relation on } X.
+    \]
+\end{enumerate}
+Hence, $\sim$ is an equivalence relation on $X$.
+\end{proof}
+
+\subsection{Images and Pre-images of Subgroups}
+
+\begin{theorem}[Images and Pre-images of Subgroups under Homomorphisms]
+Let $f: (G, \circ) \longrightarrow (G', \circ')$ be a group homomorphism.
+\begin{enumerate}
+    \item If $H \le G$, then $f(H) \le G'$.
+    \item If $K \le G'$, then $f^{-1}(K) = \{x \in G \mid f(x) \in K\} \le G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item \textbf{Proof that $f(H) \le G'$:}
+    \begin{itemize}
+        \item Since $H \le G$, $e \in H$. Thus $f(e) = e' \in f(H)$, which implies $f(H) \neq \emptyset$.
+        \item Let $x, y \in f(H)$. Then there exist $a, b \in H$ such that $x = f(a)$ and $y = f(b)$.
+        \item Now evaluate $x \circ' y^{-1}$:
+        \begin{align*}
+            x \circ' y^{-1} &= f(a) \circ' (f(b))^{-1} \\
+            &= f(a) \circ' f(b^{-1}) \quad (\text{since } (f(b))^{-1} = f(b^{-1})) \\
+            &= f(a \circ b^{-1}) \quad (\text{since } f \text{ is a homomorphism}).
+        \end{align*}
+        \item Since $H \le G$ and $a, b \in H$, we have $a \circ b^{-1} \in H$.
+        \item Therefore, $f(a \circ b^{-1}) \in f(H) \implies x \circ' y^{-1} \in f(H)$.
+    \end{itemize}
+    By the one-step subgroup test, $\boxed{f(H) \le G'}$.
+
+    \item \textbf{Proof that $f^{-1}(K) \le G$:}
+    \begin{itemize}
+        \item Since $K \le G'$, $e' \in K$.
+        \item Since $f(e) = e' \in K$, we have $e \in f^{-1}(K)$, so $f^{-1}(K) \neq \emptyset$.
+        \item Let $x, y \in f^{-1}(K)$. Then by definition, $f(x) \in K$ and $f(y) \in K$.
+        \item Now consider $f(x \circ y^{-1})$:
+        \begin{align*}
+            f(x \circ y^{-1}) &= f(x) \circ' f(y^{-1}) \\
+            &= f(x) \circ' (f(y))^{-1}.
+        \end{align*}
+        \item Since $K \le G'$ and $f(x), f(y) \in K$, we have $f(x) \circ' (f(y))^{-1} \in K$.
+        \item Therefore, $f(x \circ y^{-1}) \in K \implies x \circ y^{-1} \in f^{-1}(K)$.
+    \end{itemize}
+    By the one-step subgroup test, $\boxed{f^{-1}(K) \le G}$.
+\end{enumerate}
+\end{proof}
+
+\subsection{Kernel of a Homomorphism}
+
+\begin{definition}[Kernel of a Homomorphism]
+Let $f: G \longrightarrow G'$ be a group homomorphism. Then the set of all elements of $G$ which are mapped to the identity element of $G'$ is known as the \textbf{kernel of $f$ in $G$}. It is written as $\ker f$:
+\[
+\ker f = \{ x \in G \mid f(x) = e' \} = f^{-1}(\{e'\}).
+\]
+\end{definition}
+
+\begin{theorem}[Kernel is a Subgroup of $G$]
+Kernel is a subgroup of $G$:
+\[
+\ker f \le G.
+\]
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item As $f(e) = e' \implies e \in \ker f$.
+    So, $\ker f \neq \emptyset$.
+    \item Also, by definition, $\ker f \subseteq G$.
+    \item Let $x, y \in \ker f$.
+    \[
+    \implies f(x) = e', \quad f(y) = e'.
+    \]
+    Now evaluate $f(x y^{-1})$:
+    \begin{align*}
+        f(x y^{-1}) &= f(x) f(y^{-1}) \\
+        &= f(x) (f(y))^{-1} \\
+        &= e' (e')^{-1} \\
+        &= e' e' = e'.
+    \end{align*}
+    $\implies x y^{-1} \in \ker f$.
+\end{enumerate}
+Therefore, $\boxed{\ker f \le G}$.
+\end{proof}
+
+\begin{theorem}[A Homomorphism is One-One iff Kernel is Trivial]
+A homomorphism $f: G \longrightarrow G'$ is one-one if and only if $\ker f = \{e\}$:
+\[
+f \text{ is one-one} \iff \ker f = \{e\}.
+\]
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item \textbf{Direct Implication ($\implies$): Let $f$ is one-one.}
+    
+    Let $x \in \ker f$.
+    \begin{align*}
+        &\implies f(x) = e' \\
+        &\implies f(x) = f(e) \quad (\text{since } f(e) = e') \\
+        &\implies x = e \quad [\text{as } f \text{ is one-one}].
+    \end{align*}
+    So, $\boxed{\ker f = \{e\}}$.
+
+    \item \textbf{Converse ($\impliedby$): Let $\ker f = \{e\}$.}
+    
+    To show: $f$ is one-one. Let $f(x) = f(y)$.
+    \begin{align*}
+        &\implies f(x) (f(y))^{-1} = e' \\
+        &\implies f(x y^{-1}) = e' \\
+        &\implies x y^{-1} \in \ker f = \{e\} \\
+        &\implies x y^{-1} = e \\
+        &\implies x = y.
+    \end{align*}
+    Hence, $\boxed{f \text{ is one-one}}$. \qedhere
+\end{enumerate}
+\end{proof}
+
+
+\subsection{Examples and Practice Problems on Homomorphisms}
+
+\begin{problem}
+Let $f: (\mathbb{Z}, +) \longrightarrow (\mathbb{Z}, +)$ be defined as $f(x) = 2x$.
+Is $f$ a homomorphism? Monomorphism? Epimorphism? Isomorphism?
+\end{problem}
+\begin{proof}[Solution]
+\begin{enumerate}
+    \item \textbf{Homomorphism:}
+    Let $x, y \in \mathbb{Z}$.
+    \[
+    f(x + y) = 2(x + y) = 2x + 2y = f(x) + f(y).
+    \]
+    Thus, $f$ is a homomorphism.
+
+    \item \textbf{Injectivity (Monomorphism):}
+    \[
+    \ker f = \{x \in \mathbb{Z} \mid f(x) = 0\} = \{x \in \mathbb{Z} \mid 2x = 0\} = \{0\}.
+    \]
+    Since $\ker f = \{0\}$, $f$ is one-to-one (monomorphism).
+
+    \item \textbf{Surjectivity (Epimorphism):}
+    Let $y = 3 \in \mathbb{Z}$. If $f(x) = 3$, then $2x = 3 \implies x = 3/2 \notin \mathbb{Z}$.
+    Hence, odd integers have no pre-images in $\mathbb{Z}$.
+    Thus, $f$ is \textbf{not onto}.
+
+    \item \textbf{Conclusion:} $f$ is a monomorphism, but \textbf{not an isomorphism}.
+    However, $f(\mathbb{Z}) = 2\mathbb{Z}$, so $\mathbb{Z} \cong 2\mathbb{Z}$.
+\end{enumerate}
+\end{proof}
+
+\begin{problem}
+Let $f: (\mathbb{R}, +) \longrightarrow (\mathbb{R}^*, \cdot)$ be defined as $f(x) = 2^x$.
+Is $f$ an isomorphism?
+\end{problem}
+\begin{proof}[Solution]
+\begin{enumerate}
+    \item \textbf{Homomorphism:}
+    \[
+    f(x + y) = 2^{x + y} = 2^x \cdot 2^y = f(x) \cdot f(y).
+    \]
+    \item \textbf{One-to-one:}
+    \[
+    \ker f = \{x \in \mathbb{R} \mid f(x) = 1\} = \{x \in \mathbb{R} \mid 2^x = 1\} = \{0\}.
+    \]
+    Thus $f$ is 1-1.
+    \item \textbf{Onto:}
+    For any $y \in \mathbb{R}^*$ with $y < 0$ (e.g., $y = -2$), $2^x = -2$ has no real solution.
+    Thus, $f$ is not onto $\mathbb{R}^*$.
+    \item \textbf{Remark:} If the codomain is restricted to $\mathbb{R}^+ = (0, \infty)$, then $f: (\mathbb{R}, +) \to (\mathbb{R}^+, \cdot)$ is an isomorphism (with inverse $f^{-1}(y) = \log_2 y$).
+\end{enumerate}
+\end{proof}
+
+\begin{problem}
+Let $f: (\mathbb{C}^*, \cdot) \longrightarrow (\mathbb{R}^*, \cdot)$ be defined as $f(z) = |z|$.
+Show that $f$ is a homomorphism and find $\ker f$.
+\end{problem}
+\begin{proof}[Solution]
+\begin{enumerate}
+    \item For $z_1, z_2 \in \mathbb{C}^*$:
+    \[
+    f(z_1 \cdot z_2) = |z_1 \cdot z_2| = |z_1| \cdot |z_2| = f(z_1) \cdot f(z_2).
+    \]
+    Thus $f$ is a group homomorphism.
+    \item The identity of $(\mathbb{R}^*, \cdot)$ is 1.
+    \[
+    \ker f = \{z \in \mathbb{C}^* \mid f(z) = 1\} = \{z \in \mathbb{C}^* \mid |z| = 1\} = S^1.
+    \]
+    Thus, $\ker f$ is the circle group $S^1 = \{e^{i\theta} \mid \theta \in [0, 2\pi)\}$.
+\end{enumerate}
+\end{proof}
+
+\begin{problem}
+Let $f: GL(n, \mathbb{R}) \longrightarrow (\mathbb{R}^*, \cdot)$ be defined as $f(A) = \det(A)$.
+Show that $f$ is an epimorphism and find $\ker f$.
+\end{problem}
+\begin{proof}[Solution]
+\begin{enumerate}
+    \item For $A, B \in GL(n, \mathbb{R})$:
+    \[
+    f(AB) = \det(AB) = \det(A) \det(B) = f(A) f(B).
+    \]
+    Thus $f$ is a group homomorphism.
+    \item For any $c \in \mathbb{R}^*$, consider the diagonal matrix $D = \operatorname{diag}(c, 1, \dots, 1)$.
+    Then $\det(D) = c \cdot 1 \cdots 1 = c$, so $f(D) = c$. Thus $f$ is surjective.
+    \item The identity of $\mathbb{R}^*$ is 1.
+    \[
+    \ker f = \{A \in GL(n, \mathbb{R}) \mid \det(A) = 1\} = SL(n, \mathbb{R}).
+    \]
+    Thus, the kernel of the determinant map is the Special Linear Group $SL(n, \mathbb{R})$.
+\end{enumerate}
+\end{proof}
+
+% ==============================================================================
+% SECTION 2: SUBGROUPS AND GENERATORS
+% ==============================================================================
+
+\begin{problem}[Homomorphism from the Additive Integers to Non-Zero Rationals]
+Let $f: (\mathbb{Z}, +) \longrightarrow (\mathbb{Q}^*, \cdot)$ be a group homomorphism such that $f(1) = 3$.
+Determine:
+\begin{enumerate}[label=(\alph*)]
+    \item $f(0)$
+    \item $f(5)$
+    \item $f(-5)$
+    \item A general formula for $f(n)$ for all $n \in \mathbb{Z}$.
+\end{enumerate}
+\end{problem}
+\begin{proof}[Solution]
+\begin{enumerate}[label=(\alph*)]
+    \item The identity element of the domain $(\mathbb{Z}, +)$ is $e = 0$, and the identity element of the codomain $(\mathbb{Q}^*, \cdot)$ is $e' = 1$. By the fundamental property of group homomorphisms:
+    \[
+    f(0) = 1.
+    \]
+    
+    \item For any positive integer $n \in \mathbb{Z}^+$, $n = \underbrace{1 + 1 + \dots + 1}_{n \text{ times}}$. Since $f$ preserves the group operations (mapping addition in $\mathbb{Z}$ to multiplication in $\mathbb{Q}^*$):
+    \[
+    f(n) = f(1 + 1 + \dots + 1) = \underbrace{f(1) \cdot f(1) \dots f(1)}_{n \text{ times}} = [f(1)]^n.
+    \]
+    Substituting $n = 5$ and $f(1) = 3$:
+    \[
+    f(5) = [f(1)]^5 = 3^5 = 243.
+    \]
+    
+    \item By the property of homomorphisms on inverses, $f(-a) = [f(a)]^{-1}$ for all $a \in \mathbb{Z}$. Therefore:
+    \[
+    f(-5) = [f(5)]^{-1} = \frac{1}{f(5)} = \frac{1}{243}.
+    \]
+    
+    \item In general, for any integer $n \in \mathbb{Z}$:
+    \[
+    f(n) = 3^n.
+    \]
+    This is well-defined since $3^n \in \mathbb{Q}^*$ for all $n \in \mathbb{Z}$ (since $3^n \neq 0$).
+\end{enumerate}
+\end{proof}
+
+
+\section{Subgroups, Generators, and Cyclic Groups}
+
+\subsection{Subgroup Generated by a Subset}
+
+\begin{definition}[Subgroup Generated by a Subset]
+Let $G$ be a group and let $S \subseteq G$ be any subset of $G$.
+The \textbf{subgroup generated by $S$}, denoted by $\langle S \rangle$ or $[S]$, is defined as the smallest subgroup of $G$ containing $S$:
+\[
+[S] = \bigcap_{\substack{H \le G \\ S \subseteq H}} H.
+\]
+If $S = \emptyset$, we define $[S] = [ \emptyset ] = \{e\}$.
+\end{definition}
+
+\begin{theorem}[Explicit Structure of the Generated Subgroup $\langle S \rangle$]
+Let $G$ be a group and let $S \subseteq G$ be a non-empty subset.
+Let $T$ be the set of all finite products of elements of $S$ and their inverses:
+\[
+T = \{a_1^{n_1} a_2^{n_2} \dots a_k^{n_k} \mid k \in \mathbb{N},\ a_i \in S,\ n_i \in \mathbb{Z}\}.
+\]
+Then:
+\[
+\boxed{[S] = T}.
+\]
+\end{theorem}
+
+\begin{proof}
+We divide the proof into two main steps:
+\begin{enumerate}
+    \item \textbf{Step 1: Prove that $T \le G$ containing $S$.}
+    \begin{itemize}
+        \item For any $s \in S$, $s = s^1 \in T \implies S \subseteq T$.
+        \item In particular, $T \neq \emptyset$.
+        \item Let $x, y \in T$. Then:
+        \begin{align*}
+            x &= a_1^{n_1} a_2^{n_2} \dots a_r^{n_r} \quad (a_i \in S,\ n_i \in \mathbb{Z}), \\
+            y &= b_1^{m_1} b_2^{m_2} \dots b_s^{m_s} \quad (b_j \in S,\ m_j \in \mathbb{Z}).
+        \end{align*}
+        \item Then:
+        \[
+        x \circ y = a_1^{n_1} a_2^{n_2} \dots a_r^{n_r} b_1^{m_1} b_2^{m_2} \dots b_s^{m_s} \in T.
+        \]
+        \item Also:
+        \begin{align*}
+            x^{-1} &= (a_1^{n_1} a_2^{n_2} \dots a_r^{n_r})^{-1} \\
+            &= (a_r^{n_r})^{-1} (a_{r-1}^{n_{r-1}})^{-1} \dots (a_1^{n_1})^{-1} \\
+            &= a_r^{-n_r} a_{r-1}^{-n_{r-1}} \dots a_1^{-n_1} \in T.
+        \end{align*}
+        \item Hence, $T \le G$.
+    \end{itemize}
+
+    \item \textbf{Step 2: Prove that $[S] = T$.}
+    \begin{itemize}
+        \item Since $T$ is a subgroup of $G$ containing $S$, and $[S]$ is the intersection of all subgroups containing $S$, we have:
+        \[
+        [S] \subseteq T.
+        \]
+        \item Conversely, let $H$ be any subgroup of $G$ containing $S$.
+        \item Since $S \subseteq H$ and $H$ is closed under multiplication and inverses, any finite product $a_1^{n_1} a_2^{n_2} \dots a_k^{n_k}$ (with $a_i \in S \subseteq H$) must belong to $H$.
+        \item Thus, $T \subseteq H$ for every subgroup $H$ containing $S$.
+        \item Taking the intersection over all such subgroups:
+        \[
+        T \subseteq \bigcap_{\substack{H \le G \\ S \subseteq H}} H = [S].
+        \]
+    \end{itemize}
+    Combining both inclusions, we obtain $\boxed{[S] = T}$.
+\end{enumerate}
+\end{proof}
+
+\subsection{Homomorphic Images of Cyclic Subgroups}
+
+\begin{theorem}[Homomorphic Images of Cyclic Groups are Cyclic]
+Let $f: G \longrightarrow G'$ be a group homomorphism.
+If $G = \langle a \rangle$ is cyclic, then $f(G) = \langle f(a) \rangle$ is cyclic.
+\end{theorem}
+
+\begin{proof}
+Let $y \in f(G)$. Then $y = f(x)$ for some $x \in G$.
+Since $G = \langle a \rangle$, there exists $k \in \mathbb{Z}$ such that $x = a^k$.
+\begin{align*}
+    y &= f(a^k) \\
+    &= (f(a))^k \quad (\text{since } f(a^k) = (f(a))^k) \\
+    &\in \langle f(a) \rangle.
+\end{align*}
+Thus $f(G) \subseteq \langle f(a) \rangle$.
+
+Conversely, let $z \in \langle f(a) \rangle$. Then $z = (f(a))^m$ for some $m \in \mathbb{Z}$.
+\[
+z = (f(a))^m = f(a^m).
+\]
+Since $a^m \in G$, $f(a^m) \in f(G) \implies z \in f(G)$.
+Thus $\langle f(a) \rangle \subseteq f(G)$.
+Therefore, $\boxed{f(G) = \langle f(a) \rangle}$.
+\end{proof}
+
+\subsection{Classification of Cyclic Groups}
+
+\begin{theorem}[Infinite Cyclic Groups]
+Every infinite cyclic group is isomorphic to the additive group of integers $(\mathbb{Z}, +)$.
+\end{theorem}
+
+\begin{proof}
+Let $G = \langle a \rangle$ be an infinite cyclic group (so $|a| = \infty$).
+Define $f: (\mathbb{Z}, +) \longrightarrow (G, \cdot)$ by:
+\[
+f(k) = a^k \quad \forall\ k \in \mathbb{Z}.
+\]
+\begin{enumerate}
+    \item \textbf{Homomorphism:}
+    Let $k_1, k_2 \in \mathbb{Z}$.
+    \begin{align*}
+        f(k_1 + k_2) &= a^{k_1 + k_2} \\
+        &= a^{k_1} \cdot a^{k_2} \\
+        &= f(k_1) \cdot f(k_2).
+    \end{align*}
+    Thus, $f$ is a homomorphism.
+
+    \item \textbf{One-to-one (Injective):}
+    \begin{align*}
+        \ker f &= \{k \in \mathbb{Z} \mid f(k) = e\} \\
+        &= \{k \in \mathbb{Z} \mid a^k = e\}.
+    \end{align*}
+    Since $|a| = \infty$, $a^k = e$ if and only if $k = 0$.
+    Thus $\ker f = \{0\}$, which proves that $f$ is 1-1.
+
+    \item \textbf{Onto (Surjective):}
+    Let $y \in G$. Since $G = \langle a \rangle$, $y = a^k$ for some $k \in \mathbb{Z}$.
+    Then $f(k) = a^k = y$.
+    Thus $f$ is onto.
+\end{enumerate}
+Therefore, $f$ is an isomorphism, and $\boxed{G \cong (\mathbb{Z}, +)}$.
+\end{proof}
+
+\begin{theorem}[Finite Cyclic Groups]
+Every finite cyclic group of order $n$ is isomorphic to $(\mathbb{Z}_n, +_n)$.
+\end{theorem}
+
+\begin{proof}
+Let $G = \langle a \rangle$ with $|G| = |a| = n$.
+The elements of $G$ are $\{e, a, a^2, \dots, a^{n-1}\}$.
+The elements of $\mathbb{Z}_n$ are $\{\bar{0}, \bar{1}, \bar{2}, \dots, \overline{n-1}\}$.
+Define $f: (\mathbb{Z}_n, +_n) \longrightarrow (G, \cdot)$ by:
+\[
+f(\bar{r}) = a^r \quad \text{for } 0 \le r < n.
+\]
+\begin{enumerate}
+    \item \textbf{Well-defined and One-to-one:}
+    \begin{align*}
+        \bar{r}_1 = \bar{r}_2 &\iff r_1 \equiv r_2 \pmod n \\
+        &\iff r_1 - r_2 = qn \quad (q \in \mathbb{Z}) \\
+        &\iff a^{r_1 - r_2} = a^{qn} = (a^n)^q = e^q = e \\
+        &\iff a^{r_1} \cdot a^{-r_2} = e \\
+        &\iff a^{r_1} = a^{r_2} \\
+        &\iff f(\bar{r}_1) = f(\bar{r}_2).
+    \end{align*}
+    Reading left-to-right establishes well-definedness; right-to-left establishes injectivity.
+
+    \item \textbf{Homomorphism:}
+    Let $\bar{r}_1, \bar{r}_2 \in \mathbb{Z}_n$.
+    By the division algorithm, $r_1 + r_2 = qn + r$ where $0 \le r < n$, so $\bar{r}_1 +_n \bar{r}_2 = \bar{r}$.
+    \begin{align*}
+        f(\bar{r}_1 +_n \bar{r}_2) &= f(\bar{r}) = a^r \\
+        &= a^{r_1 + r_2 - qn} \\
+        &= a^{r_1} \cdot a^{r_2} \cdot (a^n)^{-q} \\
+        &= a^{r_1} \cdot a^{r_2} \cdot e^{-q} \\
+        &= a^{r_1} \cdot a^{r_2} \\
+        &= f(\bar{r}_1) \cdot f(\bar{r}_2).
+    \end{align*}
+    Thus $f$ is a homomorphism.
+
+    \item \textbf{Onto:}
+    Any element of $G$ is of the form $a^r$ with $0 \le r < n$, and $f(\bar{r}) = a^r$.
+    Thus $f$ is onto.
+\end{enumerate}
+Therefore, $\boxed{G \cong (\mathbb{Z}_n, +_n)}$.
+\end{proof}
+
+% ==============================================================================
+% SECTION 3: THE CENTER OF A GROUP
+% ==============================================================================
+\section{The Center of a Group}
+
+\subsection{Definition and Subgroup Proof}
+
+\begin{definition}[Centre of a Group]
+Let $G$ be a group. The collection of all elements of $G$ which commute with every element of $G$ is called the \textbf{centre of $G$}, denoted by $Z(G)$:
+\[
+Z(G) = \{z \in G \mid zx = xz \quad \forall\ x \in G\}.
+\]
+\end{definition}
+
+\begin{theorem}[The Center $Z(G)$ is a Characteristic Subgroup of $G$]
+For any group $G$, $Z(G) \le G$.
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item \textbf{Non-empty:}
+    Since $ex = xe = x$ for all $x \in G$, $e \in Z(G)$. Thus $Z(G) \neq \emptyset$.
+
+    \item \textbf{Subgroup Criterion:}
+    Let $a, b \in Z(G)$. Then for all $x \in G$:
+    \begin{align*}
+        ax &= xa, \\
+        bx &= xb.
+    \end{align*}
+    From $bx = xb$, multiplying on the left and right by $b^{-1}$:
+    \begin{align*}
+        b^{-1}(bx)b^{-1} &= b^{-1}(xb)b^{-1} \\
+        \implies (b^{-1}b)x b^{-1} &= b^{-1}x (b b^{-1}) \\
+        \implies e x b^{-1} &= b^{-1}x e \\
+        \implies xb^{-1} &= b^{-1}x.
+    \end{align*}
+    Thus $b^{-1} \in Z(G)$.
+
+    Now consider $(ab^{-1})x$:
+    \begin{align*}
+        (ab^{-1})x &= a(b^{-1}x) \\
+        &= a(xb^{-1}) \quad (\text{since } b^{-1} \in Z(G)) \\
+        &= (ax)b^{-1} \\
+        &= (xa)b^{-1} \quad (\text{since } a \in Z(G)) \\
+        &= x(ab^{-1}).
+    \end{align*}
+    Therefore, $ab^{-1} \in Z(G)$.
+\end{enumerate}
+By the one-step subgroup test, $\boxed{Z(G) \le G}$.
+\end{proof}
+
+\subsection{Properties and Examples of Centers}
+
+\begin{theorem}[Properties of $Z(G)$]
+\begin{enumerate}
+    \item $Z(G)$ is always an abelian subgroup of $G$.
+    \item $G$ is abelian if and only if $Z(G) = G$.
+    \item $|Z(G)| \ge 1$ for all groups $G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{example}[Centers of Common Groups]
+\begin{enumerate}
+    \item \textbf{Dihedral Group $D_4$:}
+    The group of symmetries of a square has order 8:
+    \[
+    D_4 = \{R_0, R_{90}, R_{180}, R_{270}, H, V, D, D'\}.
+    \]
+    The Cayley table of $D_4$ shows that $R_0$ and $R_{180}$ commute with all 8 elements, whereas rotations by $90^\circ$ and reflections do not commute with all elements (e.g., $R_{90} H = D \neq D' = H R_{90}$).
+    Thus:
+    \[
+    Z(D_4) = \{R_0, R_{180}\}.
+    \]
+
+    \item \textbf{Symmetric Group $S_3$:}
+    $S_3 = \{I, (1\ 2), (1\ 3), (2\ 3), (1\ 2\ 3), (1\ 3\ 2)\}$.
+    Testing elements:
+    \[
+    (1\ 2)(1\ 2\ 3) = (2\ 3) \neq (1\ 3) = (1\ 2\ 3)(1\ 2).
+    \]
+    No non-identity element commutes with all elements. Thus:
+    \[
+    Z(S_3) = \{I\}.
+    \]
+
+    \item \textbf{Quaternion Group $Q_8$:}
+    $Q_8 = \{\pm 1, \pm i, \pm j, \pm k\}$.
+    $ij = k = -ji$, but $1$ and $-1$ commute with everything. Thus:
+    \[
+    Z(Q_8) = \{1, -1\}.
+    \]
+\end{enumerate}
+\end{example}
+
+% ==============================================================================
+% SECTION 4: PERMUTATION GROUPS AND SYMMETRIC GROUP
+% ==============================================================================
+\section{Permutation Groups and the Symmetric Group \texorpdfstring{$S_n$}{Sn}}
+
+\subsection{Permutations and Cycle Notation}
+
+\begin{definition}[Permutation and Symmetric Group]
+Let $A$ be a non-empty set. A bijection $\sigma: A \to A$ is called a \textbf{permutation} on $A$.
+The set of all permutations on $A$ forms a group under function composition, called the \textbf{symmetric group on $A$}, denoted by $S_A$ or $\operatorname{Sym}(A)$.
+When $|A| = n$, we denote it by $S_n$, with:
+\[
+|S_n| = n!
+\]
+\end{definition}
+
+\begin{definition}[Cycles and Transpositions]
+\begin{itemize}
+    \item A \textbf{$k$-cycle} $\sigma = (a_1\ a_2\ \dots\ a_k)$ is a permutation mapping $a_1 \mapsto a_2 \mapsto \dots \mapsto a_k \mapsto a_1$ and fixing all other elements. The integer $k$ is the \textbf{length} of the cycle.
+    \item A 2-cycle $(a\ b)$ is called a \textbf{transposition}.
+    \item Two cycles $\sigma = (a_1\ \dots\ a_k)$ and $\tau = (b_1\ \dots\ b_m)$ are \textbf{disjoint} if $\{a_1, \dots, a_k\} \cap \{b_1, \dots, b_m\} = \emptyset$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Commutativity of Disjoint Cycles]
+Disjoint cycles commute: if $\sigma, \tau \in S_n$ are disjoint cycles, then $\sigma \tau = \tau \sigma$.
+\end{theorem}
+
+\begin{theorem}[Disjoint Cycle Decomposition]
+Every permutation $\sigma \in S_n$ can be uniquely expressed (up to the order of factors) as a product of disjoint cycles.
+\end{theorem}
+
+\begin{theorem}[Order of a Permutation]
+The order of a permutation $\sigma \in S_n$ expressed in disjoint cycle form is the least common multiple of the lengths of its disjoint cycles:
+\[
+|\sigma| = \operatorname{lcm}(\text{length of } c_1, \text{length of } c_2, \dots, \text{length of } c_k).
+\]
+\end{theorem}
+
+\begin{example}[Order of a Permutation in $S_6$ via LCM of Cycle Lengths]
+In $S_6$, let $\sigma = (1\ 2\ 3)(4\ 5)$. The cycle lengths are 3 and 2.
+\[
+|\sigma| = \operatorname{lcm}(3, 2) = 6.
+\]
+\end{example}
+
+\subsection{Parity, Alternating Group \texorpdfstring{$A_n$}{An}, and Klein 4-Group \texorpdfstring{$V_4$}{V4}}
+
+\begin{theorem}[Factorization of Cycles into Transpositions]
+Every cycle of length $k$ can be factored into a product of $k - 1$ transpositions:
+\[
+(a_1\ a_2\ \dots\ a_k) = (a_1\ a_k)(a_1\ a_{k-1})\dots(a_1\ a_3)(a_1\ a_2).
+\]
+\end{theorem}
+
+\begin{definition}[Even and Odd Permutations]
+A permutation is \textbf{even} if it can be represented as a product of an even number of transpositions; it is \textbf{odd} if it can be represented as a product of an odd number of transpositions.
+No permutation is both even and odd.
+\end{definition}
+
+\begin{definition}[Alternating Group $A_n$]
+The set of all even permutations in $S_n$ forms a subgroup called the \textbf{Alternating Group of degree $n$}, denoted by $A_n$:
+\[
+|A_n| = \frac{n!}{2} \quad \text{for } n \ge 2.
+\]
+\end{definition}
+
+\begin{definition}[Klein Four-Group $V_4$]
+In $S_4$, the subset:
+\[
+V_4 = \{I, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3)\}
+\]
+is an abelian subgroup of order 4 in which every non-identity element has order 2. Moreover, $V_4 \le A_4 \le S_4$.
+\end{definition}
+
+\subsection{Conjugacy in \texorpdfstring{$S_n$}{Sn} and Cycle Counting}
+
+\begin{definition}[Conjugate Permutations]
+Two permutations $p, q \in S_n$ are \textbf{conjugate} if there exists $r \in S_n$ such that $q = r p r^{-1}$.
+\end{definition}
+
+\begin{theorem}[Conjugacy Criterion via Cycle Structure in $S_n$]
+Two permutations in $S_n$ are conjugate if and only if they have the identical cycle structure (same cycle lengths).
+\end{theorem}
+
+\begin{example}[Finding the Conjugating Permutation $r$]
+Let $p = (1\ 2\ 3)(4\ 5\ 6)(7\ 8)$ and $q = (2\ 3\ 4)(5\ 1\ 8)(6\ 7)$ in $S_8$.
+Writing $p$ and $q$ with aligned cycle components:
+\begin{align*}
+    p &= \begin{pmatrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \end{pmatrix}, \\
+    q &= \begin{pmatrix} 2 & 3 & 4 & 5 & 1 & 8 & 6 & 7 \end{pmatrix}.
+\end{align*}
+Define $r \in S_8$ by sending the top row to the bottom row:
+\[
+r = \begin{pmatrix} 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\ 2 & 3 & 4 & 5 & 1 & 8 & 6 & 7 \end{pmatrix}.
+\]
+Then $q = r p r^{-1}$.
+\end{example}
+
+\begin{theorem}[Formula for Number of $r$-Cycles in $S_n$]
+The total number of distinct cycles of length $r$ in $S_n$ is:
+\[
+\boxed{\binom{n}{r} (r - 1)! = \frac{{}^n P_r}{r} = \frac{n!}{r(n - r)!}}.
+\]
+\end{theorem}
+
+% ==============================================================================
+% SECTION 5: CAYLEY'S REPRESENTATION THEOREM
+% ==============================================================================
+\section{Cayley's Representation Theorem}
+
+\begin{theorem}[Cayley's Theorem]
+Every group $G$ is isomorphic to a subgroup of the symmetric group $S_G$. If $|G| = n$, then $G$ is isomorphic to a subgroup of $S_n$.
+\end{theorem}
+
+\begin{proof}
+For each $g \in G$, define the left-multiplication mapping $\lambda_g: G \longrightarrow G$ by:
+\[
+\lambda_g(x) = gx \quad \forall\ x \in G.
+\]
+\begin{enumerate}
+    \item \textbf{Step 1: $\lambda_g$ is a permutation on $G$ ($\lambda_g \in S_G$).}
+    \begin{itemize}
+        \item \textit{Injective:} Let $\lambda_g(x) = \lambda_g(y) \implies gx = gy \implies x = y$ (by left cancellation in $G$).
+        \item \textit{Surjective:} Let $y \in G$. Then $\lambda_g(g^{-1}y) = g(g^{-1}y) = (gg^{-1})y = ey = y$.
+    \end{itemize}
+    Thus, $\lambda_g$ is a bijection of $G$ onto itself, so $\lambda_g \in S_G$.
+
+    \item \textbf{Step 2: Define $\phi: G \longrightarrow S_G$ by $\phi(g) = \lambda_g$.}
+    \begin{itemize}
+        \item \textit{$\phi$ is a homomorphism:}
+        For any $g, h \in G$ and $x \in G$:
+        \begin{align*}
+            \lambda_{gh}(x) &= (gh)x = g(hx) \\
+            &= \lambda_g(hx) = \lambda_g(\lambda_h(x)) \\
+            &= (\lambda_g \circ \lambda_h)(x).
+        \end{align*}
+        Since this holds for all $x \in G$, $\lambda_{gh} = \lambda_g \circ \lambda_h$.
+        Thus:
+        \[
+        \phi(gh) = \phi(g) \circ \phi(h).
+        \]
+
+        \item \textit{$\phi$ is one-to-one (injective):}
+        \begin{align*}
+            \ker \phi &= \{g \in G \mid \phi(g) = I_G\} \\
+            &= \{g \in G \mid \lambda_g = I_G\} \\
+            &= \{g \in G \mid \lambda_g(x) = x \quad \forall\ x \in G\} \\
+            &= \{g \in G \mid gx = x \quad \forall\ x \in G\}.
+        \end{align*}
+        Evaluating at $x = e$:
+        \[
+        ge = e \implies g = e.
+        \]
+        Thus $\ker \phi = \{e\}$, which proves that $\phi$ is 1-1.
+    \end{itemize}
+\end{enumerate}
+Therefore, $\phi: G \longrightarrow \phi(G)$ is an isomorphism of $G$ onto $\phi(G) \le S_G$.
+Hence, $\boxed{G \cong \phi(G) \le S_G}$.
+\end{proof}
+
+% ==============================================================================
+% SECTION 6: COSETS AND LAGRANGE'S THEOREM
+% ==============================================================================
+\section{Cosets and Lagrange's Theorem}
+
+\subsection{Left and Right Cosets}
+
+\begin{definition}[Cosets]
+Let $H \le G$ and $a \in G$.
+\begin{itemize}
+    \item The \textbf{left coset} of $H$ in $G$ determined by $a$ is $aH = \{ah \mid h \in H\}$.
+    \item The \textbf{right coset} of $H$ in $G$ determined by $a$ is $Ha = \{ha \mid h \in H\}$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Properties of Cosets]
+Let $H \le G$ and $a, b \in G$.
+\begin{enumerate}
+    \item $a \in aH$ (since $a = ae \in aH$).
+    \item $aH = H \iff a \in H$.
+    \item $aH = bH \iff a^{-1}b \in H \iff b \in aH$.
+    \item $Ha = Hb \iff ab^{-1} \in H \iff a \in Hb$.
+    \item Either $aH = bH$ or $aH \cap bH = \emptyset$.
+    \item $|aH| = |H| = |Ha|$ for all $a \in G$.
+    \item The collection of all left (or right) cosets forms a partition of $G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof that Left Cosets Partition $G$]
+\begin{enumerate}
+    \item \textbf{Union is $G$:} For each $x \in G$, $x = xe \in xH \subseteq \bigcup_{g \in G} gH$. Thus $G = \bigcup_{g \in G} gH$.
+    \item \textbf{Pairwise Disjoint:} Suppose $aH \cap bH \neq \emptyset$.
+    Let $x \in aH \cap bH$. Then $x = ah_1 = bh_2$ for some $h_1, h_2 \in H$.
+    \[
+    a = bh_2 h_1^{-1}.
+    \]
+    Since $h_1, h_2 \in H$, $h_2 h_1^{-1} = h_3 \in H$.
+    Thus $a = bh_3 \in bH \implies aH = bH$.
+\end{enumerate}
+Thus, distinct left cosets are mutually disjoint and cover $G$.
+\end{proof}
+
+
+\begin{proposition}[Coset Subgroup Criterion]
+Let $H \le G$ and $a \in G$. Then the left coset $aH$ is a subgroup of $G$ if and only if $a \in H$ (in which case $aH = H$).
+\end{proposition}
+\begin{proof}
+($\implies$) Suppose $aH \le G$.
+Every subgroup must contain the identity element $e$. Thus $e \in aH$.
+Also, since $H \le G$, $e \in H = eH$.
+Hence $aH \cap eH \neq \emptyset$.
+Since any two left cosets are either identical or disjoint, $aH \cap eH \neq \emptyset \implies aH = eH = H$.
+Since $a \in aH = H$, we conclude that $a \in H$.
+
+($\impliedby$) Conversely, if $a \in H$, then by coset absorption, $aH = H$. Since $H \le G$ by assumption, $aH = H$ is a subgroup of $G$.
+\end{proof}
+
+\begin{example}[Distinction Between Left and Right Cosets in $S_3$]
+Consider the symmetric group on 3 elements $S_3 = \{I, (1\,2), (1\,3), (2\,3), (1\,2\,3), (1\,3\,2)\}$ and the non-normal subgroup of order 2:
+\[
+H = \{I, (1\,2)\}.
+\]
+We compute the left and right cosets of $H$ with respect to the 3-cycle $(1\,2\,3)$:
+\begin{itemize}
+    \item \textbf{Left Coset:}
+    \[
+    (1\,2\,3)H = \{(1\,2\,3) \circ I, \; (1\,2\,3) \circ (1\,2)\} = \{(1\,2\,3), \; (1\,3)\}.
+    \]
+    \item \textbf{Right Coset:}
+    \[
+    H(1\,2\,3) = \{I \circ (1\,2\,3), \; (1\,2) \circ (1\,2\,3)\} = \{(1\,2\,3), \; (2\,3)\}.
+    \]
+\end{itemize}
+Notice that:
+\[
+(1\,2\,3)H = \{(1\,2\,3), (1\,3)\} \neq \{(1\,2\,3), (2\,3)\} = H(1\,2\,3).
+\]
+This explicitly demonstrates that for a non-normal subgroup, a left coset and a right coset determined by the same element need not be equal.
+\end{example}
+
+\begin{theorem}[Bijection Between Left and Right Cosets]
+Let $G$ be a group (finite or infinite) and let $H \le G$. Let $(G/H)^l$ denote the set of all left cosets of $H$ in $G$, and let $(G/H)^r$ denote the set of all right cosets of $H$ in $G$.
+Then there exists a bijection:
+\[
+F: (G/H)^l \longrightarrow (G/H)^r \quad \text{defined by} \quad F(aH) = Ha^{-1}.
+\]
+Consequently, the number of distinct left cosets equals the number of distinct right cosets:
+\[
+|(G/H)^l| = |(G/H)^r| = [G : H].
+\]
+\end{theorem}
+\begin{proof}
+We verify the required conditions:
+\begin{enumerate}
+    \item \textbf{Well-defined and Injective:}
+    Let $a, b \in G$. We establish the following chain of equivalent statements:
+    \begin{align*}
+        aH = bH &\iff a^{-1}b \in H \\
+        &\iff (a^{-1}b)^{-1} \in H \quad (\text{since } H \le G \text{ is closed under inverses}) \\
+        &\iff b^{-1}(a^{-1})^{-1} \in H \\
+        &\iff b^{-1}a \in H \\
+        &\iff Hb^{-1} = Ha^{-1} \\
+        &\iff Ha^{-1} = Hb^{-1} \\
+        &\iff F(aH) = F(bH).
+    \end{align*}
+    The forward implication ($\implies$) proves that $F$ is well-defined (independent of the choice of representative).
+    The reverse implication ($\impliedby$) proves that $F$ is injective (one-to-one).
+    
+    \item \textbf{Surjective (Onto):}
+    Let $Ha \in (G/H)^r$ be an arbitrary right coset.
+    Since $a \in G$, its inverse $a^{-1} \in G$. Thus $a^{-1}H \in (G/H)^l$ is a well-defined left coset.
+    Evaluating $F$ on this left coset:
+    \[
+    F(a^{-1}H) = H(a^{-1})^{-1} = Ha.
+    \]
+    Hence every right coset has a pre-image under $F$, proving that $F$ is surjective.
+\end{enumerate}
+Therefore, $F$ is a bijection, establishing that the collection of left cosets and the collection of right cosets have the same cardinality for any subgroup $H \le G$.
+\end{proof}
+
+
+\subsection{Lagrange's Theorem and the Index of a Subgroup}
+
+\begin{theorem}[Lagrange's Theorem]
+Let $G$ be a finite group and let $H$ be a subgroup of $G$.
+Then the order of $H$ divides the order of $G$:
+\[
+\boxed{|H| \mid |G|}.
+\]
+Moreover, the number of distinct left (or right) cosets of $H$ in $G$, called the \textbf{index} of $H$ in $G$ and denoted by $[G : H]$, is:
+\[
+\boxed{[G : H] = \frac{|G|}{|H|}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $|G| = n$ and $|H| = m$.
+Since the distinct left cosets $g_1 H, g_2 H, \dots, g_k H$ partition $G$ (where $k = [G : H]$):
+\[
+G = g_1 H \cup g_2 H \cup \dots \cup g_k H \quad \text{(disjoint union)}.
+\]
+Taking cardinality on both sides:
+\[
+|G| = |g_1 H| + |g_2 H| + \dots + |g_k H|.
+\]
+Since $|g_i H| = |H| = m$ for every $i \in \{1, 2, \dots, k\}$:
+\[
+|G| = k \cdot |H| = [G : H] \cdot |H|.
+\]
+Dividing by $|H|$ gives $[G : H] = \frac{|G|}{|H|}$, and $|H|$ divides $|G|$.
+\end{proof}
+
+\begin{corollary}[Fundamental Consequences]
+\begin{enumerate}
+    \item \textbf{Element Order Divides Group Order:} For every $a \in G$, $|a| \mid |G|$.
+    \textit{Proof:} Consider the cyclic subgroup $H = \langle a \rangle$. Then $|H| = |a|$. By Lagrange's theorem, $|H| \mid |G| \implies |a| \mid |G|$.
+
+    \item \textbf{Power Equals Identity:} For every $a \in G$, $a^{|G|} = e$.
+    \textit{Proof:} Let $|G| = n$ and $|a| = m$. Since $m \mid n$, $n = mq$ for some $q \in \mathbb{Z}$.
+    Then $a^n = a^{mq} = (a^m)^q = e^q = e$.
+
+    \item \textbf{Prime Order Groups are Cyclic:} Every group of prime order $p$ is cyclic and simple (has no non-trivial proper subgroups).
+    \textit{Proof:} Let $|G| = p$ (prime). Let $a \in G$ with $a \neq e$.
+    Consider $H = \langle a \rangle \le G$. Since $a \neq e$, $|H| > 1$.
+    By Lagrange's theorem, $|H| \mid p \implies |H| = p = |G| \implies G = \langle a \rangle$.
+\end{enumerate}
+\end{corollary}
+
+\subsection{Number-Theoretic Theorems}
+
+\begin{theorem}[Euler's Theorem]
+Let $a, n \in \mathbb{Z}^+$ with $\gcd(a, n) = 1$. Then:
+\[
+a^{\phi(n)} \equiv 1 \pmod n,
+\]
+where $\phi(n)$ is Euler's totient function.
+\end{theorem}
+
+\begin{proof}
+Consider the group of units $U(n) = (\mathbb{Z}_n^*, \cdot)$ under multiplication modulo $n$.
+$|U(n)| = \phi(n)$.
+For $\gcd(a, n) = 1$, the residue class $\bar{a} \in U(n)$.
+By Lagrange's corollary, $\bar{a}^{|U(n)|} = \bar{1} \implies \bar{a}^{\phi(n)} = \bar{1} \implies a^{\phi(n)} \equiv 1 \pmod n$.
+\end{proof}
+
+\begin{theorem}[Fermat's Little Theorem]
+If $p$ is prime and $a \in \mathbb{Z}$ with $p \nmid a$, then:
+\[
+a^{p-1} \equiv 1 \pmod p \implies a^p \equiv a \pmod p \quad \forall\ a \in \mathbb{Z}.
+\]
+\end{theorem}
+
+\begin{theorem}[Wilson's Theorem]
+An integer $p > 1$ is prime if and only if:
+\[
+(p - 1)! \equiv -1 \pmod p.
+\]
+\end{theorem}
+
+% ==============================================================================
+% SECTION 7: NORMAL SUBGROUPS AND CONJUGACY
+% ==============================================================================
+
+\begin{theorem}[Converse of Wilson's Theorem]
+Let $n > 1$ be a positive integer. If $(n-1)! \equiv -1 \pmod n$, then $n$ is a prime number.
+\end{theorem}
+\begin{proof}
+We proceed by contradiction.
+Assume that $n$ is not prime (i.e., $n$ is composite).
+Then $n$ can be factored as:
+\[
+n = r \cdot s \quad \text{where } 1 < r < n \text{ and } 1 < s < n.
+\]
+Since $1 < r < n$, we have $2 \le r \le n - 1$.
+Therefore, $r$ is one of the factors appearing in the product $(n-1)! = 1 \cdot 2 \dots (n-1)$, which implies:
+\[
+r \mid (n-1)!.
+\]
+On the other hand, the given congruence $(n-1)! \equiv -1 \pmod n$ means that:
+\[
+n \mid \big((n-1)! + 1\big).
+\]
+Since $r \mid n$, by transitivity of divisibility:
+\[
+r \mid \big((n-1)! + 1\big).
+\]
+Now, since $r$ divides both $(n-1)! + 1$ and $(n-1)!$, it must divide their difference:
+\[
+r \mid \Big(\big((n-1)! + 1\big) - (n-1)!\Big) \implies r \mid 1.
+\]
+The only positive divisor of $1$ is $1$, so $r = 1$.
+This contradicts the strict inequality $r > 1$.
+Hence our initial assumption that $n$ is composite is false.
+Therefore, $n$ must be a prime number.
+\end{proof}
+
+
+\section{Normal Subgroups and Conjugacy}
+
+\subsection{Definition and Equivalent Characterizations}
+
+\begin{definition}[Normal Subgroup]
+A subgroup $H \le G$ is called a \textbf{normal subgroup} of $G$, denoted by:
+\[
+\boxed{H \trianglelefteq G},
+\]
+if for all $g \in G$ and all $h \in H$, $ghg^{-1} \in H$ (or equivalently, $gHg^{-1} = H$ for all $g \in G$).
+\end{definition}
+
+\begin{theorem}[Equivalent Conditions for Normality]
+Let $H \le G$. The following statements are equivalent:
+\begin{enumerate}
+    \item $H \trianglelefteq G$.
+    \item $gHg^{-1} \subseteq H$ for all $g \in G$.
+    \item $gH = Hg$ for all $g \in G$ (left cosets equal right cosets).
+    \item $(aH)(bH) = (ab)H$ defines a well-defined binary operation on cosets.
+\end{enumerate}
+\end{theorem}
+
+
+\begin{theorem}[Normality in Abelian Groups]
+If $G$ is an abelian group, then every subgroup $H$ of $G$ is a normal subgroup ($H \trianglelefteq G$).
+\end{theorem}
+\begin{proof}
+Let $H \le G$ and assume $G$ is abelian.
+For any $a \in G$ and any $h \in H$, since $G$ is commutative:
+\[
+ah = ha.
+\]
+Therefore:
+\[
+aH = \{ah \mid h \in H\} = \{ha \mid h \in H\} = Ha \quad \forall\ a \in G.
+\]
+Since every left coset coincides with the corresponding right coset, $H \trianglelefteq G$.
+\end{proof}
+
+\begin{remark}[Failure of the Converse: Hamiltonian Groups and $Q_8$]
+The converse of the above theorem is \textbf{false}: if every subgroup of a group $G$ is normal, $G$ is not necessarily abelian.
+A standard counterexample is the \textbf{quaternion group} $Q_8 = \{\pm 1, \pm i, \pm j, \pm k\}$:
+\begin{itemize}
+    \item $Q_8$ is non-abelian, since $ij = k \neq -k = ji$.
+    \item The subgroups of $Q_8$ are:
+    \[
+    \{1\}, \quad \{\pm 1\}, \quad \langle i \rangle = \{\pm 1, \pm i\}, \quad \langle j \rangle = \{\pm 1, \pm j\}, \quad \langle k \rangle = \{\pm 1, \pm k\}, \quad Q_8.
+    \]
+    The trivial subgroup and $Q_8$ are always normal. The center $Z(Q_8) = \{\pm 1\}$ is always normal. The cyclic subgroups $\langle i \rangle, \langle j \rangle, \langle k \rangle$ each have index $[Q_8 : \langle x \rangle] = \frac{8}{4} = 2$, and subgroups of index 2 are always normal.
+\end{itemize}
+Thus, \textbf{every subgroup of $Q_8$ is normal}, yet $Q_8$ is non-abelian. A non-abelian group in which every subgroup is normal is called a \textbf{Hamiltonian group}.
+\end{remark}
+
+\begin{theorem}[Conjugate Subgroups]
+Let $G$ be a group and $H \le G$. For any fixed element $x \in G$, the conjugate set:
+\[
+xHx^{-1} = \{xhx^{-1} \mid h \in H\}
+\]
+is a subgroup of $G$, called the \textbf{conjugate subgroup} of $H$ with respect to $x$.
+\end{theorem}
+\begin{proof}
+We apply the one-step subgroup criterion:
+\begin{enumerate}
+    \item \textbf{Non-emptiness:} Since $H \le G$, the identity element $e \in H$. Then:
+    \[
+    e = xex^{-1} \in xHx^{-1}.
+    \]
+    Thus $xHx^{-1}$ is non-empty and contains the identity of $G$.
+    
+    \item \textbf{Closure under $ab^{-1}$:} Let $a, b \in xHx^{-1}$. Then:
+    \[
+    a = xh_1 x^{-1} \quad \text{and} \quad b = xh_2 x^{-1} \quad \text{for some } h_1, h_2 \in H.
+    \]
+    Computing the inverse of $b$:
+    \[
+    b^{-1} = (xh_2 x^{-1})^{-1} = (x^{-1})^{-1} h_2^{-1} x^{-1} = x h_2^{-1} x^{-1}.
+    \]
+    Now multiplying $a$ and $b^{-1}$:
+    \begin{align*}
+        ab^{-1} &= (xh_1 x^{-1})(x h_2^{-1} x^{-1}) \\
+        &= xh_1 (x^{-1}x) h_2^{-1} x^{-1} \\
+        &= x(h_1 h_2^{-1})x^{-1}.
+    \end{align*}
+    Since $H$ is a subgroup of $G$ and $h_1, h_2 \in H$, we have $h_1 h_2^{-1} \in H$.
+    Therefore, $ab^{-1} = x(h_1 h_2^{-1})x^{-1} \in xHx^{-1}$.
+\end{enumerate}
+By the one-step subgroup test, $xHx^{-1} \le G$.
+\end{proof}
+
+\begin{problem}[Subgroups Containing All Squares are Normal]
+Let $G$ be a group and let $H \le G$. If $a^2 \in H$ for every $a \in G$, prove that $H \trianglelefteq G$.
+\end{problem}
+\begin{proof}
+To establish that $H \trianglelefteq G$, we must show that $aha^{-1} \in H$ for all $a \in G$ and all $h \in H$.
+Let $a \in G$ and $h \in H$.
+\begin{enumerate}
+    \item Since $a, h \in G$, their product $ah \in G$. By the given hypothesis that every element squared lies in $H$:
+    \[
+    (ah)^2 \in H \implies ahah \in H.
+    \]
+    
+    \item Since $h \in H$ and $H$ is a subgroup, $h^{-1} \in H$.
+    Multiplying the element $ahah \in H$ by $h^{-1} \in H$ on the right:
+    \[
+    (ahah)h^{-1} = aha(hh^{-1}) = aha(e) = aha \in H.
+    \]
+    
+    \item Since $a \in G$, its inverse $a^{-1} \in G$. Applying the square hypothesis to $a^{-1}$:
+    \[
+    (a^{-1})^2 \in H \implies a^{-2} \in H.
+    \]
+    
+    \item Now multiply $aha \in H$ by $a^{-2} \in H$ on the right:
+    \[
+    (aha)a^{-2} = ah(a a^{-2}) = aha^{-1} \in H.
+    \]
+\end{enumerate}
+Thus, $aha^{-1} \in H$ for all $a \in G$ and all $h \in H$.
+By the conjugate characterization of normality, $H \trianglelefteq G$.
+\end{proof}
+
+\begin{problem}[Isomorphism Between Conjugate Subgroups and Unique Subgroup Normality]
+Let $G$ be a group and let $H \le G$.
+\begin{enumerate}[label=(\alph*)]
+    \item If $H$ is finite, prove that $|xHx^{-1}| = |H|$ for all $x \in G$.
+    \item Prove that if $H$ is the unique subgroup of $G$ of a given finite order $m$, then $H \trianglelefteq G$.
+\end{enumerate}
+\end{problem}
+\begin{proof}
+\begin{enumerate}[label=(\alph*)]
+    \item Define the mapping $\psi: H \longrightarrow xHx^{-1}$ by:
+    \[
+    \psi(h) = xhx^{-1} \quad \forall\ h \in H.
+    \]
+    \begin{itemize}
+        \item \textbf{Injective:} Let $h_1, h_2 \in H$ with $\psi(h_1) = \psi(h_2)$.
+        \[
+        xh_1 x^{-1} = xh_2 x^{-1}.
+        \]
+        Multiplying by $x^{-1}$ on the left and $x$ on the right:
+        \[
+        x^{-1}(xh_1 x^{-1})x = x^{-1}(xh_2 x^{-1})x \implies h_1 = h_2.
+        \]
+        Thus $\psi$ is one-to-one.
+        \item \textbf{Surjective:} By definition, every element of $xHx^{-1}$ is of the form $xhx^{-1} = \psi(h)$ for some $h \in H$. Thus $\psi$ is onto.
+    \end{itemize}
+    Since $\psi$ is a bijection, $|xHx^{-1}| = |H|$.
+    
+    \item Suppose $H$ is the unique subgroup of $G$ of order $m$, so $|H| = m$.
+    For any $x \in G$, by part (a), the conjugate set $xHx^{-1}$ is a subgroup of $G$ with:
+    \[
+    |xHx^{-1}| = |H| = m.
+    \]
+    Since $H$ is the \emph{only} subgroup of $G$ having order $m$, $xHx^{-1}$ must be identical to $H$:
+    \[
+    xHx^{-1} = H \quad \forall\ x \in G.
+    \]
+    Therefore, $H \trianglelefteq G$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[Preservation of Normality under Epimorphisms]
+Let $f: G \longrightarrow G'$ be a group epimorphism (surjective homomorphism).
+\begin{enumerate}
+    \item If $H \trianglelefteq G$, then $f(H) \trianglelefteq G'$.
+    \item If $H' \trianglelefteq G'$, then $f^{-1}(H') \trianglelefteq G$.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+\begin{enumerate}
+    \item Let $t \in f(H)$ and $y \in G'$.
+    Since $t \in f(H)$, there exists $h \in H$ such that $t = f(h)$.
+    Since $f$ is surjective and $y \in G'$, there exists $x \in G$ such that $y = f(x)$.
+    Since $H \trianglelefteq G$, $x h x^{-1} \in H$.
+    Evaluating $f$ on this conjugate element:
+    \begin{align*}
+        f(x h x^{-1}) &= f(x) f(h) f(x^{-1}) \\
+        &= f(x) f(h) (f(x))^{-1} \\
+        &= y t y^{-1}.
+    \end{align*}
+    Since $x h x^{-1} \in H$, its image $y t y^{-1} = f(x h x^{-1}) \in f(H)$.
+    Since this holds for all $y \in G'$ and $t \in f(H)$, we conclude $f(H) \trianglelefteq G'$.
+    
+    \item Let $s \in f^{-1}(H')$ and $z \in G$.
+    By definition of pre-image, $f(s) \in H'$. Also $f(z) \in G'$.
+    Since $H' \trianglelefteq G'$, the conjugate of $f(s)$ by $f(z)$ remains in $H'$:
+    \[
+    f(z) f(s) (f(z))^{-1} \in H'.
+    \]
+    Since $f$ is a homomorphism:
+    \[
+    f(z) f(s) (f(z))^{-1} = f(z s z^{-1}) \in H'.
+    \]
+    By definition of the pre-image:
+    \[
+    z s z^{-1} \in f^{-1}(H').
+    \]
+    Since this holds for all $z \in G$ and $s \in f^{-1}(H')$, we conclude $f^{-1}(H') \trianglelefteq G$.
+\end{enumerate}
+\end{proof}
+
+
+\subsection{Subgroups of Index 2 are Normal}
+
+\begin{theorem}[Subgroups of Index 2 are Normal]
+If $H \le G$ such that $[G : H] = 2$, then $H \trianglelefteq G$.
+\end{theorem}
+
+\begin{proof}
+Since $[G : H] = 2$, there are exactly two left cosets and two right cosets of $H$ in $G$.
+Let $g \in G$.
+\begin{itemize}
+    \item If $g \in H$, then $gH = H = Hg$.
+    \item If $g \notin H$, the left cosets are $H$ and $gH$. Since cosets partition $G$:
+    \[
+    G = H \cup gH \implies gH = G \setminus H.
+    \]
+    Similarly, the right cosets are $H$ and $Hg$, so:
+    \[
+    G = H \cup Hg \implies Hg = G \setminus H.
+    \]
+    Therefore, $gH = G \setminus H = Hg$.
+\end{itemize}
+Thus $gH = Hg$ for all $g \in G$. Hence, $\boxed{H \trianglelefteq G}$.
+\end{proof}
+
+\begin{example}[Normality of the Alternating Group $A_n \trianglelefteq S_n$]
+In the symmetric group $S_n$, since $|A_n| = \frac{n!}{2}$ and $|S_n| = n!$:
+\[
+[S_n : A_n] = \frac{n!}{n!/2} = 2 \implies \boxed{A_n \trianglelefteq S_n \quad \forall\ n \ge 2}.
+\]
+\end{example}
+
+\subsection{Intersections and Non-Transitivity of Normality}
+
+\begin{theorem}[Intersections and Direct Images of Normal Subgroups]
+\begin{enumerate}
+    \item If $\{H_i\}_{i \in I}$ is a family of normal subgroups of $G$, then $\bigcap_{i \in I} H_i \trianglelefteq G$.
+    \item If $f: G \to G'$ is a homomorphism, then $\ker f \trianglelefteq G$.
+    \item If $H \le G$ and $K \trianglelefteq G$, then $H \cap K \trianglelefteq H$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}[Proof of (3)]
+Since $H \le G$ and $K \le G$, $H \cap K \le H$.
+Let $x \in H \cap K$ and $h \in H$.
+\begin{itemize}
+    \item $x \in H, h \in H \implies hxh^{-1} \in H$.
+    \item $x \in K, h \in G$, and $K \trianglelefteq G \implies hxh^{-1} \in K$.
+\end{itemize}
+Thus $hxh^{-1} \in H \cap K$. Therefore, $H \cap K \trianglelefteq H$.
+\end{proof}
+
+\begin{note}[Normality is Not Transitive]
+$K \trianglelefteq H$ and $H \trianglelefteq G$ does \textbf{not} imply $K \trianglelefteq G$.
+\textit{Counterexample in $S_4$:}
+Let $V_4 = \{I, (1\ 2)(3\ 4), (1\ 3)(2\ 4), (1\ 4)(2\ 3)\} \trianglelefteq S_4$.
+Let $H = \{I, (1\ 2)(3\ 4)\} \le V_4$.
+Since $[V_4 : H] = 2$, $H \trianglelefteq V_4$.
+However, $H$ is not normal in $S_4$, because:
+\[
+(1\ 3)(1\ 2)(3\ 4)(1\ 3)^{-1} = (2\ 3)(1\ 4) \notin H.
+\]
+\end{note}
+
+\subsection{Normalizer and Centralizer}
+
+\begin{definition}[Centralizer and Normalizer of a Subgroup]
+Let $H \le G$ and $a \in G$.
+\begin{itemize}
+    \item \textbf{Normalizer of $H$ in $G$:} $N_G(H) = \{g \in G \mid gHg^{-1} = H\}$.
+    \item \textbf{Centralizer of $H$ in $G$:} $C_G(H) = \{g \in G \mid gh = hg \ \forall\ h \in H\}$.
+    \item \textbf{Centralizer of an element $a$:} $C_G(a) = \{g \in G \mid ga = ag\}$.
+\end{itemize}
+\end{definition}
+
+\begin{theorem}[Properties of Centralizers and Normalizers]
+\begin{enumerate}
+    \item $C_G(H) \le N_G(H) \le G$.
+    \item $H \trianglelefteq N_G(H)$, and $H \trianglelefteq G \iff N_G(H) = G$.
+    \item The size of the conjugacy class of $a$ is $|\operatorname{cl}(a)| = [G : C_G(a)]$.
+\end{enumerate}
+\end{theorem}
+
+% ==============================================================================
+% SECTION 8: QUOTIENT GROUPS (FACTOR GROUPS)
+% ==============================================================================
+
+% ==============================================================================
+% SECTION 8: THE CORRESPONDENCE THEOREM FOR GROUP HOMOMORPHISMS
+% ==============================================================================
+\section{The Correspondence Theorem for Group Homomorphisms}
+
+\subsection{Completion of the Correspondence Theorem for Group Homomorphisms}
+
+Let $(G, \circ)$ and $(G', \circ')$ be two groups, and let $f: G \to G'$ be a group epimorphism (i.e., a surjective group homomorphism). 
+
+Let $\mathcal{S}(G)$ denote the set of all subgroups of $G$ containing $\ker f$:
+\[
+\mathcal{S}(G) = \{ H \le G \mid \ker f \subseteq H \},
+\]
+and let $\mathcal{S}(G')$ denote the set of all subgroups of $G'$:
+\[
+\mathcal{S}(G') = \{ K \le G' \}.
+\]
+Define the mapping $\phi: \mathcal{S}(G) \to \mathcal{S}(G')$ by:
+\[
+\phi(H) = f(H) \quad \text{for every } H \in \mathcal{S}(G).
+\]
+
+\begin{theorem}[Surjectivity of the Correspondence Map]
+The mapping $\phi$ is surjective (onto).
+\end{theorem}
+
+\begin{proof}
+Let $K \in \mathcal{S}(G')$, which means that $K$ is a subgroup of $G'$ ($K \le G'$).
+We must show that there exists some $H \in \mathcal{S}(G)$ such that $\phi(H) = K$.
+
+Consider the complete pre-image of $K$ under $f$:
+\[
+H = f^{-1}(K) = \{ x \in G \mid f(x) \in K \}.
+\]
+We verify the required properties step-by-step:
+\begin{enumerate}
+    \item \textbf{$f^{-1}(K)$ is a subgroup of $G$:}
+    Since $e' \in K$ (where $e'$ is the identity of $G'$), $f(e) = e' \in K$, so $e \in f^{-1}(K) \neq \emptyset$.
+    Let $x, y \in f^{-1}(K)$. Then $f(x) \in K$ and $f(y) \in K$. Since $K \le G'$,
+    \[
+    f(x y^{-1}) = f(x) (f(y))^{-1} \in K \implies x y^{-1} \in f^{-1}(K).
+    \]
+    Thus, $f^{-1}(K) \le G$.
+    
+    \item \textbf{$\ker f$ is contained in $f^{-1}(K)$:}
+    Let $x \in \ker f$. Then $f(x) = e'$.
+    Since $K \le G'$, the identity element $e'$ belongs to $K$.
+    Thus:
+    \[
+    f(x) = e' \in K \implies x \in f^{-1}(K).
+    \]
+    Therefore:
+    \[
+    \ker f \subseteq f^{-1}(K).
+    \]
+    Consequently, $f^{-1}(K) \in \mathcal{S}(G)$.
+    
+    \item \textbf{Image under $\phi$:}
+    Applying $\phi$ to $f^{-1}(K)$:
+    \[
+    \phi(f^{-1}(K)) = f(f^{-1}(K)).
+    \]
+    Since $f: G \to G'$ is given to be surjective (onto), for every element $k \in K \subseteq G'$, there exists $g \in G$ such that $f(g) = k$. By definition, $g \in f^{-1}(K)$, so $f(f^{-1}(K)) = K$.
+    Thus:
+    \[
+    \phi(f^{-1}(K)) = K.
+    \]
+\end{enumerate}
+Hence, $\phi$ is onto. Since $\phi$ was previously established to be injective, $\phi$ is a bijection.
+\end{proof}
+
+
+
+% ==============================================================================
+% SECTION 9: NORMAL SUBGROUP INTERSECTIONS AND CONJUGACY IN Sn
+% ==============================================================================
+\section{Normal Subgroup Intersections and Conjugacy in Permutation Groups}
+
+\subsection{Intersection of a Subgroup and a Normal Subgroup}
+
+\begin{theorem}[Intersection of a Subgroup and a Normal Subgroup]
+Let $G$ be a group, and let $H, K \le G$. If $K$ is a normal subgroup of $G$ ($K \trianglelefteq G$), then:
+\[
+H \cap K \trianglelefteq H.
+\]
+\end{theorem}
+
+\begin{proof}
+We proceed in two explicit steps:
+\begin{enumerate}
+    \item \textbf{$H \cap K$ is a subgroup of $H$:}
+    Since $H \le G$ and $K \le G$, the intersection of two subgroups is always a subgroup of $G$. Furthermore, $H \cap K \subseteq H$, so clearly:
+    \[
+    H \cap K \le H.
+    \]
+    
+    \item \textbf{$H \cap K$ is invariant under conjugation by elements of $H$:}
+    Let $t \in H \cap K$ and let $h \in H$.
+    By definition of set intersection:
+    \[
+    t \in H \quad \text{and} \quad t \in K.
+    \]
+    \begin{itemize}
+        \item Since $t \in H$ and $h \in H$, and $H$ is a subgroup of $G$, by closure under multiplication and inverses:
+        \[
+        h t h^{-1} \in H.
+        \]
+        \item Since $h \in H \subseteq G$ and $t \in K$, and $K$ is given to be a normal subgroup of $G$ ($K \trianglelefteq G$), every conjugate of an element of $K$ by any element of $G$ remains in $K$:
+        \[
+        h t h^{-1} \in K \quad (\text{as } K \trianglelefteq G).
+        \]
+    \end{itemize}
+    Combining both deductions:
+    \[
+    h t h^{-1} \in H \quad \text{and} \quad h t h^{-1} \in K \implies h t h^{-1} \in H \cap K.
+    \]
+\end{enumerate}
+Since for all $h \in H$ and all $t \in H \cap K$ we have $h t h^{-1} \in H \cap K$, it follows by definition of normality that:
+\[
+\therefore H \cap K \trianglelefteq H. \qedhere
+\]
+\end{proof}
+
+\subsection{Properties and Non-Transitivity of Normality}
+
+\begin{note}
+\begin{enumerate}
+    \item \textbf{Normality is NOT a transitive relation:}
+    If $K \trianglelefteq H$ and $H \trianglelefteq G$, then $K$ need not be a normal subgroup of $G$:
+    \[
+    K \trianglelefteq H \text{ and } H \trianglelefteq G \centernot\implies K \trianglelefteq G.
+    \]
+    (A concrete counterexample in $S_4$ is analyzed in Section~\ref{sec:counterexample_transitivity}).
+    
+    \item \textbf{Intermediate normality:}
+    If $H \trianglelefteq G$ and $K$ is any intermediate subgroup of $G$ containing $H$ ($H \le K \le G$), then:
+    \[
+    H \trianglelefteq K.
+    \]
+    \begin{proof}
+    For all $k \in K$, since $K \subseteq G$, we have $k \in G$. Since $H \trianglelefteq G$, $k H k^{-1} = H$. Thus $k H k^{-1} = H$ holds for all $k \in K$, proving $H \trianglelefteq K$.
+    \end{proof}
+\end{enumerate}
+\end{note}
+
+\subsection{Conjugacy in the Symmetric Group \texorpdfstring{$S_n$}{Sn}}
+
+\begin{definition}[Conjugate Permutations]
+Two permutations $p$ and $q \in S_n$ are said to be \textbf{conjugate} to each other in $S_n$ if there exists a permutation $r \in S_n$ such that:
+\[
+q = r p r^{-1}.
+\]
+\end{definition}
+
+\begin{definition}[Permutations of the Same Form / Cycle Type]
+Two permutations $p, q \in S_n$ are said to be of the \textbf{same form} (or have the same \textbf{cycle structure}) if:
+\begin{enumerate}
+    \item Both $p$ and $q$ can be expressed as a product of the same number of disjoint cycles.
+    \item The corresponding disjoint cycles are of equal length.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Conjugacy Equivalence of Permutations in $S_n$]
+Two permutations $p, q \in S_n$ are permutations of the same form if and only if they are conjugate in $S_n$.
+\end{theorem}
+
+\begin{example}[Finding the Conjugating Permutation in $S_8$]
+Let $p, q \in S_8$ be defined by:
+\begin{align*}
+p &= (1\,2\,3)(4\,5\,6)(7\,8), \\
+q &= (6\,7)(2\,3\,4)(5\,1\,8).
+\end{align*}
+Observe that:
+\begin{itemize}
+    \item $p$ consists of two 3-cycles and one 2-cycle.
+    \item $q$ consists of two 3-cycles and one 2-cycle, since disjoint cycles commute:
+    \[
+    q = (2\,3\,4)(5\,1\,8)(6\,7).
+    \]
+\end{itemize}
+Thus $p$ and $q$ have the exact same cycle form. By the theorem, they are conjugate. To find $r \in S_8$ such that $q = r p r^{-1}$, align the cycle representations of $p$ and $q$ directly:
+\[
+\begin{aligned}
+p &= (\,1 \quad 2 \quad 3\,)(\,4 \quad 5 \quad 6\,)(\,7 \quad 8\,) \\
+q &= (\,2 \quad 3 \quad 4\,)(\,5 \quad 1 \quad 8\,)(\,6 \quad 7\,)
+\end{aligned}
+\]
+We define the permutation $r$ by mapping each element of $p$ to the corresponding element directly below it in $q$:
+\[
+r = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+2 & 3 & 4 & 5 & 1 & 8 & 6 & 7
+\end{pmatrix}.
+\]
+Expressing $r$ in disjoint cycle notation:
+\[
+r = (1\,2\,3\,4\,5)(6\,8\,7).
+\]
+Its inverse $r^{-1}$ is obtained by reversing each cycle:
+\[
+r^{-1} = (1\,5\,4\,3\,2)(6\,7\,8) = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+5 & 1 & 2 & 3 & 4 & 7 & 8 & 6
+\end{pmatrix}.
+\]
+\textbf{Verification of $r p r^{-1} = q$:}
+Writing in two-row matrix form:
+\begin{align*}
+r p r^{-1} &= \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+2 & 3 & 4 & 5 & 1 & 8 & 6 & 7
+\end{pmatrix}
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+2 & 3 & 1 & 5 & 6 & 4 & 8 & 7
+\end{pmatrix}
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+5 & 1 & 2 & 3 & 4 & 7 & 8 & 6
+\end{pmatrix} \\
+&= \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+2 & 3 & 4 & 5 & 1 & 8 & 6 & 7
+\end{pmatrix}
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+6 & 2 & 3 & 1 & 5 & 8 & 7 & 4
+\end{pmatrix} \\
+&= \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
+8 & 3 & 4 & 2 & 1 & 7 & 6 & 5
+\end{pmatrix} \\
+&= (1\,8\,5)(2\,3\,4)(6\,7) \\
+&= (2\,3\,4)(5\,1\,8)(6\,7) = q.
+\end{align*}
+Hence, $q = r p r^{-1}$ is verified.
+\end{example}
+
+\newpage
+% =========================================================================
+% SECTION 2
+% =========================================================================
+\section{Subgroups of \texorpdfstring{$S_4$}{S4}, Inverses, and Failure of the Converse of Lagrange's Theorem}
+
+\subsection{Explicit Structure of \texorpdfstring{$S_4$}{S4} and the Alternating Group \texorpdfstring{$A_4$}{A4}}
+
+The symmetric group $S_4$ consists of all $4! = 24$ permutations on $\{1, 2, 3, 4\}$. Written out in full two-row and disjoint cycle forms:
+\begin{align*}
+S_4 = \Bigl\{
+& I, \\
+& (2\,3\,4), (2\,4\,3), (3\,4), (2\,3), (2\,4), (1\,2), (1\,2)(3\,4), \\
+& (1\,2\,3), (1\,2\,3\,4), (1\,2\,4\,3), (1\,2\,4), (1\,3\,2), \\
+& (1\,3\,4\,2), (1\,3), (1\,3\,4), (1\,3)(2\,4), (1\,3\,2\,4), \\
+& (1\,4\,3\,2), (1\,4), (1\,4\,2), (1\,4\,3), (1\,4\,2\,3), (1\,4)(2\,3)
+\Bigr\}.
+\end{align*}
+The alternating group $A_4$ is the subgroup of all even permutations in $S_4$. Since $|S_4| = 24$, its order is:
+\[
+|A_4| = \frac{|S_4|}{2} = \frac{24}{2} = 12.
+\]
+Explicitly, $A_4$ contains the identity, the eight 3-cycles, and the three products of two disjoint transpositions:
+\begin{align*}
+A_4 = \Bigl\{
+& I, \\
+& (1\,2\,3), (1\,3\,2), (1\,2\,4), (1\,4\,2), (1\,3\,4), (1\,4\,3), (2\,3\,4), (2\,4\,3), \\
+& (1\,2)(3\,4), (1\,3)(2\,4), (1\,4)(2\,3)
+\Bigr\}.
+\end{align*}
+Since $[S_4 : A_4] = 2$, it is immediate that:
+\[
+A_4 \trianglelefteq S_4.
+\]
+
+\subsection{The Klein Four-Group and Non-Transitivity of Normality}
+\label{sec:counterexample_transitivity}
+
+The \textbf{Klein four-group} embedded in $S_4$ is:
+\[
+V_4 = \{ I, (1\,2)(3\,4), (1\,3)(2\,4), (1\,4)(2\,3) \}.
+\]
+Notice that:
+\begin{itemize}
+    \item $V_4 \subseteq A_4$.
+    \item $V_4$ contains all permutations of cycle structure $(2, 2)$ in $S_4$ along with the identity.
+    \item Since conjugation preserves cycle structure, for any $g \in S_4$ and any $v \in V_4$, $g v g^{-1}$ must also have cycle structure $(2, 2)$ or be the identity, hence $g v g^{-1} \in V_4$.
+\end{itemize}
+Therefore:
+\[
+V_4 \trianglelefteq S_4 \quad \text{and} \quad V_4 \trianglelefteq A_4.
+\]
+
+\begin{example}[Counterexample: Normality is NOT Transitive]
+Consider the subgroup $H$ of $V_4$ generated by a single double transposition:
+\[
+H = \{ I, (1\,2)(3\,4) \} \le V_4.
+\]
+\begin{enumerate}
+    \item The index of $H$ in $V_4$ is:
+    \[
+    [V_4 : H] = \frac{|V_4|}{|H|} = \frac{4}{2} = 2.
+    \]
+    Since every subgroup of index 2 is normal:
+    \[
+    H \trianglelefteq V_4.
+    \]
+    \item We already have $V_4 \trianglelefteq S_4$.
+    \item However, $H$ is \textbf{not} a normal subgroup of $S_4$ ($H \not\trianglelefteq S_4$).
+    \begin{proof}
+    Take $g = (1\,3) \in S_4$. Then $g^{-1} = (1\,3)$. Conjugating $(1\,2)(3\,4) \in H$ by $g$:
+    \[
+    g (1\,2)(3\,4) g^{-1} = (1\,3)(1\,2)(3\,4)(1\,3) = (3\,2)(1\,4) = (1\,4)(2\,3).
+    \]
+    Notice that $(1\,4)(2\,3) \notin H$. Thus $g H g^{-1} \not\subseteq H$.
+    \end{proof}
+\end{enumerate}
+Therefore, $H \trianglelefteq V_4$ and $V_4 \trianglelefteq S_4$, but $H \not\trianglelefteq S_4$.
+\end{example}
+
+\begin{note}
+In $S_n$, if $H \trianglelefteq S_n$ and $p \in H$, then all permutations in $S_n$ that have the same cycle form as $p$ must also belong to $H$ (since normal subgroups are unions of complete conjugacy classes).
+\end{note}
+
+\subsection{Elements of Order 2 in Finite Groups of Even Order}
+
+\begin{theorem}[Cauchy's Lemma for $p = 2$: Elements of Order 2 in Even-Order Groups]
+If $G$ is a finite group of even order, then there exists an element $a \in G$ such that $a \neq e$ and $a^2 = e$ (i.e., $|a| = 2$).
+\end{theorem}
+
+\begin{proof}
+Let $G$ be a finite group with $|G| = 2k$ for some positive integer $k$.
+Every element $x \in G$ has a unique inverse $x^{-1} \in G$.
+
+An element $x$ satisfies $x = x^{-1}$ if and only if $x^2 = e$.
+The identity element $e$ always satisfies $e = e^{-1}$ (i.e., $e^2 = e$).
+
+Now consider the set of non-identity elements:
+\[
+G \setminus \{e\}.
+\]
+The cardinality of this set is:
+\[
+|G \setminus \{e\}| = |G| - 1 = 2k - 1,
+\]
+which is an \textbf{odd} integer.
+
+We can partition $G \setminus \{e\}$ into two disjoint subsets:
+\begin{enumerate}
+    \item Elements that are not their own inverses:
+    \[
+    A = \{ x \in G \setminus \{e\} \mid x \neq x^{-1} \}.
+    \]
+    These elements can be grouped into disjoint disjoint pairs $\{x, x^{-1}\}$ of size 2. Consequently, $|A|$ is an \textbf{even} integer.
+    
+    \item Elements that are their own inverses:
+    \[
+    B = \{ x \in G \setminus \{e\} \mid x = x^{-1} \}.
+    \]
+\end{enumerate}
+Since $(G \setminus \{e\}) = A \cup B$ and $A \cap B = \emptyset$:
+\[
+|B| = |G \setminus \{e\}| - |A| = (\text{odd}) - (\text{even}) = \text{odd}.
+\]
+Since $|B|$ is an odd integer, $|B| \ge 1$.
+Therefore, there exists at least one element $a \in G \setminus \{e\}$ such that:
+\[
+a = a^{-1} \implies a^2 = e.
+\]
+This element $a$ has order $|a| = 2$.
+\end{proof}
+
+\subsection{Failure of the Converse of Lagrange's Theorem}
+
+Lagrange's Theorem asserts that if $G$ is a finite group and $H \le G$, then $|H|$ divides $|G|$ ($|H| \mid |G|$).
+
+The \textbf{converse of Lagrange's Theorem} would state:
+\begin{center}
+\textit{If $G$ is a finite group and $n \mid |G|$, then $G$ must have a subgroup of order $n$.}
+\end{center}
+\textbf{The converse is false in general.}
+
+\begin{example}[$A_4$ Has No Subgroup of Order 6]
+Consider the alternating group $A_4$.
+We have $|A_4| = 12$.
+The integer 6 divides 12 ($6 \mid 12$).
+We prove that $A_4$ has \textbf{no} subgroup of order 6.
+\end{example}
+
+\begin{proof}
+Suppose, for the sake of contradiction, that $H$ is a subgroup of $A_4$ of order 6 ($|H| = 6$).
+\begin{enumerate}
+    \item The index of $H$ in $A_4$ is:
+    \[
+    [A_4 : H] = \frac{|A_4|}{|H|} = \frac{12}{6} = 2.
+    \]
+    Since any subgroup of index 2 is normal:
+    \[
+    H \trianglelefteq A_4.
+    \]
+    
+    \item Since $|H| = 6$ is an even integer, by the preceding theorem, there exists an element $p \in H$ such that:
+    \[
+    p \neq I \quad \text{and} \quad p^2 = I \quad (\text{i.e., } |p| = 2).
+    \]
+    
+    \item Recall that the elements of order 2 in $A_4$ are precisely the three double transpositions:
+    \[
+    (1\,2)(3\,4), \quad (1\,3)(2\,4), \quad (1\,4)(2\,3).
+    \]
+    Without loss of generality, let $p = (1\,2)(3\,4) \in H$.
+    
+    \item Since $H \trianglelefteq A_4$, $H$ is closed under conjugation by every element of $A_4$.
+    \begin{itemize}
+        \item Conjugating $p$ by $(1\,2\,3) \in A_4$:
+        \[
+        (1\,4)(2\,3) = (1\,2\,3)(1\,2)(3\,4)(1\,2\,3)^{-1} \in H.
+        \]
+        \item Conjugating $p$ by $(1\,2\,4) \in A_4$:
+        \[
+        (1\,3)(2\,4) = (1\,2\,4)(1\,2)(3\,4)(1\,2\,4)^{-1} \in H.
+        \]
+    \end{itemize}
+    
+    \item Since $H \trianglelefteq A_4$, both $(1\,4)(2\,3)$ and $(1\,3)(2\,4)$ must also belong to $H$.
+    Together with $I \in H$ and $p = (1\,2)(3\,4) \in H$, we have:
+    \[
+    V_4 = \{ I, (1\,2)(3\,4), (1\,3)(2\,4), (1\,4)(2\,3) \} \subseteq H.
+    \]
+    
+    \item Since $V_4$ is a subgroup of $A_4$ contained in $H$, $V_4 \le H$.
+    By Lagrange's Theorem, the order of $V_4$ must divide the order of $H$:
+    \[
+    |V_4| \mid |H| \implies 4 \mid 6,
+    \]
+    which is an outright contradiction, since $4 \nmid 6$.
+\end{enumerate}
+Therefore, our assumption that $A_4$ contains a subgroup of order 6 is false.
+There is no subgroup of $A_4$ of order 6.
+\end{proof}
+
+\newpage
+% =========================================================================
+% SECTION 3
+% =========================================================================
+\section{Quotient Groups (Factor Groups) and Canonical Projection}
+
+\subsection{Coset Multiplication and Well-Definedness}
+
+Let $G$ be a group and let $H \le G$.
+The set of all left cosets of $H$ in $G$ is denoted by:
+\[
+G/H = \{ aH \mid a \in G \}.
+\]
+We define a candidate binary operation $*: G/H \times G/H \to G/H$ by:
+\[
+*(aH, bH) = abH \quad \text{or} \quad aH * bH = abH.
+\]
+
+\begin{remark}[Failure of Coset Multiplication for Non-Normal Subgroups]
+The operation $*$ \textbf{need not be a well-defined mapping} if $H$ is merely a subgroup of $G$ and not normal!
+\end{remark}
+
+\begin{example}[Counterexample: Operation Not Well-Defined When $H \not\trianglelefteq G$]
+Consider the symmetric group $G = S_3$ and the subgroup $H = \{ I, (1\,2) \}$.
+Compute the left cosets:
+\begin{align*}
+(1\,2\,3)H &= \{ (1\,2\,3)I, (1\,2\,3)(1\,2) \} = \{ (1\,2\,3), (1\,3) \} = (1\,3)H, \\
+(2\,3)H &= \{ (2\,3)I, (2\,3)(1\,2) \} = \{ (2\,3), (1\,3\,2) \}.
+\end{align*}
+Since $(1\,2\,3)H = (1\,3)H$, for $*$ to be well-defined, the product with $(2\,3)H$ must yield the exact same coset:
+\[
+\text{Must have: } \quad (1\,2\,3)H * (2\,3)H = (1\,3)H * (2\,3)H.
+\]
+Let us compute each side explicitly using the formula $xH * yH = xyH$:
+\begin{itemize}
+    \item Left side:
+    \[
+    (1\,2\,3)H * (2\,3)H = (1\,2\,3)(2\,3)H = (1\,2)H = H.
+    \]
+    \item Right side:
+    \[
+    (1\,3)H * (2\,3)H = (1\,3)(2\,3)H = (1\,3\,2)H = \{ (1\,3\,2), (2\,3) \} \neq H.
+    \]
+\end{itemize}
+Therefore:
+\[
+(1\,2\,3)H * (2\,3)H \neq (1\,3)H * (2\,3)H.
+\]
+Thus, the operation $*$ depends on the choice of coset representative, and so is \textbf{not well-defined}.
+\end{example}
+
+\begin{theorem}[Well-Definedness Criterion and Quotient Group]
+Let $G$ be a group and $H \trianglelefteq G$. Then the operation:
+\[
+*: G/H \times G/H \to G/H, \quad aH * bH = abH
+\]
+is a well-defined binary operation on $G/H$. Furthermore, $(G/H, *)$ is a group, known as the \textbf{quotient group} (or \textbf{factor group}) of $G$ with respect to $H$.
+\end{theorem}
+
+\begin{proof}
+We divide the proof into two parts:
+\paragraph{Part 1: Well-Definedness.}
+Let $(aH, bH) = (a'H, b'H)$ in $G/H \times G/H$. This means:
+\[
+aH = a'H \quad \text{and} \quad bH = b'H.
+\]
+We must show that $abH = a'b'H$.
+\begin{itemize}
+    \item $aH = a'H \implies a \in a'H \implies a = a' h_1$ for some $h_1 \in H$.
+    \item $bH = b'H \implies b \in b'H \implies b = b' h_2$ for some $h_2 \in H$.
+\end{itemize}
+Now calculate the coset $abH$:
+\begin{align*}
+abH &= (a' h_1)(b' h_2)H \\
+&= a' h_1 b' (h_2 H) & (\text{as } h_2 \in H \implies h_2 H = H) \\
+&= a' h_1 b' H.
+\end{align*}
+Since $H \trianglelefteq G$, left and right cosets coincide, so $b' H = H b'$.
+Thus, $h_1 b' \in H b' = b' H$, which implies that there exists $h_3 \in H$ such that:
+\[
+h_1 b' = b' h_3.
+\]
+Substituting this back:
+\begin{align*}
+abH &= a' (h_1 b') H \\
+&= a' (b' h_3) H \\
+&= a' b' (h_3 H) & (\text{as } h_3 \in H \implies h_3 H = H) \\
+&= a' b' H.
+\end{align*}
+Hence:
+\[
+abH = a'b'H \implies aH * bH = a'H * b'H.
+\]
+So $*$ is indeed a well-defined map, i.e., a binary operation on $G/H$.
+
+\paragraph{Part 2: Group Axioms for $(G/H, *)$.}
+\begin{enumerate}
+    \item \textbf{Associativity:}
+    Let $aH, bH, cH \in G/H$.
+    \begin{align*}
+    (aH * bH) * cH &= (abH) * cH \\
+    &= (ab)cH \\
+    &= a(bc)H & (\text{associativity in } G) \\
+    &= aH * (bcH) \\
+    &= aH * (bH * cH).
+    \end{align*}
+    So $*$ is associative.
+    
+    \item \textbf{Identity Element:}
+    The coset $eH = H$ serves as the identity element in $G/H$, because for any $aH \in G/H$:
+    \[
+    aH * eH = (ae)H = aH \quad \text{and} \quad eH * aH = (ea)H = aH.
+    \]
+    Thus $eH = H$ is the identity element in $G/H$ with respect to $*$.
+    
+    \item \textbf{Inverses:}
+    For any $aH \in G/H$, the coset $a^{-1}H \in G/H$ is its inverse, because:
+    \[
+    aH * a^{-1}H = (aa^{-1})H = eH = H \quad \text{and} \quad a^{-1}H * aH = (a^{-1}a)H = eH = H.
+    \]
+    Thus, $(aH)^{-1} = a^{-1}H$.
+\end{enumerate}
+Hence, $(G/H, *)$ is a group, known as the quotient group of $G$ with respect to $H$.
+\end{proof}
+
+\begin{note}
+If $G$ is an abelian group, then the quotient group $G/H$ is also abelian.
+\begin{proof}
+For any $aH, bH \in G/H$:
+\[
+aH * bH = abH = baH = bH * aH \quad (\text{since } ab = ba \text{ in } G). \qedhere
+\]
+\end{proof}
+\end{note}
+
+\subsection{The Canonical (Natural) Projection}
+
+\begin{theorem}[The Canonical Projection Homomorphism]
+Let $G$ be a group and $H \trianglelefteq G$. Then the mapping:
+\[
+\nu: G \to G/H, \quad \nu(x) = xH \quad \forall x \in G
+\]
+is a surjective group homomorphism with $\ker \nu = H$.
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item \textbf{$\nu$ is a group homomorphism:}
+    Let $x, y \in G$. Then:
+    \[
+    \nu(xy) = (xy)H = xH * yH = \nu(x) * \nu(y).
+    \]
+    Thus $\nu(xy) = \nu(x)\nu(y)$, so $\nu$ is a group homomorphism.
+    
+    \item \textbf{$\nu$ is surjective (onto):}
+    Let $t \in G/H$. By definition of $G/H$, $t$ is a left coset of the form:
+    \[
+    t = aH = \nu(a) \quad \text{for some } a \in G.
+    \]
+    So $\nu$ is surjective. Hence $\nu$ is a surjective group homomorphism.
+    
+    \item \textbf{Computation of $\ker \nu$:}
+    By definition of the kernel of a homomorphism:
+    \begin{align*}
+    \ker \nu &= \{ x \in G \mid \nu(x) = e_{G/H} \} \\
+    &= \{ x \in G \mid \nu(x) = H \} \\
+    &= \{ x \in G \mid xH = H \} \\
+    &= \{ x \in G \mid x \in H \} \\
+    &= H.
+    \end{align*}
+    Thus, $\ker \nu = H$.
+\end{enumerate}
+\end{proof}
+
+\begin{remark}[Significance of the Natural Homomorphism]
+This homomorphism $\nu$ is known as the \textbf{canonical projection}, \textbf{natural homomorphism}, or \textbf{quotient homomorphism}.
+\end{remark}
+
+\subsection{The Correspondence Theorem for Quotient Groups}
+
+\begin{note}
+Recall from set theory that if $f: X \to Y$ is a mapping and $A_1, A_2 \subseteq X$:
+\begin{enumerate}
+    \item $f(A_1 \cup A_2) = f(A_1) \cup f(A_2)$.
+    \item $f(A_1 \cap A_2) \subseteq f(A_1) \cap f(A_2)$, where equality holds if $f$ is injective (one-to-one).
+\end{enumerate}
+\end{note}
+
+\begin{proposition}[Lattice / Correspondence for Quotient Groups]
+Let $G$ be a group and $H \trianglelefteq G$. Then:
+\begin{enumerate}
+    \item Any subgroup of $G/H$ is of the form $K/H$, where $K$ is a subgroup of $G$ containing $H$ ($H \le K \le G$).
+    \item $K_1/H = K_2/H \implies K_1 = K_2$, where $K_1, K_2 \le G$ containing $H$.
+    \item $(K_1 \cap K_2)/H = K_1/H \cap K_2/H$, where $K_1, K_2 \le G$ containing $H$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Consider the quotient group homomorphism $\nu: G \to G/H$ defined by $\nu(x) = xH$ for all $x \in G$.
+Then $\nu$ is surjective and $\ker \nu = H$.
+
+By the general Correspondence Theorem (Theorem 1.1), there exists a bijection:
+\[
+\phi: \mathcal{S}(G) \to \mathcal{S}'(G/H), \quad \phi(K) = \nu(K) \quad \forall K \in \mathcal{S}(G),
+\]
+where $\mathcal{S}(G) = \{ K \le G \mid \ker \nu = H \subseteq K \}$ and $\mathcal{S}'(G/H) = \{ T \le G/H \}$.
+
+Observe that for any $K \in \mathcal{S}(G)$:
+\[
+\nu(K) = \{ \nu(x) \mid x \in K \} = \{ xH \mid x \in K \} = K/H.
+\]
+\begin{enumerate}
+    \item Let $T \le G/H$. Then $T \in \mathcal{S}'(G/H)$.
+    Since $\phi$ is onto, there exists $K \in \mathcal{S}(G)$ such that:
+    \[
+    T = \phi(K) = \nu(K) = K/H.
+    \]
+    Since $K \in \mathcal{S}(G)$, we have $\ker \nu \subseteq K \implies H \le K$.
+    Thus $T = K/H$ for some $K \le G$ containing $H$.
+    
+    \item Let $K_1/H = K_2/H$.
+    \[
+    \implies \nu(K_1) = \nu(K_2) \implies \phi(K_1) = \phi(K_2).
+    \]
+    Since $\phi$ is injective (one-to-one):
+    \[
+    K_1 = K_2.
+    \]
+    
+    \item Since $\phi$ is a bijection, we have:
+    \begin{align*}
+    (K_1 \cap K_2)/H &= \nu(K_1 \cap K_2) \\
+    &= \phi(K_1 \cap K_2) \\
+    &= \phi(K_1) \cap \phi(K_2) \quad (\text{as } \phi \text{ is a bijection}) \\
+    &= \nu(K_1) \cap \nu(K_2) \\
+    &= K_1/H \cap K_2/H.
+    \end{align*}
+    Therefore, $\boxed{(K_1 \cap K_2)/H = K_1/H \cap K_2/H}$. \qedhere
+\end{enumerate}
+\end{proof}
+
+\begin{note}
+If $G$ is a group and $H \trianglelefteq G$, then any normal subgroup of $G/H$ is of the form $K/H$, where $K$ is a normal subgroup of $G$ containing $H$ ($H \subseteq K \trianglelefteq G$).
+\end{note}
+
+\newpage
+% =========================================================================
+% SECTION 4
+% =========================================================================
+\section{The Three Isomorphism Theorems}
+
+\subsection{The First Isomorphism Theorem}
+
+\begin{theorem}[Fundamental Theorem of Group Homomorphisms / First Isomorphism Theorem]
+If $G$ and $G'$ are two groups and $f: G \to G'$ is a group homomorphism, then:
+\[
+G/\ker f \cong f(G).
+\]
+In particular, if $f$ is surjective (onto), then:
+\[
+G/\ker f \cong G'.
+\]
+\end{theorem}
+
+\begin{proof}
+As $f: G \to G'$ is a group homomorphism, $\ker f \trianglelefteq G$.
+Therefore, the quotient group $G/\ker f$ exists.
+Also, the image $f(G) = \operatorname{Im} f$ is a subgroup of $G'$.
+
+Define the map $\phi: G/\ker f \to f(G)$ by:
+\[
+\phi(x\ker f) = f(x) \quad \forall x \in G.
+\]
+We prove that $\phi$ is an isomorphism in four explicit steps:
+
+\paragraph{Step 1: $\phi$ is well-defined.}
+Let $x\ker f = y\ker f$ for some $x, y \in G$.
+\begin{align*}
+x\ker f = y\ker f &\implies x^{-1}y \in \ker f \\
+&\implies f(x^{-1}y) = e' \\
+&\implies f(x^{-1}) f(y) = e' & (\text{as } f \text{ is a homomorphism}) \\
+&\implies (f(x))^{-1} f(y) = e' \\
+&\implies f(x) = f(y) \\
+&\implies \phi(x\ker f) = \phi(y\ker f).
+\end{align*}
+Hence, $\phi$ is well-defined.
+
+\paragraph{Step 2: $\phi$ is injective (one-to-one).}
+Reversing the logic of Step 1:
+\begin{align*}
+\phi(x\ker f) = \phi(y\ker f) &\implies f(x) = f(y) \\
+&\implies (f(x))^{-1} f(y) = e' \\
+&\implies f(x^{-1}) f(y) = e' \\
+&\implies f(x^{-1}y) = e' \\
+&\implies x^{-1}y \in \ker f \\
+&\implies x\ker f = y\ker f.
+\end{align*}
+Therefore, $\phi$ is a one-to-one map.
+
+\paragraph{Step 3: $\phi$ is surjective (onto).}
+Let $t \in f(G)$.
+By definition of the image $f(G)$, there exists $a \in G$ such that:
+\[
+t = f(a).
+\]
+Since $a \in G \implies a\ker f \in G/\ker f$, and:
+\[
+\phi(a\ker f) = f(a) = t.
+\]
+So $\phi$ is onto.
+
+\paragraph{Step 4: $\phi$ is a group homomorphism.}
+For any $x\ker f, y\ker f \in G/\ker f$:
+\begin{align*}
+\phi(x\ker f \cdot y\ker f) &= \phi(xy\ker f) \\
+&= f(xy) \\
+&= f(x) f(y) & (\text{as } f \text{ is a group homomorphism}) \\
+&= \phi(x\ker f) \phi(y\ker f).
+\end{align*}
+So $\phi$ is a group homomorphism.
+
+\bigskip
+Combining Steps 1--4, $\phi$ is an isomorphism from $G/\ker f$ onto $f(G)$.
+Therefore:
+\[
+\therefore G/\ker f \cong f(G).
+\]
+If $f$ is onto, then $f(G) = G'$, and hence:
+\[
+G/\ker f \cong G'. \qedhere
+\]
+\end{proof}
+
+\subsection{Applications of the First Isomorphism Theorem}
+
+\begin{example}[Application 1: $\mathbb{R}/\mathbb{Z} \cong S^1$]
+Let $(\mathbb{R}, +)$ be the additive group of real numbers, and let:
+\[
+S^1 = \{ z \in \mathbb{C} \mid |z| = 1 \}
+\]
+be the circle group under complex multiplication. Show that $\mathbb{R}/\mathbb{Z} \cong S^1$.
+\end{example}
+
+\begin{proof}
+Define $f: (\mathbb{R}, +) \to (S^1, \cdot)$ by:
+\[
+f(x) = e^{2\pi i x} \quad \forall x \in \mathbb{R}.
+\]
+\begin{enumerate}
+    \item \textbf{$f$ is a group homomorphism:}
+    For any $x, y \in \mathbb{R}$:
+    \[
+    f(x+y) = e^{2\pi i (x+y)} = e^{2\pi i x} \cdot e^{2\pi i y} = f(x) \cdot f(y).
+    \]
+    So $f$ is a group homomorphism.
+    
+    \item \textbf{$f$ is onto:}
+    Let $z \in S^1$. Since $|z| = 1$, $z$ can be written in polar form as:
+    \[
+    z = e^{i\theta} \quad \text{for some } \theta \in \mathbb{R}.
+    \]
+    Setting $x = \frac{\theta}{2\pi} \in \mathbb{R}$, we find:
+    \[
+    f\left(\frac{\theta}{2\pi}\right) = e^{2\pi i \left(\frac{\theta}{2\pi}\right)} = e^{i\theta} = z.
+    \]
+    So $f$ is onto.
+    
+    \item \textbf{Computation of $\ker f$:}
+    \begin{align*}
+    \ker f &= \{ x \in \mathbb{R} \mid f(x) = 1 \} \\
+    &= \{ x \in \mathbb{R} \mid e^{2\pi i x} = 1 \} \\
+    &= \{ x \in \mathbb{R} \mid \cos(2\pi x) + i\sin(2\pi x) = 1 \} \\
+    &= \{ x \in \mathbb{R} \mid 2\pi x = 2k\pi, k \in \mathbb{Z} \} \\
+    &= \{ x \in \mathbb{R} \mid x \in \mathbb{Z} \} = \mathbb{Z}.
+    \end{align*}
+\end{enumerate}
+By the Fundamental Theorem of Group Homomorphisms:
+\[
+\mathbb{R}/\ker f \cong S^1 \implies \boxed{\mathbb{R}/\mathbb{Z} \cong S^1}. \qedhere
+\]
+\end{proof}
+
+\begin{example}[Application 2: $\mathbb{Q}/\mathbb{Z} \cong P$]
+Let $P = \{ z \in \mathbb{C} \mid z^n = 1 \text{ for some } n \in \mathbb{Z}^+ \}$ be the group of all roots of unity under complex multiplication. Show that $\mathbb{Q}/\mathbb{Z} \cong P$.
+\end{example}
+
+\begin{proof}
+Define $f: (\mathbb{Q}, +) \to (P, \cdot)$ by:
+\[
+f(x) = e^{2\pi i x} \quad \forall x \in \mathbb{Q}.
+\]
+\begin{enumerate}
+    \item \textbf{$f$ is well-defined into $P$:}
+    If $x \in \mathbb{Q}$, then $x = \frac{m}{n}$ for some $m, n \in \mathbb{Z}$ with $n \neq 0$. Then:
+    \[
+    (e^{2\pi i x})^n = \left(e^{2\pi i \frac{m}{n}}\right)^n = e^{2\pi i m} = 1.
+    \]
+    Thus $f(x) \in P$, so $f$ is a well-defined map.
+    
+    \item \textbf{$f$ is a group homomorphism:}
+    For all $x, y \in \mathbb{Q}$:
+    \[
+    f(x+y) = e^{2\pi i (x+y)} = e^{2\pi i x} e^{2\pi i y} = f(x) f(y).
+    \]
+    
+    \item \textbf{$f$ is onto:}
+    Let $z \in P$. Then $z^n = 1$ for some $n \in \mathbb{Z}^+$.
+    By Euler's formula:
+    \[
+    \cos(2\pi m) + i\sin(2\pi m) = 1 \quad \forall m \in \mathbb{Z} \implies z^n = e^{2\pi i m} \implies z = e^{2\pi i \frac{m}{n}}.
+    \]
+    Since $\frac{m}{n} \in \mathbb{Q}$, we have:
+    \[
+    z = f\left(\frac{m}{n}\right) \quad \text{with } \frac{m}{n} \in \mathbb{Q}.
+    \]
+    Therefore, $f$ is onto.
+    
+    \item \textbf{Computation of $\ker f$:}
+    \begin{align*}
+    \ker f &= \{ x \in \mathbb{Q} \mid f(x) = 1 \} \\
+    &= \{ x \in \mathbb{Q} \mid e^{2\pi i x} = 1 \} \\
+    &= \{ x \in \mathbb{Q} \mid x \in \mathbb{Z} \} = \mathbb{Z}.
+    \end{align*}
+\end{enumerate}
+By the Fundamental Theorem of Group Homomorphisms:
+\[
+\mathbb{Q}/\ker f \cong P \implies \boxed{\mathbb{Q}/\mathbb{Z} \cong P}. \qedhere
+\]
+\end{proof}
+
+\begin{example}[Application 3: $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}_n$]
+Show that $\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}_n$.
+\end{example}
+
+\begin{proof}
+Define $f: (\mathbb{Z}, +) \to (\mathbb{Z}_n, +)$ by:
+\[
+f(x) = \bar{x}.
+\]
+\begin{enumerate}
+    \item \textbf{$f$ is a group homomorphism:}
+    \[
+    f(x_1 + x_2) = \overline{x_1 + x_2} = \bar{x}_1 + \bar{x}_2 = f(x_1) + f(x_2).
+    \]
+    
+    \item \textbf{$f$ is clearly onto:}
+    For every $\bar{r} \in \mathbb{Z}_n = \{ \bar{0}, \bar{1}, \dots, \overline{n-1} \}$, $f(r) = \bar{r}$ with $r \in \mathbb{Z}$.
+    
+    \item \textbf{Computation of $\ker f$:}
+    \begin{align*}
+    \ker f &= \{ x \in \mathbb{Z} \mid f(x) = \bar{0} \} \\
+    &= \{ x \in \mathbb{Z} \mid \bar{x} = \bar{0} \} \\
+    &= \{ x \in \mathbb{Z} \mid x = nk, k \in \mathbb{Z} \} \\
+    &= n\mathbb{Z}.
+    \end{align*}
+\end{enumerate}
+By the Fundamental Theorem of Group Homomorphisms:
+\[
+\mathbb{Z}/\ker f \cong \mathbb{Z}_n \implies \boxed{\mathbb{Z}/n\mathbb{Z} \cong \mathbb{Z}_n}. \qedhere
+\]
+\end{proof}
+
+\begin{example}[Application 4: $GL(n, \mathbb{R})/SL(n, \mathbb{R}) \cong (\mathbb{R}^*, \cdot)$]
+Recall that:
+\begin{align*}
+GL(n, \mathbb{R}) &= \{ A \in M_n(\mathbb{R}) \mid \det(A) \neq 0 \}, \\
+SL(n, \mathbb{R}) &= \{ A \in GL(n, \mathbb{R}) \mid \det(A) = 1 \}.
+\end{align*}
+Show that $GL(n, \mathbb{R})/SL(n, \mathbb{R}) \cong (\mathbb{R}^*, \cdot)$.
+\end{example}
+
+\begin{proof}
+Define $f: GL(n, \mathbb{R}) \to (\mathbb{R}^*, \cdot)$ by:
+\[
+f(A) = \det(A) \quad \forall A \in GL(n, \mathbb{R}).
+\]
+\begin{enumerate}
+    \item \textbf{$f$ is a group homomorphism:}
+    For any $A, B \in GL(n, \mathbb{R})$:
+    \[
+    f(AB) = \det(AB) = \det(A) \det(B) = f(A) f(B).
+    \]
+    
+    \item \textbf{$f$ is onto:}
+    For any $\alpha \in \mathbb{R}^*$, consider the diagonal matrix:
+    \[
+    A = \begin{pmatrix}
+    \alpha & 0 & \cdots & 0 \\
+    0 & 1 & \cdots & 0 \\
+    \vdots & \vdots & \ddots & \vdots \\
+    0 & 0 & \cdots & 1
+    \end{pmatrix}_{n \times n} \in GL(n, \mathbb{R}).
+    \]
+    Then $\det(A) = \alpha \cdot 1 \cdots 1 = \alpha$.
+    Thus $f(A) = \alpha$, so $f$ is onto.
+    
+    \item \textbf{Computation of $\ker f$:}
+    \begin{align*}
+    \ker f &= \{ A \in GL(n, \mathbb{R}) \mid f(A) = 1 \} \\
+    &= \{ A \in GL(n, \mathbb{R}) \mid \det(A) = 1 \} \\
+    &= SL(n, \mathbb{R}).
+    \end{align*}
+\end{enumerate}
+By the Fundamental Theorem of Group Homomorphisms:
+\[
+GL(n, \mathbb{R})/\ker f \cong (\mathbb{R}^*, \cdot) \implies \boxed{GL(n, \mathbb{R})/SL(n, \mathbb{R}) \cong (\mathbb{R}^*, \cdot)}. \qedhere
+\]
+\end{proof}
+
+\subsection{The Second Isomorphism Theorem (Diamond Isomorphism Theorem)}
+
+\begin{theorem}[Second Isomorphism Theorem]
+Let $H$ and $K$ be subgroups of a group $G$ such that $K \trianglelefteq G$. Then:
+\[
+\frac{H}{H \cap K} \cong \frac{HK}{K}.
+\]
+\end{theorem}
+
+\begin{proof}
+We construct the isomorphism by applying the First Isomorphism Theorem to an appropriately defined map on $H$:
+\begin{enumerate}
+    \item As $K \trianglelefteq G$, by Theorem 1.2 we have $H \cap K \trianglelefteq H$. Therefore, the quotient group $\frac{H}{H \cap K}$ exists.
+    \item Since $K \trianglelefteq G$, $HK$ is a subgroup of $G$ and $K \le HK$. Since $K \trianglelefteq G$, $K \trianglelefteq HK$. Therefore, the quotient group $\frac{HK}{K}$ exists.
+    \item Define $f: H \to HK/K$ by:
+    \[
+    f(h) = hK \quad \forall h \in H.
+    \]
+    Since $H \subseteq HK$, $hK \in HK/K$, so $f$ is a well-defined map.
+    
+    \item \textbf{$f$ is a group homomorphism:}
+    For any $h_1, h_2 \in H$:
+    \begin{align*}
+    f(h_1 h_2) &= (h_1 h_2)K \\
+    &= (h_1 K)(h_2 K) \\
+    &= f(h_1) f(h_2).
+    \end{align*}
+    Thus $f$ is a group homomorphism.
+    
+    \item \textbf{$f$ is onto:}
+    Let $t \in HK/K$. Then $t = xK$ for some $x \in HK$.
+    Since $x \in HK$, $x = hk$ for some $h \in H$ and $k \in K$.
+    Then:
+    \[
+    t = xK = (hk)K = h(kK) = hK = f(h).
+    \]
+    Hence, $f$ is onto.
+    
+    \item \textbf{Computation of $\ker f$:}
+    \begin{align*}
+    \ker f &= \{ h \in H \mid f(h) = K \} \\
+    &= \{ h \in H \mid hK = K \} \\
+    &= \{ h \in H \mid h \in K \} \\
+    &= H \cap K.
+    \end{align*}
+\end{enumerate}
+By the Fundamental Theorem of Group Homomorphisms:
+\[
+H/\ker f \cong HK/K \implies \boxed{\frac{H}{H \cap K} \cong \frac{HK}{K}}. \qedhere
+\]
+\end{proof}
+
+\subsection{The Third Isomorphism Theorem}
+
+\begin{theorem}[Third Isomorphism Theorem]
+Let $H$ and $K$ be normal subgroups of a group $G$ such that $H \subseteq K$ ($H \trianglelefteq G, K \trianglelefteq G$, and $H \subseteq K$). Then:
+\[
+\frac{G/H}{K/H} \cong \frac{G}{K}.
+\]
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}
+    \item As $H, K \trianglelefteq G$, the quotient groups $G/H$ and $G/K$ exist.
+    Also, $H \subseteq K$, so $H$ is a normal subgroup of $K$. Therefore, the quotient group $K/H$ exists.
+    As $K \trianglelefteq G$ such that $H \subseteq K$, by the Correspondence Theorem $K/H \trianglelefteq G/H$.
+    Therefore, the quotient group $\frac{G/H}{K/H}$ exists.
+    
+    \item Define $f: G/H \to G/K$ by:
+    \[
+    f(xH) = xK \quad \forall x \in G.
+    \]
+    \textbf{Well-definedness of $f$:}
+    \begin{align*}
+    xH = yH &\implies x^{-1}y \in H \subseteq K \\
+    &\implies x^{-1}y \in K \\
+    &\implies xK = yK \\
+    &\implies f(xH) = f(yH).
+    \end{align*}
+    So $f$ is a well-defined map.
+    
+    \item \textbf{$f$ is a group homomorphism:}
+    For any $xH, yH \in G/H$:
+    \begin{align*}
+    f(xH \cdot yH) &= f(xyH) \\
+    &= xyK \\
+    &= xK \cdot yK \\
+    &= f(xH) f(yH).
+    \end{align*}
+    Thus $f$ is a group homomorphism.
+    
+    \item \textbf{$f$ is onto:}
+    Let $t \in G/K$. Then $t = xK$ for some $x \in G$.
+    Since $x \in G \implies xH \in G/H$, and:
+    \[
+    f(xH) = xK = t.
+    \]
+    So $f$ is onto.
+    
+    \item \textbf{Computation of $\ker f$:}
+    \begin{align*}
+    \ker f &= \{ xH \in G/H \mid f(xH) = K \} \\
+    &= \{ xH \in G/H \mid xK = K \} \\
+    &= \{ xH \in G/H \mid x \in K \} \\
+    &= K/H.
+    \end{align*}
+\end{enumerate}
+By the Fundamental Theorem of Group Homomorphisms:
+\[
+(G/H)/\ker f \cong G/K \implies \boxed{\frac{G/H}{K/H} \cong \frac{G}{K}}. \qedhere
+\]
+\end{proof}
+
+\subsection{The Isomorphism \texorpdfstring{$S_n/A_n \cong (\{1, -1\}, \cdot)$}{Sn/An isomorphic to {1,-1}}}
+
+\begin{problem}
+Show that $S_n/A_n \cong (\{1, -1\}, \cdot)$.
+\end{problem}
+
+\begin{proof}
+Define the signature map $\operatorname{sgn}: S_n \to (\{1, -1\}, \cdot)$ by:
+\[
+\operatorname{sgn}(\sigma) = \begin{cases}
++1 & \text{if } \sigma \text{ is an even permutation}, \\
+-1 & \text{if } \sigma \text{ is an odd permutation}.
+\end{cases}
+\]
+\begin{enumerate}
+    \item Since the parity of a product of permutations satisfies $\operatorname{sgn}(\sigma \tau) = \operatorname{sgn}(\sigma) \operatorname{sgn}(\tau)$, $\operatorname{sgn}$ is a group homomorphism.
+    \item Since $n \ge 2$, $S_n$ contains transpositions (which are odd), so $\operatorname{sgn}$ is surjective onto $\{1, -1\}$.
+    \item The kernel is:
+    \[
+    \ker(\operatorname{sgn}) = \{ \sigma \in S_n \mid \operatorname{sgn}(\sigma) = 1 \} = A_n.
+    \]
+\end{enumerate}
+By the First Isomorphism Theorem:
+\[
+S_n/\ker(\operatorname{sgn}) \cong \{1, -1\} \implies \boxed{S_n/A_n \cong (\{1, -1\}, \cdot)}. \qedhere
+\]
+\end{proof}
+
+\newpage
+% =========================================================================
+% SECTION 5
+% =========================================================================
+\section{Products of Subgroups and Order Formulas}
+
+\subsection{Criterion for \texorpdfstring{$HK$}{HK} to be a Subgroup}
+
+\begin{definition}[Product of Subgroups]
+Let $H$ and $K$ be two subgroups of a group $G$. The \textbf{product} of $H$ and $K$ is defined as the set:
+\[
+HK = \{ hk \mid h \in H, k \in K \}.
+\]
+\end{definition}
+
+\begin{theorem}[Subgroup Criterion for the Product $HK$]
+Let $H$ and $K$ be subgroups of a group $G$. Then $HK$ is a subgroup of $G$ if and only if $HK = KH$:
+\[
+HK \le G \iff HK = KH.
+\]
+\end{theorem}
+
+\begin{proof}
+We prove both implications:
+
+\paragraph{($\implies$) Assume $HK \le G$. We show $HK = KH$.}
+\begin{enumerate}
+    \item Let $x \in KH$. Then $x = kh$ for some $k \in K$ and $h \in H$.
+    Consider its inverse:
+    \[
+    x^{-1} = (kh)^{-1} = h^{-1} k^{-1}.
+    \]
+    Since $h \in H \implies h^{-1} \in H$ and $k \in K \implies k^{-1} \in K$, we have $x^{-1} \in HK$.
+    Since $HK$ is given to be a subgroup of $G$, the inverse of any element in $HK$ also belongs to $HK$:
+    \[
+    (x^{-1})^{-1} \in HK \implies x \in HK.
+    \]
+    Therefore:
+    \[
+    KH \subseteq HK.
+    \]
+    
+    \item Conversely, let $y \in HK$.
+    Since $HK \le G$, $y^{-1} \in HK$.
+    Thus $y^{-1} = hk$ for some $h \in H, k \in K$.
+    Taking the inverse:
+    \[
+    y = (y^{-1})^{-1} = (hk)^{-1} = k^{-1} h^{-1}.
+    \]
+    Since $k^{-1} \in K$ and $h^{-1} \in H$, $y \in KH$.
+    Therefore:
+    \[
+    HK \subseteq KH.
+    \]
+\end{enumerate}
+Combining both inclusions:
+\[
+HK = KH.
+\]
+
+\paragraph{($\impliedby$) Assume $HK = KH$. We show $HK \le G$.}
+\begin{enumerate}
+    \item Since $e \in H$ and $e \in K$, $e = ee \in HK \neq \emptyset$.
+    \item \textbf{Closure under multiplication:}
+    Let $x, y \in HK$. Then $x = h_1 k_1$ and $y = h_2 k_2$ for $h_1, h_2 \in H$ and $k_1, k_2 \in K$.
+    \begin{align*}
+    xy &= (h_1 k_1)(h_2 k_2) \\
+    &= h_1 (k_1 h_2) k_2.
+    \end{align*}
+    Since $k_1 h_2 \in KH$ and $KH = HK$, there exist $h_3 \in H$ and $k_3 \in K$ such that $k_1 h_2 = h_3 k_3$.
+    Substituting:
+    \[
+    xy = h_1 (h_3 k_3) k_2 = (h_1 h_3)(k_3 k_2).
+    \]
+    Since $H \le G \implies h_1 h_3 \in H$, and $K \le G \implies k_3 k_2 \in K$, it follows that:
+    \[
+    xy \in HK.
+    \]
+    \item \textbf{Inverses:}
+    Let $x = hk \in HK$. Then:
+    \[
+    x^{-1} = (hk)^{-1} = k^{-1} h^{-1} \in KH.
+    \]
+    Since $KH = HK$, $x^{-1} \in HK$.
+\end{enumerate}
+Therefore, $HK \le G$.
+\end{proof}
+
+\begin{theorem}[Product of a Subgroup and a Normal Subgroup]
+Let $H, K \le G$. If $K \trianglelefteq G$, then $HK = KH$, and consequently $HK \le G$.
+\end{theorem}
+
+\begin{proof}
+Let $x \in HK \implies x = hk$ for some $h \in H, k \in K$.
+Notice that:
+\[
+x = hk = (h k h^{-1}) h.
+\]
+Since $K \trianglelefteq G$, $h k h^{-1} \in K$. Let $k' = h k h^{-1} \in K$. Then:
+\[
+x = k' h \in KH \implies HK \subseteq KH.
+\]
+Similarly, let $y \in KH \implies y = kh$ for some $k \in K, h \in H$.
+Notice that:
+\[
+y = kh = h (h^{-1} k h).
+\]
+Since $K \trianglelefteq G$, $h^{-1} k h \in K$. Let $k'' = h^{-1} k h \in K$. Then:
+\[
+y = h k'' \in HK \implies KH \subseteq HK.
+\]
+Hence $HK = KH$. By the preceding theorem, $HK \le G$.
+\end{proof}
+
+\begin{note}
+If $H, K \le G$ such that \textbf{either} $H \trianglelefteq G$ or $K \trianglelefteq G$, then $HK \le G$ and $KH \le G$.
+\end{note}
+
+\subsection{Formula for the Order of \texorpdfstring{$HK$}{HK}}
+
+\begin{theorem}[Order Formula for the Product of Finite Subgroups]
+If $H$ and $K$ are finite subgroups of a group $G$, then:
+\[
+|HK| = \frac{|H||K|}{|H \cap K|}.
+\]
+\end{theorem}
+
+\begin{proof}
+Notice that the product set $HK$ can be written as the union of left cosets of $K$:
+\[
+HK = \bigcup_{h \in H} hK.
+\]
+We determine how many distinct cosets of $K$ appear in this union.
+For any $h_1, h_2 \in H$:
+\begin{align*}
+h_1 K = h_2 K &\iff h_1^{-1} h_2 \in K \\
+&\iff h_1^{-1} h_2 \in H \cap K & (\text{since } h_1, h_2 \in H \implies h_1^{-1}h_2 \in H) \\
+&\iff h_1 (H \cap K) = h_2 (H \cap K).
+\end{align*}
+Therefore, the number of distinct left cosets of $K$ of the form $hK$ ($h \in H$) is equal to the number of distinct left cosets of $H \cap K$ in $H$.
+This number is precisely the index:
+\[
+[H : H \cap K] = \frac{|H|}{|H \cap K|}.
+\]
+Each left coset $hK$ contains exactly $|K|$ elements, and distinct cosets are completely disjoint.
+Therefore, the total number of elements in $HK$ is:
+\[
+|HK| = [H : H \cap K] \cdot |K| = \frac{|H|}{|H \cap K|} \cdot |K| = \frac{|H||K|}{|H \cap K|}. \qedhere
+\]
+\end{proof}
+
+\subsection{Comprehensive Practice Problems on Subgroup Orders}
+
+\begin{proposition}[Divisibility of Element Orders under Homomorphisms]
+If $f: G \to G'$ is a group homomorphism and $a \in G$ is an element of finite order $|a| = n$, then $|f(a)|$ is finite and divides $|a|$:
+\[
+|f(a)| \mid |a|.
+\]
+Furthermore, if $f$ is injective (one-to-one), then $|f(a)| = |a|$.
+\end{proposition}
+
+\begin{proof}
+Let $|a| = n \implies a^n = e$.
+Applying $f$:
+\begin{align*}
+f(a^n) &= f(e) \\
+\implies \underbrace{f(a) f(a) \cdots f(a)}_{n \text{ times}} &= e' \\
+\implies (f(a))^n &= e'.
+\end{align*}
+Since $(f(a))^n = e'$, the order $|f(a)|$ is finite and must divide $n$:
+\[
+|f(a)| \mid n \implies |f(a)| \mid |a|.
+\]
+If $f$ is one-to-one: let $m = |f(a)|$. Then $(f(a))^m = e' \implies f(a^m) = f(e) \implies a^m = e \implies n \mid m$. Since $m \mid n$ and $n \mid m$, $m = n$, so $|f(a)| = |a|$.
+\end{proof}
+
+\begin{problem}
+Are $\mathbb{Z}_4$ and $V_4$ isomorphic?
+\end{problem}
+\begin{proof}[Solution]
+\textbf{No.}
+$\mathbb{Z}_4$ is a cyclic group and contains an element of order 4 (namely $\bar{1}$ and $\bar{3}$, since $|\bar{1}| = 4$).
+However, $V_4$ contains no element of order 4 (every non-identity element in $V_4$ has order 2).
+Since an isomorphism must preserve element orders, $\mathbb{Z}_4 \not\cong V_4$.
+\end{proof}
+
+\begin{problem}
+Show that if $H \le S_n$, then either all permutations in $H$ are even, or exactly half of them are even.
+\end{problem}
+\begin{proof}[Solution]
+Consider the intersection $H \cap A_n$.
+By Theorem 1.2, since $A_n \trianglelefteq S_n$, we have $H \cap A_n \trianglelefteq H$.
+By the Second Isomorphism Theorem:
+\[
+\frac{H}{H \cap A_n} \cong \frac{H A_n}{A_n}.
+\]
+Since $A_n \le H A_n \le S_n$ and $[S_n : A_n] = 2$, there are only two possibilities for the subgroup $H A_n$:
+\begin{enumerate}
+    \item $H A_n = A_n \implies H \subseteq A_n$. In this case, every permutation in $H$ is even.
+    \item $H A_n = S_n$. In this case:
+    \[
+    [H : H \cap A_n] = [S_n : A_n] = 2.
+    \]
+    Thus $|H| = 2 |H \cap A_n|$, which means exactly half of the elements in $H$ belong to $A_n$ (i.e., are even).
+\end{enumerate}
+\end{proof}
+
+\begin{problem}
+Let $K$ be a proper subgroup of $H$, and $H$ be a proper subgroup of $G$ ($K \subsetneq H \subsetneq G$). If $|K| = 42$ and $|G| = 420$, what are the possible orders of $H$?
+\end{problem}
+\begin{proof}[Solution]
+By Lagrange's Theorem:
+\[
+|K| \mid |H| \quad \text{and} \quad |H| \mid |G|.
+\]
+Thus 42 divides $|H|$, and $|H|$ divides 420.
+Let $|H| = 42 \cdot m$. Then $42 \cdot m \mid 420 \implies m \mid \frac{420}{42} = 10$.
+The positive divisors of 10 are $1, 2, 5, 10$.
+Since $K \subsetneq H$ is a \textit{proper} subgroup, $|H| > |K| = 42 \implies m > 1$.
+Since $H \subsetneq G$ is a \textit{proper} subgroup, $|H| < |G| = 420 \implies m < 10$.
+Thus $m \in \{2, 5\}$.
+\begin{itemize}
+    \item If $m = 2$: $|H| = 42 \times 2 = 84$.
+    \item If $m = 5$: $|H| = 42 \times 5 = 210$.
+\end{itemize}
+Therefore, the possible orders of $H$ are $\boxed{84 \text{ or } 210}$.
+\end{proof}
+
+\begin{problem}
+Let $H, K \le G$. If $|H| = 12$ and $|K| = 32$, find the possible values of $|H \cap K|$.
+\end{problem}
+\begin{proof}[Solution]
+Since $H \cap K \le H$ and $H \cap K \le K$, by Lagrange's Theorem:
+\[
+|H \cap K| \mid |H| = 12 \quad \text{and} \quad |H \cap K| \mid |K| = 32.
+\]
+Therefore, $|H \cap K|$ must divide the greatest common divisor of 12 and 32:
+\[
+|H \cap K| \mid \gcd(12, 32) = 4.
+\]
+The positive divisors of 4 are $1, 2, 4$.
+Therefore, the possible values of $|H \cap K|$ are $\boxed{1, 2, \text{ or } 4}$.
+\end{proof}
+
+\begin{problem}
+Let $a$ and $b$ be elements of a group $G$. If $|a| = 10$ and $|b| = 21$, show that $\langle a \rangle \cap \langle b \rangle = \{e\}$.
+\end{problem}
+\begin{proof}[Solution]
+Let $x \in \langle a \rangle \cap \langle b \rangle$.
+\begin{itemize}
+    \item $x \in \langle a \rangle \implies |x| \mid |a| = 10$.
+    \item $x \in \langle b \rangle \implies |x| \mid |b| = 21$.
+\end{itemize}
+Thus:
+\[
+|x| \mid \gcd(10, 21) = 1.
+\]
+Since $|x|$ is a positive integer dividing 1, we have $|x| = 1$.
+The only element of order 1 in any group is the identity element $e$.
+Therefore, $x = e$, which proves:
+\[
+\boxed{\langle a \rangle \cap \langle b \rangle = \{e\}}. \qedhere
+\]
+\end{proof}
+
+\newpage
+% =========================================================================
+% SECTION 6
+% =========================================================================
+\section{The Center of a Group and Factor Group Theorems}
+
+\subsection{The \texorpdfstring{$G/Z(G)$}{G/Z(G)} Theorem}
+
+\begin{theorem}[The $G/Z(G)$ Cyclic-to-Abelian Theorem]
+Let $G$ be a group and let $Z(G)$ denote its center:
+\[
+Z(G) = \{ z \in G \mid zx = xz \quad \forall x \in G \}.
+\]
+If $G/Z(G)$ is cyclic, then $G$ is abelian (and hence $Z(G) = G$, so $|G/Z(G)| = 1$).
+\end{theorem}
+
+\begin{proof}
+Assume that $G/Z(G)$ is cyclic.
+Then there exists some coset $a Z(G) \in G/Z(G)$ such that:
+\[
+G/Z(G) = \langle a Z(G) \rangle.
+\]
+Let $x, y \in G$. We must show that $xy = yx$.
+
+Since $x Z(G)$ and $y Z(G)$ are elements of the cyclic group $G/Z(G) = \langle a Z(G) \rangle$, they must be powers of the generator $a Z(G)$. Thus, there exist integers $r, s \in \mathbb{Z}$ such that:
+\[
+x Z(G) = (a Z(G))^r = a^r Z(G) \quad \text{and} \quad y Z(G) = (a Z(G))^s = a^s Z(G).
+\]
+By definition of cosets, this implies:
+\[
+x = a^r z_1 \quad \text{and} \quad y = a^s z_2 \quad \text{for some } z_1, z_2 \in Z(G).
+\]
+Now compute the product $xy$:
+\begin{align*}
+xy &= (a^r z_1)(a^s z_2) \\
+&= a^r (z_1 a^s) z_2 \\
+&= a^r (a^s z_1) z_2 & (\text{as } z_1 \in Z(G) \implies z_1 a^s = a^s z_1) \\
+&= a^{r+s} z_1 z_2.
+\end{align*}
+Next compute the product $yx$:
+\begin{align*}
+yx &= (a^s z_2)(a^r z_1) \\
+&= a^s (z_2 a^r) z_1 \\
+&= a^s (a^r z_2) z_1 & (\text{as } z_2 \in Z(G) \implies z_2 a^r = a^r z_2) \\
+&= a^{s+r} z_2 z_1 \\
+&= a^{r+s} z_1 z_2 & (\text{as } z_1, z_2 \in Z(G) \implies z_2 z_1 = z_1 z_2).
+\end{align*}
+Comparing both expressions:
+\[
+xy = yx.
+\]
+Since this holds for all $x, y \in G$, $G$ is an abelian group.
+Consequently, every element commutes with all elements of $G$, so $Z(G) = G$.
+Thus $|G/Z(G)| = [G : Z(G)] = [G : G] = 1$.
+\end{proof}
+
+\subsection{Forbidden Prime Orders for \texorpdfstring{$G/Z(G)$}{G/Z(G)}}
+
+\begin{problem}
+Show that $|G/Z(G)| \neq p$, where $p$ is any prime number.
+\end{problem}
+
+\begin{proof}[Solution]
+Suppose, for contradiction, that $|G/Z(G)| = p$ for some prime $p$.
+Every group of prime order is cyclic.
+Therefore, $G/Z(G)$ is cyclic.
+By the $G/Z(G)$ theorem, if $G/Z(G)$ is cyclic, then $G$ must be abelian.
+If $G$ is abelian, then $Z(G) = G$, which implies:
+\[
+|G/Z(G)| = \frac{|G|}{|Z(G)|} = \frac{|G|}{|G|} = 1.
+\]
+This contradicts $|G/Z(G)| = p$, since $p$ is prime ($p \ge 2 > 1$).
+Therefore, $\boxed{|G/Z(G)| \neq p}$.
+\end{proof}
+
+\subsection{Non-Abelian Groups of Order \texorpdfstring{$pq$}{pq}}
+
+\begin{problem}
+Let $G$ be a group of order $|G| = pq$, where $p$ and $q$ are prime numbers. If $G$ is non-abelian, show that $|Z(G)| = 1$.
+\end{problem}
+
+\begin{proof}[Solution]
+Since $Z(G)$ is a subgroup of $G$ ($Z(G) \le G$), by Lagrange's Theorem:
+\[
+|Z(G)| \mid |G| = pq.
+\]
+The positive divisors of $pq$ are $1, p, q, pq$.
+Thus, the only possible values for $|Z(G)|$ are:
+\[
+|Z(G)| \in \{1, p, q, pq\}.
+\]
+We examine each case:
+\begin{enumerate}
+    \item \textbf{Case 1: $|Z(G)| = pq$.}
+    Then $|Z(G)| = |G| \implies Z(G) = G$, which means $G$ is abelian.
+    This contradicts the hypothesis that $G$ is non-abelian. Thus $|Z(G)| \neq pq$.
+    
+    \item \textbf{Case 2: $|Z(G)| = p$.}
+    Then the index is:
+    \[
+    |G/Z(G)| = \frac{|G|}{|Z(G)|} = \frac{pq}{p} = q.
+    \]
+    Since $q$ is prime, the quotient group $G/Z(G)$ has prime order, so $G/Z(G)$ is cyclic.
+    By the $G/Z(G)$ theorem, $G$ must be abelian, which is a contradiction.
+    Thus $|Z(G)| \neq p$.
+    
+    \item \textbf{Case 3: $|Z(G)| = q$.}
+    Then the index is:
+    \[
+    |G/Z(G)| = \frac{|G|}{|Z(G)|} = \frac{pq}{q} = p.
+    \]
+    Since $p$ is prime, $G/Z(G)$ is cyclic, which again implies $G$ is abelian (a contradiction).
+    Thus $|Z(G)| \neq q$.
+\end{enumerate}
+Eliminating $p, q$, and $pq$, the only remaining possibility is:
+\[
+\boxed{|Z(G)| = 1}. \qedhere
+\]
+\end{proof}
+
+\subsection{Combinatorics of Cycles and Normal Subgroups of \texorpdfstring{$S_n$}{Sn}}
+
+\begin{theorem}[Formula for the Number of $r$-Cycles in $S_n$]
+The number of distinct cycles of length $r$ in the symmetric group $S_n$ ($2 \le r \le n$) is:
+\[
+\binom{n}{r} (r-1)! = \frac{n!}{r! (n-r)!} (r-1)! = \frac{n!}{r (n-r)!} = \frac{{}^n P_r}{r}.
+\]
+\end{theorem}
+
+\begin{proof}
+To construct an $r$-cycle $(a_1\, a_2\, \dots\, a_r)$:
+\begin{enumerate}
+    \item Choose $r$ distinct elements from $\{1, 2, \dots, n\}$ in $\binom{n}{r}$ ways.
+    \item Arrange these $r$ elements in a circular permutation in $(r-1)!$ ways.
+\end{enumerate}
+Multiplying yields $\binom{n}{r}(r-1)! = \frac{{}^n P_r}{r}$.
+\end{proof}
+
+\begin{note}[Normal Subgroups of $S_n$]
+\begin{itemize}
+    \item For all $n \neq 4$ ($n \ge 3$): the \textbf{only} normal subgroups of $S_n$ are the trivial subgroup $\{I\}$, the alternating group $A_n$, and $S_n$ itself:
+    \[
+    \{I\}, \quad A_n, \quad S_n.
+    \]
+    \item For $n = 4$: the normal subgroups of $S_4$ are:
+    \[
+    \{I\}, \quad V_4, \quad A_4, \quad S_4.
+    \]
+\end{itemize}
+\end{note}
+
+\newpage
+% =========================================================================
+% SECTION 7
+% =========================================================================
+\section{Commutator Subgroups (Derived Subgroups)}
+
+\subsection{Definitions}
+
+\begin{definition}[Commutator]
+Let $G$ be a group and let $a, b \in G$. The element:
+\[
+[a, b] = a b a^{-1} b^{-1}
+\]
+is called the \textbf{commutator} of the pair $a$ and $b$.
+\end{definition}
+
+\begin{note}
+Observe that:
+\[
+a b a^{-1} b^{-1} = e \iff a b = b a.
+\]
+Thus, commutators quantify the extent to which two elements fail to commute.
+\end{note}
+
+\begin{definition}[Commutator / Derived Subgroup]
+Let $S$ be the set of all commutators of elements of $G$:
+\[
+S = \{ a b a^{-1} b^{-1} \mid a, b \in G \}.
+\]
+The subgroup generated by $S$, denoted by $\langle S \rangle$, is called the \textbf{commutator subgroup} (or \textbf{derived subgroup}) of $G$.
+It is denoted by:
+\[
+G' \quad \text{or} \quad G^c \quad \text{or} \quad [G, G].
+\]
+\end{definition}
+
+\subsection{The Five Fundamental Theorems on Commutators}
+
+\begin{theorem}[The Five Fundamental Theorems on Commutators]
+Let $G$ be a group and $G'$ its commutator subgroup. Then:
+\begin{enumerate}
+    \item $G' = \{e\}$ if and only if $G$ is an abelian group.
+    \item $G' \trianglelefteq G$.
+    \item $G/G'$ is an abelian group (called the \textbf{abelianization} of $G$).
+    \item If $H \trianglelefteq G$, then $G/H$ is abelian if and only if $G' \subseteq H$.
+    \item Let $H \le G$. If $G' \subseteq H$, then $H \trianglelefteq G$.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+We prove each of the five statements rigorously:
+
+\paragraph{Proof of (1): $G' = \{e\} \iff G$ is abelian.}
+\begin{itemize}
+    \item ($\implies$) Let $G' = \{e\}$.
+    For any $a, b \in G$, the commutator $a b a^{-1} b^{-1} \in S \subseteq G' = \{e\}$.
+    \begin{align*}
+    a b a^{-1} b^{-1} = e &\implies a b a^{-1} = b \\
+    &\implies a b = b a.
+    \end{align*}
+    Thus, $G$ is abelian.
+    
+    \item ($\impliedby$) Let $G$ be abelian.
+    Then for all $a, b \in G$:
+    \[
+    a b = b a \implies a b a^{-1} b^{-1} = e.
+    \]
+    Thus $S = \{e\}$, so $G' = \langle S \rangle = \langle \{e\} \rangle = \{e\}$.
+\end{itemize}
+
+\paragraph{Proof of (2): $G' \trianglelefteq G$.}
+Let $g \in G$ and $h \in G'$.
+Since every element of $G'$ is a finite product of commutators and their inverses, it suffices to prove that the conjugate of any commutator $a b a^{-1} b^{-1} \in S$ by $g$ is again in $S$:
+\begin{align*}
+g (a b a^{-1} b^{-1}) g^{-1} &= (g a g^{-1})(g b g^{-1})(g a^{-1} g^{-1})(g b^{-1} g^{-1}) \\
+&= (g a g^{-1})(g b g^{-1})(g a g^{-1})^{-1}(g b g^{-1})^{-1}.
+\end{align*}
+Setting $x = g a g^{-1} \in G$ and $y = g b g^{-1} \in G$, we have:
+\[
+g (a b a^{-1} b^{-1}) g^{-1} = x y x^{-1} y^{-1} \in S \subseteq G'.
+\]
+Therefore, $g G' g^{-1} \subseteq G'$ for all $g \in G$, which proves $G' \trianglelefteq G$.
+
+\paragraph{Proof of (3): $G/G'$ is an abelian group.}
+Let $a G', b G' \in G/G'$.
+We must show that $(a G')(b G') = (b G')(a G')$.
+Notice that:
+\[
+a b = b a (a^{-1} b^{-1} a b) = b a [a^{-1}, b^{-1}].
+\]
+Since $[a^{-1}, b^{-1}] \in S \subseteq G'$, we have:
+\[
+(a^{-1} b^{-1} a b) G' = G'.
+\]
+Therefore:
+\begin{align*}
+(a G')(b G') &= a b G' \\
+&= b a (a^{-1} b^{-1} a b) G' \\
+&= b a G' \\
+&= (b G')(a G').
+\end{align*}
+Hence, $G/G'$ is an abelian group.
+
+\paragraph{Proof of (4): If $H \trianglelefteq G$, then $G/H$ is abelian $\iff G' \subseteq H$.}
+\begin{itemize}
+    \item ($\implies$) Let $G/H$ be abelian.
+    For any $a, b \in G$:
+    \begin{align*}
+    (a H)(b H) = (b H)(a H) &\implies a b H = b a H \\
+    &\implies (b a)^{-1} (a b) \in H \\
+    &\implies a^{-1} b^{-1} a b \in H \\
+    &\implies [a^{-1}, b^{-1}] \in H.
+    \end{align*}
+    Since this holds for all elements $a, b \in G$, every commutator belongs to $H$.
+    Thus $S \subseteq H$. Since $H$ is a subgroup containing $S$, it must contain the subgroup generated by $S$:
+    \[
+    \langle S \rangle = G' \subseteq H.
+    \]
+    
+    \item ($\impliedby$) Conversely, let $G' \subseteq H$.
+    For any $a, b \in G$, the commutator $a b a^{-1} b^{-1} \in G' \subseteq H$.
+    \begin{align*}
+    a b a^{-1} b^{-1} \in H &\implies a b (b a)^{-1} \in H \\
+    &\implies a b H = b a H \\
+    &\implies (a H)(b H) = (b H)(a H).
+    \end{align*}
+    Thus, $G/H$ is abelian.
+\end{itemize}
+
+\paragraph{Proof of (5): Let $H \le G$. If $G' \subseteq H$, then $H \trianglelefteq G$.}
+Let $a \in G$ and $h \in H$.
+Consider the commutator of $a$ and $h$:
+\[
+a h a^{-1} h^{-1} \in G'.
+\]
+Since $G' \subseteq H$, we have $a h a^{-1} h^{-1} \in H$.
+Now multiply by $h \in H$ on the right:
+\[
+a h a^{-1} = (a h a^{-1} h^{-1}) h \in H \cdot H = H.
+\]
+Thus $a h a^{-1} \in H$ for all $a \in G$ and all $h \in H$.
+Therefore:
+\[
+a H a^{-1} \subseteq H \implies H \trianglelefteq G. \qedhere
+\]
+\end{proof}
+
+\begin{remark}[Minimality of $G'$ Among Normal Subgroups with Abelian Quotient]
+From properties (3) and (4), we deduce that:
+\begin{itemize}
+    \item $G'$ is the \textbf{smallest} normal subgroup of $G$ such that $G/G'$ is abelian.
+    \item $G/G'$ is the \textbf{largest} abelian quotient group of $G$.
+\end{itemize}
+\end{remark}
+
+\subsection{Explicit Computations of Commutator Subgroups}
+
+\begin{example}[Commutator Subgroup of the Quaternion Group $Q_8$]
+Find the commutator subgroup of $Q_8 = \{ \pm 1, \pm i, \pm j, \pm k \}$.
+\end{example}
+
+\begin{proof}[Solution]
+Recall that $Z(Q_8) = \{ 1, -1 \}$.
+The quotient group has order:
+\[
+[Q_8 : \{1, -1\}] = \frac{8}{2} = 4.
+\]
+Every group of order 4 is abelian (isomorphic to either $\mathbb{Z}_4$ or $V_4$).
+Since $Q_8/\{1, -1\}$ is abelian, by Property (4) of Theorem 7.1:
+\[
+Q_8' \subseteq \{ 1, -1 \}.
+\]
+Since $Q_8$ is non-abelian ($i j = k \neq -k = j i$), by Property (1):
+\[
+Q_8' \neq \{ 1 \}.
+\]
+Since the only subsets of $\{1, -1\}$ are $\{1\}$ and $\{1, -1\}$, we must have:
+\[
+\boxed{Q_8' = \{ 1, -1 \} = Z(Q_8)}. \qedhere
+\]
+\end{proof}
+
+\begin{example}[Commutator Subgroup of $S_3$]
+Find the commutator subgroup of the symmetric group $S_3$.
+\end{example}
+
+\begin{proof}[Solution]
+$S_3 = \{ I, (1\,2), (1\,3), (2\,3), (1\,2\,3), (1\,3\,2) \}$.
+The normal subgroups of $S_3$ are $\{I\}, A_3, S_3$.
+\begin{enumerate}
+    \item Since $S_3$ is non-abelian, $S_3' \neq \{I\}$.
+    \item The alternating group $A_3$ has index 2:
+    \[
+    |S_3/A_3| = \frac{6}{3} = 2.
+    \]
+    Every group of order 2 is cyclic, hence abelian.
+    Thus $S_3/A_3$ is abelian.
+    \item By Property (4):
+    \[
+    S_3' \subseteq A_3.
+    \]
+    \item The order of $A_3$ is 3 (prime), so its only subgroups are $\{I\}$ and $A_3$.
+    Since $S_3' \neq \{I\}$, we conclude:
+    \[
+    \boxed{S_3' = A_3}. \qedhere
+    \]
+\end{enumerate}
+\end{proof}
+
+\begin{example}[Commutator Subgroup of $A_3$]
+Find the commutator subgroup of $A_3$.
+\end{example}
+
+\begin{proof}[Solution]
+$|A_3| = 3$, which is a prime number.
+Every group of prime order is cyclic, and every cyclic group is abelian.
+Since $A_3$ is abelian, by Property (1):
+\[
+\boxed{A_3' = \{I\}}. \qedhere
+\]
+\end{proof}
+
+\begin{example}[Commutator Subgroup of $S_4$]
+Find the commutator subgroup of $S_4$.
+\end{example}
+
+\begin{proof}[Solution]
+The normal subgroups of $S_4$ are $\{I\}, V_4, A_4, S_4$.
+\begin{enumerate}
+    \item Since $|S_4/A_4| = \frac{24}{12} = 2$, $S_4/A_4$ is abelian.
+    By Property (4):
+    \[
+    S_4' \subseteq A_4.
+    \]
+    \item Now consider the commutator of $(1\,2)$ and $(2\,3)$ in $S_4$:
+    \begin{align*}
+    [(1\,2), (2\,3)] &= (1\,2)(2\,3)(1\,2)^{-1}(2\,3)^{-1} \\
+    &= (1\,2)(2\,3)(1\,2)(2\,3) \\
+    &= (1\,2\,3)(1\,2\,3) \\
+    &= (1\,3\,2).
+    \end{align*}
+    Thus the 3-cycle $(1\,3\,2) \in S_4'$.
+    \item Since $S_4' \trianglelefteq S_4$ and contains a 3-cycle, by the Conjugacy Theorem in Section 1, $S_4'$ must contain all 3-cycles in $S_4$.
+    \item The 3-cycles generate the entire alternating group $A_4$.
+    Therefore:
+    \[
+    A_4 \subseteq S_4'.
+    \]
+\end{enumerate}
+Combining $S_4' \subseteq A_4$ and $A_4 \subseteq S_4'$, we obtain:
+\[
+\boxed{S_4' = A_4}. \qedhere
+\]
+\end{proof}
+
+\begin{example}[Commutator Subgroup of $A_4$]
+Find the commutator subgroup of $A_4$.
+\end{example}
+
+\begin{proof}[Solution]
+The normal subgroups of $A_4$ are $\{I\}, V_4, A_4$.
+\begin{enumerate}
+    \item Since $A_4$ is non-abelian, $A_4' \neq \{I\}$.
+    \item Consider the quotient by the Klein four-group $V_4$:
+    \[
+    |A_4/V_4| = \frac{12}{4} = 3.
+    \]
+    Since 3 is prime, $A_4/V_4$ is cyclic, hence abelian.
+    \item By Property (4):
+    \[
+    A_4' \subseteq V_4.
+    \]
+    \item Since $A_4' \trianglelefteq A_4$ and $A_4' \subseteq V_4$, $A_4'$ is a normal subgroup of $A_4$ contained in $V_4$.
+    The only normal subgroups of $A_4$ are $\{I\}, V_4$, and $A_4$.
+    Since $A_4' \neq \{I\}$ and $A_4' \subseteq V_4$, we must have:
+    \[
+    \boxed{A_4' = V_4}. \qedhere
+    \]
+\end{enumerate}
+\end{proof}
+
+\newpage
+% =========================================================================
+% SECTION 8
+% =========================================================================
+\section{Introduction to Group Actions}
+
+\subsection{Definition and Axioms of a Group Action}
+
+\begin{definition}[Group Action]
+Let $G$ be a group and let $A$ be a non-empty set. A \textbf{group action} (or \textbf{action}) of $G$ on $A$ is a mapping:
+\[
+*: G \times A \to A, \quad (g, a) \mapsto g * a
+\]
+such that the following two axioms are satisfied:
+\begin{enumerate}
+    \item \textbf{Compatibility (Associativity):}
+    \[
+    g_1 * (g_2 * a) = (g_1 g_2) * a \quad \forall g_1, g_2 \in G, \; \forall a \in A.
+    \]
+    \item \textbf{Identity:}
+    \[
+    e * a = a \quad \forall a \in A,
+    \]
+    where $e$ denotes the identity element of $G$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[$G$-Set]
+When an action of a group $G$ on a set $A$ is defined, the set $A$ is called a \textbf{$G$-set}, and we say that \textbf{$G$ acts on $A$}.
+\end{definition}
+
+\subsection{Left Actions vs. Right Actions}
+
+\begin{definition}[Left Group Action]
+The action defined above, where group elements operate on elements of $A$ from the left ($*: G \times A \to A$), is referred to as an \textbf{action on $A$ by left} or a \textbf{left action} of $G$ on $A$.
+\end{definition}
+
+\begin{definition}[Right Group Action]
+We can also define an action of $G$ on $A$ from the right by considering a mapping:
+\[
+*: A \times G \to A, \quad (a, g) \mapsto a * g
+\]
+satisfying the corresponding right action axioms:
+\begin{enumerate}
+    \item \textbf{Compatibility:}
+    \[
+    (a * g_1) * g_2 = a * (g_1 g_2) \quad \forall g_1, g_2 \in G, \; \forall a \in A.
+    \]
+    \item \textbf{Identity:}
+    \[
+    a * e = a \quad \forall a \in A.
+    \]
+\end{enumerate}
+\end{definition}
+
+
+
+\end{document}

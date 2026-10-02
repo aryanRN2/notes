@@ -1,0 +1,299 @@
+\chapter{Simple Harmonic Motion (Dynamics)}
+
+\section{Introduction and Governing Differential Equation}
+
+\begin{defbox}[Simple Harmonic Motion (SHM)]
+A particle moving along a straight line is said to execute \textbf{Simple Harmonic Motion} if its acceleration is always directed towards a fixed point on the line (called the \textbf{center of oscillation} or \textbf{mean position}) and its magnitude is directly proportional to the displacement of the particle from that fixed point.
+\end{defbox}
+
+Let $O$ be the mean position on line $x' O x$, and let $P$ be the position of the particle at time $t$ with displacement $OP = x$.
+The governing differential equation of motion per unit mass is:
+\begin{equation}
+    \frac{d^2 x}{d t^2} = -\mu x \iff \ddot{x} + \mu x = 0
+\end{equation}
+where $\mu > 0$ is the constant of proportionality representing the acceleration per unit displacement.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.4, >=Stealth]
+    % Line of motion
+    \draw[thick, darkslate] (-3.5, 0) -- (3.5, 0);
+    
+    % Main Points on Axis
+    \filldraw[accentred] (-2.5, 0) circle (2.5pt) node[below=4pt] {$A'$ (Extreme)};
+    \filldraw[primaryblue] (0, 0) circle (2.5pt) node[below=4pt] {$O$ (Mean Center)};
+    \filldraw[accentred] (2.5, 0) circle (2.5pt) node[below=4pt] {$A$ (Extreme)};
+    \filldraw[accentgreen] (1.5, 0) circle (2.5pt) node[above right=2pt] {$P$};
+    
+    % Dashed vertical projection lines
+    \draw[dashed, bordergrey] (0, 0) -- (0, 1.4);
+    \draw[dashed, bordergrey] (1.5, 0) -- (1.5, 1.4);
+    \draw[dashed, bordergrey] (2.5, 0) -- (2.5, -1.0);
+    \draw[dashed, bordergrey] (0, 0) -- (0, -1.0);
+    
+    % Displacement x Arrow
+    \draw[->, thick, primaryblue] (0, 0.6) -- (1.5, 0.6) node[midway, above] {Displacement $x$};
+    
+    % Acceleration vector pointing towards O
+    \draw[->, ultra thick, accentred] (1.5, 1.2) -- (0.3, 1.2) node[midway, above] {Acceleration $\mathbf{a}_x = -\mu x$};
+    
+    % Amplitude a Dimension Line
+    \draw[<->, thick, darkslate] (0, -0.9) -- (2.5, -0.9) node[midway, fill=white, inner sep=2pt] {Amplitude $a$};
+\end{tikzpicture}
+\caption{Kinematics of a particle executing Simple Harmonic Motion about mean position $O$.}
+\end{figure}
+
+\section{Kinematic Expressions}
+
+\subsection{Velocity as a Function of Position}
+Multiplying $\ddot{x} = -\mu x$ by $2 \dot{x}$ and integrating with respect to $t$:
+\begin{equation}
+    2 \dot{x} \ddot{x} = -2\mu x \dot{x} \implies \int \frac{d}{dt}(\dot{x}^2) \, dt = -2\mu \int x \, dx \implies v^2 = -\mu x^2 + C
+\end{equation}
+Let $a$ be the maximum displacement (\textbf{amplitude}) where the particle comes to instantaneous rest ($v = 0$ at $x = a$). Then $0 = -\mu a^2 + C \implies C = \mu a^2$.
+\begin{equation}
+    v^2 = \mu (a^2 - x^2) \implies v = \pm \sqrt{\mu} \sqrt{a^2 - x^2}
+\end{equation}
+
+\subsection{Displacement as a Function of Time}
+Choosing the positive sign for motion away from origin $O$:
+\begin{equation}
+    \frac{dx}{dt} = \sqrt{\mu}\sqrt{a^2 - x^2} \implies \int \frac{dx}{\sqrt{a^2 - x^2}} = \int \sqrt{\mu} \, dt
+\end{equation}
+\begin{itemize}
+    \item If time $t=0$ is measured when particle is at extreme position $A$ ($x = a$):
+    \begin{equation}
+        x(t) = a \cos(\sqrt{\mu} t)
+    \end{equation}
+    \item If time $t=0$ is measured when particle passes through origin $O$ ($x = 0$):
+    \begin{equation}
+        x(t) = a \sin(\sqrt{\mu} t)
+    \end{equation}
+\end{itemize}
+
+\section{Important Properties of SHM}
+
+\begin{keybox}[Key Physical Quantities in SHM]
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Amplitude ($a$)}: Maximum displacement from the mean center $O$.
+    \item \textbf{Time Period ($T$)}: The time taken for one complete oscillation:
+    \begin{equation}
+        T = \frac{2\pi}{\sqrt{\mu}}
+    \end{equation}
+    \item \textbf{Frequency ($n$)}: Number of complete oscillations per unit time:
+    \begin{equation}
+        n = \frac{1}{T} = \frac{\sqrt{\mu}}{2\pi}
+    \end{equation}
+    \item \textbf{Maximum Speed}: $v_{\max} = a \sqrt{\mu} = \dfrac{2\pi a}{T}$ (achieved at mean position $x=0$).
+    \item \textbf{Maximum Acceleration}: $f_{\max} = a \mu = \dfrac{4\pi^2 a}{T^2}$ (achieved at extreme positions $x = \pm a$).
+\end{enumerate}
+\end{keybox}
+
+\section{Worked Examples (Complete Unabridged Collection)}
+
+\begin{examplebox}{Period from Velocities at Two Positions}
+A point moving in a straight line with SHM has velocities $v_1$ and $v_2$ when its distances from the center are $x_1$ and $x_2$ respectively. Show that the period of motion is:
+\begin{equation*}
+    T = 2\pi \sqrt{\frac{x_1^2 - x_2^2}{v_2^2 - v_1^2}}
+\end{equation*}
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Apply Velocity-Displacement Relation}:\\
+    For SHM, the relation between velocity $v$ and position $x$ is:
+    \begin{align}
+        v_1^2 &= \mu (a^2 - x_1^2) \label{eq:ex1_v1} \\
+        v_2^2 &= \mu (a^2 - x_2^2) \label{eq:ex1_v2}
+    \end{align}
+    
+    \item \textbf{Eliminate Amplitude $a$}:\\
+    Subtracting equation \eqref{eq:ex1_v1} from equation \eqref{eq:ex1_v2}:
+    \begin{equation*}
+        v_2^2 - v_1^2 = \mu(a^2 - x_2^2) - \mu(a^2 - x_1^2) = \mu(x_1^2 - x_2^2)
+    \end{equation*}
+    Solving for intensity constant $\mu$:
+    \begin{equation*}
+        \mu = \frac{v_2^2 - v_1^2}{x_1^2 - x_2^2} \implies \sqrt{\mu} = \sqrt{\frac{v_2^2 - v_1^2}{x_1^2 - x_2^2}}
+    \end{equation*}
+    
+    \item \textbf{Calculate Time Period $T$}:\\
+    Using the standard period formula $T = \dfrac{2\pi}{\sqrt{\mu}}$:
+    \begin{equation*}
+        T = \frac{2\pi}{\sqrt{\frac{v_2^2 - v_1^2}{x_1^2 - x_2^2}}} = 2\pi \sqrt{\frac{x_1^2 - x_2^2}{v_2^2 - v_1^2}}
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{State Parameters Calculation}
+A particle executing SHM has velocities $u$ and $v$ at two positions where its accelerations are $\alpha$ and $\beta$ respectively. Show that the distance between these two positions is $\dfrac{v^2 - u^2}{\alpha + \beta}$ and the amplitude of motion is:
+\begin{equation*}
+    a = \sqrt{\frac{(v^2 - u^2)(\alpha^2 v^2 - \beta^2 u^2)}{(\beta^2 - \alpha^2)^2}}
+\end{equation*}
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Express Accelerations and Positions}:\\
+    Let the displacements corresponding to velocities $u$ and $v$ be $x_1$ and $x_2$.
+    The magnitude of acceleration at position $x$ is $f = \mu x$:
+    \begin{align*}
+        \alpha &= \mu x_1 \implies x_1 = \frac{\alpha}{\mu} \\
+        \beta &= \mu x_2 \implies x_2 = \frac{\beta}{\mu}
+    \end{align*}
+    
+    \item \textbf{Determine Distance Between Positions}:\\
+    The distance between the two points is $d = x_2 - x_1$:
+    \begin{equation*}
+        d = x_2 - x_1 = \frac{\beta - \alpha}{\mu}
+    \end{equation*}
+    Using $u^2 = \mu a^2 - \mu x_1^2 = \mu a^2 - \frac{\alpha^2}{\mu}$ and $v^2 = \mu a^2 - \frac{\beta^2}{\mu}$:
+    \begin{equation*}
+        v^2 - u^2 = \frac{\alpha^2 - \beta^2}{\mu} = \frac{(\alpha - \beta)(\alpha + \beta)}{\mu}
+    \end{equation*}
+    Dividing by $(\alpha + \beta)$:
+    \begin{equation*}
+        \frac{v^2 - u^2}{\alpha + \beta} = \frac{\alpha - \beta}{\mu} = x_2 - x_1 = d
+    \end{equation*}
+    
+    \item \textbf{Derive Amplitude $a$}:\\
+    Substituting $\mu = \dfrac{\alpha^2 - \beta^2}{v^2 - u^2}$ into $v^2 = \mu a^2 - \frac{\beta^2}{\mu}$:
+    \begin{equation*}
+        a = \sqrt{\frac{(v^2 - u^2)(\alpha^2 v^2 - \beta^2 u^2)}{(\beta^2 - \alpha^2)^2}}
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Average Speed and Acceleration}
+Show that in SHM, average speed and average acceleration magnitude over a quarter period equal $0.637$ times their maximum values.
+
+\tcblower
+\textbf{Solution:}
+
+Let displacement be $x(t) = a \cos(\omega t)$ where $\omega = \sqrt{\mu}$.
+The velocity and acceleration magnitudes at time $t$ are:
+\begin{align*}
+    v(t) &= |-a\omega \sin(\omega t)| = a\omega \sin(\omega t) \\
+    f(t) &= |-a\omega^2 \cos(\omega t)| = a\omega^2 \cos(\omega t)
+\end{align*}
+The quarter period duration is $t_q = \frac{T}{4} = \frac{\pi}{2\omega}$.
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Average Speed over Quarter Period}:\\
+    \begin{align*}
+        v_{\text{avg}} &= \frac{1}{t_q} \int_0^{t_q} v(t) \, dt = \frac{2\omega}{\pi} \int_0^{\frac{\pi}{2\omega}} a\omega \sin(\omega t) \, dt \\
+        &= \frac{2 a \omega^2}{\pi} \left[ -\frac{\cos(\omega t)}{\omega} \right]_0^{\frac{\pi}{2\omega}} = \frac{2}{\pi} (a\omega) = \frac{2}{\pi} v_{\max} \approx 0.6366 v_{\max}
+    \end{align*}
+    
+    \item \textbf{Average Acceleration Magnitude over Quarter Period}:\\
+    \begin{align*}
+        f_{\text{avg}} &= \frac{1}{t_q} \int_0^{t_q} f(t) \, dt = \frac{2\omega}{\pi} \int_0^{\frac{\pi}{2\omega}} a\omega^2 \cos(\omega t) \, dt \\
+        &= \frac{2 a \omega^3}{\pi} \left[ \frac{\sin(\omega t)}{\omega} \right]_0^{\frac{\pi}{2\omega}} = \frac{2}{\pi} (a\omega^2) = \frac{2}{\pi} f_{\max} \approx 0.6366 f_{\max}
+    \end{align*}
+\end{enumerate}
+Thus, $v_{\text{avg}} \approx 0.637 v_{\max}$ and $f_{\text{avg}} \approx 0.637 f_{\max}$.
+\end{examplebox}
+
+\begin{examplebox}{SHM with Rest Points at A(a) and B(b)}
+A body moving in straight line $OAB$ with SHM has zero velocity at points $A$ and $B$ (distances $a$ and $b$ from origin $O$). It has velocity $v$ halfway between $A$ and $B$. Show that complete period is $T = \frac{\pi(b - a)}{v}$.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Identify Center of Oscillation and Amplitude}:\\
+    Since velocity is zero at $A(a)$ and $B(b)$, these points are the two extreme positions of oscillation.
+    The center of oscillation $C$ is the midpoint of $AB$:
+    \begin{equation*}
+        x_C = \frac{a + b}{2}
+    \end{equation*}
+    The amplitude $A_0$ is half the total distance $AB$:
+    \begin{equation*}
+        A_0 = \frac{b - a}{2}
+    \end{equation*}
+
+    \item \textbf{Evaluate Velocity at Midpoint $C$}:\\
+    The point halfway between $A$ and $B$ is the center of oscillation $C$, where speed reaches its maximum value:
+    \begin{equation*}
+        v = v_{\max} = A_0 \sqrt{\mu} = \left(\frac{b - a}{2}\right) \sqrt{\mu} \implies \sqrt{\mu} = \frac{2v}{b - a}
+    \end{equation*}
+
+    \item \textbf{Calculate Period $T$}:\\
+    \begin{equation*}
+        T = \frac{2\pi}{\sqrt{\mu}} = \frac{2\pi}{\left(\frac{2v}{b - a}\right)} = \frac{\pi(b - a)}{v}
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Return Time to a Point}
+A particle performs SHM of period $T$ about center $O$. It passes through a point $P$ ($OP = b$) with velocity $v$ in the direction of $OP$. Prove that the time which elapses before it returns to $P$ is:
+\begin{equation*}
+    t = \frac{T}{\pi} \tan^{-1}\left( \frac{v T}{2\pi b} \right)
+\end{equation*}
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Relation Between Amplitude and Velocity at $P$}:\\
+    Let amplitude be $a$. Using $v^2 = \mu(a^2 - b^2)$:
+    \begin{equation*}
+        a^2 - b^2 = \frac{v^2}{\mu} = \frac{v^2}{(2\pi/T)^2} = \left(\frac{v T}{2\pi}\right)^2 \implies \sqrt{a^2 - b^2} = \frac{v T}{2\pi}
+    \end{equation*}
+
+    \item \textbf{Calculate Time $t_1$ from $P(b)$ to Extreme Position $A(a)$}:\\
+    Using displacement equation $x(t) = a \cos(\sqrt{\mu} t_1)$:
+    \begin{align*}
+        b &= a \cos(\sqrt{\mu} t_1) \implies \cos(\sqrt{\mu} t_1) = \frac{b}{a} \\
+        \tan(\sqrt{\mu} t_1) &= \frac{\sqrt{a^2 - b^2}}{b} = \frac{\left(\frac{v T}{2\pi}\right)}{b} = \frac{v T}{2\pi b}
+    \end{align*}
+    Taking inverse tangent:
+    \begin{equation*}
+        \sqrt{\mu} t_1 = \tan^{-1}\left(\frac{v T}{2\pi b}\right) \implies t_1 = \frac{1}{\sqrt{\mu}} \tan^{-1}\left(\frac{v T}{2\pi b}\right)
+    \end{equation*}
+
+    \item \textbf{Total Return Time}:\\
+    The total time to travel from $P$ to extreme $A$ and back to $P$ is $t_{\text{return}} = 2 t_1$:
+    \begin{equation*}
+        t_{\text{return}} = 2 \left( \frac{T}{2\pi} \right) \tan^{-1}\left(\frac{v T}{2\pi b}\right) = \frac{T}{\pi} \tan^{-1}\left(\frac{v T}{2\pi b}\right)
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Period from Three Consecutive Equal Interval Measurements}
+A particle moves with SHM. Its distances from center at 3 consecutive seconds are $x_1, x_2, x_3$. Prove that complete period is:
+\begin{equation*}
+    T = \frac{2\pi}{\cos^{-1}\left( \frac{x_1 + x_3}{2 x_2} \right)}
+\end{equation*}
+
+\tcblower
+\textbf{Solution:}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Express Displacements at 1-Second Intervals}:\\
+    Let time $t_0$ correspond to position $x_2$. Then positions at $t_0 - 1$, $t_0$, and $t_0 + 1$ are:
+    \begin{align*}
+        x_1 &= a \cos(\sqrt{\mu} t_0 - \sqrt{\mu}) \\
+        x_2 &= a \cos(\sqrt{\mu} t_0) \\
+        x_3 &= a \cos(\sqrt{\mu} t_0 + \sqrt{\mu})
+    \end{align*}
+
+    \item \textbf{Add $x_1$ and $x_3$}:\\
+    Using trigonometric identity $\cos(A-B) + \cos(A+B) = 2\cos A \cos B$:
+    \begin{align*}
+        x_1 + x_3 &= a \left[ \cos(\sqrt{\mu} t_0 - \sqrt{\mu}) + \cos(\sqrt{\mu} t_0 + \sqrt{\mu}) \right] \\
+        &= 2 a \cos(\sqrt{\mu} t_0) \cos(\sqrt{\mu}) = 2 x_2 \cos(\sqrt{\mu})
+    \end{align*}
+
+    \item \textbf{Solve for Period $T$}:\\
+    \begin{equation*}
+        \cos(\sqrt{\mu}) = \frac{x_1 + x_3}{2 x_2} \implies \sqrt{\mu} = \cos^{-1}\left(\frac{x_1 + x_3}{2 x_2}\right)
+    \end{equation*}
+    Since $T = \dfrac{2\pi}{\sqrt{\mu}}$:
+    \begin{equation*}
+        T = \frac{2\pi}{\cos^{-1}\left(\frac{x_1 + x_3}{2 x_2}\right)}
+    \end{equation*}
+\end{enumerate}
+\end{examplebox}

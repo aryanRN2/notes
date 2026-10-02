@@ -1,0 +1,132 @@
+\chapter{Constrained Motion on Vertical Curves}
+
+\section{Motion on a Smooth Vertical Circle}
+
+\begin{theorembox}{Vertical Circle Governing Equations}
+For horizontal projection velocity $u$ from lowest point $A(\theta = 0)$ of smooth vertical circle of radius $a$:
+1. Velocity at angle $\theta$: $v^2 = u^2 - 2ga(1 - \cos\theta)$
+2. Normal Reaction: $N = \frac{m}{a}[u^2 - 2ga + 3ga\cos\theta]$
+3. Complete Loop Condition: $u \ge \sqrt{5ga}$
+4. Oscillation Condition: $u \le \sqrt{2ga}$
+
+\begin{center}
+\begin{tikzpicture}[scale=1.35, >=Stealth]
+    % Circle Center O
+    \coordinate (O) at (0, 0);
+    \def\r{2.0}
+    
+    % Draw Vertical Circle
+    \draw[ultra thick, primaryblue] (O) circle (\r);
+    
+    % Vertical Diameter
+    \draw[dashed, darkslate!50] (0, -\r-0.4) -- (0, \r+0.4);
+    \draw[dashed, darkslate!50] (-\r-0.4, 0) -- (\r+0.4, 0);
+    
+    % Points A (lowest) and A' (highest)
+    \filldraw[accentred] (0, -\r) circle (2.2pt) node[below=2pt] {$A$ (Lowest)};
+    \filldraw[accentred] (0, \r) circle (2.2pt) node[above=2pt] {$A'$ (Highest)};
+    \filldraw[black] (O) circle (2pt) node[above left] {$O$};
+    
+    % Particle position P at angle theta = 50 degrees
+    \def\angleP{-50} % 50 degrees from lowest point (downwards direction)
+    % Coordinates of P
+    \coordinate (P) at ({-\r*sin(\angleP)}, {-\r*cos(\angleP)});
+    \filldraw[primaryblue] (P) circle (2.5pt) node[below right=2pt] {$P(s, \theta)$};
+    
+    % Radius vector OP
+    \draw[thick, secondaryblue] (O) -- (P) node[midway, above left] {$a$};
+    
+    % Angle theta at O
+    \draw[thick, accentred] (0, -0.6) arc (-90:-140:0.6);
+    \node[accentred, font=\small] at (-0.25, -0.85) {$\theta$};
+    
+    % Tangent Velocity v
+    \draw[ultra thick, ->, accentgreen] (P) -- ++({1.4*cos(\angleP)}, {-1.4*sin(\angleP)}) node[above right] {Velocity $\mathbf{v}$};
+    
+    % Normal Reaction N towards center O
+    \draw[ultra thick, ->, primaryblue] (P) -- ++({-1.2*sin(\angleP)}, {-1.2*cos(\angleP)}) node[above left] {Reaction $\mathbf{N}$};
+    
+    % Weight W = mg vertically downwards
+    \draw[ultra thick, ->, accentred] (P) -- ++(0, -1.6) node[right] {$m\mathbf{g}$};
+    
+    % Component mg cos(theta) along radius extended
+    \draw[thick, dashed, darkslate!60, ->] (P) -- ++({1.2*sin(\angleP)}, {1.2*cos(\angleP)}) node[below right, font=\small] {$mg\cos\theta$};
+    % Component mg sin(theta) tangential
+    \draw[thick, dashed, darkslate!60, ->] (P) -- ++({-1.2*cos(\angleP)}, {1.2*sin(\angleP)}) node[below left, font=\small] {$mg\sin\theta$};
+\end{tikzpicture}
+\end{center}
+\end{theorembox}
+
+\begin{proofbox}{Proof of SHM About Lowest Point for Small Oscillations}
+For small oscillations about lowest point $A(\theta = 0)$, $\sin\theta \approx \theta$.
+Equation of motion along arc $s = a\theta$:
+\[
+\ddot{s} = -g \sin\theta \approx -g \left(\frac{s}{a}\right) = -\left(\frac{g}{a}\right) s
+\]
+This is exact **Simple Harmonic Motion** $\ddot{s} = -\mu s$ with $\mu = g/a$. Periodic time:
+\begin{equation}
+T = \frac{2\pi}{\sqrt{\mu}} = 2\pi \sqrt{\frac{a}{g}}
+\end{equation}
+\end{proofbox}
+
+\section{Motion on a Smooth Vertical Cycloid}
+
+\begin{theorembox}{Cycloidal Pendulum}
+For motion along smooth cycloid $s = 4a\sin\psi$ (vertex at lowest point):
+Equation of motion: $\ddot{s} = -g\sin\psi = -\frac{g}{4a} s$.
+Exact \textbf{Simple Harmonic Motion} with periodic time:
+\begin{equation}
+T = 4\pi \sqrt{\frac{a}{g}}
+\end{equation}
+The motion is \textbf{isochronous} (period is independent of amplitude).
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Parametric cycloid x = a(2t + sin 2t), y = a(1 - cos 2t) inverted
+    \draw[ultra thick, primaryblue, domain=-1.57:1.57, samples=60] 
+        plot ({2*(2*\x + sin(2*\x r))/3.14159}, {1.8*(1 - cos(2*\x r))});
+    
+    % Ceiling at cusps
+    \fill[pattern=north east lines] (-2.4, 3.6) rectangle (2.4, 3.8);
+    \draw[thick, darkslate] (-2.4, 3.6) -- (2.4, 3.6);
+    
+    % Vertex O at (0,0)
+    \filldraw[accentred] (0,0) circle (2.5pt) node[below=3pt] {Vertex $O(0,0)$};
+    
+    % Cusps
+    \filldraw[black] (-2.0, 3.6) circle (2pt) node[above left] {Cusp $A'$};
+    \filldraw[black] (2.0, 3.6) circle (2pt) node[above right] {Cusp $A$};
+    
+    % Particle P at t = 0.7
+    \coordinate (P) at (1.2, 0.95);
+    \filldraw[primaryblue] (P) circle (2.5pt) node[above right] {$P(s, \psi)$};
+    
+    % Tangent line and angle psi
+    \draw[thick, dashed, darkslate!60] ($(P) - (0.8, 0.4)$) -- ($(P) + (1.2, 0.6)$);
+    \draw[thick, secondaryblue] ($(P) + (0.6, 0.3)$) arc (26:0:0.6);
+    \node[secondaryblue, font=\small] at (1.9, 1.05) {$\psi$};
+    
+    % Tangential Force mg sin(psi)
+    \draw[ultra thick, ->, accentred] (P) -- ++(-1.0, -0.5) node[below left] {$m g \sin\psi$};
+    
+    % Normal Reaction N
+    \draw[ultra thick, ->, primaryblue] (P) -- ++(-0.5, 1.0) node[above left] {$\mathbf{N}$};
+    
+    % Weight W = mg
+    \draw[ultra thick, ->, accentred] (P) -- ++(0, -1.2) node[right] {$m\mathbf{g}$};
+\end{tikzpicture}
+\end{center}
+\end{theorembox}
+
+\begin{proofbox}{Time Taken to Reach Different Heights on Cycloid}
+Let particle start from rest at height corresponding to arc length $s = s_0$ ($\psi = \psi_0$).
+Integrating equation of motion $\ddot{s} = -\omega^2 s$ (where $\omega = \frac{1}{2}\sqrt{g/a}$):
+\[
+v^2 = \left(\frac{ds}{dt}\right)^2 = \omega^2 (s_0^2 - s^2) \implies \frac{ds}{\sqrt{s_0^2 - s^2}} = -\omega \, dt
+\]
+Time $t$ taken to fall from $s_0$ to arc length $s$:
+\[
+t = \frac{1}{\omega} \cos^{-1}\left(\frac{s}{s_0}\right) = 2\sqrt{\frac{a}{g}} \cos^{-1}\left(\frac{\sin\psi}{\sin\psi_0}\right)
+\]
+Time taken to reach the vertex ($s = 0$): $t_{\text{vertex}} = \frac{\pi}{2\omega} = \pi \sqrt{\frac{a}{g}}$.
+\end{proofbox}

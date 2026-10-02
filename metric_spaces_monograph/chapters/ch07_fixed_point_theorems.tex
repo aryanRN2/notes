@@ -1,0 +1,110 @@
+\chapter{Fixed Point Theorems and Their Applications}
+\label{chap:fixed_point_theorems}
+
+Fixed point theory provides powerful tools for establishing the existence and uniqueness of solutions to algebraic, differential, and integral equations. This chapter focuses on the Banach Contraction Principle and its direct applications.
+
+\section{Banach Contraction Principle}
+\label{sec:banach_contraction}
+
+\begin{definition}[Fixed Point]
+Let $f: X \to X$ be a mapping on a set $X$. A point $x^* \in X$ is called a \textbf{fixed point} of $f$ if $f(x^*) = x^*$.
+\end{definition}
+
+\begin{definition}[Contraction Mapping]
+Let $(X,d)$ be a metric space. A mapping $f: X \to X$ is called a \textbf{contraction mapping} (or contraction) if there exists a real constant $k \in [0, 1)$ such that:
+\[
+d(f(x), f(y)) \le k \, d(x,y) \quad \forall x, y \in X.
+\]
+The constant $k$ is called the contraction constant.
+\end{definition}
+
+\begin{theorem}[Banach Fixed Point Theorem]
+Let $(X,d)$ be a non-empty complete metric space, and let $f: X \to X$ be a contraction mapping with constant $k < 1$. Then:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item $f$ has a unique fixed point $x^* \in X$ (i.e., $f(x^*) = x^*$).
+    \item For any arbitrary initial point $x_0 \in X$, the sequence of Picard iterations defined by $x_{n+1} = f(x_n)$ ($n = 0, 1, 2, \dots$) converges to $x^*$:
+    \[
+    \lim_{n \to \infty} x_n = x^*.
+    \]
+    \item The following error bounds hold for all $n \ge 1$:
+    \begin{align*}
+    \text{\textbf{Prior Error Estimate:}} \qquad d(x_n, x^*) &\le \frac{k^n}{1-k} \, d(x_0, x_1), \\
+    \text{\textbf{Posterior Error Estimate:}} \qquad d(x_n, x^*) &\le \frac{k}{1-k} \, d(x_{n-1}, x_n).
+    \end{align*}
+\end{enumerate}
+\end{theorem}
+
+% TikZ Figure illustrating Picard Iteration towards Fixed Point
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.4]
+    % Axes
+    \draw[->, thick, >=stealth] (-0.3,0) -- (4.5,0) node[right] {$x$};
+    \draw[->, thick, >=stealth] (0,-0.3) -- (0,4.5) node[above] {$y$};
+    
+    % Line y = x
+    \draw[thick, dashed, mainblue] (0,0) -- (4.2,4.2) node[above right] {$y = x$};
+    
+    % Curve y = f(x) (Contraction with slope < 1)
+    \draw[ultra thick, darkred, domain=0.2:4.2, smooth] plot (\x, {1.2 + 0.55*\x}) node[right] {$y = f(x)$};
+    
+    % Fixed Point x*
+    % Intersection of y=x and y = 1.2 + 0.55x => x* = 1.2 / 0.45 = 2.666
+    \coordinate (FP) at (2.667, 2.667);
+    \filldraw[black] (FP) circle (2pt) node[above left] {$x^*$};
+    \draw[dotted, thick] (2.667, 0) node[below] {$x^*$} -- (FP);
+    
+    % Iteration path x0 -> f(x0) -> x1 -> f(x1) -> x2 -> ...
+    % x0 = 0.5
+    \coordinate (X0) at (0.5, 0);
+    \coordinate (P0) at (0.5, 1.475);
+    \coordinate (X1) at (1.475, 1.475);
+    \coordinate (P1) at (1.475, 2.011);
+    \coordinate (X2) at (2.011, 2.011);
+    \coordinate (P2) at (2.011, 2.306);
+    
+    \draw[thick, darkgreen, ->, >=stealth] (0.5, 0) node[below] {$x_0$} -- (P0);
+    \draw[thick, darkgreen, ->, >=stealth] (P0) -- (X1);
+    \draw[thick, darkgreen, ->, >=stealth] (X1) -- (P1);
+    \draw[thick, darkgreen, ->, >=stealth] (P1) -- (X2);
+    \draw[thick, darkgreen, ->, >=stealth] (X2) -- (P2);
+    \draw[thick, darkgreen, ->, >=stealth] (P2) -- (2.306, 2.306);
+    
+    \draw[dotted] (1.475, 0) node[below] {$x_1$} -- (1.475, 1.475);
+    \draw[dotted] (2.011, 0) node[below] {$x_2$} -- (2.011, 2.011);
+\end{tikzpicture}
+\caption{Picard cobweb iteration $x_{n+1} = f(x_n)$ converging rapidly to the unique fixed point $x^*$ of contraction $f$.}
+\label{fig:picard_iteration}
+\end{figure}
+
+
+\section{Application to Integral Equations}
+\label{sec:integral_equations}
+
+\begin{theorem}[Fredholm Integral Equations]
+Consider the Fredholm integral equation of the second kind:
+\[
+y(x) = g(x) + \lambda \int_a^b K(x,t) \, y(t) \, dt, \quad x \in [a,b],
+\]
+where $g \in C[a,b]$, the kernel $K \in C([a,b] \times [a,b])$, and $\lambda \in \R$.
+Let $M = \max_{(x,t) \in [a,b]\times[a,b]} |K(x,t)|$. If $|\lambda| < \frac{1}{M(b-a)}$, then the integral equation has a unique continuous solution $y \in C[a,b]$.
+\end{theorem}
+
+\begin{theorem}[Volterra Integral Equations]
+Consider the Volterra integral equation of the second kind:
+\[
+y(x) = g(x) + \lambda \int_a^x K(x,t) \, y(t) \, dt, \quad x \in [a,b].
+\]
+For any continuous kernel $K$ and continuous function $g$, the Volterra equation has a unique continuous solution $y \in C[a,b]$ for \textbf{every} parameter $\lambda \in \R$.
+\end{theorem}
+
+
+\section{Application to Inverse and Implicit Function Theorems}
+\label{sec:implicit_function}
+
+The Banach Contraction Principle can be used to construct iterative proofs of:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item \textbf{Picard-Lindelöf Existence Theorem}: For initial value problems $y' = f(x,y), y(x_0) = y_0$ with Lipschitz continuous $f$.
+    \item \textbf{Inverse Function Theorem}: Guaranteeing local $C^1$ invertibility of $f: \R^n \to \R^n$ when $Df(x_0)$ is non-singular.
+    \item \textbf{Implicit Function Theorem}: Guaranteeing existence of unique explicit solution $y = g(x)$ for system $F(x,y) = 0$.
+\end{enumerate}

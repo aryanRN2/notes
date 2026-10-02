@@ -1,0 +1,86 @@
+\chapter{The Cantor Set}
+\label{appendix:cantor_set}
+
+The Cantor ternary set is a classical counterexample in analysis and topology, illustrating a set that is uncountable, compact, nowhere dense, and has measure zero.
+
+\section{Construction of the Cantor Set}
+Start with the closed unit interval $C_0 = [0,1]$.
+\begin{enumerate}
+    \item Remove the open middle third $(1/3, 2/3)$, leaving $C_1 = [0, 1/3] \cup [2/3, 1]$.
+    \item Remove the open middle third of each of the two remaining intervals, leaving $C_2 = [0, 1/9] \cup [2/9, 1/3] \cup [2/3, 7/9] \cup [8/9, 1]$.
+    \item Repeat this process indefinitely. At step $n$, $C_n$ consists of $2^n$ closed intervals, each of length $3^{-n}$.
+\end{enumerate}
+The \textbf{Cantor set} $C$ is the intersection of all $C_n$:
+\[
+C = \bigcap_{n=0}^\infty C_n.
+\]
+
+% TikZ Diagram of Cantor Set Iteration
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=10, thick]
+    % C0
+    \draw[mainblue, ultra thick] (0, 0.8) -- (1, 0.8) node[right] {$C_0$};
+    
+    % C1
+    \draw[mainblue, ultra thick] (0, 0.6) -- (1/3, 0.6);
+    \draw[mainblue, ultra thick] (2/3, 0.6) -- (1, 0.6) node[right] {$C_1$};
+    
+    % C2
+    \draw[mainblue, ultra thick] (0, 0.4) -- (1/9, 0.4);
+    \draw[mainblue, ultra thick] (2/9, 0.4) -- (1/3, 0.4);
+    \draw[mainblue, ultra thick] (2/3, 0.4) -- (7/9, 0.4);
+    \draw[mainblue, ultra thick] (8/9, 0.4) -- (1, 0.4) node[right] {$C_2$};
+    
+    % C3
+    \foreach \x in {0, 2/9, 2/3, 8/9} {
+        \draw[mainblue, ultra thick] (\x, 0.2) -- (\x + 1/27, 0.2);
+        \draw[mainblue, ultra thick] (\x + 2/27, 0.2) -- (\x + 1/9, 0.2);
+    }
+    \node[mainblue, right] at (1, 0.2) {$C_3$};
+    
+    % C4
+    \foreach \x in {0, 2/27, 2/9, 8/27, 2/3, 20/27, 8/9, 26/27} {
+        \draw[mainblue, ultra thick] (\x, 0) -- (\x + 1/81, 0);
+        \draw[mainblue, ultra thick] (\x + 2/81, 0) -- (\x + 1/27, 0);
+    }
+    \node[mainblue, right] at (1, 0) {$C_4$};
+
+    % Ticks on C0
+    \draw (0, 0.78) -- (0, 0.82) node[above] {$0$};
+    \draw (1, 0.78) -- (1, 0.82) node[above] {$1$};
+    \draw (1/3, 0.58) -- (1/3, 0.62) node[above] {$\frac{1}{3}$};
+    \draw (2/3, 0.58) -- (2/3, 0.62) node[above] {$\frac{2}{3}$};
+\end{tikzpicture}
+\caption{Step-by-step construction of the Cantor ternary set $C = \bigcap_{n=0}^\infty C_n$.}
+\label{fig:cantor_set}
+\end{figure}
+
+\section{Properties of the Cantor Set}
+\begin{theorem}
+The Cantor set $C$ satisfies:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item $C$ is compact (closed and bounded in $\R$).
+    \item $C$ is nowhere dense in $\R$ ($\Int(C) = \emptyset$).
+    \item $C$ is perfect (it has no isolated points, $C' = C$).
+    \item $C$ is uncountable ($\card(C) = c = 2^{\aleph_0}$, via ternary expansion $x = \sum_{n=1}^\infty \frac{a_n}{3^n}, a_n \in \{0,2\}$).
+    \item $C$ has Lebesgue measure zero ($\lambda(C) = 1 - \sum_{n=0}^\infty \frac{2^n}{3^{n+1}} = 0$).
+\end{enumerate}
+\end{theorem}
+
+
+\chapter{Limits in Metric Spaces}
+\label{appendix:limits}
+
+Let $(X, d_X)$ and $(Y, d_Y)$ be metric spaces, $A \subseteq X$, $f: A \to Y$, and $x_0 \in A'$.
+
+\begin{definition}[Limit of a Function]
+We say that $L \in Y$ is the \textbf{limit of $f(x)$ as $x$ approaches $x_0$}, written $\lim_{x \to x_0} f(x) = L$, if for every $\eps > 0$, there exists $\delta > 0$ such that:
+\[
+0 < d_X(x, x_0) < \delta \implies d_Y(f(x), L) < \eps.
+\]
+\end{definition}
+
+\begin{theorem}[Sequential Characterisation of Limits]
+$\lim_{x \to x_0} f(x) = L$ if and only if for every sequence $(x_n)$ in $A \setminus \{x_0\}$ with $x_n \to x_0$, $f(x_n) \to L$.
+\end{theorem}

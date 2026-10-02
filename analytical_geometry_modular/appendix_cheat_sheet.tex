@@ -1,0 +1,410 @@
+\chapter{Master Formula Cheat Sheet and Exam Quick Reference}
+\label{ch:cheat_sheet}
+
+\begin{conceptbox}[How to Use This Cheat Sheet]
+This appendix serves as a high-yield, comprehensive formula repository condensing all essential definitions, canonical equations, geometric conditions (tangency, parallelism, perpendicularity, coplanarity), distance formulas, and algorithmic discrimination rules across the entire 69-page curriculum of Analytical Geometry.
+\end{conceptbox}
+
+% =========================================================================
+% PART I: POLAR CONICS
+% =========================================================================
+\section{Polar Equations of Conic Sections (Pages 1--14)}
+
+\begin{theorembox}[Canonical Polar Forms (Focus at Pole, Semi-Latus Rectum $l$)]
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{3.8cm}|p{4.2cm}|p{5.8cm}|}
+\hline
+\textbf{Directrix Position} & \textbf{Standard Polar Form} & \textbf{Orientation of Principal Axis} \\
+\hline
+Left of Focus ($x = -d$) & $\displaystyle \frac{l}{r} = 1 + e\cos\theta$ & Standard convention ($SX$ along axis) \\
+Right of Focus ($x = +d$) & $\displaystyle \frac{l}{r} = 1 - e\cos\theta$ & Directrix perpendicular to initial line \\
+Below Focus ($y = -d$) & $\displaystyle \frac{l}{r} = 1 + e\sin\theta$ & Axis rotated by $+90^\circ$ \\
+Above Focus ($y = +d$) & $\displaystyle \frac{l}{r} = 1 - e\sin\theta$ & Axis rotated by $-90^\circ$ \\
+Tilted Axis at Angle $\gamma$ & $\displaystyle \frac{l}{r} = 1 + e\cos(\theta - \gamma)$ & General conic with axis inclined at $\gamma$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorembox}
+
+\begin{theorembox}[Focal Chords and Tangents]
+\begin{enumerate}
+    \item \textbf{Focal Chord Reciprocal Relation}:
+    For any focal chord $PSQ$ with extremities at $\alpha$ and $\alpha + \pi$:
+    \begin{equation}
+        \boxed{\frac{1}{SP} + \frac{1}{SQ} = \frac{2}{l}} \quad \text{(Semi-latus rectum is the harmonic mean of focal segments)}
+    \end{equation}
+    \item \textbf{Chord Joining $\alpha - \beta$ and $\alpha + \beta$}:
+    \begin{equation}
+        \boxed{\frac{l}{r} = e\cos\theta + \sec\beta\cos(\theta - \alpha)}
+    \end{equation}
+    \item \textbf{Chord Joining Arbitrary Points $\alpha$ and $\beta$}:
+    \begin{equation}
+        \boxed{\frac{l}{r} = e\cos\theta + \sec\left(\frac{\alpha - \beta}{2}\right)\cos\left(\theta - \frac{\alpha + \beta}{2}\right)}
+    \end{equation}
+    \item \textbf{Tangent Line at Vectorial Angle $\alpha$}:
+    \begin{equation}
+        \boxed{\frac{l}{r} = e\cos\theta + \cos(\theta - \alpha) \iff \frac{l}{r} = (e + \cos\alpha)\cos\theta + \sin\alpha\sin\theta}
+    \end{equation}
+    \item \textbf{Condition of Tangency for a Straight Line}:
+    \begin{itemize}
+        \item For line $\displaystyle \frac{l}{r} = A\cos\theta + B\sin\theta$:
+        \begin{equation}
+            \boxed{(A - e)^2 + B^2 = 1}
+        \end{equation}
+        \item For normal form $r\cos(\theta - \phi) = p$:
+        \begin{equation}
+            \boxed{p^2(e^2 - 1) + 2elp\cos\phi + l^2 = 0}
+        \end{equation}
+    \end{itemize}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Normals, Polars, Asymptotes and Invariants]
+\begin{enumerate}
+    \item \textbf{Normal Line at Vectorial Angle $\alpha$}:
+    \begin{equation}
+        \boxed{\frac{e\sin\alpha}{1 + e\cos\alpha}\frac{l}{r} = \sin(\theta - \alpha) + e\sin\theta}
+    \end{equation}
+    \item \textbf{Chord of Contact and Polar Line of Pole $(r_1, \theta_1)$}:
+    \begin{equation}
+        \boxed{\left(\frac{l}{r} - e\cos\theta\right)\left(\frac{l}{r_1} - e\cos\theta_1\right) = \cos(\theta - \theta_1)}
+    \end{equation}
+    \item \textbf{Asymptotes of Hyperbola ($e > 1$)}:
+    \begin{equation}
+        \boxed{\frac{l}{r} = \pm\sqrt{e^2 - 1}\sin\theta + e\cos\theta} \quad \text{Asymptotic directions: } \cos\theta = -\frac{1}{e}
+    \end{equation}
+    \item \textbf{Director Circle in Polar Coordinates}:
+    \begin{equation}
+        \boxed{r^2(e^2 - 1) - 2erl\cos\theta + 2l^2 = 0}
+    \end{equation}
+    For a parabola ($e = 1$), the director circle degenerates into the directrix: $\displaystyle \frac{l}{r} = \cos\theta$.
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PART II: 3D COORDINATES & DIRECTION COSINES
+% =========================================================================
+\section{3D Coordinates, Direction Cosines \& Direction Ratios (Pages 15--24)}
+
+\begin{theorembox}[Spatial Metrics and Fundamental Identities]
+\begin{enumerate}
+    \item \textbf{Distance Formula}:
+    \begin{equation}
+        \boxed{d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}}
+    \end{equation}
+    \item \textbf{Section Formula ($m_1 : m_2$)}:
+    \begin{equation}
+        \boxed{x = \frac{m_1 x_2 \pm m_2 x_1}{m_1 \pm m_2}, \quad y = \frac{m_1 y_2 \pm m_2 y_1}{m_1 \pm m_2}, \quad z = \frac{m_1 z_2 \pm m_2 z_1}{m_1 \pm m_2}}
+    \end{equation}
+    \item \textbf{Translation of Coordinate Axes to New Origin $(h, k, l)$}:
+    \begin{equation}
+        \boxed{x = x' + h, \quad y = y' + k, \quad z = z' + l}
+    \end{equation}
+    \item \textbf{Projections and Fundamental Direction Cosine Identities}:
+    \begin{equation}
+        \boxed{x = lr, \quad y = mr, \quad z = nr \quad (r = \sqrt{x^2+y^2+z^2})}
+    \end{equation}
+    \begin{equation}
+        \boxed{l^2 + m^2 + n^2 = 1 \iff \cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1}
+    \end{equation}
+    \begin{equation}
+        \boxed{\sin^2\alpha + \sin^2\beta + \sin^2\gamma = 2, \quad \cos 2\alpha + \cos 2\beta + \cos 2\gamma = -1}
+    \end{equation}
+    \item \textbf{Projection of Segment $PQ$ on a Line with Direction Cosines $(l, m, n)$}:
+    \begin{equation}
+        \boxed{\text{Proj}_L(PQ) = l(x_2 - x_1) + m(y_2 - y_1) + n(z_2 - z_1)}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Direction Ratios, Angles, and Parallelism/Perpendicularity]
+\begin{enumerate}
+    \item \textbf{Normalization of Direction Ratios $(a, b, c)$ to Direction Cosines $(l, m, n)$}:
+    \begin{equation}
+        \boxed{l = \pm\frac{a}{\sqrt{a^2 + b^2 + c^2}}, \quad m = \pm\frac{b}{\sqrt{a^2 + b^2 + c^2}}, \quad n = \pm\frac{c}{\sqrt{a^2 + b^2 + c^2}}}
+    \end{equation}
+    \item \textbf{Angle $\theta$ Between Two Lines}:
+    \begin{align}
+        \cos\theta &= \boxed{l_1 l_2 + m_1 m_2 + n_1 n_2 = \frac{a_1 a_2 + b_1 b_2 + c_1 c_2}{\sqrt{\sum a_1^2}\,\sqrt{\sum a_2^2}}} \\
+        \sin\theta &= \boxed{\frac{\sqrt{(a_1 b_2 - a_2 b_1)^2 + (b_1 c_2 - b_2 c_1)^2 + (c_1 a_2 - c_2 a_1)^2}}{\sqrt{\sum a_1^2}\,\sqrt{\sum a_2^2}}}
+    \end{align}
+    \item \textbf{Orthogonality Condition}: $\displaystyle \boxed{l_1 l_2 + m_1 m_2 + n_1 n_2 = 0 \iff a_1 a_2 + b_1 b_2 + c_1 c_2 = 0}$.
+    \item \textbf{Parallelism Condition}: $\displaystyle \boxed{\frac{l_1}{l_2} = \frac{m_1}{m_2} = \frac{n_1}{n_2} \iff \frac{a_1}{a_2} = \frac{b_1}{b_2} = \frac{c_1}{c_2}}$.
+    \item \textbf{Cube Main Diagonals}: Angle between any two body diagonals of a cube:
+    \begin{equation}
+        \boxed{\cos\theta = \frac{1}{3} \implies \theta = \cos^{-1}\left(\frac{1}{3}\right) \approx 70^\circ 31' 44''}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PART III: THE PLANE
+% =========================================================================
+\section{The Analytical Geometry of the Plane (Pages 25--36)}
+
+\begin{theorembox}[Representations of the Plane]
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{3.5cm}|p{5.1cm}|p{5.3cm}|}
+\hline
+\textbf{Form} & \textbf{Equation} & \textbf{Key Geometrical Parameters} \\
+\hline
+General First-Degree & $\displaystyle Ax + By + Cz + D = 0$ & Normal direction ratios: $(A, B, C)$ \\
+One-Point Form & $\displaystyle A(x-x_1) + B(y-y_1) + C(z-z_1) = 0$ & Passes through $(x_1, y_1, z_1)$ \\
+Normal Form & $\displaystyle lx + my + nz = p \quad (p \ge 0)$ & Normal direction cosines: $(l, m, n)$ \\
+Intercept Form & $\displaystyle \frac{x}{a} + \frac{y}{b} + \frac{z}{c} = 1$ & Intercepts on $X, Y, Z$ axes: $a, b, c$ \\
+Three-Point Form & $\displaystyle \begin{vmatrix} x-x_1 & y-y_1 & z-z_1 \\ x_2-x_1 & y_2-y_1 & z_2-z_1 \\ x_3-x_1 & y_3-y_1 & z_3-z_1 \end{vmatrix} = 0$ & Non-collinear points $P_1, P_2, P_3$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorembox}
+
+\begin{theorembox}[Distances, Relative Positions, and Plane Systems]
+\begin{enumerate}
+    \item \textbf{Perpendicular Distance of Point $(x_1, y_1, z_1)$ from Plane}:
+    \begin{equation}
+        \boxed{d = \frac{|Ax_1 + By_1 + Cz_1 + D|}{\sqrt{A^2 + B^2 + C^2}}}
+    \end{equation}
+    \item \textbf{Distance Between Parallel Planes $Ax+By+Cz+D_1=0$ and $Ax+By+Cz+D_2=0$}:
+    \begin{equation}
+        \boxed{d = \frac{|D_1 - D_2|}{\sqrt{A^2 + B^2 + C^2}}}
+    \end{equation}
+    \item \textbf{Position of Two Points Relative to Plane}:
+    $P(x_1,y_1,z_1)$ and $Q(x_2,y_2,z_2)$ lie on the \textbf{same side} if $(Ax_1+By_1+Cz_1+D)(Ax_2+By_2+Cz_2+D) > 0$, and on \textbf{opposite sides} if $< 0$.
+    \item \textbf{Family of Planes Through Intersection Line}:
+    \begin{equation}
+        \boxed{(A_1 x + B_1 y + C_1 z + D_1) + \lambda(A_2 x + B_2 y + C_2 z + D_2) = 0 \iff U + \lambda V = 0}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Dihedral Angle Bisectors \& Discrimination Algorithm]
+\begin{enumerate}
+    \item \textbf{Dihedral Bisector Equations}:
+    \begin{equation}
+        \boxed{\frac{A_1 x + B_1 y + C_1 z + D_1}{\sqrt{A_1^2 + B_1^2 + C_1^2}} = \pm \frac{A_2 x + B_2 y + C_2 z + D_2}{\sqrt{A_2^2 + B_2^2 + C_2^2}}}
+    \end{equation}
+    \item \textbf{Systematic Discrimination Protocol}:
+    Make both constant terms strictly positive ($D_1 > 0$ and $D_2 > 0$). Compute $\Delta = A_1 A_2 + B_1 B_2 + C_1 C_2$:
+    \begin{center}
+    \small
+    \renewcommand{\arraystretch}{1.2}
+    \setlength{\tabcolsep}{5pt}
+    \begin{tabular}{|c|c|c|c|}
+    \hline
+    \textbf{Sign of $\Delta$} & \textbf{Origin Location} & \textbf{Acute Bisector} & \textbf{Obtuse Bisector} \\
+    \hline
+    $\Delta > 0$ & Obtuse Angle & Negative ($-$) sign & Positive ($+$) sign \\
+    $\Delta < 0$ & Acute Angle & Positive ($+$) sign & Negative ($-$) sign \\
+    \hline
+    \end{tabular}
+    \end{center}
+    The bisector containing the origin is \textbf{always} given by the positive ($+$) sign when $D_1, D_2 > 0$.
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PART IV: STRAIGHT LINES & SKEW LINES
+% =========================================================================
+\section{Straight Lines in Space and Skew Lines (Pages 37--52)}
+
+\begin{theorembox}[Equations of a Line and Geometric Reductions]
+\begin{enumerate}
+    \item \textbf{Symmetrical (Point-Direction) Form}:
+    \begin{equation}
+        \boxed{\frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n} = r} \iff P(r) = (x_1 + lr, \; y_1 + mr, \; z_1 + nr)
+    \end{equation}
+    \item \textbf{Two-Point Form}:
+    \begin{equation}
+        \boxed{\frac{x - x_1}{x_2 - x_1} = \frac{y - y_1}{y_2 - y_1} = \frac{z - z_1}{z_2 - z_1}}
+    \end{equation}
+    \item \textbf{Reduction from Unsymmetrical Form ($\Pi_1 = 0 = \Pi_2$)}:
+    \begin{itemize}
+        \item Direction ratios: $\displaystyle \vec{b} = \vec{N}_1 \times \vec{N}_2 \implies \frac{l}{B_1 C_2 - B_2 C_1} = \frac{m}{C_1 A_2 - C_2 A_1} = \frac{n}{A_1 B_2 - A_2 B_1}$.
+        \item Base point: Set $z = 0$ and solve the $2 \times 2$ linear system for $(x_0, y_0, 0)$.
+    \end{itemize}
+    \item \textbf{Angle Between Line and Plane}:
+    \begin{equation}
+        \boxed{\sin\theta = \frac{Al + Bm + Cn}{\sqrt{A^2 + B^2 + C^2}\,\sqrt{l^2 + m^2 + n^2}}}
+    \end{equation}
+    Parallel: $Al + Bm + Cn = 0$. \quad Perpendicular: $\frac{A}{l} = \frac{B}{m} = \frac{C}{n}$.
+    \item \textbf{Foot of Perpendicular and Optical Image (Reflection) of Point $(x_0, y_0, z_0)$ in Plane}:
+    \begin{align}
+        \text{Foot } N &: \quad \frac{x - x_0}{A} = \frac{y - y_0}{B} = \frac{z - z_0}{C} = -\frac{Ax_0 + By_0 + Cz_0 + D}{A^2 + B^2 + C^2} \\
+        \text{Image } P' &: \quad \frac{x' - x_0}{A} = \frac{y' - y_0}{B} = \frac{z' - z_0}{C} = -2\frac{Ax_0 + By_0 + Cz_0 + D}{A^2 + B^2 + C^2}
+    \end{align}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Coplanarity, Skew Lines, and Shortest Distance]
+\begin{enumerate}
+    \item \textbf{Condition for a Line to Lie Wholly in a Plane}:
+    \begin{equation}
+        \boxed{Ax_1 + By_1 + Cz_1 + D = 0 \quad \text{and} \quad Al + Bm + Cn = 0}
+    \end{equation}
+    \item \textbf{Condition of Coplanarity of Two Lines}:
+    \begin{equation}
+        \boxed{\begin{vmatrix}
+        x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+        l_1 & m_1 & n_1 \\
+        l_2 & m_2 & n_2
+        \end{vmatrix} = 0}
+    \end{equation}
+    Plane containing coplanar lines: $\displaystyle \begin{vmatrix} x-x_1 & y-y_1 & z-z_1 \\ l_1 & m_1 & n_1 \\ l_2 & m_2 & n_2 \end{vmatrix} = 0$.
+    \item \textbf{Shortest Distance (S.D.) Between Two Skew Lines}:
+    \begin{equation}
+        \boxed{d = \frac{\left|\begin{matrix}
+        x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+        l_1 & m_1 & n_1 \\
+        l_2 & m_2 & n_2
+        \end{matrix}\right|}{\sqrt{(m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2 + (l_1 m_2 - l_2 m_1)^2}}}
+    \end{equation}
+    \item \textbf{Equations of the Line of Shortest Distance}:
+    \begin{equation}
+        \boxed{\begin{vmatrix} x-x_1 & y-y_1 & z-z_1 \\ l_1 & m_1 & n_1 \\ \lambda & \mu & \nu \end{vmatrix} = 0 = \begin{vmatrix} x-x_2 & y-y_2 & z-z_2 \\ l_2 & m_2 & n_2 \\ \lambda & \mu & \nu \end{vmatrix}} \quad \text{where } (\lambda, \mu, \nu) \sim \vec{b}_1 \times \vec{b}_2
+    \end{equation}
+    \item \textbf{Distance Between Parallel Lines}: $\displaystyle \boxed{d = \frac{|(\vec{P}_2 - \vec{P}_1) \times \vec{b}|}{|\vec{b}|}}$.
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PART V: VECTOR GEOMETRY
+% =========================================================================
+\section{Vector Treatment of Planes and Lines (Pages 53--62)}
+
+\begin{theorembox}[Vector Geometry of Planes]
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{3.8cm}|p{5.1cm}|p{5.0cm}|}
+\hline
+\textbf{Concept} & \textbf{Vector Formulation} & \textbf{Meaning / Condition} \\
+\hline
+Plane Normal Form & $\vec{r} \cdot \hat{n} = p$ & $p = \text{distance from origin}, |\hat{n}|=1$ \\
+Plane One-Point Form & $(\vec{r} - \vec{a}) \cdot \vec{n} = 0 \iff \vec{r} \cdot \vec{n} = d$ & Passes through $\vec{a}$, normal $\vec{n}$ \\
+Point to Plane Distance & $\displaystyle D = \frac{|\vec{a} \cdot \vec{n} - d|}{|\vec{n}|}$ & Perpendicular distance \\
+Angle Between Planes & $\displaystyle \cos\theta = \frac{\vec{n}_1 \cdot \vec{n}_2}{|\vec{n}_1|\,|\vec{n}_2|}$ & Orthogonal when $\vec{n}_1 \cdot \vec{n}_2 = 0$ \\
+Three-Point Plane & $[\vec{r} - \vec{a}, \; \vec{b} - \vec{a}, \; \vec{c} - \vec{a}] = 0$ & Non-collinear $\vec{a}, \vec{b}, \vec{c}$ \\
+Vector Family of Planes & $\vec{r} \cdot (\vec{n}_1 + \lambda \vec{n}_2) = d_1 + \lambda d_2$ & Contains intersection line \\
+Dihedral Vector Bisectors & $\displaystyle \frac{\vec{r} \cdot \vec{n}_1 - d_1}{|\vec{n}_1|} = \pm \frac{\vec{r} \cdot \vec{n}_2 - d_2}{|\vec{n}_2|}$ & Locus of equidistant points \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorembox}
+
+\begin{theorembox}[Vector Geometry of Lines and Spatial Invariants]
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{3.8cm}|p{5.1cm}|p{5.0cm}|}
+\hline
+\textbf{Concept} & \textbf{Vector Formulation} & \textbf{Meaning / Condition} \\
+\hline
+Vector Line (Parametric) & $\vec{r} = \vec{a} + \lambda \vec{b}$ & Passes through $\vec{a}$, direction $\vec{b}$ \\
+Vector Line (Non-Parametric) & $(\vec{r} - \vec{a}) \times \vec{b} = \vec{0}$ & Collinearity with direction $\vec{b}$ \\
+Distance: Point $\vec{p}$ to Line & $\displaystyle d = \frac{|(\vec{p} - \vec{a}) \times \vec{b}|}{|\vec{b}|}$ & Perpendicular distance \\
+Vector Coplanarity & $(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2) = 0$ & Lines lie in single plane \\
+Shortest Distance (Skew) & $\displaystyle d = \frac{|(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2)|}{|\vec{b}_1 \times \vec{b}_2|}$ & Scalar triple product formula \\
+Distance (Parallel Lines) & $\displaystyle d = \frac{|(\vec{a}_2 - \vec{a}_1) \times \vec{b}|}{|\vec{b}|}$ & Cross product magnitude \\
+\hline
+\end{tabular}
+\end{center}
+\end{theorembox}
+
+% =========================================================================
+% PART VI: THE SPHERE
+% =========================================================================
+\section{The Geometry of the Sphere in 3D (Pages 63--69)}
+
+\begin{theorembox}[Canonical Sphere Equations and Circular Sections]
+\begin{enumerate}
+    \item \textbf{Center-Radius Form}:
+    \begin{equation}
+        \boxed{(x - a)^2 + (y - b)^2 + (z - c)^2 = R^2}
+    \end{equation}
+    \item \textbf{General Second-Degree Sphere Equation}:
+    \begin{equation}
+        \boxed{x^2 + y^2 + z^2 + 2ux + 2vy + 2wz + d = 0}
+    \end{equation}
+    \begin{equation}
+        \boxed{\text{Center } C = (-u, -v, -w), \quad \text{Radius } R = \sqrt{u^2 + v^2 + w^2 - d}}
+    \end{equation}
+    Classification: Real ($u^2+v^2+w^2-d > 0$), Point ($= 0$), Imaginary ($< 0$).
+    \item \textbf{Diametric Form (Antipodal Endpoints $A, B$)}:
+    \begin{equation}
+        \boxed{(x - x_1)(x - x_2) + (y - y_1)(y - y_2) + (z - z_1)(z - z_2) = 0}
+    \end{equation}
+    \item \textbf{Plane Section of a Sphere (Circular Section)}:
+    Every plane section is a circle! Let $p$ be the perpendicular distance from center $C$ to plane $\Pi$:
+    \begin{equation}
+        \boxed{\text{Radius of Circular Section } r = \sqrt{R^2 - p^2}}
+    \end{equation}
+    \begin{itemize}[noitemsep]
+        \item $p = 0$: \textbf{Great Circle} (maximum radius $r = R$, center coincides with sphere center).
+        \item $0 < p < R$: \textbf{Small Circle} ($r < R$).
+        \item $p = R$: \textbf{Tangent Plane} ($r = 0$, single point contact).
+    \end{itemize}
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Radical Planes, Tangency, and Normals]
+\begin{enumerate}
+    \item \textbf{Radical Plane of Two Spheres}:
+    \begin{equation}
+        \boxed{S_1 - S_2 = 0 \iff 2(u_1 - u_2)x + 2(v_1 - v_2)y + 2(w_1 - w_2)z + (d_1 - d_2) = 0}
+    \end{equation}
+    \textbf{Fundamental Invariant}: The radical plane is strictly perpendicular to the center line $C_1 C_2$.
+    \item \textbf{Condition of Tangency for a Plane}:
+    The plane $Ax + By + Cz + D = 0$ touches the sphere $S = 0$ if and only if $p = R$:
+    \begin{equation}
+        \boxed{\frac{|-Au - Bv - Cw + D|}{\sqrt{A^2 + B^2 + C^2}} = \sqrt{u^2 + v^2 + w^2 - d}}
+    \end{equation}
+    For central sphere $x^2 + y^2 + z^2 = a^2$: $\displaystyle \boxed{D^2 = a^2(A^2 + B^2 + C^2)}$.
+    \item \textbf{Tangent Plane at Point of Contact $P_1(x_1, y_1, z_1)$}:
+    \begin{equation}
+        \boxed{T \equiv x x_1 + y y_1 + z z_1 + u(x + x_1) + v(y + y_1) + w(z + z_1) + d = 0}
+    \end{equation}
+    \item \textbf{Normal Line at Point $P_1(x_1, y_1, z_1)$}:
+    Passes through the sphere center $(-u, -v, -w)$:
+    \begin{equation}
+        \boxed{\frac{x - x_1}{x_1 + u} = \frac{y - y_1}{y_1 + v} = \frac{z - z_1}{z_1 + w}}
+    \end{equation}
+    \item \textbf{Length of Tangent and Plane of Contact from External Point}:
+    \begin{equation}
+        \boxed{L = \sqrt{S_1} = \sqrt{x_1^2 + y_1^2 + z_1^2 + 2ux_1 + 2vy_1 + 2wz_1 + d}}, \quad \text{Plane of Contact: } \boxed{T = 0}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PART VII: MASTER COMPARISON TABLE
+% =========================================================================
+\section{Master Geometric Conditions Quick-Reference Table}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.3}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{|p{3.5cm}|p{5.5cm}|p{5.0cm}|}
+\hline
+\textbf{Geometric Relationship} & \textbf{Cartesian Condition} & \textbf{Vector Condition} \\
+\hline
+Perpendicular Lines & $a_1 a_2 + b_1 b_2 + c_1 c_2 = 0$ & $\vec{b}_1 \cdot \vec{b}_2 = 0$ \\
+Parallel Lines & $\frac{a_1}{a_2} = \frac{b_1}{b_2} = \frac{c_1}{c_2}$ & $\vec{b}_1 \times \vec{b}_2 = \vec{0}$ \\
+Perpendicular Planes & $A_1 A_2 + B_1 B_2 + C_1 C_2 = 0$ & $\vec{n}_1 \cdot \vec{n}_2 = 0$ \\
+Parallel Planes & $\frac{A_1}{A_2} = \frac{B_1}{B_2} = \frac{C_1}{C_2}$ & $\vec{n}_1 \times \vec{n}_2 = \vec{0}$ \\
+Line Parallel to Plane & $Al + Bm + Cn = 0$ & $\vec{b} \cdot \vec{n} = 0$ \\
+Line Perpendicular to Plane & $\frac{A}{l} = \frac{B}{m} = \frac{C}{n}$ & $\vec{b} \times \vec{n} = \vec{0}$ \\
+Line Lying in Plane & $Ax_1+By_1+Cz_1+D = 0$ and $Al+Bm+Cn = 0$ & $\vec{a} \cdot \vec{n} = d$ and $\vec{b} \cdot \vec{n} = 0$ \\
+Coplanar Lines & $\begin{vmatrix} x_2-x_1 & y_2-y_1 & z_2-z_1 \\ l_1 & m_1 & n_1 \\ l_2 & m_2 & n_2 \end{vmatrix} = 0$ & $(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2) = 0$ \\
+Plane Tangent to Sphere & $\frac{|-Au-Bv-Cw+D|}{\sqrt{A^2+B^2+C^2}} = R$ & $\frac{|\vec{c} \cdot \vec{n} - d|}{|\vec{n}|} = R$ \\
+\hline
+\end{tabular}
+\end{center}

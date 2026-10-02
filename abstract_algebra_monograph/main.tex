@@ -1,0 +1,277 @@
+\documentclass[11pt,a4paper,oneside]{book}
+
+% ---------------------------------------------------------
+% Essential Packages
+% ---------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools,amsfonts}
+\usepackage{geometry}
+\geometry{
+    top=1in,
+    bottom=1in,
+    left=1in,
+    right=1in
+}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{tikz}
+\usetikzlibrary{calc,positioning,shapes.geometric}
+
+% ---------------------------------------------------------
+% Color Palette & Hyperlinks
+% ---------------------------------------------------------
+\definecolor{primaryblue}{RGB}{18, 52, 86}
+\definecolor{accentteal}{RGB}{0, 102, 102}
+\definecolor{darkred}{RGB}{139, 0, 0}
+\definecolor{darkgray}{RGB}{50, 50, 50}
+\definecolor{lightgraybg}{RGB}{248, 249, 250}
+\definecolor{boxframe}{RGB}{200, 210, 220}
+
+% Cover Page Colors
+\definecolor{coverbg}{RGB}{10, 22, 40}
+\definecolor{covercard}{RGB}{18, 38, 68}
+\definecolor{accentcyan}{RGB}{0, 210, 220}
+\definecolor{covergold}{RGB}{245, 190, 75}
+\definecolor{lighttext}{RGB}{235, 242, 250}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    citecolor=darkred,
+    urlcolor=accentteal,
+    pdftitle={Abstract Algebra: Comprehensive Syllabus and Dummit and Foote Notes},
+    pdfauthor={Dummit and Foote Course Extraction}
+}
+
+% ---------------------------------------------------------
+% Header & Footer Styling with sciqb.com Integration
+% ---------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{darkgray}\nouppercase{\leftmark}}
+\fancyhead[R]{\small\color{darkgray}Abstract Algebra}
+\fancyfoot[L]{\small\color{accentteal}\href{https://sciqb.com}{\textbf{sciqb.com}}}
+\fancyfoot[C]{\thepage}
+\fancyfoot[R]{\small\color{darkgray}\href{https://sciqb.com}{SciQB Mathematics}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Ensure chapter opening pages (plain style) also display the sciqb.com footer
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyfoot[L]{\small\color{accentteal}\href{https://sciqb.com}{\textbf{sciqb.com}}}
+    \fancyfoot[C]{\thepage}
+    \fancyfoot[R]{\small\color{darkgray}\href{https://sciqb.com}{SciQB Mathematics}}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+}
+
+% ---------------------------------------------------------
+% Chapter & Section Title Formats
+% ---------------------------------------------------------
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries\color{primaryblue}}
+  {\Large\bfseries\color{accentteal}\chaptertitlename\ \thechapter}{15pt}{\Huge}
+\titlespacing*{\chapter}{0pt}{20pt}{25pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primaryblue}}{\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{accentteal}}{\thesubsection}{1em}{}
+
+% ---------------------------------------------------------
+% Theorem Environments
+% ---------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{problem}[theorem]{Problem}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{notation}[theorem]{Notation}
+
+% ---------------------------------------------------------
+% Custom Math Macros
+% ---------------------------------------------------------
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Hbb}{\mathbb{H}}
+\newcommand{\Obb}{\mathbb{O}}
+\newcommand{\F}{\mathbb{F}}
+
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\GL}{GL}
+\DeclareMathOperator{\SL}{SL}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Inn}{Inn}
+\DeclareMathOperator{\Out}{Out}
+\DeclareMathOperator{\Stab}{Stab}
+\DeclareMathOperator{\Orb}{Orb}
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\degpoly}{deg}
+
+% ---------------------------------------------------------
+% Document Body
+% ---------------------------------------------------------
+\begin{document}
+
+% =========================================================
+% Grand Front Cover Page: Super notes by SCIQB
+% =========================================================
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+    % Full bleed dark navy background
+    \fill[coverbg] (current page.north west) rectangle (current page.south east);
+    
+    % Subtle geometric watermark lines in background
+    \foreach \r in {2.5, 4.5, 6.5, 8.5, 10.5, 12.5} {
+        \draw[accentcyan, opacity=0.04, line width=0.8pt] ($(current page.center)+(4cm,-3cm)$) circle (\r cm);
+    }
+    \foreach \a in {0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330} {
+        \draw[accentcyan, opacity=0.03, line width=0.6pt] ($(current page.center)+(4cm,-3cm)$) -- ++(\a:13cm);
+    }
+    
+    % Outer and inner decorative border
+    \draw[accentcyan!65, line width=1.5pt] 
+        ($(current page.north west)+(1.0cm,-1.0cm)$) rectangle ($(current page.south east)+(-1.0cm,1.0cm)$);
+    \draw[covergold!75, line width=0.7pt] 
+        ($(current page.north west)+(1.18cm,-1.18cm)$) rectangle ($(current page.south east)+(-1.18cm,1.18cm)$);
+        
+    % Corner accents at all 4 corners
+    \fill[covergold] ($(current page.north west)+(1.0cm,-1.0cm)$) circle (3pt);
+    \fill[covergold] ($(current page.north east)+(-1.0cm,-1.0cm)$) circle (3pt);
+    \fill[covergold] ($(current page.south west)+(1.0cm,1.0cm)$) circle (3pt);
+    \fill[covergold] ($(current page.south east)+(-1.0cm,1.0cm)$) circle (3pt);
+    
+    % Top series badge
+    \node[draw=accentcyan!70, fill=covercard, rounded corners=4pt, inner sep=6pt] 
+        at ($(current page.north)+(0,-2.5cm)$) {
+        \footnotesize\textbf{\textsf{\color{accentcyan}$\diamondsuit$ HIGHER MATHEMATICS MONOGRAPH SERIES $\diamondsuit$}}
+    };
+    
+    % Brand Label: Super notes by SCIQB
+    \node at ($(current page.north)+(0,-4.1cm)$) {
+        {\fontsize{19}{24}\selectfont\textbf{\textsf{\color{covergold}Super notes by SCIQB}}}
+    };
+    
+    % Giant SCIQB Wordmark
+    \node at ($(current page.north)+(0,-5.9cm)$) {
+        {\fontsize{76}{76}\selectfont\textbf{\textsf{\color{white}S\,C\,I\,Q\,B}}}
+    };
+    
+    % Tagline / Secondary Bar
+    \node at ($(current page.north)+(0,-7.4cm)$) {
+        {\fontsize{24}{28}\selectfont\textbf{\textsf{\color{accentcyan}S\,U\,P\,E\,R \quad N\,O\,T\,E\,S}}}
+    };
+    
+    % Divider Line with diamond
+    \draw[accentcyan!80, line width=1.3pt] ($(current page.north)+(-5.5cm,-8.3cm)$) -- ($(current page.north)+(5.5cm,-8.3cm)$);
+    \node[fill=coverbg, inner sep=3.5pt] at ($(current page.north)+(0,-8.3cm)$) {
+        {\color{covergold}\footnotesize$\blacklozenge$}
+    };
+    
+    % Main Book Title: ABSTRACT ALGEBRA
+    \node at ($(current page.north)+(0,-9.8cm)$) {
+        {\fontsize{35}{42}\selectfont\textbf{\textsf{\color{white}ABSTRACT ALGEBRA}}}
+    };
+    
+    % Subtitle
+    \node at ($(current page.north)+(0,-10.9cm)$) {
+        {\fontsize{13}{17}\selectfont\textsf{\color{lighttext}Complete Theory $\cdot$ Rigorous Proofs $\cdot$ Solved Problem Sets}}
+    };
+    
+    \node at ($(current page.north)+(0,-11.7cm)$) {
+        {\fontsize{11}{15}\selectfont\textsf{\color{accentcyan!90}Dummit \& Foote (3rd Edition) Comprehensive Syllabus Guide}}
+    };
+    
+    % Feature Highlights Card
+    \node[draw=accentcyan!40, fill=covercard!95, rounded corners=8pt, inner sep=12pt, text width=16.0cm] 
+        at ($(current page.center)+(0,-2.6cm)$) {
+        \centering
+        {\large\textbf{\textsf{\color{covergold}Comprehensive Syllabus Coverage}}}\\[8pt]
+        \begin{minipage}{15.2cm}
+        \small\color{lighttext}\linespread{1.35}\selectfont
+        \textbf{\color{accentcyan}Unit I:} Homomorphisms, Isomorphisms, Subgroups, Cosets, Lagrange, Euler, Fermat, Wilson\\[3pt]
+        \textbf{\color{accentcyan}Unit II:} Group Products, Normal Subgroups, Quotients, Isomorphism Theorems, Abelianization\\[3pt]
+        \textbf{\color{accentcyan}Unit III:} Symmetric Groups $S_n$, Cycles, Transpositions, Alternating Groups $A_n$, Simplicity\\[3pt]
+        \textbf{\color{accentcyan}Unit IV:} Group Actions, Class Equation, $p^2$ Groups, Rings, Gaussian Integers, Quaternions\\[3pt]
+        \textbf{\color{accentcyan}Unit V:} Domains, Fields, Fractions, Polynomial Rings $F[x]$, Real Algebras ($\mathbb{R}, \mathbb{C}, \mathbb{H}, \mathbb{O}$)
+        \end{minipage}
+    };
+    
+    % Bottom Web Portal & Footer
+    \node at ($(current page.south)+(0,3.6cm)$) {
+        {\fontsize{24}{28}\selectfont\textbf{\textsf{\href{https://sciqb.com}{\color{accentcyan}sciqb.com}}}}
+    };
+    \node at ($(current page.south)+(0,2.8cm)$) {
+        {\fontsize{11}{14}\selectfont\textsf{\color{lighttext}Interactive Higher Mathematics Notes \& Problem Collections}}
+    };
+    \node at ($(current page.south)+(0,2.1cm)$) {
+        {\footnotesize\textsf{\color{white!50}Curated by SciQB Academic Initiative $\cdot$ Open Education $\cdot$ 2026}}
+    };
+\end{tikzpicture}
+\clearpage
+
+\frontmatter
+
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
+    {\Huge\bfseries\color{primaryblue} ABSTRACT ALGEBRA \par}
+    \vspace{0.6cm}
+    {\LARGE\bfseries\color{accentteal} Complete Theory, Rigorous Proofs, and Problem Sets \par}
+    \vspace{0.4cm}
+    {\large Adapted from \emph{Abstract Algebra} (3rd Edition) by David S. Dummit and Richard M. Foote \par}
+    
+    \vspace{1.5cm}
+    \rule{0.8\textwidth}{1.5pt}
+    \vspace{1.2cm}
+    
+    \begin{minipage}{0.88\textwidth}
+        \textbf{Course Coverage and Syllabus Structure:}
+        \begin{itemize}[leftmargin=1.5em, itemsep=5pt]
+            \item \textbf{Unit I:} Homomorphisms, Isomorphisms, Subgroups, Center, Subgroups Generated by Subsets, Cosets, Lagrange's Theorem, Euler's, Fermat's, and Wilson's Theorems.
+            \item \textbf{Unit II:} Products of Groups, Normal Subgroups, Quotient Groups, The Four Isomorphism Theorems, Commutator Subgroups and Abelianization.
+            \item \textbf{Unit III:} Symmetric Groups, Cycle Decompositions, Transpositions, Even/Odd Permutations, Alternating Groups, Normal Subgroups of $S_n$, Simplicity of $A_n$.
+            \item \textbf{Unit IV:} Group Actions, Orbits, Stabilizers (Isotropy), Regular and Conjugation Actions, Class Equation, Groups of Order $p^2$, Rings, Subrings, Gaussian Integers, Matrix Rings, Quaternions, Ideals, and Quotient Rings.
+            \item \textbf{Unit V:} Integral Domains, Division Rings, Fields, Field of Fractions, Polynomial Rings over Fields, Division Algorithm, Ideals of $F[x]$, Algebras over $\R$ ($\R, \C, \Hbb, \Obb$), Frobenius and Hurwitz Classification Theorems.
+        \end{itemize}
+    \end{minipage}
+    
+    \vfill
+    {\Large\bfseries\color{primaryblue}\href{https://sciqb.com}{sciqb.com}}\par
+    \vspace{0.2cm}
+    {\normalsize\color{darkgray} Comprehensive Higher Mathematics Notes \& Interactive Problem Sets \par}
+    \vspace{0.15cm}
+    {\small\color{accentteal}\url{https://sciqb.com}\par}
+    \vspace{0.8cm}
+\end{titlepage}
+
+\tableofcontents
+
+\mainmatter
+
+\include{chapters/unit1_groups_foundations}
+\include{chapters/unit2_quotients_isomorphisms_products}
+\include{chapters/unit3_symmetric_alternating_groups}
+\include{chapters/unit4_actions_class_equation_rings}
+\include{chapters/unit5_domains_fractions_polynomials_algebras}
+
+\end{document}

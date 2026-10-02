@@ -1,0 +1,92 @@
+\chapter{Compactness}
+\label{chap:compactness}
+
+Compactness generalizes finite set properties to infinite spaces, playing a central role in real analysis, topology, and optimization. This chapter examines open covers, sequential compactness, total boundedness, finite intersection property, and continuous maps on compact domains.
+
+\section{Compact Spaces and Sets}
+\label{sec:compact_def}
+
+\begin{definition}[Open Cover and Subcover]
+Let $(X,d)$ be a metric space and $A \subseteq X$.
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item A collection $\mathcal{U} = \{G_\alpha\}_{\alpha \in \Delta}$ of open sets in $X$ is an \textbf{open cover} of $A$ if $A \subseteq \bigcup_{\alpha \in \Delta} G_\alpha$.
+    \item A subcollection $\mathcal{V} \subseteq \mathcal{U}$ is a \textbf{subcover} of $A$ if $A \subseteq \bigcup_{V \in \mathcal{V}} V$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Compact Metric Space]
+A metric space $(X,d)$ (or a subset $K \subseteq X$) is called \textbf{compact} if every open cover of $X$ (or $K$) admits a finite subcover.
+\end{definition}
+
+\begin{theorem}[Heine-Borel Theorem in $\R^n$]
+A subset $K \subseteq \R^n$ (with the Euclidean metric $d_2$) is compact if and only if it is closed and bounded.
+\end{theorem}
+
+\begin{theorem}[Properties of Compact Sets]
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item Every compact subset of a metric space is closed and bounded.
+    \item Every closed subset of a compact metric space is compact.
+\end{enumerate}
+\end{theorem}
+
+
+\section{Sequential Compactness and Total Boundedness}
+\label{sec:sequential_compactness}
+
+\begin{definition}[Sequential Compactness]
+A metric space $(X,d)$ is called \textbf{sequentially compact} if every sequence $(x_n)$ in $X$ has a convergent subsequence whose limit lies in $X$.
+\end{definition}
+
+\begin{definition}[$\eps$-Net and Total Boundedness]
+Let $(X,d)$ be a metric space and $\eps > 0$.
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item A subset $E \subseteq X$ is called an \textbf{$\eps$-net} for $X$ if $X = \bigcup_{x \in E} B(x, \eps)$.
+    \item $X$ is called \textbf{totally bounded} if for every $\eps > 0$, there exists a finite $\eps$-net for $X$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Equivalence of Compactness Notions]
+In any metric space $(X,d)$, the following properties are equivalent:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item $X$ is compact.
+    \item $X$ is sequentially compact.
+    \item $X$ is complete and totally bounded.
+\end{enumerate}
+\end{theorem}
+
+
+\section{Finite Intersection Property}
+\label{sec:fip}
+
+\begin{definition}[Finite Intersection Property]
+A collection $\mathcal{F}$ of subsets of $X$ has the \textbf{Finite Intersection Property (FIP)} if every finite subcollection $\{F_1, F_2, \dots, F_k\} \subseteq \mathcal{F}$ has a non-empty intersection:
+\[
+\bigcap_{i=1}^k F_i \neq \emptyset.
+\]
+\end{definition}
+
+\begin{theorem}[Compactness via FIP]
+A metric space $(X,d)$ is compact if and only if every collection $\mathcal{F}$ of closed subsets of $X$ with the Finite Intersection Property has a non-empty intersection:
+\[
+\bigcap_{F \in \mathcal{F}} F \neq \emptyset.
+\]
+\end{theorem}
+
+
+\section{Continuous Functions on Compact Spaces}
+\label{sec:continuous_compact}
+
+\begin{theorem}[Preservation of Compactness]
+Let $f: (X, d_X) \to (Y, d_Y)$ be a continuous mapping. If $K \subseteq X$ is compact, then its image $f(K)$ is compact in $Y$.
+\end{theorem}
+
+\begin{theorem}[Extreme Value Theorem]
+Let $(X,d)$ be a compact metric space and $f: X \to \R$ a continuous real-valued function. Then $f$ is bounded and attains its maximum and minimum values on $X$, i.e., there exist $x_m, x_M \in X$ such that:
+\[
+f(x_m) \le f(x) \le f(x_M) \quad \forall x \in X.
+\]
+\end{theorem}
+
+\begin{theorem}[Heine-Cantor Theorem]
+If $(X, d_X)$ is a compact metric space, every continuous function $f: X \to Y$ is uniformly continuous on $X$.
+\end{theorem}

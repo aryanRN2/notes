@@ -1,0 +1,262 @@
+\chapter{Master Formula Cheat Sheet and Exam Quick Reference}
+\label{ch:cheat_sheet}
+
+\noindent This appendix compiles the complete mathematical toolkit of \textbf{Numerical Analysis} into a dense, high-yield reference guide. All master formulas, convergence rates, error bounds, algorithmic criteria, and operational identities are organized systematically for rapid pre-examination revision and professional numerical computation.
+
+% =========================================================================
+% PART I: ROOT-FINDING ALGORITHMS
+% =========================================================================
+\section{Part I: Nonlinear Equations and Root-Finding Methods}
+
+\begin{conceptbox}[Comparative Summary of Root-Finding Methods]
+\small
+\renewcommand{\arraystretch}{1.35}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+\textbf{Method} & \textbf{Iteration Formula} & \textbf{Order $p$} & \textbf{Bracket?} & \textbf{Convergence Criteria / Notes} \\ \hline\hline
+\textbf{Bisection} & $x_{m} = \frac{a_k + b_k}{2}$ & $1$ & Yes & Guaranteed if $f(a)f(b) < 0$; $e_{n} \le \frac{b-a}{2^n}$ \\ \hline
+\textbf{Regula-Falsi} & $x = \frac{a f(b) - b f(a)}{f(b) - f(a)}$ & $1$ & Yes & Guaranteed bracketing; one endpoint stays fixed \\ \hline
+\textbf{Secant} & $x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}$ & $\frac{1+\sqrt{5}}{2} \approx 1.618$ & No & 1 function call/step; superlinear convergence \\ \hline
+\textbf{Newton--Raphson} & $x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$ & $2$ & No & Local quadratic convergence; fails if $f'(x_k) \approx 0$ \\ \hline
+\textbf{Fixed-Point} & $x_{k+1} = \phi(x_k)$ & $1$ & No & Converges if $|\phi'(x)| \le k < 1$ in neighborhood \\ \hline
+\end{tabular}%
+}
+\end{conceptbox}
+
+\begin{theorembox}[Newton--Raphson Special Recurrence Formulas]
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+    \item \textbf{Division-Free Reciprocal Algorithm ($1/N$):} Solving $f(x) = \frac{1}{x} - N = 0$:
+    \begin{equation}
+        \boxed{x_{k+1} = x_k (2 - N x_k)} \quad \text{Convergence condition: } 0 < x_0 < \frac{2}{N}
+    \end{equation}
+    \item \textbf{Square Root Algorithm ($\sqrt{N}$):} Solving $f(x) = x^2 - N = 0$:
+    \begin{equation}
+        \boxed{x_{k+1} = \frac{1}{2}\left( x_k + \frac{N}{x_k} \right)}
+    \end{equation}
+    \item \textbf{$p$-th Root Algorithm ($N^{1/p}$):} Solving $f(x) = x^p - N = 0$:
+    \begin{equation}
+        \boxed{x_{k+1} = \frac{1}{p}\left[ (p - 1)x_k + \frac{N}{x_k^{p-1}} \right]}
+    \end{equation}
+    \item \textbf{Asymptotic Error Constant:}
+    \begin{equation}
+        e_{k+1} \approx c \, e_k^2, \quad \text{where } \boxed{c = \frac{f''(\alpha)}{2 f'(\alpha)}}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{notebox}[Birge--Vieta Method (Double Synthetic Division for Polynomials)]
+To find a root of $P_n(x) = a_0 x^n + a_1 x^{n-1} + \dots + a_n$ near $p$:
+\begin{align}
+    b_0 &= a_0, \qquad b_k = a_k + p\,b_{k-1} \quad (k = 1, \dots, n) \implies P(p) = b_n \\
+    c_0 &= b_0, \qquad c_k = b_k + p\,c_{k-1} \quad (k = 1, \dots, n-1) \implies P'(p) = c_{n-1}
+\end{align}
+\begin{equation}
+    \boxed{p_{\text{new}} = p - \frac{b_n}{c_{n-1}}}
+\end{equation}
+\end{notebox}
+
+% =========================================================================
+% PART II: LINEAR SYSTEMS OF EQUATIONS
+% =========================================================================
+\section{Part II: Direct and Iterative Linear Solvers}
+
+\begin{theorembox}[Direct Solvers: Gauss Elimination and Gauss--Jordan]
+\textbf{Gauss Elimination (Triangularization):}
+\begin{equation}
+    m_{ik} = \frac{a_{ik}^{(k-1)}}{a_{kk}^{(k-1)}} \quad (i = k+1, \dots, n), \qquad a_{ij}^{(k)} = a_{ij}^{(k-1)} - m_{ik} a_{kj}^{(k-1)}
+\end{equation}
+Backward substitution: $x_n = \frac{b_n^{(n)}}{a_{nn}^{(n)}}$, $x_i = \frac{1}{a_{ii}^{(i)}} \left( b_i^{(i)} - \sum_{j=i+1}^n a_{ij}^{(i)} x_j \right)$.
+
+\textbf{Partial Pivoting Strategy:} At stage $k$, find row $p \ge k$ such that $|a_{pk}| = \max_{k \le i \le n} |a_{ik}|$, and interchange row $k \leftrightarrow$ row $p$. Prevents numerical instability and blowup from near-zero pivots.
+\end{theorembox}
+
+\begin{theorembox}[Iterative Solvers: Jacobi vs. Gauss--Seidel]
+Decompose matrix $A = L + D + U$ into strictly lower, diagonal, and strictly upper parts.
+\begin{itemize}[noitemsep]
+    \item \textbf{Jacobi Method (Simultaneous Displacements):}
+    \begin{align}
+        \text{Component form: } \quad & \boxed{x_i^{(k+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j \ne i} a_{ij} x_j^{(k)} \right)} \\
+        \text{Matrix form: } \quad & \boxed{x^{(k+1)} = -D^{-1}(L + U) x^{(k)} + D^{-1} b}
+    \end{align}
+    \item \textbf{Gauss--Seidel Method (Successive Displacements):}
+    \begin{align}
+        \text{Component form: } \quad & \boxed{x_i^{(k+1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j < i} a_{ij} x_j^{(k+1)} - \sum_{j > i} a_{ij} x_j^{(k)} \right)} \\
+        \text{Matrix form: } \quad & \boxed{x^{(k+1)} = -(D+L)^{-1} U x^{(k)} + (D+L)^{-1} b}
+    \end{align}
+    \item \textbf{Sufficient Condition for Convergence:} $A$ is \textbf{strictly diagonally dominant}:
+    \begin{equation}
+        \boxed{|a_{ii}| > \sum_{j \ne i} |a_{ij}| \quad \forall i = 1, 2, \dots, n}
+    \end{equation}
+    \item Spectral radius criterion: $\rho(M) < 1$, where $M$ is the respective iteration matrix.
+\end{itemize}
+\end{theorembox}
+
+% =========================================================================
+% PART III: EIGENVALUES AND MATRIX BOUNDS
+% =========================================================================
+\section{Part III: Matrix Eigenvalues and Spectral Bounds}
+
+\begin{theorembox}[Gerschgorin's Circle Theorem and Disc Formulas]
+Let $A \in \mathbb{C}^{n \times n}$.
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+    \item \textbf{Row Gerschgorin Discs:} Every eigenvalue $\lambda$ of $A$ lies in the union:
+    \begin{equation}
+        \boxed{\lambda \in \bigcup_{i=1}^n D_i, \quad D_i = \left\{ z \in \mathbb{C} : |z - a_{ii}| \le R_i \right\}, \quad R_i = \sum_{j \ne i} |a_{ij}|}
+    \end{equation}
+    \item \textbf{Column Gerschgorin Discs:} Since eigenvalues of $A^T$ are identical to $A$:
+    \begin{equation}
+        \boxed{\lambda \in \bigcup_{j=1}^n C_j, \quad C_j = \left\{ z \in \mathbb{C} : |z - a_{jj}| \le K_j \right\}, \quad K_j = \sum_{i \ne j} |a_{ij}|}
+    \end{equation}
+    \item \textbf{Optimal Bound:} $\lambda \in \left( \bigcup_{i=1}^n D_i \right) \cap \left( \bigcup_{j=1}^n C_j \right)$.
+    \item \textbf{Disjoint Subsets:} If a union of $k$ discs is disjoint from the remaining $n - k$ discs, it contains exactly $k$ eigenvalues (counting algebraic multiplicities).
+\end{enumerate}
+\end{theorembox}
+
+\begin{notebox}[Power Method for Dominant Eigenpair]
+Given matrix $A$ with dominant eigenvalue $|\lambda_1| > |\lambda_2| \ge \dots \ge |\lambda_n|$:
+\begin{equation}
+    y^{(k+1)} = A x^{(k)}, \qquad m_{k+1} = \max_i |y_i^{(k+1)}|, \qquad x^{(k+1)} = \frac{y^{(k+1)}}{m_{k+1}}
+\end{equation}
+As $k \to \infty$: $\boxed{\lambda_1 \approx m_k}, \quad \boxed{v_1 \approx x^{(k)}}$. \\
+Rayleigh Quotient estimate: $\lambda_1 \approx \frac{(x^{(k)})^T A x^{(k)}}{(x^{(k)})^T x^{(k)}}$.
+\end{notebox}
+
+% =========================================================================
+% PART IV: FINITE DIFFERENCES AND OPERATOR ALGEBRA
+% =========================================================================
+\section{Part IV: Finite Differences and Operator Algebra}
+
+\begin{conceptbox}[Fundamental Operator Definitions]
+Let $y_x = f(x)$ with uniform grid spacing $h$:
+\begin{align}
+    \textbf{Forward Difference:} \quad &\Delta f(x) = f(x+h) - f(x) = (E - 1) f(x) \\
+    \textbf{Backward Difference:} \quad &\nabla f(x) = f(x) - f(x-h) = (1 - E^{-1}) f(x) \\
+    \textbf{Shift Operator:} \quad &E f(x) = f(x+h) = e^{h D} f(x) \\
+    \textbf{Central Difference:} \quad &\delta f(x) = f\left(x + \frac{h}{2}\right) - f\left(x - \frac{h}{2}\right) = (E^{1/2} - E^{-1/2}) f(x) \\
+    \textbf{Averaging Operator:} \quad &\mu f(x) = \frac{1}{2}\left[ f\left(x + \frac{h}{2}\right) + f\left(x - \frac{h}{2}\right) \right] = \frac{1}{2}(E^{1/2} + E^{-1/2}) f(x) \\
+    \textbf{Differential Operator:} \quad &D f(x) = \frac{df}{dx}
+\end{align}
+\end{conceptbox}
+
+\begin{theorembox}[Master Operational Identities]
+\begin{minipage}{0.48\textwidth}
+\begin{itemize}[noitemsep]
+    \item $E = 1 + \Delta = (1 - \nabla)^{-1} = e^{hD}$
+    \item $\nabla = 1 - E^{-1} = \Delta E^{-1} = 1 - (1+\Delta)^{-1}$
+    \item $\delta = E^{1/2} - E^{-1/2} = \Delta E^{-1/2} = \nabla E^{1/2}$
+    \item $\Delta \nabla = \nabla \Delta = \Delta - \nabla = \delta^2$
+\end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+\begin{itemize}[noitemsep]
+    \item $\mu = \frac{1}{2}(E^{1/2} + E^{-1/2}) = \sqrt{1 + \frac{1}{4}\delta^2}$
+    \item $\mu^2 = 1 + \frac{1}{4}\delta^2 \iff 4\mu^2 - \delta^2 = 4$
+    \item $\mu \delta = \frac{1}{2}(\Delta + \nabla)$
+    \item $h D = \ln(1 + \Delta) = -\ln(1 - \nabla) = \sinh^{-1}(\delta)$
+\end{itemize}
+\end{minipage}
+\end{theorembox}
+
+\begin{theorembox}[Factorial Polynomials and Series Summation]
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+    \item \textbf{Definition:} $x^{(n)} = x(x-h)(x-2h)\dots(x-(n-1)h)$ (for $h = 1$: $x^{(n)} = x(x-1)\dots(x-n+1)$).
+    \item \textbf{Finite Difference Derivative Rule:}
+    \begin{equation}
+        \boxed{\Delta x^{(n)} = n h \, x^{(n-1)}} \qquad (\text{For } h = 1: \Delta x^{(n)} = n x^{(n-1)})
+    \end{equation}
+    \item \textbf{Fundamental Theorem of Finite Differences:} For any polynomial $P_n(x)$ of degree $n$:
+    \begin{equation}
+        \boxed{\Delta^n P_n(x) = a_0 \, n! \, h^n = \text{Constant}}, \qquad \boxed{\Delta^{n+k} P_n(x) = 0 \quad (\forall k \ge 1)}
+    \end{equation}
+    \item \textbf{Summation of Finite Series via Anti-Difference $\Delta^{-1}$:}
+    \begin{equation}
+        \boxed{\sum_{x=a}^{b-1} f(x) = \left[ \Delta^{-1} f(x) \right]_{a}^{b}} \quad \text{where } \Delta^{-1} x^{(n)} = \frac{x^{(n+1)}}{n+1} + C
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PART V: INTERPOLATION AND NUMERICAL DIFFERENTIATION
+% =========================================================================
+\section{Part V: Interpolation Formulas and Numerical Differentiation}
+
+\begin{theorembox}[Equal Spacing Interpolation Formulas]
+Let $x_i = x_0 + i h$.
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+    \item \textbf{Newton's Forward Formula (Near Beginning of Table):} $p = \frac{x - x_0}{h}$:
+    \begin{equation}
+        \boxed{P_n(x) = y_0 + p \Delta y_0 + \frac{p(p-1)}{2!} \Delta^2 y_0 + \dots + \frac{p(p-1)\dots(p-n+1)}{n!} \Delta^n y_0}
+    \end{equation}
+    Error: $R_n(x) = \frac{p(p-1)\dots(p-n)}{(n+1)!} h^{n+1} f^{(n+1)}(\xi)$.
+    \item \textbf{Newton's Backward Formula (Near End of Table):} $p = \frac{x - x_n}{h}$:
+    \begin{equation}
+        \boxed{P_n(x) = y_n + p \nabla y_n + \frac{p(p+1)}{2!} \nabla^2 y_n + \dots + \frac{p(p+1)\dots(p+n-1)}{n!} \nabla^n y_n}
+    \end{equation}
+    Error: $R_n(x) = \frac{p(p+1)\dots(p+n)}{(n+1)!} h^{n+1} f^{(n+1)}(\xi)$.
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Unequal Spacing Interpolation Formulas]
+Given arbitrary distinct nodes $x_0, x_1, \dots, x_n$:
+\begin{enumerate}[label=\textbf{\arabic*.},noitemsep]
+    \item \textbf{Lagrange's Interpolation Formula:}
+    \begin{equation}
+        \boxed{P_n(x) = \sum_{i=0}^n y_i L_i(x)}, \qquad \boxed{L_i(x) = \prod_{j \ne i} \frac{x - x_j}{x_i - x_j}}
+    \end{equation}
+    Cardinal property: $L_i(x_j) = \delta_{ij}$, $\sum_{i=0}^n L_i(x) \equiv 1$.
+    \item \textbf{Newton's Divided Difference Formula:}
+    \begin{equation}
+        \boxed{P_n(x) = f[x_0] + (x - x_0) f[x_0, x_1] + (x - x_0)(x - x_1) f[x_0, x_1, x_2] + \dots}
+    \end{equation}
+    Divided difference relation to ordinary difference: $f[x_0, x_1, \dots, x_n] = \frac{\Delta^n y_0}{n! h^n} = \frac{f^{(n)}(\xi)}{n!}$.
+\end{enumerate}
+\end{theorembox}
+
+\begin{theorembox}[Numerical Differentiation Formulas at Tabular Grid Nodes]
+From $h D = \ln(1 + \Delta) = \Delta - \frac{\Delta^2}{2} + \frac{\Delta^3}{3} - \frac{\Delta^4}{4} + \dots$:
+\begin{align}
+    \boxed{\left. \frac{dy}{dx} \right|_{x=x_0} = \frac{1}{h} \left[ \Delta y_0 - \frac{1}{2} \Delta^2 y_0 + \frac{1}{3} \Delta^3 y_0 - \frac{1}{4} \Delta^4 y_0 + \dots \right]} \\
+    \boxed{\left. \frac{d^2 y}{dx^2} \right|_{x=x_0} = \frac{1}{h^2} \left[ \Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12} \Delta^4 y_0 - \frac{5}{6} \Delta^5 y_0 + \dots \right]}
+\end{align}
+At backward endpoint $x = x_n$ (using $\nabla$):
+\begin{align}
+    \boxed{\left. \frac{dy}{dx} \right|_{x=x_n} = \frac{1}{h} \left[ \nabla y_n + \frac{1}{2} \nabla^2 y_n + \frac{1}{3} \nabla^3 y_n + \frac{1}{4} \nabla^4 y_n + \dots \right]} \\
+    \boxed{\left. \frac{d^2 y}{dx^2} \right|_{x=x_n} = \frac{1}{h^2} \left[ \nabla^2 y_n + \nabla^3 y_n + \frac{11}{12} \nabla^4 y_n + \frac{5}{6} \nabla^5 y_n + \dots \right]}
+\end{align}
+\end{theorembox}
+
+% =========================================================================
+% PART VI: NUMERICAL QUADRATURE
+% =========================================================================
+\section{Part VI: Numerical Quadrature and Newton--Cotes Rules}
+
+\begin{theorembox}[General Quadrature Formula (Page 68)]
+\begin{equation}
+    \boxed{
+    \int_{x_0}^{x_0 + n h} y \, dx = n h \left[ y_0 + \frac{n}{2} \Delta y_0 + \frac{n(2n-3)}{12} \Delta^2 y_0 + \frac{n(n-2)^2}{24} \Delta^3 y_0 + \dots \right]
+    }
+\end{equation}
+\end{theorembox}
+
+\begin{conceptbox}[Master Newton--Cotes Quadrature Quick Reference Table]
+\small
+\renewcommand{\arraystretch}{1.45}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{|l|c|l|c|c|}
+\hline
+\textbf{Quadrature Rule} & \textbf{Nodes $n$} & \textbf{Evaluation Formula $\int_{x_0}^{x_n} y \, dx$} & \textbf{Exact Degree} & \textbf{Global Error} \\ \hline\hline
+\textbf{Trapezoidal Rule} & Any $n \ge 1$ & $\frac{h}{2} \left[ (y_0 + y_n) + 2 \sum_{i=1}^{n-1} y_i \right]$ & $1$ & $-\frac{(b-a)h^2}{12} f''(\xi)$ \\ \hline
+\textbf{Simpson's 1/3 Rule} & Even $n$ & $\frac{h}{3} \left[ (y_0 + y_n) + 4 \sum y_{\text{odd}} + 2 \sum y_{\text{even}} \right]$ & $3$ & $-\frac{(b-a)h^4}{180} f^{(4)}(\xi)$ \\ \hline
+\textbf{Simpson's 3/8 Rule} & Mult of 3 & $\frac{3h}{8} \left[ (y_0 + y_n) + 3 \sum y_{\text{rem}} + 2 \sum y_{\text{mult 3}} \right]$ & $3$ & $-\frac{3(b-a)h^4}{80} f^{(4)}(\xi)$ \\ \hline
+\textbf{Weddle's Rule} & Mult of 6 & $\frac{3h}{10} \left[ y_0 + 5y_1 + y_2 + 6y_3 + y_4 + 5y_5 + y_6 \right]$ & $5$ & $-\frac{(b-a)h^6}{140} f^{(6)}(\xi)$ \\ \hline
+\end{tabular}%
+}
+\end{conceptbox}
+
+\vspace{0.5cm}
+\begin{center}
+\small
+\textit{Compiled for students and researchers by \href{https://sciqb.com}{\color{secondary}\textbf{sciqb}} --- Academic Session 2026.}
+\end{center}

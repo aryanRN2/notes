@@ -1,0 +1,174 @@
+\chapter{Central Orbits and Kepler's Laws (Dynamics)}
+
+\section{Central Forces and Motion in a Plane}
+
+\begin{defbox}[Central Force and Central Orbit]
+A force $\mathbf{F}$ is called a \textbf{central force} if its line of action always passes through a fixed point $O$ (called the center of force) and its magnitude depends solely on the distance $r$ from $O$.
+
+The trajectory described by a particle moving under the action of a central force is called a \textbf{central orbit}. A central orbit always lies entirely within a single plane passing through the center of force $O$.
+\end{defbox}
+
+\section{Fundamental Equations of Motion}
+
+Let $O$ be the pole and $OX$ be the initial line. In polar coordinates $(r, \theta)$, the equations of motion for a particle of unit mass acted upon by central force $F(r)$ directed towards $O$ are:
+\begin{align}
+    \text{Radial direction:} \quad & \ddot{r} - r \dot{\theta}^2 = -F(r) \label{eq:central_rad_full} \\
+    \text{Transverse direction:} \quad & \frac{1}{r} \frac{d}{dt}(r^2 \dot{\theta}) = 0 \implies r^2 \dot{\theta} = h = \text{constant} \label{eq:central_trans_full}
+\end{align}
+
+\begin{keybox}[Areal Velocity and Angular Momentum]
+The constant $h = r^2 \dot{\theta}$ represents twice the \textbf{areal velocity} (rate at which the radius vector sweeps out area):
+\begin{equation}
+    \text{Areal Velocity} = \frac{1}{2} r^2 \dot{\theta} = \frac{h}{2} = \text{constant}
+\end{equation}
+The angular momentum per unit mass about $O$ is strictly conserved and equals $h$.
+\end{keybox}
+
+\section{Differential Equations of Central Orbits}
+
+\subsection{\texorpdfstring{Polar Form ($u = 1/r$)}{Polar Form (u = 1/r)}}
+Substituting $u = \frac{1}{r}$ and using $\frac{d}{dt} = h u^2 \frac{d}{d\theta}$ into equation \eqref{eq:central_rad_full} yields the famous \textbf{polar differential equation}:
+\begin{equation}
+    \frac{d^2 u}{d\theta^2} + u = \frac{F}{h^2 u^2}
+\end{equation}
+
+\subsection{\texorpdfstring{Pedal Form ($p = r \sin\phi$)}{Pedal Form (p = r sin phi)}}
+Let $p$ be the length of the perpendicular drawn from origin $O$ to the tangent at point $P(r,\theta)$. The \textbf{pedal differential equation} is:
+\begin{equation}
+    \frac{h^2}{p^3} \frac{dp}{dr} = F(r)
+\end{equation}
+where speed $v$ at any point on the orbit satisfies $v = \dfrac{h}{p}$ and:
+\begin{equation}
+    v^2 = h^2 \left[ u^2 + \left(\frac{du}{d\theta}\right)^2 \right] = \frac{h^2}{p^2}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Center of force Sun/Pole
+    \filldraw[accentred] (0,0) circle (3pt) node[below left] {$O$ (Center of Force)};
+    
+    % Elliptical Orbit
+    \draw[thick, primaryblue] (0,0) ellipse (3.5cm and 2.2cm);
+    
+    % Radius vector r
+    \coordinate (P) at (2.2, 1.7);
+    \filldraw[accentgreen] (P) circle (2.5pt) node[above right] {$P(r, \theta)$};
+    \draw[ultra thick, secondaryblue] (0,0) -- (P) node[midway, above left] {$\mathbf{r}$};
+    
+    % Tangent at P
+    \draw[thick, darkslate] ($(P) + (-1.5, -0.6)$) -- ($(P) + (2.0, 0.8)$) node[right] {Tangent};
+    
+    % Perpendicular distance p from O to tangent
+    \draw[dashed, accentred, thick] (0,0) -- (1.1, -0.85) node[midway, below left] {$p$};
+    
+    % Apses
+    \filldraw[primaryblue] (-3.5, 0) circle (2pt) node[left] {Aphelion / Apse};
+    \filldraw[primaryblue] (3.5, 0) circle (2pt) node[right] {Perihelion / Apse};
+\end{tikzpicture}
+\caption{Geometry of a central orbit showing radius vector $r$, tangent, perpendicular distance $p$, and apses.}
+\end{figure}
+
+\section{Apses and Apsidal Distances}
+
+\begin{defbox}[Apse]
+An \textbf{apse} is a point on a central orbit at which the radius vector $r$ has a stationary value (maximum or minimum), i.e., $\dfrac{dr}{d\theta} = 0$.
+
+The distance from the center of force to an apse is called an \textbf{apsidal distance}, and the angle between two consecutive apsidal vectors is the \textbf{apsidal angle}.
+At any apse, the tangent is perpendicular to the radius vector ($\phi = \pi/2 \implies p = r$), so speed $v = \dfrac{h}{r}$.
+\end{defbox}
+
+\section{\texorpdfstring{Inverse Square Law Motion ($F = \mu / r^2$)}{Inverse Square Law Motion (F = mu / r^2)}}
+
+When the central force per unit mass is attractive inverse-square $F = \frac{\mu}{r^2} = \mu u^2$:
+\begin{equation*}
+    \frac{d^2 u}{d\theta^2} + u = \frac{\mu}{h^2}
+\end{equation*}
+The general solution is a conic section:
+\begin{equation}
+    \frac{l}{r} = 1 + e \cos(\theta - \theta_0)
+\end{equation}
+where semi-latus rectum $l = \frac{h^2}{\mu}$ and $e$ is the eccentricity.
+
+\begin{keybox}[Classification of Conic Orbits]
+\begin{itemize}
+    \item \textbf{Elliptic Orbit ($e < 1$)}: Speed equation $v^2 = \mu \left( \frac{2}{r} - \frac{1}{a} \right)$, Periodic time $T = \frac{2\pi a^{3/2}}{\sqrt{\mu}}$, Pedal equation $\frac{b^2}{p^2} = \frac{2a}{r} - 1$.
+    \item \textbf{Parabolic Orbit ($e = 1$)}: Speed equation $v^2 = \frac{2\mu}{r}$, Pedal equation $p^2 = a r$.
+    \item \textbf{Hyperbolic Orbit ($e > 1$)}: Speed equation $v^2 = \mu \left( \frac{2}{r} + \frac{1}{a} \right)$, Pedal equation $\frac{b^2}{p^2} = \frac{2a}{r} + 1$.
+\end{itemize}
+\end{keybox}
+
+\section{Kepler's Laws of Planetary Motion}
+
+\begin{theorembox}{Kepler's Three Laws}
+\begin{enumerate}[label=\textbf{Law \Roman*:}, leftmargin=4.5em]
+    \item \textbf{Law of Orbits}: Each planet describes an ellipse around the Sun, with the Sun situated at one of its foci.
+    \item \textbf{Law of Areas}: The radius vector drawn from the Sun to a planet sweeps out equal areas in equal intervals of time ($h = r^2 \dot{\theta} = \text{constant}$).
+    \item \textbf{Harmonic Law}: The square of the periodic time $T$ of revolution of any planet is directly proportional to the cube of the semi-major axis $a$ of its elliptical orbit:
+    \begin{equation}
+        T^2 = \left( \frac{4\pi^2}{\mu} \right) a^3 \implies T^2 \propto a^3
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\section{Worked Examples (Complete Unabridged Collection)}
+
+\begin{examplebox}{Law of Force for Equiangular Spiral Orbit}
+Find the law of force towards the pole for a particle describing an equiangular spiral $r = a e^{\theta \cot\alpha}$.
+
+\tcblower
+\textbf{Solution:}
+
+Given equation of the path: $\ln r = \ln a + \theta \cot\alpha$.
+Differentiating with respect to $\theta$:
+\begin{equation*}
+    \frac{1}{r} \frac{dr}{d\theta} = \cot\alpha \implies \tan\phi = r \frac{d\theta}{dr} = \tan\alpha \implies \phi = \alpha = \text{constant}
+\end{equation*}
+
+The perpendicular distance $p$ from pole to tangent is $p = r \sin\phi = r \sin\alpha \implies \frac{1}{p^2} = \frac{1}{r^2 \sin^2\alpha}$.
+Using the pedal differential equation for central force $F$:
+\begin{equation*}
+    F = \frac{h^2}{p^3} \frac{dp}{dr} = \frac{h^2}{(r \sin\alpha)^3} (\sin\alpha) = \frac{h^2 \csc^2\alpha}{r^3} \implies F \propto \frac{1}{r^3}
+\end{equation*}
+\end{examplebox}
+
+\begin{examplebox}{Law of Force for Parabolic Orbit $p^2 = a r$}
+A particle describes a parabolic orbit $p^2 = a r$ under a central force towards the focus. Find the law of force and speed at any point.
+
+\tcblower
+\textbf{Solution:}
+
+Given pedal equation $p^2 = a r \implies p = a^{1/2} r^{1/2} \implies \frac{dp}{dr} = \frac{a^{1/2}}{2 \sqrt{r}}$.
+Using pedal equation for central force $F$:
+\begin{equation*}
+    F = \frac{h^2}{p^3} \frac{dp}{dr} = \frac{h^2}{(a r)^{3/2}} \left( \frac{a^{1/2}}{2 r^{1/2}} \right) = \frac{h^2}{2 a r^2} \implies F = \frac{\mu}{r^2}
+\end{equation*}
+Speed $v = \frac{h}{p} \implies v^2 = \frac{h^2}{p^2} = \frac{h^2}{a r} = \frac{2\mu}{r} \implies v = \sqrt{\frac{2\mu}{r}}$.
+\end{examplebox}
+
+\begin{examplebox}{Law of Force for Circle $r = 2a \cos\theta$}
+A particle describes a circle $r = 2a \cos\theta$ under a central force towards origin $O$. Show that central force $F \propto \frac{1}{r^5}$.
+
+\tcblower
+\textbf{Solution:}
+
+Given $r = 2a \cos\theta \implies u = \frac{1}{2a} \sec\theta$.
+Differentiating: $\frac{du}{d\theta} = \frac{1}{2a} \sec\theta \tan\theta$.
+$\frac{d^2u}{d\theta^2} = \frac{1}{2a} (\sec^3\theta + \sec\theta \tan^2\theta)$.
+Adding $u$: $\frac{d^2u}{d\theta^2} + u = \frac{1}{2a} \sec\theta (\sec^2\theta + \tan^2\theta + 1) = \frac{1}{2a} \sec\theta (2\sec^2\theta) = \frac{1}{a} \sec^3\theta = 8 a^2 u^3$.
+Using polar differential equation $F = h^2 u^2 \left( \frac{d^2u}{d\theta^2} + u \right) = h^2 u^2 (8 a^2 u^3) = 8 a^2 h^2 u^5 = \frac{8 a^2 h^2}{r^5}$.
+Thus $F \propto \frac{1}{r^5}$.
+\end{examplebox}
+
+\begin{examplebox}{Law of Force for Lemniscate $r^2 = a^2 \cos 2\theta$}
+A particle describes a lemniscate $r^2 = a^2 \cos 2\theta$ under central force towards origin. Show that $F \propto \frac{1}{r^7}$.
+
+\tcblower
+\textbf{Solution:}
+
+Pedal equation of lemniscate: $r^3 = a^2 p \implies p = \frac{r^3}{a^2} \implies \frac{dp}{dr} = \frac{3 r^2}{a^2}$.
+Using pedal equation $F = \frac{h^2}{p^3} \frac{dp}{dr}$:
+\begin{equation*}
+    F = \frac{h^2}{(r^3/a^2)^3} \left( \frac{3 r^2}{a^2} \right) = \frac{3 a^4 h^2}{r^7} \implies F \propto \frac{1}{r^7}
+\end{equation*}
+\end{examplebox}

@@ -1,0 +1,126 @@
+\chapter{Forces in 3D, Wrench \& Moment of Inertia}
+
+\section{Reduction of 3D Systems of Forces}
+
+\begin{theorembox}{Reduction of Forces in 3D}
+Any 3D system of forces $\mathbf{F}_i = (X_i, Y_i, Z_i)$ acting at points $(x_i, y_i, z_i)$ reduces at origin $O$ to a resultant force $\mathbf{R} = (X, Y, Z)$ and a resultant couple $\mathbf{G} = (L, M, N)$:
+\begin{align}
+X = \sum X_i, \qquad Y = \sum Y_i, \qquad Z = \sum Z_i \\
+L = \sum (y_i Z_i - z_i Y_i), \qquad M = \sum (z_i X_i - x_i Z_i), \qquad N = \sum (x_i Y_i - y_i X_i)
+\end{align}
+Analytical equilibrium conditions in 3D:
+\begin{equation}
+X = 0, \quad Y = 0, \quad Z = 0, \quad L = 0, \quad M = 0, \quad N = 0
+\end{equation}
+\end{theorembox}
+
+\section{Dyname, Wrench and Poinsot's Central Axis}
+
+\begin{defbox}[Wrench and Pitch]
+1. \textbf{Pitch of Wrench}: $p = \frac{XL + YM + ZN}{X^2 + Y^2 + Z^2} = \frac{\mathbf{R} \cdot \mathbf{G}}{R^2}$.
+2. \textbf{Wrench}: A system consisting of resultant force $\mathbf{R}$ and coaxial couple $K = p R$, denoted $[\mathbf{R}, p\mathbf{R}]$.
+3. \textbf{Poinsot's Central Axis Equation}:
+\begin{equation}
+\frac{L - (yZ - zY)}{X} = \frac{M - (zX - xZ)}{Y} = \frac{N - (xY - yX)}{Z} = p
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Central Axis Line
+    \draw[ultra thick, dashed, accentred] (1.8, -0.8) -- (1.8, 3.8) node[above right, font=\bfseries] {Poinsot's Central Axis};
+    
+    % Origin O and Reference Plane
+    \draw[->, thick, darkslate] (-0.8, 0) -- (4.0, 0) node[right] {$X$};
+    \draw[->, thick, darkslate] (0, -0.8) -- (0, 3.5) node[above] {$Y$};
+    \filldraw[black] (0,0) circle (2pt) node[below left] {$O(0,0)$};
+    
+    % Central Axis intercept (x, y)
+    \filldraw[accentred] (1.8, 1.2) circle (2.5pt) node[below right] {$(x, y)$};
+    
+    % Resultant Force R along Central Axis
+    \draw[ultra thick, ->, primaryblue] (1.8, 1.2) -- (1.8, 3.2) node[right] {Resultant Force $\mathbf{R}$};
+    
+    % Coaxial Couple K = p R around Central Axis
+    \draw[ultra thick, ->, accentgreen] (1.8, 2.2) ++(45:0.6) arc (45:315:0.6);
+    \node[accentgreen, font=\small, right] at (2.4, 2.2) {Coaxial Couple $K = p R$};
+    
+    % Shift vector r = (x,y) from O
+    \draw[thick, ->, secondaryblue] (0,0) -- (1.8, 1.2) node[midway, above left] {$\mathbf{r}(x,y)$};
+\end{tikzpicture}
+\end{center}
+\end{defbox}
+
+\begin{proofbox}{Proof of Poinsot's Central Axis Equation}
+Shift reference origin from $O(0,0,0)$ to a new point $O'(x, y, z)$.
+The new couple components $(L', M', N')$ about $O'$ are:
+\[
+L' = L - (yZ - zY), \qquad M' = M - (zX - xZ), \qquad N' = N - (xY - yX)
+\]
+For $O'(x, y, z)$ to lie on Poinsot's Central Axis, the couple vector $\mathbf{G}' = (L', M', N')$ must be parallel to the resultant force vector $\mathbf{R} = (X, Y, Z)$:
+\[
+\frac{L'}{X} = \frac{M'}{Y} = \frac{N'}{Z} = p
+\]
+Substituting $(L', M', N')$ yields the 3D Central Axis symmetric equation:
+\begin{equation}
+\frac{L - (yZ - zY)}{X} = \frac{M - (zX - xZ)}{Y} = \frac{N - (xY - yX)}{Z} = p
+\end{equation}
+\end{proofbox}
+
+\section{Moment of Inertia and Product of Inertia}
+
+\begin{defbox}[Moments and Products of Inertia]
+For a system of masses $m_i$ at $(x_i, y_i, z_i)$:
+\begin{align}
+I_{xx} &= \sum m_i (y_i^2 + z_i^2), \qquad I_{yy} = \sum m_i (x_i^2 + z_i^2), \qquad I_{zz} = \sum m_i (x_i^2 + y_i^2) \\
+I_{xy} &= \sum m_i x_i y_i, \qquad I_{yz} = \sum m_i y_i z_i, \qquad I_{zx} = \sum m_i z_i x_i
+\end{align}
+\end{defbox}
+
+\begin{theorembox}{Parallel and Perpendicular Axes Theorems}
+1. \textbf{Parallel Axes Theorem}: $I_{L'} = I_L + M d^2$
+2. \textbf{Perpendicular Axes Theorem (Plane Lamina)}: $I_z = I_x + I_y$
+\end{theorembox}
+
+\begin{proofbox}{Proof of Moment of Inertia About an Inclined Line}
+Let $OL$ be a line through origin $O$ with direction cosines $(\alpha, \beta, \gamma)$.
+The perpendicular distance $p_i$ of mass $m_i(x_i, y_i, z_i)$ from line $OL$ is:
+\[
+p_i^2 = (x_i^2 + y_i^2 + z_i^2) - (\alpha x_i + \beta y_i + \gamma z_i)^2
+\]
+Since $\alpha^2 + \beta^2 + \gamma^2 = 1$:
+\begin{align*}
+I_{OL} &= \sum m_i p_i^2 = \sum m_i \left[ (x_i^2 + y_i^2 + z_i^2)(\alpha^2 + \beta^2 + \gamma^2) - (\alpha x_i + \beta y_i + \gamma z_i)^2 \right] \\
+&= I_{xx}\alpha^2 + I_{yy}\beta^2 + I_{zz}\gamma^2 - 2I_{xy}\alpha\beta - 2I_{yz}\beta\gamma - 2I_{zx}\gamma\alpha
+\end{align*}
+\end{proofbox}
+
+\section{Momental Ellipsoid and Principal Axes}
+
+\begin{proofbox}{Proof of Momental Ellipsoid Equation}
+Let $P(x, y, z)$ be a point on line $OL$ at distance $r$ from origin $O$ such that $r = 1/\sqrt{I_{OL}}$.
+Then $x = r\alpha, y = r\beta, z = r\gamma \implies \alpha = x/r, \beta = y/r, \gamma = z/r$.
+Substituting into $I_{OL}$:
+\[
+I_{OL} = I_{xx}\left(\frac{x}{r}\right)^2 + I_{yy}\left(\frac{y}{r}\right)^2 + I_{zz}\left(\frac{z}{r}\right)^2 - 2I_{xy}\frac{xy}{r^2} - 2I_{yz}\frac{yz}{r^2} - 2I_{zx}\frac{zx}{r^2}
+\]
+Multiplying by $r^2 = 1/I_{OL}$ gives the quadric equation of the \textbf{Momental Ellipsoid}:
+\begin{equation}
+I_{xx}x^2 + I_{yy}y^2 + I_{zz}z^2 - 2I_{xy}xy - 2I_{yz}yz - 2I_{zx}zx = 1
+\end{equation}
+The principal axes of this ellipsoid are the \textbf{Principal Axes of Inertia}, along which products of inertia vanish ($I_{xy} = I_{yz} = I_{zx} = 0$).
+\end{proofbox}
+
+\section{Standard Moments of Inertia Table}
+
+\begin{theorembox}{Standard M.I. Formula Table}
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Thin Rod (Length $2a$)}: $I_{\text{perp}} = \frac{1}{3} m a^2$
+    \item \textbf{Rectangular Plate ($2a \times 2b$)}: $I_x = \frac{1}{3} m b^2, \, I_y = \frac{1}{3} m a^2, \, I_z = \frac{1}{3} m(a^2 + b^2)$
+    \item \textbf{Circular Ring (Radius $a$)}: $I_{\text{axis}} = m a^2, \, I_{\text{dia}} = \frac{1}{2} m a^2$
+    \item \textbf{Circular Disc (Radius $a$)}: $I_{\text{axis}} = \frac{1}{2} m a^2, \, I_{\text{dia}} = \frac{1}{4} m a^2$
+    \item \textbf{Solid Sphere (Radius $a$)}: $I = \frac{2}{5} m a^2$
+    \item \textbf{Spherical Shell (Radius $a$)}: $I = \frac{2}{3} m a^2$
+    \item \textbf{Solid Cylinder (Radius $a$, Length $2h$)}: $I_{\text{axis}} = \frac{1}{2} m a^2, \, I_{\text{perp}} = m\left(\frac{a^2}{4} + \frac{h^2}{3}\right)$
+    \item \textbf{Solid Cone (Base Radius $a$, Height $h$)}: $I_{\text{axis}} = \frac{3}{10} m a^2$
+\end{enumerate}
+\end{theorembox}

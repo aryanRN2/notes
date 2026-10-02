@@ -1,0 +1,403 @@
+\chapter{Principle of Virtual Work (Statics)}
+
+\section{Concept of Virtual Displacement and Virtual Work}
+
+\begin{defbox}[Virtual Displacement and Virtual Work]
+Consider a system of material points in equilibrium under a set of forces. 
+\begin{itemize}[leftmargin=1.5em]
+    \item A \textbf{virtual displacement} is an arbitrary, infinitesimal displacement of the system from its equilibrium position that is mathematically conceivable and consistent with the geometrical constraints imposed on the system, taking place in zero time.
+    \item \textbf{Virtual Work ($\delta W$)}: The work done by a force $\mathbf{F}$ during a virtual displacement $\delta \mathbf{r}$ is defined as the scalar product:
+    \begin{equation}
+        \delta W = \mathbf{F} \cdot \delta \mathbf{r} = F_x \delta x + F_y \delta y + F_z \delta z
+    \end{equation}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.35, >=Stealth]
+    % Equilibrium Position
+    \coordinate (A) at (0, 0);
+    \coordinate (Aprime) at (1.8, 0.6);
+    
+    % Force F
+    \draw[ultra thick, ->, primaryblue] (A) -- (2.5, 1.8) node[above right] {$\mathbf{F}$};
+    
+    % Virtual Displacement delta r
+    \draw[ultra thick, ->, accentred, dashed] (A) -- (Aprime) node[midway, below right] {$\delta\mathbf{r}$};
+    
+    % Points
+    \filldraw[black] (A) circle (2pt) node[below left] {Equilibrium Position $P(\mathbf{r})$};
+    \filldraw[accentred] (Aprime) circle (2pt) node[above left] {$P'(\mathbf{r} + \delta\mathbf{r})$};
+    
+    % Angle theta between F and delta r
+    \draw[thick, secondaryblue] (0.7, 0.5) arc (35.7:18.4:0.7);
+    \node[secondaryblue, font=\small] at (1.0, 0.4) {$\theta$};
+    
+    % Virtual Work Formula note
+    \node[draw=secondaryblue, fill=primaryblue!5, rounded corners=3pt, inner sep=4pt] at (3.2, -0.4) {$\delta W = \mathbf{F} \cdot \delta\mathbf{r} = F |\delta\mathbf{r}| \cos\theta$};
+\end{tikzpicture}
+\end{center}
+\end{defbox}
+
+\section{Principle of Virtual Work}
+
+\begin{theorembox}{Principle of Virtual Work for Coplanar Systems}
+A system of rigid bodies connected together and acted upon by coplanar forces is in \textbf{equilibrium} if and only if the total virtual work done by all the active forces vanishes for every small arbitrary virtual displacement of the system consistent with its geometrical constraints:
+\begin{equation}
+    \sum \delta W = \sum_{i=1}^n \left( X_i \, \delta x_i + Y_i \, \delta y_i \right) = 0
+\end{equation}
+\end{theorembox}
+
+\subsection{Active Forces vs. Forces Which Do No Work}
+
+In applying the Principle of Virtual Work, internal constraint forces which perform zero net virtual work can be omitted:
+
+\begin{keybox}[Forces which Do NO Virtual Work ($\delta W = 0$)]
+\begin{enumerate}[leftmargin=1.5em]
+    \item Reaction of a smooth fixed surface or support (perpendicular to displacement).
+    \item Reaction at a smooth fixed pin, hinge, or fulcrum (displacement of point of application is zero).
+    \item Tension of an inextensible light string or thrust of a rigid light rod connecting two fixed points ($\delta l = 0$).
+    \item Normal reaction between two smooth bodies in contact.
+    \item Force of friction when one body rolls without slipping on another surface.
+\end{enumerate}
+\end{keybox}
+
+\begin{keybox}[Active Forces Which DO Virtual Work]
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Weight of a Body ($W$)}: $\delta W = -W \, \delta y_{cg}$ (where $y_{cg}$ is measured vertically upward).
+    \item \textbf{Tension in an Elastic String ($T$)}: $\delta W = -T \, \delta l$ (where $l$ is the stretched length).
+    \item \textbf{Tension in an Inextensible String ($T$)}: $\delta W = -T \, \delta s$ (when length $s$ is varied).
+    \item \textbf{Thrust in a Rod ($S$)}: $\delta W = +S \, \delta x$ (where $x$ is the length of the rod).
+\end{enumerate}
+\end{keybox}
+
+\section{Hooke's Law for Elastic Strings}
+
+\begin{defbox}[Hooke's Law]
+The tension $T$ in an elastic string or spring of natural length $a$ stretched to a length $l$ is proportional to its extension $(l - a)$:
+\begin{equation}
+    T = \lambda \left( \frac{l - a}{a} \right)
+\end{equation}
+where $\lambda$ is the \textbf{modulus of elasticity}.
+\end{defbox}
+
+\section{Stability of Equilibrium}
+
+Let the potential energy of a conservative system in terms of a single generalized coordinate $\theta$ be $V(\theta)$.
+\begin{itemize}
+    \item \textbf{Equilibrium Condition}: $\dfrac{dV}{d\theta} = 0$.
+    \item \textbf{Stable Equilibrium}: $\dfrac{d^2V}{d\theta^2} > 0$ (Potential energy $V$ is a minimum).
+    \item \textbf{Unstable Equilibrium}: $\dfrac{d^2V}{d\theta^2} < 0$ (Potential energy $V$ is a maximum).
+    \item \textbf{Neutral Equilibrium}: $\dfrac{d^2V}{d\theta^2} = 0$.
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % --- Stable Equilibrium (Minimum) ---
+    \begin{scope}[shift={(0,0)}]
+        \draw[ultra thick, primaryblue, domain=-1.4:1.4, samples=50] plot (\x, {0.6*\x*\x});
+        \filldraw[accentred] (0,0) circle (3pt) node[below=3pt, font=\small\bfseries] {Stable};
+        \node[font=\small\color{darkslate}] at (0, 1.5) {$V''(\theta) > 0$ (Min)};
+        % Arrow bowl
+        \draw[thick, ->, secondaryblue] (-0.8, 0.4) -- (-0.2, 0.05);
+        \draw[thick, ->, secondaryblue] (0.8, 0.4) -- (0.2, 0.05);
+    \end{scope}
+
+    % --- Unstable Equilibrium (Maximum) ---
+    \begin{scope}[shift={(4.5,0)}]
+        \draw[ultra thick, primaryblue, domain=-1.4:1.4, samples=50] plot (\x, {1.2 - 0.6*\x*\x});
+        \filldraw[accentred] (0,1.2) circle (3pt) node[above=3pt, font=\small\bfseries] {Unstable};
+        \node[font=\small\color{darkslate}] at (0, -0.3) {$V''(\theta) < 0$ (Max)};
+        % Arrow hill
+        \draw[thick, ->, secondaryblue] (-0.2, 1.15) -- (-0.8, 0.8);
+        \draw[thick, ->, secondaryblue] (0.2, 1.15) -- (0.8, 0.8);
+    \end{scope}
+
+    % --- Neutral Equilibrium (Flat) ---
+    \begin{scope}[shift={(9.0,0)}]
+        \draw[ultra thick, primaryblue] (-1.4, 0.6) -- (1.4, 0.6);
+        \filldraw[accentred] (0,0.6) circle (3pt) node[above=3pt, font=\small\bfseries] {Neutral};
+        \node[font=\small\color{darkslate}] at (0, -0.3) {$V''(\theta) = 0$ (Flat)};
+        \draw[thick, <->, secondaryblue] (-1.0, 0.85) -- (1.0, 0.85);
+    \end{scope}
+\end{tikzpicture}
+\end{center}
+
+\section{Worked Examples (Complete Unabridged Collection)}
+
+\begin{examplebox}{Rhombus of Four Rods with Central Thrust}
+Four equal uniform light rods each of length $a$ are freely jointed to form a rhombus $ABCD$. The system is suspended from joint $A$, and a light rod $BD$ holds the frame in shape with $\angle BAD = 2\alpha$. A weight $W$ is attached to the lowest joint $C$. Show that the thrust $S$ in the rod $BD$ is $2W \tan\alpha$.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Joint A (Fixed support)
+    \coordinate (A) at (0, 3.2);
+    \coordinate (B) at (-1.8, 1.6);
+    \coordinate (D) at (1.8, 1.6);
+    \coordinate (C) at (0, 0);
+    
+    % Fixed ceiling support at A
+    \fill[pattern=north east lines] (-0.8, 3.4) rectangle (0.8, 3.2);
+    \draw[thick] (-0.8, 3.2) -- (0.8, 3.2);
+    \filldraw[black] (A) circle (2.5pt) node[above right] {$A$};
+    
+    % Rhombus Rods AB, AD, BC, CD
+    \draw[ultra thick, primaryblue] (A) -- (B) node[midway, above left] {$a$};
+    \draw[ultra thick, primaryblue] (A) -- (D) node[midway, above right] {$a$};
+    \draw[ultra thick, primaryblue] (B) -- (C) node[midway, below left] {$a$};
+    \draw[ultra thick, primaryblue] (D) -- (C) node[midway, below right] {$a$};
+    
+    % Joints B, C, D
+    \filldraw[primaryblue] (B) circle (2pt) node[left] {$B$};
+    \filldraw[primaryblue] (D) circle (2pt) node[right] {$D$};
+    \filldraw[accentred] (C) circle (2.5pt) node[below right] {$C$};
+    
+    % Central thrust rod BD
+    \draw[ultra thick, secondaryblue, dashed] (B) -- (D) node[midway, above] {Thrust $S$};
+    
+    % Angle alpha at A
+    \draw[thick, accentred] (0, 2.5) arc (-90:-138:0.7);
+    \node[accentred] at (-0.3, 2.6) {$\alpha$};
+    \draw[thick, accentred] (0, 2.5) arc (-90:-42:0.7);
+    \node[accentred] at (0.3, 2.6) {$\alpha$};
+    
+    % Vertical axis AC
+    \draw[dashed, darkslate!60] (0, 3.2) -- (0, -0.8);
+    
+    % Weight W at C
+    \draw[ultra thick, ->, accentred] (C) -- (0, -1.0) node[right] {Weight $\mathbf{W}$};
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Express Coordinates in Terms of Angle $\alpha$}:\\
+    Let $\alpha$ be half the vertical angle at joint $A$.
+    The depth of joint $C$ below $A$ is $y_C = 2a \cos\alpha$.
+    The length of horizontal diagonal $BD$ is $x_{BD} = 2a \sin\alpha$.
+
+\textbf{Set Up Virtual Work Equation}:
+    For a small virtual variation $\delta \alpha$, the active forces doing work are weight $W$ at $C$ and thrust $S$ in rod $BD$:
+    \begin{equation*}
+        \delta W_{\text{net}} = W \, \delta y_C + S \, \delta x_{BD} = 0
+    \end{equation*}
+
+\textbf{Compute Variations}:
+    \begin{align*}
+        \delta y_C &= \delta(2a \cos\alpha) = -2a \sin\alpha \, \delta\alpha \\
+        \delta x_{BD} &= \delta(2a \sin\alpha) = 2a \cos\alpha \, \delta\alpha
+    \end{align*}
+
+\textbf{Substitute and Solve for Thrust $S$}:
+    \begin{align*}
+        W (-2a \sin\alpha \, \delta\alpha) + S (2a \cos\alpha \, \delta\alpha) &= 0 \\
+        -2W a \sin\alpha + 2S a \cos\alpha &= 0 \implies S = W \frac{\sin\alpha}{\cos\alpha} = W \tan\alpha
+    \end{align*}
+    *(Note: If four heavy rods each of weight $w$ are used, total weight at center is $4w + W$, giving $S = (2w + W)\tan\alpha$.)*
+\end{enumerate}
+\end{examplebox}
+
+\begin{examplebox}{Rhombus Resting on Horizontal Plane}
+Four equal uniform heavy rods each of weight $w$ are jointed to form a rhombus $ABCD$. The rhombus rests in a vertical plane with $C$ on a smooth horizontal table and $A$ vertically above $C$. Joints $B$ and $D$ are connected by a string. Show that tension $T$ in string $BD$ is $2w \tan\theta$.
+
+\tcblower
+\textbf{Solution:}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Joint Coordinates
+    \coordinate (A) at (0, 3.2);
+    \coordinate (B) at (-1.8, 1.6);
+    \coordinate (D) at (1.8, 1.6);
+    \coordinate (C) at (0, 0);
+    \coordinate (G) at (0, 1.6);
+    
+    % Table Surface at C
+    \fill[pattern=north east lines] (-2.2, -0.2) rectangle (2.2, 0);
+    \draw[thick, darkslate] (-2.2, 0) -- (2.2, 0);
+    
+    % Rhombus Rods
+    \draw[ultra thick, primaryblue] (A) -- (B) node[midway, above left] {$a$};
+    \draw[ultra thick, primaryblue] (A) -- (D) node[midway, above right] {$a$};
+    \draw[ultra thick, primaryblue] (B) -- (C) node[midway, below left] {$a$};
+    \draw[ultra thick, primaryblue] (D) -- (C) node[midway, below right] {$a$};
+    
+    % Tension String BD
+    \draw[ultra thick, secondaryblue, dashed] (B) -- (D) node[midway, above] {Tension $T$};
+    
+    % Vertical axis AC
+    \draw[dashed, darkslate!60] (0, -0.4) -- (0, 3.6);
+    
+    % C.G. G and Total Weight 4w
+    \filldraw[accentred] (G) circle (2.5pt) node[below right] {$G$ (C.G.)};
+    \draw[ultra thick, ->, accentred] (G) -- (0, 0.4) node[right] {Total Weight $4w$};
+    
+    % Normal reaction N from table
+    \draw[ultra thick, ->, primaryblue] (C) -- (0, 0.8) node[left] {$\mathbf{N}$};
+    
+    % Angle theta at C
+    \draw[thick, accentred] (0, 0.7) arc (90:138:0.7);
+    \node[accentred] at (-0.3, 0.85) {$\theta$};
+    
+    % Joints
+    \filldraw[primaryblue] (A) circle (2pt) node[above] {$A$};
+    \filldraw[primaryblue] (B) circle (2pt) node[left] {$B$};
+    \filldraw[primaryblue] (D) circle (2pt) node[right] {$D$};
+    \filldraw[black] (C) circle (2pt) node[below=2pt] {$C$};
+\end{tikzpicture}
+\end{center}
+
+
+\textbf{Locate Center of Gravity}:
+    Total weight of the 4 rods is $4w$, acting at center of gravity $G$, which is the midpoint of $AC$.
+    Height of C.G. above table $C$: $y_G = a \cos\theta$.
+    Length of horizontal string $BD$: $l_{BD} = 2a \sin\theta$.
+
+\textbf{Write Virtual Work Equation}:
+    Giving a virtual variation $\delta\theta$:
+    \begin{equation*}
+        -4w \, \delta y_G - T \, \delta l_{BD} = 0
+    \end{equation*}
+
+\textbf{Differentiate and Simplify}:
+    \begin{align*}
+        -4w \, \delta(a \cos\theta) - T \, \delta(2a \sin\theta) &= 0 \\
+        4w a \sin\theta \, \delta\theta - 2T a \cos\theta \, \delta\theta &= 0 \implies T = 2w \tan\theta
+    \end{align*}
+\end{examplebox}
+
+\begin{examplebox}{Parallelogram of Four Rods Suspended by Joint}
+Four uniform rods are freely jointed at their extremities forming a parallelogram $ABCD$ which is suspended by joint $A$ and kept in shape by a string $AC$. Prove that the tension of the string is equal to half the total weight of the four rods.
+
+\tcblower
+\textbf{Solution:}
+
+
+\textbf{Analyze System Geometry}:
+    Let the total weight of the four rods be $W$.
+    The center of gravity $G$ of the system is the midpoint of the diagonal string $AC$.
+    Let length $AC = y$. The depth of C.G. below fixed support $A$ is $y_G = \frac{1}{2}y$.
+
+\textbf{Apply Virtual Work}:
+    Varying length $y$ by $\delta y$:
+    \begin{align*}
+        W \, \delta y_G - T \, \delta y &= 0 \\
+        W \, \delta\left(\frac{1}{2}y\right) - T \, \delta y &= 0 \implies \frac{1}{2}W \, \delta y - T \, \delta y = 0 \implies T = \frac{W}{2}
+    \end{align*}
+\end{examplebox}
+
+\begin{examplebox}{Hexagon Suspended by Top Rod AB}
+Six equal rods $AB, BC, CD, DE, EF, FA$ each of weight $W$ are freely jointed forming a regular hexagon. Top rod $AB$ is fixed horizontally, and midpoints of $AB$ and $DE$ are connected by a string. Prove that the tension of the string is $3W$.
+
+\tcblower
+\textbf{Solution:}
+
+
+\textbf{Geometric Parameters}:
+    Let side of hexagon be $a$. Let $\theta$ be the inclination of upper rods $FA, BC$ to horizontal.
+    Depth of center of gravity $G$ of 6 rods below fixed rod $AB$: $y_G = \sqrt{3}a \sin\theta$.
+    Length of string joining midpoints of $AB$ and $DE$: $l = 2a \sin\theta$.
+
+\textbf{Virtual Work Equation}:
+    Total weight $6W$ acts at $G$:
+    \begin{align*}
+        6W \, \delta y_G - T \, \delta l &= 0 \\
+        6W \, \delta (\sqrt{3}a \sin\theta) - T \, \delta(2a \sin\theta) &= 0 \\
+        6W \sqrt{3}a \cos\theta \, \delta\theta - 2T a \cos\theta \, \delta\theta &= 0 \implies T = 3W
+    \end{align*}
+\end{examplebox}
+
+\begin{examplebox}{Rod Resting Against Smooth Wall and Peg}
+A uniform rod of length $2a$ rests in equilibrium against a smooth vertical wall and upon a smooth peg at a distance $b$ from the wall. Show by virtual work that inclination $\theta$ of the rod to the vertical wall is given by:
+\begin{equation*}
+    \theta = \sin^{-1} \left( \frac{b}{a} \right)^{1/3}
+\end{equation*}
+
+\tcblower
+\textbf{Solution:}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.3, >=Stealth]
+    % Vertical Wall (y-axis)
+    \fill[pattern=north west lines] (-0.3, -0.5) rectangle (0, 3.8);
+    \draw[ultra thick, darkslate] (0, -0.5) -- (0, 3.8);
+    
+    % Peg P at distance b from wall
+    \coordinate (P) at (1.5, 1.8);
+    \filldraw[accentred] (P) circle (3pt) node[above right] {Peg $P$};
+    \draw[thick, <->, secondaryblue] (0, 1.8) -- (P) node[midway, above, font=\small] {$b$};
+    \draw[dashed, darkslate!40] (0, 1.8) -- (P);
+    
+    % Rod AB of length 2a contacting wall at A(0, y_A) and resting on Peg P
+    % Angle theta with vertical wall (y-axis)
+    \coordinate (A) at (0, 3.2);
+    \coordinate (B) at (2.4, 0.4);
+    \draw[line width=3pt, primaryblue] (A) -- (B);
+    
+    % Midpoint G (Center of gravity)
+    \coordinate (G) at (1.2, 1.8);
+    \filldraw[accentred] (G) circle (2.2pt) node[below left] {$G$};
+    \draw[ultra thick, ->, accentred] (G) -- (1.2, 0.5) node[right] {Weight $\mathbf{W}$};
+    
+    % Normal Reactions R_A at wall and R_P at Peg
+    \draw[ultra thick, ->, primaryblue] (A) -- (1.0, 3.2) node[above] {$\mathbf{R}_A$};
+    
+    % Angle theta with vertical
+    \draw[thick, accentred] (0, 2.5) arc (-90:-49:0.7);
+    \node[accentred] at (0.3, 2.4) {$\theta$};
+    
+    % Contact point A
+    \filldraw[primaryblue] (A) circle (2pt) node[left] {$A$};
+    \filldraw[primaryblue] (B) circle (2pt) node[right] {$B$};
+\end{tikzpicture}
+\end{center}
+
+
+\textbf{Express Height of Center of Gravity}:
+    Let $A$ be the end of rod contacting wall, $P$ be the peg, and $G$ be the midpoint of rod.
+    Distance along rod from wall to peg: $AP = b \csc\theta$.
+    Distance of $G$ from wall along rod is $a$.
+    Height $y_G$ of $G$ above peg $P$:
+    \begin{equation*}
+        y_G = a \cos\theta - b \cot\theta
+    \end{equation*}
+
+\textbf{Apply Virtual Work}:
+    For equilibrium under weight $W$:
+    \begin{align*}
+        -W \frac{d y_G}{d\theta} \, \delta\theta &= 0 \implies \frac{d y_G}{d\theta} = 0 \\
+        -a \sin\theta + b \csc^2\theta &= 0 \implies \sin^3\theta = \frac{b}{a} \implies \theta = \sin^{-1}\left(\frac{b}{a}\right)^{1/3}
+    \end{align*}
+\end{examplebox}
+
+\begin{examplebox}{Elastic String on Smooth Cone}
+A heavy elastic string of natural length $2\pi a$ is placed horizontally around a smooth right circular cone of semi-vertical angle $\alpha$ with axis vertical. Show that in the position of equilibrium, the radius $r$ of the circle formed by the string is:
+\begin{equation*}
+    r = a \left( 1 + \frac{W \cot\alpha}{2\pi \lambda} \right)
+\end{equation*}
+where $W$ is the weight of the string and $\lambda$ is its modulus of elasticity.
+
+\tcblower
+\textbf{Solution:}
+
+
+\textbf{Hooke's Law for Tension}:
+    Extended perimeter of string is $2\pi r$. Stretched length extension is $2\pi r - 2\pi a$.
+    Tension $T = \lambda \frac{2\pi r - 2\pi a}{2\pi a} = \lambda \frac{r - a}{a}$.
+
+\textbf{Depth of String below Vertex}:
+    Depth of circular line below cone vertex $O$: $z = r \cot\alpha \implies \delta z = \delta r \cot\alpha$.
+
+\textbf{Virtual Work Equation}:
+    Work done by gravity weight $W$ minus work done stretching elastic string:
+    \begin{align*}
+        W \, \delta z - T \, \delta(2\pi r) &= 0 \\
+        W \cot\alpha \, \delta r - 2\pi T \, \delta r &= 0 \implies W \cot\alpha = 2\pi T
+    \end{align*}
+
+\textbf{Substitute Tension $T$}:
+    \begin{equation*}
+        2\pi \lambda \left(\frac{r - a}{a}\right) = W \cot\alpha \implies r - a = \frac{a W \cot\alpha}{2\pi \lambda} \implies r = a\left(1 + \frac{W \cot\alpha}{2\pi \lambda}\right)
+    \end{equation*}
+\end{examplebox}

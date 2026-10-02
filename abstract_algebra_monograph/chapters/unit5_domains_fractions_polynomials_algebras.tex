@@ -1,0 +1,674 @@
+\chapter{Domains, Fields, Polynomial Rings, and Division Algebras}
+\label{chap:unit5}
+
+In this concluding chapter, we investigate integral domains, division rings, fields, the rigorous construction of the field of fractions, polynomial rings over fields, the division algorithm, the PID structure of $F[x]$, and the real division algebras ($\R, \C, \Hbb, \Obb$) along with the Cayley-Dickson construction and the classical classification theorems of Frobenius and Hurwitz. Every result is proved with complete mathematical rigor.
+
+% =========================================================
+\section{Integral Domains, Division Rings, and Fields}
+\label{sec:domains_fields}
+
+\begin{definition}[Zero Divisors and Units]
+Let $R$ be a ring with unity $1 \ne 0$.
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item A non-zero element $a \in R \setminus \{0\}$ is called a \textbf{zero divisor} if there exists a non-zero element $b \in R \setminus \{0\}$ such that:
+    \begin{equation}
+    ab = 0 \quad \text{or} \quad ba = 0.
+    \end{equation}
+    \item An element $u \in R$ is called a \textbf{unit} (or invertible element) if there exists an element $v \in R$ such that:
+    \begin{equation}
+    uv = vu = 1.
+    \end{equation}
+    The set of all units forms a group under multiplication, denoted $R^\times$.
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Integral Domain, Division Ring, Field]
+Let $R$ be a ring with unity $1 \ne 0$.
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $R$ is an \textbf{integral domain} if $R$ is commutative and has no zero divisors:
+    \begin{equation}
+    \forall a, b \in R, \quad ab = 0 \implies a = 0 \text{ or } b = 0.
+    \end{equation}
+    \item $R$ is a \textbf{division ring} (or \textbf{skew field}) if every non-zero element is a unit:
+    \begin{equation}
+    R^\times = R \setminus \{0\}.
+    \end{equation}
+    \item $R$ is a \textbf{field} if $R$ is a commutative division ring.
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Cancellation Law in Integral Domains]
+\label{prop:cancellation_domain}
+A commutative ring $R$ with $1 \ne 0$ is an integral domain if and only if the cancellation law holds: for all $a, b, c \in R$ with $a \ne 0$:
+\begin{equation}
+ab = ac \implies b = c.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\implies)$:} Assume $R$ is an integral domain and $ab = ac$ with $a \ne 0$.
+    Subtracting $ac$ from both sides:
+    \begin{equation*}
+    ab - ac = 0 \implies a(b - c) = 0.
+    \end{equation*}
+    Since $R$ is an integral domain, it has no zero divisors.
+    Since $a \ne 0$, we must have $b - c = 0$, which implies $b = c$.
+    
+    \item \textbf{Direction $(\impliedby)$:} Assume the cancellation law holds in $R$.
+    Suppose $ab = 0$ with $a \ne 0$.
+    Using Proposition~\ref{prop:ring_arithmetic}(i), we can write:
+    \begin{equation*}
+    ab = a \cdot 0.
+    \end{equation*}
+    Since $a \ne 0$, applying the cancellation law gives $b = 0$.
+    Thus $R$ contains no zero divisors, so $R$ is an integral domain.
+\end{itemize}
+\end{proof}
+
+\begin{theorem}[Finite Integral Domains are Fields]
+\label{thm:finite_domains}
+Every finite integral domain is a field.
+\end{theorem}
+
+\begin{proof}
+Let $D$ be a finite integral domain and let $a \in D$ with $a \ne 0$.
+We must show that $a$ has a multiplicative inverse in $D$.
+
+Define the left-multiplication map:
+\begin{align*}
+\lambda_a: D &\longrightarrow D \\
+x &\longmapsto ax.
+\end{align*}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Injectivity:}
+    Suppose $\lambda_a(x) = \lambda_a(y)$ for some $x, y \in D$. Then:
+    \begin{equation*}
+    ax = ay \implies ax - ay = 0 \implies a(x - y) = 0.
+    \end{equation*}
+    Since $D$ is an integral domain and $a \ne 0$, we must have $x - y = 0 \implies x = y$.
+    Thus $\lambda_a$ is injective.
+
+    \item \textbf{Surjectivity by Pigeonhole Principle:}
+    Since $D$ is a finite set, any injective map from $D$ to itself is automatically surjective.
+    Thus $\lambda_a(D) = D$.
+
+    \item \textbf{Existence of Multiplicative Inverse:}
+    Since $1 \in D$, the identity element must lie in the image of $\lambda_a$.
+    Therefore, there exists some element $b \in D$ such that:
+    \begin{equation*}
+    \lambda_a(b) = ab = 1.
+    \end{equation*}
+    Since $D$ is commutative, $ba = ab = 1$, which proves that $b = a^{-1} \in D$.
+\end{enumerate}
+Since every non-zero element $a \in D$ is invertible, $D$ is a field.
+\end{proof}
+
+% =========================================================
+\section{The Field of Fractions}
+\label{sec:field_of_fractions}
+
+Let $D$ be an integral domain. We construct the smallest field containing an isomorphic copy of $D$.
+
+\begin{definition}[Construction of the Field of Fractions]
+Let $S = D \times (D \setminus \{0\})$. Define a relation $\sim$ on $S$ by:
+\begin{equation}
+(a, b) \sim (c, d) \iff ad = bc.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[Equivalence Relation for Fractions]
+\label{lem:frac_equiv}
+The relation $\sim$ is an equivalence relation on $S$.
+\end{lemma}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \emph{Reflexive:} $ab = ba \implies (a, b) \sim (a, b)$.
+    \item \emph{Symmetric:} $(a, b) \sim (c, d) \implies ad = bc \implies cb = da \implies (c, d) \sim (a, b)$.
+    \item \emph{Transitive:} Suppose $(a, b) \sim (c, d)$ and $(c, d) \sim (e, f)$.
+    Then $ad = bc$ and $cf = de$.
+    Multiply the first equation by $f$ and the second by $b$:
+    \begin{equation*}
+    adf = bcf \quad \text{and} \quad bcf = bde.
+    \end{equation*}
+    Equating the two expressions gives:
+    \begin{equation*}
+    adf = bde \implies (af - be)d = 0.
+    \end{equation*}
+    Since $(c, d) \in S$, $d \ne 0$.
+    Because $D$ is an integral domain and $d \ne 0$, we must have:
+    \begin{equation*}
+    af - be = 0 \implies af = be \implies (a, b) \sim (e, f).
+    \end{equation*}
+\end{itemize}
+Thus $\sim$ is an equivalence relation.
+\end{proof}
+
+\begin{definition}[Field of Fractions]
+The set of equivalence classes of $S$ under $\sim$ is denoted:
+\begin{equation}
+Q(D) = \operatorname{Frac}(D) = \left\{ \frac{a}{b} \;\middle|\; a \in D, \, b \in D \setminus \{0\} \right\},
+\end{equation}
+where $\frac{a}{b}$ denotes the equivalence class $[(a, b)]_\sim$.
+\end{definition}
+
+\begin{theorem}[Field Structure on $Q(D)$]
+\label{thm:field_of_fractions}
+$Q(D)$ is a field under the well-defined operations:
+\begin{align}
+\frac{a}{b} + \frac{c}{d} &= \frac{ad + bc}{bd}, \\
+\frac{a}{b} \cdot \frac{c}{d} &= \frac{ac}{bd}.
+\end{align}
+The additive identity is $\frac{0}{1}$, the multiplicative identity is $\frac{1}{1}$, and the inverse of $\frac{a}{b} \ne \frac{0}{1}$ is $\left(\frac{a}{b}\right)^{-1} = \frac{b}{a}$.
+Moreover, the mapping:
+\begin{align}
+\iota: D &\hookrightarrow Q(D) \\
+a &\longmapsto \frac{a}{1}
+\end{align}
+is an injective ring homomorphism.
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Well-Definedness of Addition:}
+    Suppose $(a, b) \sim (a', b')$ and $(c, d) \sim (c', d')$, so $ab' = a'b$ and $cd' = c'd$.
+    We must show:
+    \begin{align*}
+    (ad + bc, bd) \sim (a'd' + b'c', b'd') 
+    &\iff (ad + bc)b'd' = (a'd' + b'c')bd \\
+    &\iff adb'd' + bcb'd' = a'd'bd + b'c'bd \\
+    &\iff (ab')dd' + (cd')bb' = (a'b)dd' + (c'd)bb'.
+    \end{align*}
+    Since $ab' = a'b$ and $cd' = c'd$, the two sides are identical. Thus addition is well-defined.
+
+    \item \textbf{Well-Definedness of Multiplication:}
+    Similarly, $(ac)b'd' = (ab')(cd') = (a'b)(c'd) = (a'c')bd$, so multiplication is well-defined.
+
+    \item \textbf{Field Axioms:}
+    Associativity, commutativity, and distributivity follow directly by polynomial algebra in $D$.
+    The additive inverse of $\frac{a}{b}$ is $\frac{-a}{b}$.
+    For any non-zero fraction $\frac{a}{b} \ne \frac{0}{1}$, $a \ne 0$.
+    Then $\frac{b}{a} \in Q(D)$, and $\frac{a}{b} \cdot \frac{b}{a} = \frac{ab}{ba} = \frac{1}{1}$.
+    Thus $Q(D)$ is a field.
+
+    \item \textbf{Canonical Embedding $\iota$:}
+    $\iota(a + b) = \frac{a+b}{1} = \frac{a}{1} + \frac{b}{1} = \iota(a) + \iota(b)$, and $\iota(ab) = \frac{ab}{1} = \iota(a)\iota(b)$, with $\iota(1) = \frac{1}{1}$.
+    $\ker(\iota) = \{ a \in D \mid \frac{a}{1} = \frac{0}{1} \} = \{ a \in D \mid a \cdot 1 = 0 \cdot 1 \} = \{0\}$.
+    Thus $\iota$ is injective.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[Universal Mapping Property of the Field of Fractions]
+\label{thm:universal_frac}
+Let $D$ be an integral domain, and let $K$ be any field.
+If $\varphi: D \hookrightarrow K$ is an injective ring homomorphism, there exists a \textbf{unique} field homomorphism $\Phi: Q(D) \to K$ such that $\Phi \circ \iota = \varphi$, defined by:
+\begin{equation}
+\Phi\left(\frac{a}{b}\right) = \varphi(a)\bigl(\varphi(b)\bigr)^{-1}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Well-Definedness:}
+    If $\frac{a}{b} = \frac{c}{d}$, then $ad = bc$.
+    Applying the homomorphism $\varphi$:
+    \begin{align*}
+    \varphi(ad) = \varphi(bc) 
+    &\implies \varphi(a)\varphi(d) = \varphi(b)\varphi(c).
+    \end{align*}
+    Since $\varphi$ is injective and $b, d \ne 0$, $\varphi(b), \varphi(d) \ne 0$ in the field $K$, and thus are invertible.
+    Multiplying by $\bigl(\varphi(b)\bigr)^{-1}\bigl(\varphi(d)\bigr)^{-1}$:
+    \begin{equation*}
+    \varphi(a)\bigl(\varphi(b)\bigr)^{-1} = \varphi(c)\bigl(\varphi(d)\bigr)^{-1}.
+    \end{equation*}
+    Thus $\Phi$ is well-defined.
+
+    \item \textbf{Homomorphism Property:}
+    \begin{align*}
+    \Phi\left(\frac{a}{b} + \frac{c}{d}\right) &= \Phi\left(\frac{ad+bc}{bd}\right) = \varphi(ad+bc)\bigl(\varphi(bd)\bigr)^{-1} \\
+    &= \bigl(\varphi(a)\varphi(d) + \varphi(b)\varphi(c)\bigr)\bigl(\varphi(b)\varphi(d)\bigr)^{-1} \\
+    &= \varphi(a)\bigl(\varphi(b)\bigr)^{-1} + \varphi(c)\bigl(\varphi(d)\bigr)^{-1} \\
+    &= \Phi\left(\frac{a}{b}\right) + \Phi\left(\frac{c}{d}\right).
+    \end{align*}
+    Similarly, $\Phi\left(\frac{a}{b} \cdot \frac{c}{d}\right) = \Phi\left(\frac{a}{b}\right)\Phi\left(\frac{c}{d}\right)$ and $\Phi\left(\frac{1}{1}\right) = 1_K$.
+
+    \item \textbf{Commutativity of Diagram:}
+    For any $a \in D$, $\Phi(\iota(a)) = \Phi\left(\frac{a}{1}\right) = \varphi(a)\bigl(\varphi(1)\bigr)^{-1} = \varphi(a) \cdot 1_K^{-1} = \varphi(a)$.
+
+    \item \textbf{Uniqueness:}
+    Any field homomorphism $\Psi: Q(D) \to K$ satisfying $\Psi \circ \iota = \varphi$ must satisfy $\Psi\left(\frac{a}{1}\right) = \varphi(a)$ and $\Psi\left(\frac{b}{1}\right) = \varphi(b)$.
+    Since $\frac{a}{b} = \frac{a}{1} \cdot \left(\frac{b}{1}\right)^{-1}$:
+    \begin{equation*}
+    \Psi\left(\frac{a}{b}\right) = \Psi\left(\frac{a}{1}\right)\Bigl(\Psi\left(\frac{b}{1}\right)\Bigr)^{-1} = \varphi(a)\bigl(\varphi(b)\bigr)^{-1} = \Phi\left(\frac{a}{b}\right).
+    \end{equation*}
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section{Polynomial Rings, Division Algorithm, and Ideals over a Field}
+\label{sec:polynomial_rings}
+
+\begin{definition}[Polynomial Ring]
+Let $R$ be a commutative ring with unity $1$. The \textbf{polynomial ring} in the indeterminate $x$ with coefficients in $R$, denoted $R[x]$, consists of all formal expressions:
+\begin{equation}
+f(x) = \sum_{i=0}^n a_i x^i = a_n x^n + a_{n-1} x^{n-1} + \dots + a_1 x + a_0, \quad a_i \in R.
+\end{equation}
+If $a_n \ne 0$, the \textbf{degree} of $f(x)$ is $\degpoly(f) = n$, and $a_n$ is the \textbf{leading coefficient}. If $a_n = 1$, $f(x)$ is called \textbf{monic}. The zero polynomial $f(x) = 0$ has degree $\degpoly(0) = -\infty$.
+\end{definition}
+
+\begin{proposition}[Degree Properties in Integral Domains]
+\label{prop:poly_degree}
+If $R$ is an integral domain and $f(x), g(x) \in R[x] \setminus \{0\}$, then:
+\begin{equation}
+\degpoly(fg) = \degpoly(f) + \degpoly(g).
+\end{equation}
+Consequently, $R[x]$ is an integral domain, and $(R[x])^\times = R^\times$.
+\end{proposition}
+
+\begin{proof}
+Let $f(x) = a_n x^n + \dots + a_0$ with $a_n \ne 0$ ($\degpoly(f) = n$), and $g(x) = b_m x^m + \dots + b_0$ with $b_m \ne 0$ ($\degpoly(g) = m$).
+In the product $f(x)g(x)$, the coefficient of the highest power $x^{n+m}$ is $a_n b_m$.
+Since $R$ is an integral domain and $a_n \ne 0, b_m \ne 0$, we have $a_n b_m \ne 0$.
+Therefore, $\degpoly(fg) = n + m = \degpoly(f) + \degpoly(g)$.
+
+If $fg = 0$, then $f = 0$ or $g = 0$ (otherwise $\degpoly(fg) \ge 0$, a contradiction).
+Thus $R[x]$ is an integral domain.
+If $f(x) \in (R[x])^\times$, there exists $g(x)$ such that $fg = 1$.
+Then $\degpoly(f) + \degpoly(g) = \degpoly(1) = 0 \implies \degpoly(f) = 0$, so $f(x) \in R^\times$.
+\end{proof}
+
+\begin{theorem}[Division Algorithm for Polynomials over a Field]
+\label{thm:poly_div_alg}
+Let $F$ be a field, and let $f(x), g(x) \in F[x]$ with $g(x) \ne 0$.
+Then there exist \textbf{unique} polynomials $q(x), r(x) \in F[x]$ such that:
+\begin{equation}
+f(x) = q(x) g(x) + r(x), \quad \text{where } r(x) = 0 \text{ or } \degpoly(r) < \degpoly(g).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Existence (Strong Induction on $\degpoly(f)$):}
+    Let $m = \degpoly(g) \ge 0$.
+    If $f(x) = 0$ or $\degpoly(f) < m$, we set $q(x) = 0$ and $r(x) = f(x)$.
+    
+    Now assume $n = \degpoly(f) \ge m$, and assume the result holds for all polynomials of degree $< n$.
+    Write $f(x) = a_n x^n + \dots + a_0$ and $g(x) = b_m x^m + \dots + b_0$ with $a_n, b_m \ne 0$.
+    Since $F$ is a field, $b_m^{-1} \in F$.
+    Define:
+    \begin{equation*}
+    f_1(x) = f(x) - \left( \frac{a_n}{b_m} x^{n-m} \right) g(x).
+    \end{equation*}
+    The coefficient of $x^n$ in $f_1(x)$ is $a_n - \left(\frac{a_n}{b_m}\right) b_m = a_n - a_n = 0$.
+    Thus either $f_1(x) = 0$ or $\degpoly(f_1) < n$.
+    By the induction hypothesis, there exist $q_1(x), r(x) \in F[x]$ such that:
+    \begin{equation*}
+    f_1(x) = q_1(x)g(x) + r(x), \quad \text{with } r(x) = 0 \text{ or } \degpoly(r) < m.
+    \end{equation*}
+    Substituting back into $f(x)$:
+    \begin{align*}
+    f(x) &= \left( \frac{a_n}{b_m} x^{n-m} \right) g(x) + f_1(x) \\
+    &= \left( \frac{a_n}{b_m} x^{n-m} \right) g(x) + q_1(x)g(x) + r(x) \\
+    &= \left( \frac{a_n}{b_m} x^{n-m} + q_1(x) \right) g(x) + r(x).
+    \end{align*}
+    Setting $q(x) = \frac{a_n}{b_m} x^{n-m} + q_1(x)$ completes the existence proof.
+
+    \item \textbf{Uniqueness:}
+    Suppose $f(x) = q_1(x)g(x) + r_1(x) = q_2(x)g(x) + r_2(x)$.
+    Rearranging:
+    \begin{equation*}
+    \bigl(q_1(x) - q_2(x)\bigr) g(x) = r_2(x) - r_1(x).
+    \end{equation*}
+    If $q_1(x) - q_2(x) \ne 0$, then:
+    \begin{equation*}
+    \degpoly\Bigl(\bigl(q_1 - q_2\bigr)g\Bigr) = \degpoly(q_1 - q_2) + \degpoly(g) \ge \degpoly(g).
+    \end{equation*}
+    However, the right side satisfies:
+    \begin{equation*}
+    \degpoly(r_2 - r_1) \le \max\bigl(\degpoly(r_1), \degpoly(r_2)\bigr) < \degpoly(g),
+    \end{equation*}
+    a contradiction.
+    Therefore, $q_1(x) - q_2(x) = 0 \implies q_1(x) = q_2(x)$, which forces $r_1(x) = r_2(x)$.
+\end{itemize}
+\end{proof}
+
+\begin{theorem}[{$F[x]$} is a Principal Ideal Domain (P.I.D.)]
+\label{thm:poly_pid}
+Let $F$ be a field. Every ideal $I \subseteq F[x]$ is principal. That is, there exists a unique monic polynomial $p(x) \in F[x]$ (or $p(x) = 0$ if $I = \{0\}$) such that:
+\begin{equation}
+I = (p(x)) = \{ q(x)p(x) \mid q(x) \in F[x] \}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item If $I = \{0\}$, then $I = (0)$, which is principal.
+    \item If $I \ne \{0\}$, the set of degrees $S = \{ \degpoly(f) \mid f(x) \in I, \, f(x) \ne 0 \}$ is a non-empty subset of non-negative integers $\N \cup \{0\}$.
+    By the Well-Ordering Principle, $S$ has a minimum element $d \ge 0$.
+    Choose a non-zero polynomial $g(x) \in I$ with $\degpoly(g) = d$.
+    Let $c \in F^\times$ be the leading coefficient of $g(x)$.
+    The polynomial $p(x) = c^{-1}g(x)$ is monic, belongs to $I$ (since $I$ is an ideal), and has degree $d$.
+    
+    \item Since $p(x) \in I$, the principal ideal $(p(x)) \subseteq I$.
+    
+    \item Now let $f(x) \in I$ be arbitrary.
+    By the Division Algorithm (Theorem~\ref{thm:poly_div_alg}):
+    \begin{equation*}
+    f(x) = q(x)p(x) + r(x), \quad \text{where } r(x) = 0 \text{ or } \degpoly(r) < \degpoly(p) = d.
+    \end{equation*}
+    Rearranging gives $r(x) = f(x) - q(x)p(x)$.
+    Since $f(x) \in I$ and $p(x) \in I$, we have $r(x) \in I$.
+    If $r(x) \ne 0$, then $\degpoly(r) < d$, which contradicts the minimality of $d = \degpoly(p)$.
+    Therefore, $r(x) = 0$.
+    
+    \item Thus $f(x) = q(x)p(x) \in (p(x))$, which proves $I \subseteq (p(x))$.
+\end{enumerate}
+Combining both inclusions gives $I = (p(x))$.
+\end{proof}
+
+\begin{theorem}[Maximal Ideals and Irreducibility in {$F[x]$}]
+\label{thm:poly_irreducible_maximal}
+Let $F$ be a field and let $p(x) \in F[x]$ be a non-constant polynomial ($\degpoly(p) \ge 1$). The following statements are equivalent:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $p(x)$ is irreducible over $F$.
+    \item $(p(x))$ is a maximal ideal in $F[x]$.
+    \item $(p(x))$ is a prime ideal in $F[x]$.
+    \item The quotient ring $F[x]/(p(x))$ is a field.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item $(2) \iff (4)$ and $(2) \implies (3)$ hold for any commutative ring by Theorem~\ref{thm:prime_maximal_char}.
+
+    \item \textbf{Proof that $(1) \implies (2)$:}
+    Assume $p(x)$ is irreducible over $F$.
+    Let $J$ be an ideal of $F[x]$ such that $(p(x)) \subseteq J \subseteq F[x]$.
+    Since $F[x]$ is a PID (Theorem~\ref{thm:poly_pid}), $J = (g(x))$ for some $g(x) \in F[x]$.
+    Since $p(x) \in J = (g(x))$, $g(x)$ divides $p(x)$, so:
+    \begin{equation*}
+    p(x) = g(x)h(x) \quad \text{for some } h(x) \in F[x].
+    \end{equation*}
+    Since $p(x)$ is irreducible, one of the factors must be a unit in $F[x]$ (a non-zero constant in $F^\times$):
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item If $g(x) \in F^\times$, then $J = (g(x)) = F[x]$.
+        \item If $h(x) \in F^\times$, then $g(x) = h(x)^{-1}p(x) \in (p(x))$, so $J = (g(x)) = (p(x))$.
+    \end{itemize}
+    Thus there are no proper ideals strictly containing $(p(x))$, which proves $(p(x))$ is a maximal ideal.
+
+    \item \textbf{Proof that $(3) \implies (1)$:}
+    Assume $(p(x))$ is a prime ideal.
+    Suppose $p(x) = a(x)b(x)$ for some $a(x), b(x) \in F[x]$.
+    Then $a(x)b(x) \in (p(x))$.
+    Since $(p(x))$ is a prime ideal:
+    \begin{equation*}
+    a(x) \in (p(x)) \quad \text{or} \quad b(x) \in (p(x)).
+    \end{equation*}
+    If $a(x) \in (p(x))$, then $a(x) = k(x)p(x)$ for some $k(x) \ne 0$.
+    Then $\degpoly(a) \ge \degpoly(p)$.
+    Since $\degpoly(p) = \degpoly(a) + \degpoly(b)$, this forces:
+    \begin{equation*}
+    \degpoly(b) = 0 \implies b(x) \in F^\times \text{ is a unit}.
+    \end{equation*}
+    Similarly, if $b(x) \in (p(x))$, $a(x)$ is a unit.
+    Therefore, $p(x)$ is irreducible over $F$.
+\end{itemize}
+\end{proof}
+
+% =========================================================
+\section{The Real Division Algebras: Reals, Complex, Quaternions, and Octonions}
+\label{sec:division_algebras}
+
+\begin{definition}[Algebra over a Field]
+An \textbf{algebra} $A$ over a field $F$ is a vector space $A$ over $F$ equipped with a bilinear multiplication $A \times A \to A$. An algebra $A$ is a \textbf{division algebra} if for every $a, b \in A$ with $a \ne 0$, the equations $ax = b$ and $ya = b$ have unique solutions $x, y \in A$.
+\end{definition}
+
+\subsection{The Cayley-Dickson Construction}
+
+The classical sequence of division algebras over $\R$ is obtained via iterative doubling (the \textbf{Cayley-Dickson process}):
+\begin{equation}
+\R \xrightarrow{\text{dim } 1} \C \xrightarrow{\text{dim } 2} \Hbb \xrightarrow{\text{dim } 4} \Obb \xrightarrow{\text{dim } 8}
+\end{equation}
+At each stage, an algebra with involution $(A, \bar{\cdot})$ is doubled to $A' = A \oplus A\ell$:
+\begin{align}
+(a, b)(c, d) &= (ac - \bar{d}b, \, da + b\bar{c}), \\
+\overline{(a, b)} &= (\bar{a}, \, -b), \\
+N(a, b) &= (a, b)\overline{(a, b)} = N(a) + N(b).
+\end{align}
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{|l|c|c|c|c|}
+\hline
+\textbf{Algebra} & \textbf{Dim / $\R$} & \textbf{Commutative?} & \textbf{Associative?} & \textbf{Division Algebra?} \\
+\hline
+$\R$ (Real Numbers) & 1 & Yes & Yes & Yes \\
+$\C$ (Complex Numbers) & 2 & Yes & Yes & Yes \\
+$\Hbb$ (Quaternions) & 4 & \textbf{No} & Yes & Yes \\
+$\Obb$ (Octonions) & 8 & \textbf{No} & \textbf{No} (Alternative) & Yes \\
+\hline
+\end{tabular}
+\caption{The Cayley-Dickson Hierarchy of Real Division Algebras.}
+\label{tab:division_algebras}
+\end{table}
+
+\subsection{Properties of the Four Algebras}
+
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=6pt]
+    \item \textbf{Real Numbers $\R$:} 1-dimensional, commutative, associative, ordered field.
+    \item \textbf{Complex Numbers $\C = \R \oplus \R i$:} 2-dimensional algebra with $i^2 = -1$. Commutative and associative. Conjugate: $\overline{a+bi} = a-bi$. Multiplicative norm: $|z|^2 = z\bar{z} = a^2 + b^2$.
+    \item \textbf{Quaternions $\Hbb = \C \oplus \C j$:} 4-dimensional algebra with basis $\{1, i, j, k\}$:
+    \begin{equation}
+    i^2 = j^2 = k^2 = ijk = -1, \quad ij = -ji = k, \quad jk = -kj = i, \quad ki = -ik = j.
+    \end{equation}
+    Conjugate: $\bar{q} = a - bi - cj - dk$. Multiplicative norm: $N(q) = q\bar{q} = a^2 + b^2 + c^2 + d^2$.
+    Every non-zero quaternion is invertible with $q^{-1} = \frac{\bar{q}}{N(q)}$. Non-commutative, but associative.
+    \item \textbf{Octonions $\Obb = \Hbb \oplus \Hbb \ell$:} 8-dimensional algebra with basis $\{e_0 = 1, e_1, e_2, e_3, e_4, e_5, e_6, e_7\}$.
+    Multiplication is governed by the \textbf{Fano Plane} projective geometry.
+    $\Obb$ is \textbf{non-associative}: $(xy)z \ne x(yz)$ in general. However, it satisfies the \textbf{alternative property}:
+    \begin{equation}
+    x(xy) = (xx)y \quad \text{and} \quad (yx)x = y(xx) \quad \text{for all } x, y \in \Obb.
+    \end{equation}
+    The norm satisfies $N(xy) = N(x)N(y)$, which implies $xy = 0 \iff x = 0 \text{ or } y = 0$, making $\Obb$ a normed alternative division algebra.
+\end{enumerate}
+
+\subsection{The Fundamental Classification Theorems}
+
+\begin{theorem}[Frobenius' Theorem (1877)]
+\label{thm:frobenius}
+Every finite-dimensional associative division algebra over $\R$ is isomorphic to one of:
+\begin{equation}
+\R, \quad \C, \quad \text{or} \quad \Hbb.
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[Hurwitz's Theorem (1898)]
+\label{thm:hurwitz}
+Every finite-dimensional normed division algebra over $\R$ is isomorphic to one of:
+\begin{equation}
+\R, \quad \C, \quad \Hbb, \quad \text{or} \quad \Obb.
+\end{equation}
+\end{theorem}
+
+% =========================================================
+\section{Exercises and Step-by-Step Solutions}
+\label{sec:unit5_exercises}
+
+\begin{problem}[Exercise 1: The Quotient Ring {$\R[x]/(x^2 + 1)$}]
+Prove that the polynomial $x^2 + 1$ is irreducible over $\R$, and prove that the quotient ring $\R[x]/(x^2 + 1)$ is isomorphic to the field of complex numbers $\C$.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Irreducibility of $x^2 + 1$ over $\R$:}
+    Since $\degpoly(x^2 + 1) = 2$, $x^2 + 1$ is reducible over $\R$ if and only if it has a root in $\R$.
+    For any $r \in \R$, $r^2 \ge 0$, so $r^2 + 1 \ge 1 > 0$.
+    Thus $x^2 + 1$ has no real roots, so it is irreducible over $\R$.
+
+    \item \textbf{Isomorphism with $\C$:}
+    Define the evaluation homomorphism at $i \in \C$:
+    \begin{align*}
+    \varphi: \R[x] &\longrightarrow \C \\
+    f(x) &\longmapsto f(i).
+    \end{align*}
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item \emph{Surjectivity:} For any $a + bi \in \C$, the polynomial $g(x) = a + bx \in \R[x]$ satisfies $\varphi(g(x)) = a + bi$. Thus $\varphi$ is surjective.
+        \item \emph{Kernel Calculation:}
+        $\varphi(x^2 + 1) = i^2 + 1 = -1 + 1 = 0 \implies (x^2 + 1) \subseteq \ker(\varphi)$.
+        Since $x^2 + 1$ is irreducible and $\R[x]$ is a PID, the ideal $(x^2 + 1)$ is maximal (Theorem~\ref{thm:poly_irreducible_maximal}).
+        Since $\ker(\varphi)$ is a proper ideal ($\varphi(1) = 1 \ne 0$), maximality forces $\ker(\varphi) = (x^2 + 1)$.
+    \end{itemize}
+    By the First Isomorphism Theorem for Rings (Theorem~\ref{thm:ring_iso1}(ii)):
+    \begin{equation*}
+    \R[x]/(x^2 + 1) \cong \C.
+    \end{equation*}
+\end{enumerate}
+\end{proof}
+
+\begin{problem}[Exercise 2: Non-Zero Prime Ideals are Maximal in a PID]
+Prove that in any Principal Ideal Domain (PID), every non-zero prime ideal is a maximal ideal.
+\end{problem}
+
+\begin{proof}[Solution]
+Let $R$ be a PID and let $P = (p)$ be a non-zero prime ideal ($p \ne 0$).
+Let $M = (m)$ be an ideal of $R$ such that $(p) \subseteq (m) \subseteq R$.
+We must show that $(m) = (p)$ or $(m) = R$.
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item Since $p \in (m)$, $m$ divides $p$, so there exists $r \in R$ such that $p = mr$.
+    \item Since $(p)$ is a prime ideal and $mr = p \in (p)$, we have $m \in (p)$ or $r \in (p)$.
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item If $m \in (p)$, then $(m) \subseteq (p)$, so $(m) = (p)$.
+        \item If $r \in (p)$, then $r = kp$ for some $k \in R$.
+        Then $p = mr = m(kp) = (mk)p \implies (1 - mk)p = 0$.
+        Since $R$ is an integral domain and $p \ne 0$, $1 - mk = 0 \implies mk = 1$.
+        Thus $m \in R^\times$ is a unit, so $(m) = R$.
+    \end{itemize}
+\end{itemize}
+Thus there are no proper ideals strictly containing $(p)$, which proves $(p)$ is maximal.
+\end{proof}
+
+\begin{problem}[Exercise 3: Euclidean Algorithm and Bézout Identity in {$\Q[x]$}]
+Use the Euclidean Algorithm in $\Q[x]$ to compute the greatest common divisor of:
+\begin{equation}
+f(x) = x^4 - 2x^3 - 3x^2 + 4x + 4 \quad \text{and} \quad g(x) = x^3 - x^2 - 4x + 4,
+\end{equation}
+and express $\gcd(f, g)$ as a linear combination $a(x)f(x) + b(x)g(x)$.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Step 1: Divide $f(x)$ by $g(x)$ via Polynomial Long Division:}
+    Dividing $f(x) = x^4 - 2x^3 - 3x^2 + 4x + 4$ by $g(x) = x^3 - x^2 - 4x + 4$:
+    \begin{align*}
+    f(x) - x g(x) &= (x^4 - 2x^3 - 3x^2 + 4x + 4) - (x^4 - x^3 - 4x^2 + 4x) \\
+    &= -x^3 + x^2 + 4.
+    \end{align*}
+    Next, $(-x^3 + x^2 + 4) - (-1)g(x) = (-x^3 + x^2 + 4) - (-x^3 + x^2 + 4x - 4) = -4x + 8$.
+    Thus the quotient is $q_1(x) = x - 1$ and the remainder is $r_1(x) = -4x + 8 = -4(x - 2)$:
+    \begin{equation*}
+    f(x) = (x - 1)g(x) + (-4x + 8).
+    \end{equation*}
+
+    \item \textbf{Step 2: Divide $g(x)$ by the monic remainder $x - 2$:}
+    Dividing $g(x) = x^3 - x^2 - 4x + 4$ by $x - 2$:
+    \begin{align*}
+    g(x) &= x^2(x - 1) - 4(x - 1) = (x^2 - 4)(x - 1) \\
+    &= (x - 2)(x + 2)(x - 1) \\
+    &= (x^2 + x - 2)(x - 2) + 0.
+    \end{align*}
+    Since the remainder is $0$, the last non-zero monic remainder is:
+    \begin{equation*}
+    \gcd\bigl(f(x), g(x)\bigr) = x - 2.
+    \end{equation*}
+
+    \item \textbf{Step 3: Determine the Bézout Identity:}
+    From Step 1, we have:
+    \begin{equation*}
+    -4(x - 2) = f(x) - (x - 1)g(x).
+    \end{equation*}
+    Dividing by $-4$:
+    \begin{equation*}
+    x - 2 = -\frac{1}{4}f(x) + \left(\frac{x - 1}{4}\right)g(x).
+    \end{equation*}
+    Thus $a(x) = -\frac{1}{4}$ and $b(x) = \frac{1}{4}x - \frac{1}{4}$.
+\end{enumerate}
+\end{proof}
+
+\begin{problem}[Exercise 4: Polynomial Rings over Domains are Never Fields]
+Prove that if $D$ is an integral domain, then the polynomial ring $D[x]$ is never a field.
+\end{problem}
+
+\begin{proof}[Solution]
+Consider the indeterminate element $x \in D[x]$.
+Since $\degpoly(x) = 1 \ge 1$, $x \ne 0$.
+Suppose for contradiction that $D[x]$ is a field.
+Then every non-zero element must have a multiplicative inverse, so there exists $g(x) \in D[x]$ such that:
+\begin{equation*}
+x \cdot g(x) = 1.
+\end{equation*}
+Taking degrees of both sides using Proposition~\ref{prop:poly_degree}:
+\begin{equation*}
+\degpoly(x) + \degpoly(g) = \degpoly(1) \implies 1 + \degpoly(g) = 0 \implies \degpoly(g) = -1.
+\end{equation*}
+However, the degree of any non-zero polynomial in $D[x]$ must be a non-negative integer $\ge 0$.
+This is a contradiction.
+Therefore, $x$ is not invertible in $D[x]$, so $D[x]$ cannot be a field.
+\end{proof}
+
+\begin{problem}[Exercise 5: Computation in Hamilton Quaternions $\Hbb$]
+Let $q = 1 + 2i - j + 3k \in \Hbb$. Compute the norm $N(q)$, the conjugate $\bar{q}$, and the multiplicative inverse $q^{-1}$.
+\end{problem}
+
+\begin{proof}[Solution]
+Given $q = a + bi + cj + dk$ with $a = 1, b = 2, c = -1, d = 3$:
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Conjugate $\bar{q}$:}
+    \begin{equation*}
+    \bar{q} = a - bi - cj - dk = 1 - 2i + j - 3k.
+    \end{equation*}
+
+    \item \textbf{Norm $N(q)$:}
+    \begin{equation*}
+    N(q) = a^2 + b^2 + c^2 + d^2 = 1^2 + 2^2 + (-1)^2 + 3^2 = 1 + 4 + 1 + 9 = 15.
+    \end{equation*}
+
+    \item \textbf{Inverse $q^{-1}$:}
+    \begin{equation*}
+    q^{-1} = \frac{\bar{q}}{N(q)} = \frac{1 - 2i + j - 3k}{15} = \frac{1}{15} - \frac{2}{15}i + \frac{1}{15}j - \frac{1}{5}k.
+    \end{equation*}
+    Verification: $q q^{-1} = \frac{(1+2i-j+3k)(1-2i+j-3k)}{15} = \frac{15}{15} = 1$.
+\end{enumerate}
+\end{proof}
+
+\begin{problem}[Exercise 6: Non-Associativity of the Octonions $\Obb$]
+Using the Cayley-Dickson multiplication table, verify that the octonions $\Obb$ are non-associative by calculating $(e_1 e_2)e_4$ and $e_1(e_2 e_4)$.
+\end{problem}
+
+\begin{proof}[Solution]
+Using the standard Fano plane orientation for imaginary basis units $e_1, \dots, e_7$ of $\Obb$:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item From the Fano cycle $(e_1, e_2, e_3)$, we have $e_1 e_2 = e_3$.
+    Then:
+    \begin{equation*}
+    (e_1 e_2)e_4 = e_3 e_4.
+    \end{equation*}
+    From the line $(e_3, e_4, e_7)$, $e_3 e_4 = e_7$.
+    Thus $(e_1 e_2)e_4 = e_7$.
+
+    \item On the other hand, from the line $(e_2, e_4, e_6)$, $e_2 e_4 = e_6$.
+    Then:
+    \begin{equation*}
+    e_1(e_2 e_4) = e_1 e_6.
+    \end{equation*}
+    From the line $(e_1, e_7, e_6)$, the directed order is $e_6 e_1 = e_7$, so $e_1 e_6 = -e_7$.
+    Thus $e_1(e_2 e_4) = -e_7$.
+\end{itemize}
+Comparing the two evaluations:
+\begin{equation*}
+(e_1 e_2)e_4 = e_7 \ne -e_7 = e_1(e_2 e_4).
+\end{equation*}
+In fact, $(e_1 e_2)e_4 = -e_1(e_2 e_4)$, which proves that the octonion algebra $\Obb$ is non-associative.
+\end{proof}

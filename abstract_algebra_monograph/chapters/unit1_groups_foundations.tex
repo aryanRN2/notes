@@ -1,0 +1,1030 @@
+\chapter{Group Foundations, Subgroups, and Lagrange's Theorem}
+\label{chap:unit1}
+
+This chapter establishes the axiomatic foundation of modern group theory: homomorphisms, isomorphisms, subgroups, subgroup generation, centralizers, normalizers, the center of a group, coset partitions, and Lagrange's Theorem alongside its number-theoretic consequences (Euler's, Fermat's, and Wilson's Theorems). Every result is accompanied by an exhaustive, step-by-step proof with all algebraic justifications explicitly detailed.
+
+% =========================================================
+\section{Homomorphisms and Isomorphisms}
+\label{sec:homomorphisms}
+
+In this section, we study structure-preserving maps between groups.
+
+\begin{definition}[Group Homomorphism]
+Let $(G, \star)$ and $(H, \circ)$ be two groups. A mapping $\varphi: G \to H$ is called a \textbf{group homomorphism} (or simply a \textbf{homomorphism}) if for all $x, y \in G$:
+\begin{equation}
+\varphi(x \star y) = \varphi(x) \circ \varphi(y).
+\end{equation}
+When the binary operations are understood from context, this is written in standard multiplicative notation as:
+\begin{equation}
+\varphi(xy) = \varphi(x)\varphi(y).
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Basic Structural Properties of Homomorphisms]
+\label{prop:hom_props}
+Let $\varphi: G \to H$ be a group homomorphism. Then:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $\varphi(1_G) = 1_H$, where $1_G$ and $1_H$ denote the identity elements of $G$ and $H$, respectively.
+    \item $\varphi(g^{-1}) = \bigl(\varphi(g)\bigr)^{-1}$ for all $g \in G$.
+    \item $\varphi(g^n) = \bigl(\varphi(g)\bigr)^n$ for all $n \in \Z$.
+    \item If $|g| = k < \infty$, then $|\varphi(g)|$ divides $k$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Preservation of Identity Element:}
+    By the definition of the identity element in $G$, we have:
+    \begin{equation*}
+    1_G \cdot 1_G = 1_G.
+    \end{equation*}
+    Applying the homomorphism property of $\varphi$ to both sides yields:
+    \begin{equation*}
+    \varphi(1_G)\varphi(1_G) = \varphi(1_G \cdot 1_G) = \varphi(1_G).
+    \end{equation*}
+    Since $\varphi(1_G) \in H$, it possesses a unique two-sided inverse $\bigl(\varphi(1_G)\bigr)^{-1}$ in $H$. Multiplying both sides of the equation on the right by this inverse:
+    \begin{align*}
+    \bigl(\varphi(1_G)\varphi(1_G)\bigr)\bigl(\varphi(1_G)\bigr)^{-1} &= \varphi(1_G)\bigl(\varphi(1_G)\bigr)^{-1} \\
+    \varphi(1_G)\Bigl(\varphi(1_G)\bigl(\varphi(1_G)\bigr)^{-1}\Bigr) &= 1_H \quad \text{(by associativity in $H$)} \\
+    \varphi(1_G) \cdot 1_H &= 1_H \\
+    \varphi(1_G) &= 1_H.
+    \end{align*}
+
+    \item \textbf{Preservation of Inverses:}
+    Let $g \in G$. By definition of the group inverse, $g \cdot g^{-1} = 1_G$. Applying $\varphi$:
+    \begin{align*}
+    \varphi(g)\varphi(g^{-1}) &= \varphi(g \cdot g^{-1}) \quad \text{(since $\varphi$ is a homomorphism)} \\
+    &= \varphi(1_G) \\
+    &= 1_H \quad \text{(by part (i))}.
+    \end{align*}
+    Similarly, $g^{-1} \cdot g = 1_G$ implies $\varphi(g^{-1})\varphi(g) = 1_H$.
+    By the uniqueness of the inverse element in the group $H$, it follows that:
+    \begin{equation*}
+    \varphi(g^{-1}) = \bigl(\varphi(g)\bigr)^{-1}.
+    \end{equation*}
+
+    \item \textbf{Preservation of Integer Powers:}
+    We establish this for all $n \in \Z$ in three cases:
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Case $n > 0$ (Mathematical Induction):}
+        For $n = 1$, $\varphi(g^1) = \varphi(g) = \bigl(\varphi(g)\bigr)^1$, so the base case holds.
+        Assume inductively that $\varphi(g^k) = \bigl(\varphi(g)\bigr)^k$ for some positive integer $k \ge 1$.
+        Then for $n = k + 1$:
+        \begin{align*}
+        \varphi(g^{k+1}) &= \varphi(g \cdot g^k) \\
+        &= \varphi(g)\varphi(g^k) \quad \text{(homomorphism property)} \\
+        &= \varphi(g)\bigl(\varphi(g)\bigr)^k \quad \text{(induction hypothesis)} \\
+        &= \bigl(\varphi(g)\bigr)^{k+1}.
+        \end{align*}
+        Thus the statement holds for all $n \in \Z^+$.
+        
+        \item \emph{Case $n = 0$:}
+        By definition of zeroth power, $g^0 = 1_G$. Thus:
+        \begin{equation*}
+        \varphi(g^0) = \varphi(1_G) = 1_H = \bigl(\varphi(g)\bigr)^0.
+        \end{equation*}
+        
+        \item \emph{Case $n < 0$:}
+        Let $n = -m$ where $m > 0$. Using the definition of negative powers and parts (i)--(ii):
+        \begin{align*}
+        \varphi(g^n) &= \varphi(g^{-m}) = \varphi\bigl((g^{-1})^m\bigr) \\
+        &= \bigl(\varphi(g^{-1})\bigr)^m \quad \text{(by the positive integer case applied to $g^{-1}$)} \\
+        &= \Bigl(\bigl(\varphi(g)\bigr)^{-1}\Bigr)^m \quad \text{(by part (ii))} \\
+        &= \bigl(\varphi(g)\bigr)^{-m} \\
+        &= \bigl(\varphi(g)\bigr)^n.
+        \end{align*}
+    \end{itemize}
+
+    \item \textbf{Divisibility of Element Orders:}
+    Suppose $|g| = k < \infty$, which means $g^k = 1_G$ and $k$ is the smallest positive integer with this property.
+    Applying part (iii):
+    \begin{equation*}
+    \bigl(\varphi(g)\bigr)^k = \varphi(g^k) = \varphi(1_G) = 1_H.
+    \end{equation*}
+    Let $m = |\varphi(g)|$ be the order of $\varphi(g)$ in $H$. By the division algorithm in $\Z$, write $k = qm + r$ with $0 \le r < m$.
+    Then:
+    \begin{equation*}
+    1_H = \bigl(\varphi(g)\bigr)^k = \bigl(\varphi(g)\bigr)^{qm+r} = \Bigl(\bigl(\varphi(g)\bigr)^m\Bigr)^q \cdot \bigl(\varphi(g)\bigr)^r = (1_H)^q \cdot \bigl(\varphi(g)\bigr)^r = \bigl(\varphi(g)\bigr)^r.
+    \end{equation*}
+    If $r > 0$, this contradicts the minimality of $m = |\varphi(g)|$. Therefore, $r = 0$, which proves that $m \mid k$, i.e., $|\varphi(g)|$ divides $|g|$.
+\end{enumerate}
+\end{proof}
+
+\begin{definition}[Isomorphism and Automorphism]
+A homomorphism $\varphi: G \to H$ is called an \textbf{isomorphism} if it is a bijection (both injective and surjective).
+If an isomorphism exists between $G$ and $H$, we say $G$ is \textbf{isomorphic} to $H$, denoted:
+\begin{equation}
+G \cong H.
+\end{equation}
+An isomorphism from a group $G$ to itself is called an \textbf{automorphism} of $G$. The set of all automorphisms of $G$ forms a group under function composition, denoted $\Aut(G)$.
+\end{definition}
+
+\begin{definition}[Kernel and Image]
+Let $\varphi: G \to H$ be a homomorphism.
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item The \textbf{kernel} of $\varphi$ is the pre-image of the identity element $1_H$:
+    \begin{equation}
+    \ker(\varphi) = \{ g \in G \mid \varphi(g) = 1_H \}.
+    \end{equation}
+    \item The \textbf{image} (or \textbf{range}) of $\varphi$ is the set of all outputs:
+    \begin{equation}
+    \im(\varphi) = \varphi(G) = \{ \varphi(g) \mid g \in G \} \subseteq H.
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Injectivity and Kernel Characterization]
+\label{prop:inj_ker}
+Let $\varphi: G \to H$ be a group homomorphism.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $\ker(\varphi)$ is a normal subgroup of $G$ ($\ker(\varphi) \trianglelefteq G$).
+    \item $\im(\varphi)$ is a subgroup of $H$ ($\im(\varphi) \le H$).
+    \item $\varphi$ is injective (one-to-one) if and only if $\ker(\varphi) = \{ 1_G \}$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Proof that $\ker(\varphi) \trianglelefteq G$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Non-empty:} By Proposition~\ref{prop:hom_props}(i), $\varphi(1_G) = 1_H$, which implies $1_G \in \ker(\varphi)$. Thus $\ker(\varphi) \ne \emptyset$.
+        \item \emph{Closure under products and inverses:} Let $x, y \in \ker(\varphi)$. Then $\varphi(x) = 1_H$ and $\varphi(y) = 1_H$. Using the homomorphism property and Proposition~\ref{prop:hom_props}(ii):
+        \begin{equation*}
+        \varphi(xy^{-1}) = \varphi(x)\varphi(y^{-1}) = \varphi(x)\bigl(\varphi(y)\bigr)^{-1} = 1_H \cdot (1_H)^{-1} = 1_H \cdot 1_H = 1_H.
+        \end{equation*}
+        Hence $xy^{-1} \in \ker(\varphi)$, proving that $\ker(\varphi) \le G$.
+        \item \emph{Normality (Conjugation Invariance):} Let $g \in G$ and $k \in \ker(\varphi)$. Then:
+        \begin{align*}
+        \varphi(gkg^{-1}) &= \varphi(g)\varphi(k)\varphi(g^{-1}) \quad \text{(homomorphism property)} \\
+        &= \varphi(g) \cdot 1_H \cdot \bigl(\varphi(g)\bigr)^{-1} \quad \text{(since $k \in \ker\varphi$)} \\
+        &= \varphi(g)\bigl(\varphi(g)\bigr)^{-1} \\
+        &= 1_H.
+        \end{align*}
+        Thus $gkg^{-1} \in \ker(\varphi)$ for all $g \in G$ and $k \in \ker(\varphi)$, which proves $g \ker(\varphi) g^{-1} \subseteq \ker(\varphi)$. Therefore, $\ker(\varphi) \trianglelefteq G$.
+    \end{itemize}
+
+    \item \textbf{Proof that $\im(\varphi) \le H$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Non-empty:} Since $\varphi(1_G) = 1_H$, we have $1_H \in \im(\varphi)$, so $\im(\varphi) \ne \emptyset$.
+        \item \emph{Subgroup Criterion:} Let $h_1, h_2 \in \im(\varphi)$. By definition of the image, there exist elements $g_1, g_2 \in G$ such that $\varphi(g_1) = h_1$ and $\varphi(g_2) = h_2$. Then:
+        \begin{align*}
+        h_1 h_2^{-1} &= \varphi(g_1)\bigl(\varphi(g_2)\bigr)^{-1} \\
+        &= \varphi(g_1)\varphi(g_2^{-1}) \quad \text{(by Proposition~\ref{prop:hom_props}(ii))} \\
+        &= \varphi(g_1 g_2^{-1}) \quad \text{(homomorphism property)}.
+        \end{align*}
+        Since $g_1, g_2 \in G$, $g_1 g_2^{-1} \in G$. Thus $h_1 h_2^{-1} = \varphi(g_1 g_2^{-1}) \in \im(\varphi)$.
+        By the one-step subgroup criterion, $\im(\varphi) \le H$.
+    \end{itemize}
+
+    \item \textbf{Proof of Injectivity Criterion:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \textbf{Direction $(\implies)$:} Assume $\varphi$ is injective. Let $x \in \ker(\varphi)$.
+        Then $\varphi(x) = 1_H$.
+        We already know from Proposition~\ref{prop:hom_props}(i) that $\varphi(1_G) = 1_H$.
+        Thus:
+        \begin{equation*}
+        \varphi(x) = \varphi(1_G).
+        \end{equation*}
+        Since $\varphi$ is injective, $\varphi(x) = \varphi(1_G) \implies x = 1_G$.
+        Therefore, $\ker(\varphi) = \{ 1_G \}$.
+        
+        \item \textbf{Direction $(\impliedby)$:} Assume $\ker(\varphi) = \{ 1_G \}$. Let $x, y \in G$ and suppose $\varphi(x) = \varphi(y)$.
+        Multiplying both sides by $\bigl(\varphi(y)\bigr)^{-1}$ in $H$:
+        \begin{align*}
+        \varphi(x)\bigl(\varphi(y)\bigr)^{-1} = 1_H 
+        &\implies \varphi(x)\varphi(y^{-1}) = 1_H \\
+        &\implies \varphi(xy^{-1}) = 1_H \quad \text{(homomorphism property)} \\
+        &\implies xy^{-1} \in \ker(\varphi).
+        \end{align*}
+        Since $\ker(\varphi) = \{ 1_G \}$, this implies:
+        \begin{equation*}
+        xy^{-1} = 1_G \implies x = y.
+        \end{equation*}
+        Hence $\varphi$ is injective.
+    \end{itemize}
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section{Subgroups and Subgroup Criteria}
+\label{sec:subgroups}
+
+\begin{definition}[Subgroup]
+Let $G$ be a group. A subset $H \subseteq G$ is called a \textbf{subgroup} of $G$, written $H \le G$, if $H$ is non-empty and forms a group in its own right under the binary operation inherited from $G$. If $H \le G$ and $H \ne G$, we write $H < G$ ($H$ is a proper subgroup).
+\end{definition}
+
+\begin{proposition}[One-Step Subgroup Criterion]
+\label{prop:subgroup_one_step}
+A non-empty subset $H \subseteq G$ is a subgroup of $G$ if and only if for all $x, y \in H$:
+\begin{equation}
+xy^{-1} \in H.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\implies)$:} Suppose $H \le G$. Let $x, y \in H$.
+    Since $H$ is a group, the inverse $y^{-1} \in H$.
+    Since $H$ is closed under multiplication, $x \in H$ and $y^{-1} \in H \implies xy^{-1} \in H$.
+    
+    \item \textbf{Direction $(\impliedby)$:} Suppose $H \ne \emptyset$ and $xy^{-1} \in H$ for all $x, y \in H$. We verify the four group axioms for $H$:
+    \begin{enumerate}[label=\arabic*., leftmargin=*]
+        \item \emph{Identity:} Since $H \ne \emptyset$, there exists at least one element $x \in H$.
+        Applying the hypothesis with $y = x$ gives:
+        \begin{equation*}
+        1_G = xx^{-1} \in H.
+        \end{equation*}
+        Thus $H$ contains the identity element of $G$.
+        
+        \item \emph{Inverses:} Let $y \in H$. Setting $x = 1_G \in H$ and applying the hypothesis gives:
+        \begin{equation*}
+        y^{-1} = 1_G \cdot y^{-1} \in H.
+        \end{equation*}
+        Thus $H$ is closed under taking inverses.
+        
+        \item \emph{Closure under multiplication:} Let $x, y \in H$.
+        By step 2, $y^{-1} \in H$.
+        Applying the hypothesis to $x$ and $y^{-1}$:
+        \begin{equation*}
+        xy = x(y^{-1})^{-1} \in H.
+        \end{equation*}
+        Thus $H$ is closed under multiplication.
+        
+        \item \emph{Associativity:} The associative law $(ab)c = a(bc)$ holds for all elements in $G$, and therefore holds automatically for all elements in the subset $H$.
+    \end{enumerate}
+    Therefore, $H$ is a group under the operation of $G$, so $H \le G$.
+\end{itemize}
+\end{proof}
+
+\begin{proposition}[Two-Step Subgroup Criterion]
+\label{prop:subgroup_two_step}
+A non-empty subset $H \subseteq G$ is a subgroup if and only if:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item For all $x, y \in H$, $xy \in H$ (closure under multiplication), and
+    \item For all $x \in H$, $x^{-1} \in H$ (closure under inverses).
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\implies)$:} If $H \le G$, then by definition of a group, $H$ is closed under multiplication and inverses.
+    \item \textbf{Direction $(\impliedby)$:} Assume conditions (1) and (2) hold for $H \ne \emptyset$.
+    Let $x, y \in H$. By condition (2), $y^{-1} \in H$.
+    By condition (1) applied to $x$ and $y^{-1}$, we have $xy^{-1} \in H$.
+    By Proposition~\ref{prop:subgroup_one_step} (the One-Step Criterion), $H \le G$.
+\end{itemize}
+\end{proof}
+
+\begin{proposition}[Finite Subgroup Criterion]
+\label{prop:finite_subgroup}
+Let $H$ be a non-empty \textbf{finite} subset of a group $G$. Then $H \le G$ if and only if $H$ is closed under multiplication:
+\begin{equation}
+\forall x, y \in H, \quad xy \in H.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+If $H \le G$, closure under multiplication is mandatory.
+Conversely, assume $H$ is finite, non-empty, and closed under multiplication. By Proposition~\ref{prop:subgroup_two_step}, it suffices to show that $H$ is closed under taking inverses.
+
+Let $x \in H$. Consider the infinite sequence of positive powers of $x$:
+\begin{equation*}
+S = \{ x, x^2, x^3, x^4, \dots \}.
+\end{equation*}
+Since $H$ is closed under multiplication, $x \in H \implies x^2 = x \cdot x \in H \implies x^3 = x \cdot x^2 \in H$, and by induction, $x^k \in H$ for all $k \in \Z^+$. Thus $S \subseteq H$.
+
+Since $H$ is a finite set, the set $S$ must also be finite. By the Pigeonhole Principle, the powers of $x$ cannot all be distinct. Therefore, there exist positive integers $a > b \ge 1$ such that:
+\begin{equation*}
+x^a = x^b.
+\end{equation*}
+Multiplying both sides of this equation by $(x^b)^{-1}$ in $G$:
+\begin{equation*}
+x^a (x^b)^{-1} = x^b (x^b)^{-1} \implies x^{a-b} = 1_G.
+\end{equation*}
+Since $a > b$, we have $a - b \ge 1$, which proves that $1_G = x^{a-b} \in H$.
+
+Now we isolate the inverse of $x$:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item If $a - b = 1$, then $x = 1_G$, so $x^{-1} = 1_G = x \in H$.
+    \item If $a - b > 1$, then $a - b - 1 \ge 1$, so $x^{a-b-1} \in H$. Then:
+    \begin{equation*}
+    x \cdot x^{a-b-1} = x^{a-b} = 1_G \implies x^{-1} = x^{a-b-1} \in H.
+    \end{equation*}
+\end{itemize}
+Thus $x^{-1} \in H$ for every $x \in H$. By Proposition~\ref{prop:subgroup_two_step}, $H \le G$.
+\end{proof}
+
+% =========================================================
+\section{Centralizers, Normalizers, and the Center of a Group}
+\label{sec:center}
+
+\begin{definition}[Centralizer and Normalizer]
+Let $G$ be a group and let $A \subseteq G$ be any subset.
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item The \textbf{centralizer} of $A$ in $G$, denoted $C_G(A)$, is the set of elements of $G$ that commute with every element of $A$:
+    \begin{equation}
+    C_G(A) = \{ g \in G \mid ga = ag \text{ for all } a \in A \}.
+    \end{equation}
+    When $A = \{a\}$ is a singleton, we write $C_G(a)$.
+    \item The \textbf{normalizer} of $A$ in $G$, denoted $N_G(A)$, is the set of elements of $G$ that stabilize $A$ as a set under conjugation:
+    \begin{equation}
+    N_G(A) = \{ g \in G \mid gAg^{-1} = A \}.
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+\begin{definition}[Center of a Group]
+The \textbf{center} of a group $G$, denoted $Z(G)$, is the centralizer of $G$ in $G$:
+\begin{equation}
+Z(G) = C_G(G) = \{ z \in G \mid zg = gz \text{ for all } g \in G \}.
+\end{equation}
+\end{definition}
+
+\begin{proposition}[Structural Properties of Centralizers, Normalizers, and Center]
+\label{prop:cent_norm_props}
+Let $G$ be a group and $A \subseteq G$.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $C_G(A) \le G$.
+    \item $N_G(A) \le G$.
+    \item $Z(G) \le G$, $Z(G)$ is abelian, and $Z(G) \trianglelefteq G$.
+    \item $Z(G) \le C_G(A) \le N_G(A) \le G$.
+    \item $G$ is abelian if and only if $Z(G) = G$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Proof that $C_G(A) \le G$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Non-empty:} For every $a \in A$, $1_G \cdot a = a = a \cdot 1_G$. Thus $1_G \in C_G(A)$, so $C_G(A) \ne \emptyset$.
+        \item \emph{Subgroup Criterion:} Let $x, y \in C_G(A)$. For any $a \in A$, we have:
+        \begin{equation*}
+        xa = ax \quad \text{and} \quad ya = ay.
+        \end{equation*}
+        Multiply $ya = ay$ on the left by $y^{-1}$ and on the right by $y^{-1}$:
+        \begin{align*}
+        y^{-1}(ya)y^{-1} &= y^{-1}(ay)y^{-1} \\
+        (y^{-1}y)ay^{-1} &= y^{-1}a(yy^{-1}) \\
+        1_G \cdot ay^{-1} &= y^{-1}a \cdot 1_G \\
+        ay^{-1} &= y^{-1}a.
+        \end{align*}
+        Now compute the action of $xy^{-1}$ on $a$:
+        \begin{align*}
+        (xy^{-1})a &= x(y^{-1}a) \quad \text{(associativity)} \\
+        &= x(ay^{-1}) \quad \text{(since $y^{-1}a = ay^{-1}$)} \\
+        &= (xa)y^{-1} \quad \text{(associativity)} \\
+        &= (ax)y^{-1} \quad \text{(since $x \in C_G(A)$)} \\
+        &= a(xy^{-1}) \quad \text{(associativity)}.
+        \end{align*}
+        Thus $xy^{-1} \in C_G(A)$. By Proposition~\ref{prop:subgroup_one_step}, $C_G(A) \le G$.
+    \end{itemize}
+
+    \item \textbf{Proof that $N_G(A) \le G$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Non-empty:} $1_G A 1_G^{-1} = 1_G A 1_G = A$, so $1_G \in N_G(A)$.
+        \item \emph{Subgroup Criterion:} Let $x, y \in N_G(A)$. Then $xAx^{-1} = A$ and $yAy^{-1} = A$.
+        From $yAy^{-1} = A$, multiply on the left by $y^{-1}$ and on the right by $y$:
+        \begin{equation*}
+        y^{-1}(yAy^{-1})y = y^{-1}Ay \implies (y^{-1}y)A(y^{-1}y) = y^{-1}Ay \implies A = y^{-1}Ay.
+        \end{equation*}
+        Now evaluate $(xy^{-1})A(xy^{-1})^{-1}$:
+        \begin{align*}
+        (xy^{-1})A(xy^{-1})^{-1} &= (xy^{-1})A\bigl((y^{-1})^{-1}x^{-1}\bigr) \\
+        &= (xy^{-1})A(yx^{-1}) \\
+        &= x(y^{-1}Ay)x^{-1} \\
+        &= xAx^{-1} \quad \text{(since $y^{-1}Ay = A$)} \\
+        &= A \quad \text{(since $xAx^{-1} = A$)}.
+        \end{align*}
+        Thus $xy^{-1} \in N_G(A)$. By the one-step criterion, $N_G(A) \le G$.
+    \end{itemize}
+
+    \item \textbf{Proof that $Z(G) \trianglelefteq G$ is abelian:}
+    Setting $A = G$ in part (i) immediately gives $Z(G) = C_G(G) \le G$.
+    For any $z_1, z_2 \in Z(G)$, by definition $z_1$ commutes with every element of $G$, so $z_1 z_2 = z_2 z_1$. Thus $Z(G)$ is abelian.
+    
+    To prove normality, let $g \in G$ and $z \in Z(G)$. Then:
+    \begin{align*}
+    gzg^{-1} &= (gz)g^{-1} \\
+    &= (zg)g^{-1} \quad \text{(since $z \in Z(G)$ commutes with $g$)} \\
+    &= z(gg^{-1}) \\
+    &= z \cdot 1_G = z.
+    \end{align*}
+    Since $z \in Z(G)$, $gzg^{-1} = z \in Z(G)$ for all $g \in G$. Thus $g Z(G) g^{-1} = Z(G)$, proving $Z(G) \trianglelefteq G$.
+
+    \item \textbf{Proof of Inclusions:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item Let $z \in Z(G)$. Then $zg = gz$ for all $g \in G$. In particular, $za = az$ for all $a \in A \subseteq G$. Thus $z \in C_G(A)$, so $Z(G) \subseteq C_G(A)$.
+        \item Let $g \in C_G(A)$. Then $ga = ag$ for all $a \in A$.
+        Multiplying on the right by $g^{-1}$ gives $gag^{-1} = a$ for all $a \in A$.
+        Thus:
+        \begin{equation*}
+        gAg^{-1} = \{ gag^{-1} \mid a \in A \} = \{ a \mid a \in A \} = A.
+        \end{equation*}
+        Hence $g \in N_G(A)$, so $C_G(A) \subseteq N_G(A)$.
+    \end{itemize}
+    Combining the subgroup results yields $Z(G) \le C_G(A) \le N_G(A) \le G$.
+
+    \item \textbf{Abelian Criterion:}
+    $G$ is abelian $\iff \forall x, y \in G, xy = yx \iff \forall x \in G, x \in C_G(G) = Z(G) \iff Z(G) = G$.
+\end{enumerate}
+\end{proof}
+
+\begin{theorem}[The $N/C$ Theorem]
+\label{thm:nc_theorem}
+Let $H \le G$. Then $C_G(H) \trianglelefteq N_G(H)$, and the quotient group $N_G(H)/C_G(H)$ is isomorphic to a subgroup of $\Aut(H)$:
+\begin{equation}
+N_G(H)/C_G(H) \hookrightarrow \Aut(H).
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+For each $g \in N_G(H)$, define the conjugation map:
+\begin{align*}
+\psi_g: H &\longrightarrow H \\
+h &\longmapsto ghg^{-1}.
+\end{align*}
+Since $g \in N_G(H)$, $gHg^{-1} = H$, so $\psi_g$ maps $H$ bijectively onto $H$. Moreover:
+\begin{equation*}
+\psi_g(h_1 h_2) = g(h_1 h_2)g^{-1} = (gh_1 g^{-1})(gh_2 g^{-1}) = \psi_g(h_1)\psi_g(h_2),
+\end{equation*}
+so $\psi_g \in \Aut(H)$.
+Now define the homomorphism:
+\begin{align*}
+\Psi: N_G(H) &\longrightarrow \Aut(H) \\
+g &\longmapsto \psi_g.
+\end{align*}
+For any $g_1, g_2 \in N_G(H)$ and $h \in H$:
+\begin{equation*}
+\psi_{g_1 g_2}(h) = (g_1 g_2)h(g_1 g_2)^{-1} = g_1(g_2 h g_2^{-1})g_1^{-1} = \psi_{g_1}\bigl(\psi_{g_2}(h)\bigr) = (\psi_{g_1} \circ \psi_{g_2})(h).
+\end{equation*}
+Thus $\Psi(g_1 g_2) = \Psi(g_1) \circ \Psi(g_2)$, confirming $\Psi$ is a group homomorphism.
+The kernel of $\Psi$ is:
+\begin{align*}
+\ker(\Psi) &= \{ g \in N_G(H) \mid \psi_g = \text{id}_H \} \\
+&= \{ g \in N_G(H) \mid ghg^{-1} = h \text{ for all } h \in H \} \\
+&= \{ g \in N_G(H) \mid gh = hg \text{ for all } h \in H \} \\
+&= N_G(H) \cap C_G(H) \\
+&= C_G(H) \quad \text{(since $C_G(H) \le N_G(H)$)}.
+\end{align*}
+By Proposition~\ref{prop:inj_ker}, the kernel is a normal subgroup: $C_G(H) \trianglelefteq N_G(H)$.
+By the First Isomorphism Theorem (Theorem~\ref{thm:first_iso}):
+\begin{equation*}
+N_G(H)/C_G(H) \cong \im(\Psi) \le \Aut(H).
+\end{equation*}
+\end{proof}
+
+% =========================================================
+\section{Subgroups Generated by Subsets}
+\label{sec:generated_subgroups}
+
+\begin{proposition}[Intersection of Subgroups]
+\label{prop:subgroup_intersection}
+Let $\{ H_i \}_{i \in I}$ be an arbitrary collection of subgroups of a group $G$. Then their intersection:
+\begin{equation}
+H = \bigcap_{i \in I} H_i
+\end{equation}
+is also a subgroup of $G$.
+\end{proposition}
+
+\begin{proof}
+We verify the One-Step Subgroup Criterion:
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \emph{Non-empty:} Since each $H_i \le G$, the identity element $1_G \in H_i$ for every $i \in I$.
+    Therefore, $1_G \in \bigcap_{i \in I} H_i = H$, so $H \ne \emptyset$.
+    
+    \item \emph{Subgroup Criterion:} Let $x, y \in H$.
+    By definition of intersection, $x \in H_i$ and $y \in H_i$ for every $i \in I$.
+    Since each $H_i$ is a subgroup of $G$, Proposition~\ref{prop:subgroup_one_step} guarantees:
+    \begin{equation*}
+    xy^{-1} \in H_i \quad \text{for all } i \in I.
+    \end{equation*}
+    Therefore, $xy^{-1} \in \bigcap_{i \in I} H_i = H$.
+\end{enumerate}
+By Proposition~\ref{prop:subgroup_one_step}, $H \le G$.
+\end{proof}
+
+\begin{definition}[Subgroup Generated by a Set]
+Let $A$ be a subset of a group $G$. The \textbf{subgroup generated by $A$}, denoted $\langle A \rangle$, is the intersection of all subgroups of $G$ containing $A$:
+\begin{equation}
+\langle A \rangle = \bigcap_{\substack{H \le G \\ A \subseteq H}} H.
+\end{equation}
+If $A = \{a_1, \dots, a_n\}$, we write $\langle a_1, \dots, a_n \rangle$. If $G = \langle g \rangle$ for some $g \in G$, $G$ is called a \textbf{cyclic group}.
+\end{definition}
+
+\begin{theorem}[Explicit Structure of Generated Subgroups]
+\label{thm:generated_subgroup_explicit}
+Let $A \subseteq G$ with $A \ne \emptyset$. Then $\langle A \rangle$ is the set of all finite products of elements of $A$ and their inverses:
+\begin{equation}
+\langle A \rangle = \bar{A} \coloneqq \{ a_1^{\epsilon_1} a_2^{\epsilon_2} \cdots a_k^{\epsilon_k} \mid k \ge 0, \, a_i \in A, \, \epsilon_i \in \{+1, -1\} \},
+\end{equation}
+where $k = 0$ corresponds to the empty product $1_G$.
+\end{theorem}
+
+\begin{proof}
+We prove $\langle A \rangle = \bar{A}$ by double containment:
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Proof that $\bar{A} \le G$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item For $k = 0$, $1_G \in \bar{A}$, so $\bar{A} \ne \emptyset$.
+        \item Let $u = a_1^{\epsilon_1} \cdots a_k^{\epsilon_k} \in \bar{A}$ and $v = b_1^{\delta_1} \cdots b_m^{\delta_m} \in \bar{A}$.
+        Then the inverse of $v$ is:
+        \begin{equation*}
+        v^{-1} = (b_1^{\delta_1} \cdots b_m^{\delta_m})^{-1} = b_m^{-\delta_m} \cdots b_1^{-\delta_1} \in \bar{A},
+        \end{equation*}
+        and the product is:
+        \begin{equation*}
+        uv^{-1} = a_1^{\epsilon_1} \cdots a_k^{\epsilon_k} b_m^{-\delta_m} \cdots b_1^{-\delta_1} \in \bar{A}.
+        \end{equation*}
+        Thus $\bar{A} \le G$ by the one-step criterion.
+    \end{itemize}
+
+    \item \textbf{Proof that $A \subseteq \bar{A}$:}
+    For any $a \in A$, setting $k = 1, a_1 = a, \epsilon_1 = 1$ gives $a = a^1 \in \bar{A}$. Thus $A \subseteq \bar{A}$.
+
+    \item \textbf{Proof that $\langle A \rangle \subseteq \bar{A}$:}
+    Since $\bar{A}$ is a subgroup of $G$ containing $A$, $\bar{A}$ is one of the subgroups in the intersection defining $\langle A \rangle$.
+    Since an intersection is contained in each of its terms:
+    \begin{equation*}
+    \langle A \rangle = \bigcap_{\substack{H \le G \\ A \subseteq H}} H \subseteq \bar{A}.
+    \end{equation*}
+
+    \item \textbf{Proof that $\bar{A} \subseteq \langle A \rangle$:}
+    Let $H$ be any subgroup of $G$ containing $A$.
+    Since $H$ is closed under taking inverses, $a \in A \implies a^{-1} \in H$.
+    Since $H$ is closed under multiplication, any finite product $a_1^{\epsilon_1} \cdots a_k^{\epsilon_k}$ with $a_i \in A, \epsilon_i = \pm 1$ must lie in $H$.
+    Thus $\bar{A} \subseteq H$ for every subgroup $H$ containing $A$.
+    Taking the intersection over all such $H$:
+    \begin{equation*}
+    \bar{A} \subseteq \bigcap_{\substack{H \le G \\ A \subseteq H}} H = \langle A \rangle.
+    \end{equation*}
+\end{enumerate}
+Combining $\langle A \rangle \subseteq \bar{A}$ and $\bar{A} \subseteq \langle A \rangle$ gives $\langle A \rangle = \bar{A}$.
+\end{proof}
+
+% =========================================================
+\section{Cosets, Lagrange's Theorem, and Number-Theoretic Applications}
+\label{sec:lagrange}
+
+\begin{definition}[Left and Right Cosets]
+Let $H \le G$ and $g \in G$.
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item The \textbf{left coset} of $H$ in $G$ containing $g$ is:
+    \begin{equation}
+    gH = \{ gh \mid h \in H \}.
+    \end{equation}
+    \item The \textbf{right coset} of $H$ in $G$ containing $g$ is:
+    \begin{equation}
+    Hg = \{ hg \mid h \in H \}.
+    \end{equation}
+\end{enumerate}
+The element $g$ is called a \textbf{coset representative} of $gH$ (or $Hg$).
+\end{definition}
+
+\begin{lemma}[Coset Partition and Equivalence Relation Properties]
+\label{lem:coset_props}
+Let $H \le G$.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item The relation $\sim_L$ defined by $x \sim_L y \iff x^{-1}y \in H$ is an equivalence relation on $G$.
+    \item The equivalence class of $x \in G$ under $\sim_L$ is the left coset $xH$.
+    \item For any $x, y \in G$, the following statements are logically equivalent:
+    \begin{enumerate}[label=\textbf{(\alph*)}]
+        \item $xH = yH$,
+        \item $y^{-1}x \in H$,
+        \item $x \in yH$,
+        \item $xH \cap yH \ne \emptyset$.
+    \end{enumerate}
+    \item The left cosets of $H$ in $G$ form a partition of $G$.
+    \item For every $g \in G$, $|gH| = |H| = |Hg|$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Proof of Equivalence Relation:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Reflexive:} For all $x \in G$, $x^{-1}x = 1_G \in H$ (since $H \le G$). Thus $x \sim_L x$.
+        \item \emph{Symmetric:} Suppose $x \sim_L y$, so $x^{-1}y \in H$. Since $H$ is closed under inverses:
+        \begin{equation*}
+        (x^{-1}y)^{-1} = y^{-1}(x^{-1})^{-1} = y^{-1}x \in H.
+        \end{equation*}
+        Thus $y \sim_L x$.
+        \item \emph{Transitive:} Suppose $x \sim_L y$ and $y \sim_L z$, so $x^{-1}y \in H$ and $y^{-1}z \in H$.
+        Since $H$ is closed under multiplication:
+        \begin{equation*}
+        (x^{-1}y)(y^{-1}z) = x^{-1}(yy^{-1})z = x^{-1}(1_G)z = x^{-1}z \in H.
+        \end{equation*}
+        Thus $x \sim_L z$.
+    \end{itemize}
+
+    \item \textbf{Equivalence Class Structure:}
+    The equivalence class of $x$ is:
+    \begin{align*}
+    [x]_{\sim_L} &= \{ y \in G \mid x \sim_L y \} = \{ y \in G \mid x^{-1}y \in H \} \\
+    &= \{ y \in G \mid x^{-1}y = h \text{ for some } h \in H \} \\
+    &= \{ y \in G \mid y = xh \text{ for some } h \in H \} \\
+    &= xH.
+    \end{align*}
+
+    \item \textbf{Equivalence of Coset Conditions:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \textbf{$(a) \implies (c)$:} If $xH = yH$, then since $1_G \in H$, $x = x \cdot 1_G \in xH = yH$.
+        \item \textbf{$(c) \implies (b)$:} If $x \in yH$, then $x = yh$ for some $h \in H$. Multiplying on the left by $y^{-1}$ gives $y^{-1}x = h \in H$.
+        \item \textbf{$(b) \implies (a)$:} If $y^{-1}x = h \in H$, then $x = yh$.
+        For any $h' \in H$, $xh' = (yh)h' = y(hh') \in yH$, so $xH \subseteq yH$.
+        Moreover, $x = yh \implies y = xh^{-1}$. Since $h \in H \implies h^{-1} \in H$, for any $h'' \in H$, $yh'' = x(h^{-1}h'') \in xH$, so $yH \subseteq xH$.
+        Thus $xH = yH$.
+        \item \textbf{$(a) \implies (d)$:} If $xH = yH$, then $xH \cap yH = xH \ne \emptyset$ since $x \in xH$.
+        \item \textbf{$(d) \implies (a)$:} Suppose $z \in xH \cap yH$. Then $z = xh_1 = yh_2$ for some $h_1, h_2 \in H$.
+        Then $x = yh_2 h_1^{-1}$. Since $h_2 h_1^{-1} \in H$, $x \in yH$, which by $(c) \implies (a)$ gives $xH = yH$.
+    \end{itemize}
+
+    \item \textbf{Partition of $G$:}
+    Since $\sim_L$ is an equivalence relation, its equivalence classes (which are precisely the left cosets $gH$) form a partition of $G$.
+
+    \item \textbf{Equal Cardinality:}
+    For any $g \in G$, define the map $\lambda_g: H \to gH$ by $\lambda_g(h) = gh$.
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Surjective:} Every element of $gH$ is of the form $gh = \lambda_g(h)$ for some $h \in H$.
+        \item \emph{Injective:} Suppose $\lambda_g(h_1) = \lambda_g(h_2)$. Then $gh_1 = gh_2$.
+        Multiplying on the left by $g^{-1}$:
+        \begin{equation*}
+        g^{-1}(gh_1) = g^{-1}(gh_2) \implies (g^{-1}g)h_1 = (g^{-1}g)h_2 \implies h_1 = h_2.
+        \end{equation*}
+    \end{itemize}
+    Thus $\lambda_g$ is a bijection, which proves $|gH| = |H|$.
+    A completely symmetric argument with $\rho_g: H \to Hg$ defined by $\rho_g(h) = hg$ shows $|Hg| = |H|$.
+\end{enumerate}
+\end{proof}
+
+\begin{definition}[Index of a Subgroup]
+Let $H \le G$. The \textbf{index} of $H$ in $G$, denoted $[G : H]$, is the number of distinct left (or right) cosets of $H$ in $G$.
+\end{definition}
+
+\begin{theorem}[Lagrange's Theorem]
+\label{thm:lagrange}
+If $G$ is a finite group and $H$ is a subgroup of $G$, then the order of $H$ divides the order of $G$, and:
+\begin{equation}
+|G| = [G : H] \cdot |H|.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let $k = [G : H]$ be the number of distinct left cosets of $H$ in $G$, and choose representatives $g_1, g_2, \dots, g_k \in G$ such that:
+\begin{equation*}
+g_1 H, \, g_2 H, \, \dots, \, g_k H
+\end{equation*}
+are the distinct pairwise disjoint left cosets of $H$.
+By Lemma~\ref{lem:coset_props}(iv), these cosets partition $G$:
+\begin{equation*}
+G = g_1 H \cup g_2 H \cup \dots \cup g_k H \quad \text{with } g_i H \cap g_j H = \emptyset \text{ for } i \ne j.
+\end{equation*}
+Taking the cardinality of both sides:
+\begin{equation*}
+|G| = |g_1 H| + |g_2 H| + \dots + |g_k H|.
+\end{equation*}
+By Lemma~\ref{lem:coset_props}(v), each coset satisfies $|g_i H| = |H|$:
+\begin{equation*}
+|G| = \sum_{i=1}^k |H| = k \cdot |H| = [G : H] \cdot |H|.
+\end{equation*}
+Since $[G : H]$ is an integer, $|H|$ divides $|G|$.
+\end{proof}
+
+\begin{corollary}[Order of an Element Divides Group Order]
+\label{cor:element_order_divides}
+Let $G$ be a finite group and let $g \in G$. Then the order of $g$ divides $|G|$, and:
+\begin{equation}
+g^{|G|} = 1_G.
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+Consider the cyclic subgroup generated by $g$: $H = \langle g \rangle = \{ 1_G, g, g^2, \dots, g^{|g|-1} \}$.
+The order of $H$ is $|H| = |g|$.
+By Lagrange's Theorem (Theorem~\ref{thm:lagrange}), $|H|$ divides $|G|$, so $|g|$ divides $|G|$.
+
+Let $|G| = m \cdot |g|$ for some positive integer $m \ge 1$. Then:
+\begin{equation*}
+g^{|G|} = g^{|g| \cdot m} = \bigl(g^{|g|}\bigr)^m = (1_G)^m = 1_G.
+\end{equation*}
+\end{proof}
+
+\begin{corollary}[Groups of Prime Order are Cyclic]
+\label{cor:prime_order_cyclic}
+If $G$ is a group of prime order $p$, then $G$ is cyclic and isomorphic to $\Z/p\Z$. Moreover, every non-identity element of $G$ is a generator.
+\end{corollary}
+
+\begin{proof}
+Let $x \in G$ with $x \ne 1_G$. Consider the cyclic subgroup $\langle x \rangle \le G$.
+Since $x \ne 1_G$, $|\langle x \rangle| \ge 2$.
+By Lagrange's Theorem, $|\langle x \rangle|$ must divide $|G| = p$.
+Since $p$ is prime, its only positive divisors are $1$ and $p$.
+Since $|\langle x \rangle| > 1$, we must have $|\langle x \rangle| = p$.
+Therefore, $\langle x \rangle = G$, which proves $G$ is cyclic.
+Any cyclic group of order $p$ is isomorphic to $\Z/p\Z$ via the isomorphism $x^k \mapsto \bar{k}$.
+\end{proof}
+
+% ---------------------------------------------------------
+\subsection{Applications to Number Theory}
+
+\begin{theorem}[Euler's Totient Theorem]
+\label{thm:euler_totient}
+Let $n \in \Z^+$ and let $a \in \Z$ with $\gcd(a, n) = 1$. Then:
+\begin{equation}
+a^{\phi(n)} \equiv 1 \pmod n,
+\end{equation}
+where $\phi(n) = |(\Z/n\Z)^\times|$ is Euler's totient function.
+\end{theorem}
+
+\begin{proof}
+Consider the set of units in the ring $\Z/n\Z$:
+\begin{equation*}
+G = (\Z/n\Z)^\times = \{ \bar{k} \in \Z/n\Z \mid \gcd(k, n) = 1 \}.
+\end{equation*}
+Under multiplication modulo $n$, $G$ forms an abelian group of order $|G| = \phi(n)$.
+Since $\gcd(a, n) = 1$, the residue class $\bar{a} = a \pmod n$ is an element of $G$.
+Applying Corollary~\ref{cor:element_order_divides} to the finite group $G$:
+\begin{equation*}
+\bar{a}^{|G|} = \bar{a}^{\phi(n)} = \bar{1} \in (\Z/n\Z)^\times.
+\end{equation*}
+In modular arithmetic notation, this translates directly to:
+\begin{equation*}
+a^{\phi(n)} \equiv 1 \pmod n.
+\end{equation*}
+\end{proof}
+
+\begin{theorem}[Fermat's Little Theorem]
+\label{thm:fermat_little}
+Let $p$ be a prime number. For any $a \in \Z$:
+\begin{equation}
+a^p \equiv a \pmod p.
+\end{equation}
+In particular, if $p \nmid a$, then $a^{p-1} \equiv 1 \pmod p$.
+\end{theorem}
+
+\begin{proof}
+For a prime $p$, the integers coprime to $p$ in $\{1, 2, \dots, p-1\}$ are all $p-1$ elements, so $\phi(p) = p - 1$.
+If $p \nmid a$, then $\gcd(a, p) = 1$.
+Applying Euler's Totient Theorem with $n = p$:
+\begin{equation*}
+a^{\phi(p)} = a^{p-1} \equiv 1 \pmod p.
+\end{equation*}
+Multiplying both sides by $a$ gives:
+\begin{equation*}
+a^p \equiv a \pmod p.
+\end{equation*}
+If $p \mid a$, then $a \equiv 0 \pmod p$, which gives $a^p \equiv 0^p \equiv 0 \equiv a \pmod p$, so the identity holds unconditionally for all $a \in \Z$.
+\end{proof}
+
+\begin{theorem}[Wilson's Theorem]
+\label{thm:wilson}
+An integer $p \ge 2$ is prime if and only if:
+\begin{equation}
+(p - 1)! \equiv -1 \pmod p.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\implies)$:} Assume $p$ is prime.
+    For $p = 2$, $(2-1)! = 1! = 1 \equiv -1 \pmod 2$.
+    Now assume $p > 2$ (so $p$ is odd).
+    Consider the group of units $G = (\Z/p\Z)^\times = \{ \bar{1}, \bar{2}, \dots, \overline{p-1} \}$.
+    Every element $\bar{x} \in G$ has a unique multiplicative inverse $\bar{x}^{-1} \in G$.
+    
+    An element is its own multiplicative inverse if and only if:
+    \begin{align*}
+    x^2 \equiv 1 \pmod p 
+    &\iff x^2 - 1 \equiv 0 \pmod p \\
+    &\iff (x - 1)(x + 1) \equiv 0 \pmod p \\
+    &\iff p \mid (x - 1)(x + 1).
+    \end{align*}
+    By Euclid's Lemma, since $p$ is prime:
+    \begin{equation*}
+    p \mid (x - 1) \implies x \equiv 1 \pmod p, \quad \text{or} \quad p \mid (x + 1) \implies x \equiv -1 \equiv p - 1 \pmod p.
+    \end{equation*}
+    Thus, among the $p - 1$ elements of $G$, exactly two elements ($1$ and $p - 1$) are self-inverse.
+    The remaining $p - 3$ elements:
+    \begin{equation*}
+    \{ 2, 3, \dots, p - 2 \}
+    \end{equation*}
+    can be paired up into $m = \frac{p-3}{2}$ disjoint pairs of mutual inverses $(x_j, y_j)$ with $x_j y_j \equiv 1 \pmod p$.
+    
+    Taking the product of all elements in $G$:
+    \begin{align*}
+    (p - 1)! &= 1 \cdot \left( \prod_{j=1}^{(p-3)/2} x_j y_j \right) \cdot (p - 1) \\
+    &\equiv 1 \cdot (1 \cdot 1 \cdots 1) \cdot (p - 1) \pmod p \\
+    &\equiv p - 1 \pmod p \\
+    &\equiv -1 \pmod p.
+    \end{align*}
+
+    \item \textbf{Direction $(\impliedby)$:} Assume $(p-1)! \equiv -1 \pmod p$.
+    Suppose for contradiction that $p$ is composite, with a proper divisor $d$ such that $1 < d < p$.
+    Since $d \le p - 1$, $d$ appears as one of the factors in $(p - 1)! = 1 \cdot 2 \cdots d \cdots (p - 1)$.
+    Therefore:
+    \begin{equation*}
+    d \mid (p - 1)!.
+    \end{equation*}
+    By assumption, $(p - 1)! + 1 = k p$ for some integer $k$.
+    Since $d \mid p$, $d \mid kp$, so $d \mid \bigl((p - 1)! + 1\bigr)$.
+    Since $d$ divides both $(p-1)!$ and $(p-1)! + 1$, $d$ must divide their difference:
+    \begin{equation*}
+    d \mid \Bigl(\bigl((p - 1)! + 1\bigr) - (p - 1)!\Bigr) = 1.
+    \end{equation*}
+    This forces $d = 1$, contradicting $1 < d < p$.
+    Therefore, $p$ must be prime.
+\end{itemize}
+\end{proof}
+
+% =========================================================
+\section{Exercises and Step-by-Step Solutions}
+\label{sec:unit1_exercises}
+
+\begin{problem}[Exercise 1: Inverse of an Isomorphism]
+Prove that if $\varphi: G \to H$ is an isomorphism of groups, then its set-theoretic inverse mapping $\varphi^{-1}: H \to G$ is also an isomorphism of groups.
+\end{problem}
+
+\begin{proof}[Solution]
+Since $\varphi: G \to H$ is an isomorphism, it is a bijective homomorphism.
+Being a bijection, the inverse mapping $\varphi^{-1}: H \to G$ exists and is also a bijection.
+It remains only to prove that $\varphi^{-1}$ is a group homomorphism.
+
+Let $y_1, y_2 \in H$.
+Since $\varphi$ is surjective, there exist unique elements $x_1, x_2 \in G$ such that:
+\begin{equation*}
+\varphi(x_1) = y_1 \iff x_1 = \varphi^{-1}(y_1) \quad \text{and} \quad \varphi(x_2) = y_2 \iff x_2 = \varphi^{-1}(y_2).
+\end{equation*}
+Using the fact that $\varphi$ is a homomorphism:
+\begin{equation*}
+\varphi(x_1 x_2) = \varphi(x_1)\varphi(x_2) = y_1 y_2.
+\end{equation*}
+Applying $\varphi^{-1}$ to both sides:
+\begin{align*}
+\varphi^{-1}(y_1 y_2) &= \varphi^{-1}\bigl(\varphi(x_1 x_2)\bigr) \\
+&= x_1 x_2 \quad \text{(since $\varphi^{-1} \circ \varphi = \text{id}_G$)} \\
+&= \varphi^{-1}(y_1)\varphi^{-1}(y_2).
+\end{align*}
+Thus $\varphi^{-1}$ preserves the group operation. Being a bijective homomorphism, $\varphi^{-1}$ is an isomorphism.
+\end{proof}
+
+\begin{problem}[Exercise 2: The Inversion Map]
+Let $G$ be a group. Prove that the inversion map $f: G \to G$ defined by $f(g) = g^{-1}$ is an automorphism of $G$ if and only if $G$ is abelian.
+\end{problem}
+
+\begin{proof}[Solution]
+First, note that $f$ is always a bijection on $G$:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item $f(f(g)) = (g^{-1})^{-1} = g$, so $f \circ f = \text{id}_G$, meaning $f$ is its own inverse and hence bijective.
+\end{itemize}
+Thus $f$ is an automorphism if and only if $f$ is a homomorphism.
+
+We test the homomorphism condition for all $x, y \in G$:
+\begin{equation*}
+f(xy) = (xy)^{-1} = y^{-1}x^{-1}.
+\end{equation*}
+On the other hand:
+\begin{equation*}
+f(x)f(y) = x^{-1}y^{-1}.
+\end{equation*}
+Therefore:
+\begin{align*}
+f \text{ is a homomorphism} 
+&\iff \forall x, y \in G, \, f(xy) = f(x)f(y) \\
+&\iff \forall x, y \in G, \, y^{-1}x^{-1} = x^{-1}y^{-1} \\
+&\iff \forall x, y \in G, \, (xy)^{-1} = (yx)^{-1} \\
+&\iff \forall x, y \in G, \, xy = yx \quad \text{(taking inverses of both sides)} \\
+&\iff G \text{ is abelian}.
+\end{align*}
+\end{proof}
+
+\begin{problem}[Exercise 3: Union of Subgroups]
+Let $H$ and $K$ be subgroups of a group $G$. Prove that the union $H \cup K$ is a subgroup of $G$ if and only if $H \subseteq K$ or $K \subseteq H$.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\impliedby)$:} If $H \subseteq K$, then $H \cup K = K$, which is a subgroup since $K \le G$.
+    If $K \subseteq H$, then $H \cup K = H \le G$.
+    
+    \item \textbf{Direction $(\implies)$:} Suppose $H \cup K \le G$.
+    Assume for contradiction that $H \not\subseteq K$ and $K \not\subseteq H$.
+    Then there exist elements:
+    \begin{equation*}
+    h \in H \setminus K \quad \text{and} \quad k \in K \setminus H.
+    \end{equation*}
+    Since $h \in H \subseteq H \cup K$ and $k \in K \subseteq H \cup K$, and since $H \cup K$ is a subgroup, the product:
+    \begin{equation*}
+    hk \in H \cup K.
+    \end{equation*}
+    This means that either $hk \in H$ or $hk \in K$:
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item \emph{Case 1:} If $hk \in H$, then since $h \in H$, $h^{-1} \in H$.
+        Thus $k = h^{-1}(hk) \in H$, which contradicts $k \notin H$.
+        \item \emph{Case 2:} If $hk \in K$, then since $k \in K$, $k^{-1} \in K$.
+        Thus $h = (hk)k^{-1} \in K$, which contradicts $h \notin K$.
+    \end{itemize}
+    In both cases we reach a contradiction. Therefore, we must have $H \subseteq K$ or $K \subseteq H$.
+\end{itemize}
+\end{proof}
+
+\begin{problem}[Exercise 4: Subgroups of Index 2]
+Show that if $G$ is a group and $H \le G$ with index $[G : H] = 2$, then $gH = Hg$ for every $g \in G$ (so $H$ is a normal subgroup).
+\end{problem}
+
+\begin{proof}[Solution]
+Since $[G : H] = 2$, there are exactly two distinct left cosets and two distinct right cosets of $H$ in $G$.
+One coset is always $1_G H = H = H 1_G$.
+
+Let $g \in G$.
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \emph{Case 1: $g \in H$.}
+    Then $gH = H = Hg$.
+    
+    \item \emph{Case 2: $g \notin H$.}
+    Since left cosets partition $G$, the two left cosets are $H$ and $gH$. Thus:
+    \begin{equation*}
+    G = H \cup gH \quad (\text{disjoint union}) \implies gH = G \setminus H.
+    \end{equation*}
+    Similarly, the two right cosets are $H$ and $Hg$, so:
+    \begin{equation*}
+    G = H \cup Hg \quad (\text{disjoint union}) \implies Hg = G \setminus H.
+    \end{equation*}
+    Therefore, $gH = G \setminus H = Hg$.
+\end{itemize}
+In all cases, $gH = Hg$, which proves $H \trianglelefteq G$.
+\end{proof}
+
+\begin{problem}[Exercise 5: Center as Intersection of Centralizers]
+Prove that for any group $G$, the center is the intersection of all element centralizers:
+\begin{equation}
+Z(G) = \bigcap_{x \in G} C_G(x).
+\end{equation}
+\end{problem}
+
+\begin{proof}[Solution]
+We prove double containment:
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\subseteq)$:}
+    Let $z \in Z(G)$.
+    By definition of the center, $zg = gz$ for all $g \in G$.
+    In particular, for any fixed $x \in G$, $zx = xz$, which means $z \in C_G(x)$.
+    Since this holds for every $x \in G$:
+    \begin{equation*}
+    z \in \bigcap_{x \in G} C_G(x) \implies Z(G) \subseteq \bigcap_{x \in G} C_G(x).
+    \end{equation*}
+
+    \item \textbf{Direction $(\supseteq)$:}
+    Let $g \in \bigcap_{x \in G} C_G(x)$.
+    By definition of intersection, $g \in C_G(x)$ for every $x \in G$.
+    By definition of the centralizer $C_G(x)$, this means $gx = xg$ for every $x \in G$.
+    Thus $g$ commutes with all elements of $G$, which by definition of the center means $g \in Z(G)$.
+    Therefore:
+    \begin{equation*}
+    \bigcap_{x \in G} C_G(x) \subseteq Z(G).
+    \end{equation*}
+\end{itemize}
+Thus $Z(G) = \bigcap_{x \in G} C_G(x)$.
+\end{proof}
+
+\begin{problem}[Exercise 6: Wilson's Theorem and Quadratic Residues]
+Use Wilson's Theorem to prove that if $p$ is a prime of the form $p = 4k + 1$, then $-1$ is a quadratic residue modulo $p$, and specifically:
+\begin{equation}
+\left[ \left(\frac{p-1}{2}\right)! \right]^2 \equiv -1 \pmod p.
+\end{equation}
+\end{problem}
+
+\begin{proof}[Solution]
+Let $m = \frac{p-1}{2} = 2k$. By Wilson's Theorem (Theorem~\ref{thm:wilson}):
+\begin{equation*}
+(p - 1)! = 1 \cdot 2 \cdots m \cdot (m + 1) \cdots (p - 1) \equiv -1 \pmod p.
+\end{equation*}
+We rewrite the factors from $m + 1$ to $p - 1$ modulo $p$:
+\begin{align*}
+p - 1 &\equiv -1 \pmod p, \\
+p - 2 &\equiv -2 \pmod p, \\
+&\;\;\vdots \\
+p - j &\equiv -j \pmod p, \\
+&\;\;\vdots \\
+m + 1 = p - m &\equiv -m \pmod p.
+\end{align*}
+There are $m$ such factors. Substituting these into the factorial product:
+\begin{align*}
+(p - 1)! &= \left( \prod_{j=1}^m j \right) \cdot \left( \prod_{j=1}^m (p - j) \right) \\
+&\equiv (m!) \cdot \left( \prod_{j=1}^m (-j) \right) \pmod p \\
+&\equiv (m!) \cdot (-1)^m (m!) \pmod p \\
+&\equiv (-1)^m (m!)^2 \pmod p.
+\end{align*}
+Since $p = 4k + 1$, $m = \frac{p-1}{2} = 2k$ is an \textbf{even} integer.
+Therefore:
+\begin{equation*}
+(-1)^m = (-1)^{2k} = 1.
+\end{equation*}
+Substituting this into the congruence:
+\begin{equation*}
+(p - 1)! \equiv 1 \cdot (m!)^2 \equiv (m!)^2 \pmod p.
+\end{equation*}
+Since $(p - 1)! \equiv -1 \pmod p$ by Wilson's Theorem:
+\begin{equation*}
+\left[ \left(\frac{p-1}{2}\right)! \right]^2 \equiv -1 \pmod p.
+\end{equation*}
+Setting $x = \left(\frac{p-1}{2}\right)!$, we have $x^2 \equiv -1 \pmod p$, proving that $-1$ is a quadratic residue modulo $p$.
+\end{proof}

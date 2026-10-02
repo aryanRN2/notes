@@ -1,0 +1,63 @@
+\documentclass[11pt,a4paper,twoside,openright]{book}
+
+\input{preamble.tex}
+
+\title{
+    \vspace{-2cm}
+    \Huge \bfseries Metric Spaces \\[0.5em]
+    \large Second Edition
+}
+\author{
+    \Large \textbf{Pawan K. Jain} \\
+    \small Department of Mathematics, University of Delhi, Delhi \\[1em]
+    \Large \textbf{Khalil Ahmad} \\
+    \small Department of Mathematics, Jamia Millia Islamia, New Delhi
+}
+\date{}
+
+\begin{document}
+
+\frontmatter
+\maketitle
+
+\chapter*{Preface to the Second Edition}
+Metric Spaces is one of the foundational subjects in Modern Analysis. This second edition has been refined and expanded to provide a rigorous, clear, and comprehensive treatment of metric space theory, complete with geometric intuition, detailed proofs, and extensive examples.
+
+\chapter*{List of Symbols}
+\begin{description}[labelwidth=2cm, leftmargin=2.5cm]
+\item[$\mathbb{R}$] Set of real numbers
+\item[$\mathbb{C}$] Set of complex numbers
+\item[$\mathbb{N}$] Set of natural numbers
+\item[$\mathbb{Z}$] Set of integers
+\item[$\mathbb{Q}$] Set of rational numbers
+\item[$d(x,y)$] Distance between points $x$ and $y$ in a metric space $(X,d)$
+\item[$B(x,r)$] Open sphere (or ball) centered at $x$ with radius $r > 0$
+\item[$\overline{B}(x,r)$] Closed sphere (or ball) centered at $x$ with radius $r > 0$
+\item[$S(x,r)$] Sphere centered at $x$ with radius $r > 0$
+\item[$\Int(A)$] Interior of set $A$
+\item[$\overline{A}$] Closure of set $A$
+\item[$\Bd(A)$] Boundary of set $A$
+\item[$A'$] Derived set (set of all limit points) of $A$
+\item[$\diam(A)$] Diameter of set $A$
+\item[$d(A,B)$] Distance between sets $A$ and $B$
+\item[$\ell_p$] Space of sequences $(x_n)$ with $\sum |x_n|^p < \infty$
+\item[$\ell_\infty$] Space of bounded sequences
+\item[{C[a,b]}] Space of continuous real-valued functions on $[a,b]$
+\end{description}
+
+\tableofcontents
+
+\mainmatter
+
+\input{chapters/ch01_preliminaries.tex}
+\input{chapters/ch02_introductory_concepts.tex}
+\input{chapters/ch03_completeness.tex}
+\input{chapters/ch04_continuous_functions.tex}
+\input{chapters/ch05_compactness.tex}
+\input{chapters/ch06_connectedness.tex}
+\input{chapters/ch07_fixed_point_theorems.tex}
+
+\appendix
+\input{chapters/appendices.tex}
+
+\end{document}

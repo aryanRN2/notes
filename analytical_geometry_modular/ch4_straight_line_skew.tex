@@ -1,0 +1,843 @@
+\chapter{Straight Lines in Space and Skew Lines (Pages 37--52)}
+\label{ch:straight_line_skew}
+
+% =========================================================================
+% PAGE 37
+% =========================================================================
+\section{Page 37: The Straight Line in Space --- Symmetrical and Unsymmetrical Forms}
+\label{sec:page37}
+
+\begin{conceptbox}[Manuscript Overview: Page 37]
+Page 37 introduces the straight line in three-dimensional space. It defines the unsymmetrical form (intersection of two non-parallel planes) and derives the symmetrical (point-direction) form and two-point form of a straight line.
+\end{conceptbox}
+
+\subsection{The Line as the Intersection of Two Planes}
+In three-dimensional analytical geometry, a single linear equation $Ax + By + Cz + D = 0$ represents a plane. A straight line is the locus of points common to two intersecting planes:
+\begin{equation}
+    \begin{cases}
+    A_1 x + B_1 y + C_1 z + D_1 = 0, \\
+    A_2 x + B_2 y + C_2 z + D_2 = 0,
+    \end{cases} \quad \text{provided } \vec{N}_1 \nparallel \vec{N}_2.
+\end{equation}
+This representation is known as the \textbf{unsymmetrical form} (or general form) of a straight line.
+
+\subsection{Derivation of the Symmetrical Form}
+\begin{theorembox}[Symmetrical Form of a Straight Line]
+The equations of a straight line passing through a given point $P_1(x_1, y_1, z_1)$ and having direction cosines $(l, m, n)$ are:
+\begin{equation}
+    \boxed{\frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n} = r}
+\end{equation}
+where $r$ represents the signed algebraic distance along the line from $P_1$ to any point $P(x, y, z)$.
+\end{theorembox}
+
+\begin{proof}
+Let $P_1(x_1, y_1, z_1)$ be a fixed point on the line, and let $P(x, y, z)$ be any arbitrary point on the line.
+Let $r$ denote the directed distance from $P_1$ to $P$, so that $P_1 P = r$.
+Let $(l, m, n)$ be the direction cosines of the line, which means:
+\begin{equation}
+    l = \cos\alpha, \quad m = \cos\beta, \quad n = \cos\gamma.
+\end{equation}
+The projections of the segment $P_1 P$ on the coordinate axes are (Page 17):
+\begin{align}
+    x - x_1 &= r\cos\alpha = lr, \\
+    y - y_1 &= r\cos\beta = mr, \\
+    z - z_1 &= r\cos\gamma = nr.
+\end{align}
+Solving each equation for $r$:
+\begin{equation}
+    r = \frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n}.
+\end{equation}
+Since $r$ is identical for all three projections:
+\begin{equation}
+    \boxed{\frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n} = r}
+\end{equation}
+If direction ratios $(a, b, c)$ are given instead of direction cosines:
+\begin{equation}
+    \boxed{\frac{x - x_1}{a} = \frac{y - y_1}{b} = \frac{z - z_1}{c} = \lambda}
+\end{equation}
+where $\lambda = \frac{r}{\sqrt{a^2+b^2+c^2}}$.
+\end{proof}
+
+\subsection{Two-Point Form of a Straight Line}
+If a straight line passes through two given points $P_1(x_1, y_1, z_1)$ and $P_2(x_2, y_2, z_2)$, its direction ratios are $(x_2 - x_1, \; y_2 - y_1, \; z_2 - z_1)$ (Page 21). Substituting these ratios yields:
+\begin{equation}
+    \boxed{\frac{x - x_1}{x_2 - x_1} = \frac{y - y_1}{y_2 - y_1} = \frac{z - z_1}{z_2 - z_1}}
+\end{equation}
+
+% =========================================================================
+% PAGE 38
+% =========================================================================
+\section{Page 38: Parametric Coordinates and the General Point on a Line}
+\label{sec:page38}
+
+\begin{conceptbox}[Manuscript Overview: Page 38]
+Page 38 formalizes the parametric representation of a line and details how coordinates of any general point on a line can be expressed in terms of a single scalar parameter.
+\end{conceptbox}
+
+\subsection{Parametric Coordinates}
+From the symmetrical form $\frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n} = r$:
+\begin{align}
+    x &= x_1 + lr, \nonumber\\
+    y &= y_1 + mr, \nonumber\\
+    z &= z_1 + nr. \label{eq:param_coords}
+\end{align}
+Equations \eqref{eq:param_coords} are the \textbf{parametric equations} of the line.
+
+\begin{theorembox}[General Point on a Line]
+The coordinates of any point $P$ on the line passing through $(x_1, y_1, z_1)$ with direction ratios $(a, b, c)$ can be expressed in terms of a real parameter $\lambda$ as:
+\begin{equation}
+    \boxed{P(\lambda) = (x_1 + a\lambda, \; y_1 + b\lambda, \; z_1 + c\lambda), \quad \lambda \in \mathbb{R}}
+\end{equation}
+If $(a, b, c)$ are normalized direction cosines $(l, m, n)$, then $|\lambda| = r$ is the exact Euclidean distance from $(x_1, y_1, z_1)$ to $P$.
+\end{theorembox}
+
+\subsection{Geometrical Significance}
+This parametric form reduces three-dimensional geometric problems concerning lines (such as intersections, perpendicular feet, reflections, and distances) to single-variable algebraic equations in $\lambda$.
+
+% =========================================================================
+% PAGE 39
+% =========================================================================
+\section{Page 39: Transformation from Unsymmetrical Form to Symmetrical Form}
+\label{sec:page39}
+
+\begin{conceptbox}[Manuscript Overview: Page 39]
+Page 39 provides the complete mathematical algorithm for transforming a straight line given in unsymmetrical form into the standard symmetrical form.
+\end{conceptbox}
+
+\subsection{The Reduction Algorithm}
+Let the line be given as the intersection of two non-parallel planes:
+\begin{align}
+    \Pi_1 &: A_1 x + B_1 y + C_1 z + D_1 = 0, \label{eq:p39_pi1} \\
+    \Pi_2 &: A_2 x + B_2 y + C_2 z + D_2 = 0. \label{eq:p39_pi2}
+\end{align}
+
+\subsubsection{Step 1: Finding the Direction Ratios of the Line}
+Let $(l, m, n)$ be the direction ratios of the line of intersection $L$.
+Since $L$ lies completely in plane $\Pi_1$, it is perpendicular to the normal vector $\vec{N}_1(A_1, B_1, C_1)$:
+\begin{equation}
+    A_1 l + B_1 m + C_1 n = 0. \label{eq:p39_orth1}
+\end{equation}
+Similarly, since $L$ lies in plane $\Pi_2$, it is perpendicular to the normal vector $\vec{N}_2(A_2, B_2, C_2)$:
+\begin{equation}
+    A_2 l + B_2 m + C_2 n = 0. \label{eq:p39_orth2}
+\end{equation}
+Solving equations \eqref{eq:p39_orth1} and \eqref{eq:p39_orth2} by the rule of cross-multiplication:
+\begin{equation}
+    \boxed{\frac{l}{B_1 C_2 - B_2 C_1} = \frac{m}{C_1 A_2 - C_2 A_1} = \frac{n}{A_1 B_2 - A_2 B_1}}
+\end{equation}
+This corresponds to the cross product of the normal vectors: $\vec{b} = \vec{N}_1 \times \vec{N}_2$.
+
+\subsubsection{Step 2: Finding a Point on the Line}
+The line $L$ intersects at least one of the coordinate planes (unless it is parallel to it).
+Assuming $A_1 B_2 - A_2 B_1 \neq 0$, the line meets the $xy$-plane ($z = 0$) at some point $(x_0, y_0, 0)$.
+Setting $z = 0$ in equations \eqref{eq:p39_pi1} and \eqref{eq:p39_pi2}:
+\begin{align}
+    A_1 x_0 + B_1 y_0 + D_1 &= 0, \\
+    A_2 x_0 + B_2 y_0 + D_2 &= 0.
+\end{align}
+Solving this $2 \times 2$ system via Cramer's Rule:
+\begin{equation}
+    x_0 = \frac{B_1 D_2 - B_2 D_1}{A_1 B_2 - A_2 B_1}, \quad y_0 = \frac{D_1 A_2 - D_2 A_1}{A_1 B_2 - A_2 B_1}, \quad z_0 = 0.
+\end{equation}
+Thus, $(x_0, y_0, 0)$ is a specific point on the line.
+
+\subsubsection{Step 3: Writing the Symmetrical Equation}
+Combining the point $(x_0, y_0, z_0)$ and the direction ratios $(l, m, n)$:
+\begin{equation}
+    \boxed{\frac{x - x_0}{B_1 C_2 - B_2 C_1} = \frac{y - y_0}{C_1 A_2 - C_2 A_1} = \frac{z - 0}{A_1 B_2 - A_2 B_1}}
+\end{equation}
+
+% =========================================================================
+% PAGE 40
+% =========================================================================
+\section{Page 40: Angle Between a Line and a Plane}
+\label{sec:page40}
+
+\begin{conceptbox}[Manuscript Overview: Page 40]
+Page 40 derives the sine formula for the angle between a straight line and a plane and deduces the conditions for parallelism and perpendicularity.
+\end{conceptbox}
+
+\subsection{Derivation of the Sine Formula}
+\begin{theorembox}[Angle Between a Line and a Plane]
+Let $\theta$ be the angle between the straight line:
+\begin{equation}
+    L: \frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n}
+\end{equation}
+and the plane:
+\begin{equation}
+    \Pi: Ax + By + Cz + D = 0.
+\end{equation}
+Then:
+\begin{equation}
+    \boxed{\sin\theta = \frac{Al + Bm + Cn}{\sqrt{A^2 + B^2 + C^2}\,\sqrt{l^2 + m^2 + n^2}}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+By definition, the angle $\theta$ between a line and a plane is the angle between the line $L$ and its orthogonal projection on the plane $\Pi$.
+The normal $\vec{N}$ to the plane has direction ratios $(A, B, C)$.
+The angle $\phi$ between the line $L$ (direction ratios $(l, m, n)$) and the normal $\vec{N}$ is:
+\begin{equation}
+    \phi = 90^\circ - \theta.
+\end{equation}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    % Plane
+    \draw[thick, primary] (-3,0) -- (3,0) node[right] {Plane $\Pi$};
+    \fill[primary!5] (-3,-0.1) rectangle (3,0);
+
+    % Normal
+    \draw[->, very thick, accent] (0,0) -- (0,2.5) node[above] {Normal $\vec{N}(A,B,C)$};
+
+    % Line L
+    \draw[->, very thick, secondary] (-2.5,-1) -- (2.5,1.8) node[right] {Line $L(l,m,n)$};
+
+    % Angles
+    \draw[->, thick] (1,0) arc (0:36:1) node[midway, right] {$\theta$};
+    \draw[->, thick, accent] (0,1.2) arc (90:36:1.2) node[midway, above right] {$\phi = 90^\circ - \theta$};
+
+    \node[below] at (0,0) {$O$};
+\end{tikzpicture}
+\end{center}
+
+Applying the cosine formula between two directed vectors (Page 22):
+\begin{equation}
+    \cos\phi = \frac{Al + Bm + Cn}{\sqrt{A^2 + B^2 + C^2}\,\sqrt{l^2 + m^2 + n^2}}.
+\end{equation}
+Since $\cos\phi = \cos(90^\circ - \theta) = \sin\theta$:
+\begin{equation}
+    \boxed{\sin\theta = \frac{Al + Bm + Cn}{\sqrt{A^2 + B^2 + C^2}\,\sqrt{l^2 + m^2 + n^2}}}
+\end{equation}
+\end{proof}
+
+\subsection{Conditions of Parallelism and Perpendicularity}
+\begin{itemize}
+    \item \textbf{Line Parallel to Plane}: The line is parallel to the plane when $\theta = 0 \iff \sin\theta = 0$:
+    \begin{equation}
+        \boxed{Al + Bm + Cn = 0}
+    \end{equation}
+    (The line is perpendicular to the normal).
+    \item \textbf{Line Perpendicular to Plane}: The line is perpendicular to the plane when $\theta = 90^\circ \iff \phi = 0$:
+    \begin{equation}
+        \boxed{\frac{A}{l} = \frac{B}{m} = \frac{C}{n}}
+    \end{equation}
+    (The line is parallel to the normal).
+\end{itemize}
+
+% =========================================================================
+% PAGE 41
+% =========================================================================
+\section{Page 41: Intersection of a Line and a Plane, Foot of Perpendicular, and Image}
+\label{sec:page41}
+
+\begin{conceptbox}[Manuscript Overview: Page 41]
+Page 41 solves for:
+\begin{enumerate}[noitemsep]
+    \item The point of intersection between a straight line and a plane.
+    \item The foot of the perpendicular dropped from an external point to a plane.
+    \item The optical image (reflection) of a point in a plane.
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{Point of Intersection of a Line and a Plane}
+Let the line be $L: \frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n} = r$, and let the plane be $\Pi: Ax + By + Cz + D = 0$.
+The general point on the line is $P(r) = (x_1 + lr, \; y_1 + mr, \; z_1 + nr)$.
+Substitute $P(r)$ into the plane equation:
+\begin{align}
+    A(x_1 + lr) + B(y_1 + mr) + C(z_1 + nr) + D &= 0 \nonumber\\
+    (Ax_1 + By_1 + Cz_1 + D) + r(Al + Bm + Cn) &= 0 \nonumber\\
+    \implies r &= -\frac{Ax_1 + By_1 + Cz_1 + D}{Al + Bm + Cn}.
+\end{align}
+Substituting this value of $r$ back into $P(r)$ yields the unique point of intersection (provided $Al + Bm + Cn \neq 0$).
+
+\subsection{Foot of Perpendicular and Image of a Point}
+\begin{theorembox}[Foot of Perpendicular and Reflection Formula]
+Let $P(x_0, y_0, z_0)$ be a point and $\Pi: Ax + By + Cz + D = 0$ be a plane.
+\begin{enumerate}
+    \item The foot of the perpendicular $N(x, y, z)$ from $P$ to $\Pi$ is given by:
+    \begin{equation}
+        \boxed{\frac{x - x_0}{A} = \frac{y - y_0}{B} = \frac{z - z_0}{C} = -\frac{Ax_0 + By_0 + Cz_0 + D}{A^2 + B^2 + C^2}}
+    \end{equation}
+    \item The image (reflection) $P'(x', y', z')$ of $P$ in the plane $\Pi$ is given by:
+    \begin{equation}
+        \boxed{\frac{x' - x_0}{A} = \frac{y' - y_0}{B} = \frac{z' - z_0}{C} = -2\,\frac{Ax_0 + By_0 + Cz_0 + D}{A^2 + B^2 + C^2}}
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}
+The normal line passing through $P(x_0, y_0, z_0)$ has direction ratios $(A, B, C)$. Its equations are:
+\begin{equation}
+    \frac{x - x_0}{A} = \frac{y - y_0}{B} = \frac{z - z_0}{C} = k.
+\end{equation}
+Any point on this normal line is $(x_0 + Ak, \; y_0 + Bk, \; z_0 + Ck)$.
+For the foot of the perpendicular $N$, this point lies on the plane:
+\begin{align}
+    A(x_0 + Ak) + B(y_0 + Bk) + C(z_0 + Ck) + D &= 0 \nonumber\\
+    (A^2 + B^2 + C^2)k + (Ax_0 + By_0 + Cz_0 + D) &= 0 \nonumber\\
+    \implies k &= -\frac{Ax_0 + By_0 + Cz_0 + D}{A^2 + B^2 + C^2}.
+\end{align}
+For the image point $P'$, the foot $N$ is the midpoint of $PP'$:
+\begin{equation}
+    N = \frac{P + P'}{2} \implies P' = 2N - P.
+\end{equation}
+Thus, the parameter value for $P'$ is simply $2k$.
+\end{proof}
+
+% =========================================================================
+% PAGE 42
+% =========================================================================
+\section{Page 42: Condition of Coplanarity of Two Straight Lines}
+\label{sec:page42}
+
+\begin{conceptbox}[Manuscript Overview: Page 42]
+Page 42 derives the celebrated determinant condition for two lines in space to lie in the same plane (to be coplanar) and establishes the equation of the plane containing them.
+\end{conceptbox}
+
+\subsection{Derivation of the Coplanarity Condition}
+\begin{theorembox}[Coplanarity Determinant Condition]
+Two straight lines:
+\begin{align}
+    L_1 &: \frac{x - x_1}{l_1} = \frac{y - y_1}{m_1} = \frac{z - z_1}{n_1}, \label{eq:p42_L1} \\
+    L_2 &: \frac{x - x_2}{l_2} = \frac{y - y_2}{m_2} = \frac{z - z_2}{n_2}, \label{eq:p42_L2}
+\end{align}
+are \textbf{coplanar} if and only if:
+\begin{equation}
+    \boxed{\begin{vmatrix}
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{vmatrix} = 0}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Any plane passing through the line $L_1$ must pass through the point $(x_1, y_1, z_1)$ and have its normal $\vec{N}(A, B, C)$ perpendicular to $L_1$:
+\begin{align}
+    A(x - x_1) + B(y - y_1) + C(z - z_1) &= 0, \label{eq:p42_plane} \\
+    Al_1 + Bm_1 + Cn_1 &= 0. \label{eq:p42_orth1}
+\end{align}
+If this plane also contains the line $L_2$:
+\begin{enumerate}
+    \item The point $(x_2, y_2, z_2)$ on $L_2$ must lie on the plane:
+    \begin{equation}
+        A(x_2 - x_1) + B(y_2 - y_1) + C(z_2 - z_1) = 0. \label{eq:p42_pt2}
+    \end{equation}
+    \item The normal $\vec{N}(A, B, C)$ must be perpendicular to $L_2$:
+    \begin{equation}
+        Al_2 + Bm_2 + Cn_2 = 0. \label{eq:p42_orth2}
+    \end{equation}
+\end{enumerate}
+Equations \eqref{eq:p42_pt2}, \eqref{eq:p42_orth1}, and \eqref{eq:p42_orth2} form a homogeneous linear system in $A, B, C$:
+\begin{equation}
+    \begin{pmatrix}
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{pmatrix}
+    \begin{pmatrix} A \\ B \\ C \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}.
+\end{equation}
+For a non-trivial plane to exist, $(A, B, C) \neq (0, 0, 0)$, so the determinant of coefficients must vanish:
+\begin{equation}
+    \begin{vmatrix}
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{vmatrix} = 0.
+\end{equation}
+\end{proof}
+
+\subsection{Equation of the Plane Containing Two Coplanar Lines}
+Eliminating $A, B, C$ between equations \eqref{eq:p42_plane}, \eqref{eq:p42_orth1}, and \eqref{eq:p42_orth2}:
+\begin{equation}
+    \boxed{\begin{vmatrix}
+    x - x_1 & y - y_1 & z - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{vmatrix} = 0}
+\end{equation}
+
+% =========================================================================
+% PAGE 43
+% =========================================================================
+\section{Page 43: Condition for a Line to Lie Wholly in a Plane}
+\label{sec:page43}
+
+\begin{conceptbox}[Manuscript Overview: Page 43]
+Page 43 analyzes the algebraic conditions ensuring that a given straight line lies completely within a specified plane.
+\end{conceptbox}
+
+\begin{theorembox}[Line Lying Wholly in a Plane]
+The straight line:
+\begin{equation}
+    L: \frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n}
+\end{equation}
+lies wholly and completely in the plane:
+\begin{equation}
+    \Pi: Ax + By + Cz + D = 0
+\end{equation}
+if and only if the following two conditions are simultaneously satisfied:
+\begin{align}
+    \text{Condition 1} &: \quad \boxed{Ax_1 + By_1 + Cz_1 + D = 0} \quad \text{(Point lies in plane)}, \\
+    \text{Condition 2} &: \quad \boxed{Al + Bm + Cn = 0} \quad \text{(Line perpendicular to normal)}.
+\end{align}
+\end{theorembox}
+
+\begin{proof}
+Any point on line $L$ has coordinates $(x_1 + lr, \; y_1 + mr, \; z_1 + nr)$, where $r \in \mathbb{R}$.
+For the line to lie entirely in the plane, this point must satisfy the equation of the plane for \emph{every} value of $r$:
+\begin{align}
+    A(x_1 + lr) + B(y_1 + mr) + C(z_1 + nr) + D &\equiv 0 \nonumber\\
+    (Ax_1 + By_1 + Cz_1 + D) + r(Al + Bm + Cn) &\equiv 0 \quad \forall r \in \mathbb{R}.
+\end{align}
+A linear polynomial in $r$ is identically zero if and only if both its constant term and the coefficient of $r$ vanish independently:
+\begin{align}
+    Ax_1 + By_1 + Cz_1 + D &= 0, \\
+    Al + Bm + Cn &= 0.
+\end{align}
+\end{proof}
+
+% =========================================================================
+% PAGE 44
+% =========================================================================
+\section{Page 44: Plane Containing a Given Line and Parallel to Another Line}
+\label{sec:page44}
+
+\begin{conceptbox}[Manuscript Overview: Page 44]
+Page 44 establishes the construction of a plane that contains a given straight line and is oriented parallel to a second straight line in space.
+\end{conceptbox}
+
+\subsection{Construction and Derivation}
+Let the two lines be:
+\begin{align}
+    L_1 &: \frac{x - x_1}{l_1} = \frac{y - y_1}{m_1} = \frac{z - z_1}{n_1}, \\
+    L_2 &: \frac{x - x_2}{l_2} = \frac{y - y_2}{m_2} = \frac{z - z_2}{n_2}.
+\end{align}
+We seek the plane $\Pi$ containing $L_1$ and parallel to $L_2$.
+\begin{enumerate}
+    \item Any plane containing $L_1$ passes through $(x_1, y_1, z_1)$:
+    \begin{equation}
+        A(x - x_1) + B(y - y_1) + C(z - z_1) = 0 \label{eq:p44_pl}
+    \end{equation}
+    and its normal $\vec{N}(A, B, C)$ is perpendicular to $L_1$:
+    \begin{equation}
+        Al_1 + Bm_1 + Cn_1 = 0. \label{eq:p44_c1}
+    \end{equation}
+    \item Since the plane is parallel to $L_2$, its normal $\vec{N}$ is also perpendicular to $L_2$:
+    \begin{equation}
+        Al_2 + Bm_2 + Cn_2 = 0. \label{eq:p44_c2}
+    \end{equation}
+\end{enumerate}
+Eliminating $A, B, C$ between equations \eqref{eq:p44_pl}, \eqref{eq:p44_c1}, and \eqref{eq:p44_c2}:
+\begin{equation}
+    \boxed{\begin{vmatrix}
+    x - x_1 & y - y_1 & z - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{vmatrix} = 0}
+\end{equation}
+
+% =========================================================================
+% PAGE 45
+% =========================================================================
+\section{Page 45: Line Intersecting Two Given Lines and Satisfying a Geometric Condition}
+\label{sec:page45}
+
+\begin{conceptbox}[Manuscript Overview: Page 45]
+Page 45 details the method of finding a transversal line that intersects two given skew lines and either passes through a fixed point or is parallel to a given direction.
+\end{conceptbox}
+
+\subsection{Transversal Passing Through a Given Point}
+Let the two given skew lines be $L_1$ and $L_2$, and let the fixed point be $P(\alpha, \beta, \gamma)$.
+\begin{enumerate}
+    \item \textbf{Plane 1 ($\Pi_1$)}: Determine the plane containing $L_1$ and the point $P$.
+    \item \textbf{Plane 2 ($\Pi_2$)}: Determine the plane containing $L_2$ and the point $P$.
+    \item \textbf{Line of Intersection}: The required transversal line is the line of intersection of planes $\Pi_1$ and $\Pi_2$:
+    \begin{equation}
+        \Pi_1 = 0 = \Pi_2.
+    \end{equation}
+    Since this line lies in $\Pi_1$, it intersects $L_1$. Since it lies in $\Pi_2$, it intersects $L_2$. Since both planes pass through $P$, the line passes through $P$.
+\end{enumerate}
+
+\subsection{Transversal Parallel to a Given Line}
+If the line must be parallel to a given direction $(l, m, n)$:
+\begin{enumerate}
+    \item Find plane $\Pi_1$ containing $L_1$ and parallel to direction $(l, m, n)$.
+    \item Find plane $\Pi_2$ containing $L_2$ and parallel to direction $(l, m, n)$.
+    \item The line of intersection $\Pi_1 = 0 = \Pi_2$ is the required line.
+\end{enumerate}
+
+% =========================================================================
+% PAGE 46
+% =========================================================================
+\section{Page 46: Skew Lines and the Concept of Shortest Distance}
+\label{sec:page46}
+
+\begin{conceptbox}[Manuscript Overview: Page 46]
+Page 46 introduces \textbf{skew lines}, establishes that there exists a unique common perpendicular between them, and defines the \textbf{Shortest Distance} (S.D.).
+\end{conceptbox}
+
+\subsection{Definition of Skew Lines}
+\begin{conceptbox}[Skew Lines]
+Two straight lines in three-dimensional space which are neither parallel nor intersecting are called \textbf{skew lines} (or non-coplanar lines).
+\end{conceptbox}
+
+\subsection{The Common Perpendicular}
+\begin{theorembox}[Existence and Uniqueness of the Common Perpendicular]
+For any two non-parallel, non-intersecting lines $L_1$ and $L_2$ in space, there exists a unique straight line segment $GH$ which intersects both lines perpendicularly. The length of this segment $GH$ is the \textbf{shortest distance} between $L_1$ and $L_2$.
+\end{theorembox}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth, 3d view={120}{20}]
+    % Two parallel planes enclosing skew lines
+    \fill[primary!5, opacity=0.8] (-3,-2,2) -- (3,-2,2) -- (3,2,2) -- (-3,2,2) -- cycle;
+    \fill[secondary!5, opacity=0.8] (-3,-2,-1) -- (3,-2,-1) -- (3,2,-1) -- (-3,2,-1) -- cycle;
+
+    \draw[dashed, gray] (-3,-2,2) -- (3,-2,2) -- (3,2,2) -- (-3,2,2) -- cycle;
+    \draw[dashed, gray] (-3,-2,-1) -- (3,-2,-1) -- (3,2,-1) -- (-3,2,-1) -- cycle;
+
+    % Line L1 in top plane
+    \draw[very thick, primary] (-2.5, -1.2, 2) -- (2.5, 1.2, 2) node[right] {$L_1$};
+    \coordinate (G) at (0,0,2);
+    \fill[primary] (G) circle (2pt) node[above right] {$G$};
+
+    % Line L2 in bottom plane
+    \draw[very thick, secondary] (-2, 1.5, -1) -- (2, -1.5, -1) node[right] {$L_2$};
+    \coordinate (H) at (0,0,-1);
+    \fill[secondary] (H) circle (2pt) node[below right] {$H$};
+
+    % Common perpendicular GH
+    \draw[very thick, accent] (H) -- (G) node[midway, right] {$d = GH \text{ (S.D.)}$};
+
+    % Right angle markers
+    \draw[thick, accent] (0,0.3,2) -- (0.3,0.3,2) -- (0.3,0,2);
+    \draw[thick, accent] (0,0.3,-1) -- (0.3,0.3,-1) -- (0.3,0,-1);
+\end{tikzpicture}
+\end{center}
+
+% =========================================================================
+% PAGE 47
+% =========================================================================
+\section{Page 47: Geometric Configuration and Direction of the Common Perpendicular}
+\label{sec:page47}
+
+\begin{conceptbox}[Manuscript Overview: Page 47]
+Page 47 derives the direction cosines $(\lambda, \mu, \nu)$ of the common perpendicular to two skew lines.
+\end{conceptbox}
+
+\subsection{Direction Cosines of the Common Perpendicular}
+Let the two skew lines be:
+\begin{align}
+    L_1 &: \frac{x - x_1}{l_1} = \frac{y - y_1}{m_1} = \frac{z - z_1}{n_1}, \\
+    L_2 &: \frac{x - x_2}{l_2} = \frac{y - y_2}{m_2} = \frac{z - z_2}{n_2}.
+\end{align}
+Let $(\lambda, \mu, \nu)$ be the direction cosines of the line of shortest distance $GH$.
+Since $GH \perp L_1$ and $GH \perp L_2$:
+\begin{align}
+    \lambda l_1 + \mu m_1 + \nu n_1 &= 0, \label{eq:p47_gh1} \\
+    \lambda l_2 + \mu m_2 + \nu n_2 &= 0. \label{eq:p47_gh2}
+\end{align}
+By the method of cross-multiplication:
+\begin{equation}
+    \frac{\lambda}{m_1 n_2 - m_2 n_1} = \frac{\mu}{n_1 l_2 - n_2 l_1} = \frac{\nu}{l_1 m_2 - l_2 m_1} = k.
+\end{equation}
+Since $\lambda^2 + \mu^2 + \nu^2 = 1$:
+\begin{equation}
+    k = \frac{1}{\sqrt{(m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2 + (l_1 m_2 - l_2 m_1)^2}} = \frac{1}{\sin\theta}
+\end{equation}
+where $\theta$ is the angle between $L_1$ and $L_2$ (Page 23).
+Thus:
+\begin{equation}
+    \boxed{\lambda = \frac{m_1 n_2 - m_2 n_1}{\sin\theta}, \quad \mu = \frac{n_1 l_2 - n_2 l_1}{\sin\theta}, \quad \nu = \frac{l_1 m_2 - l_2 m_1}{\sin\theta}}
+\end{equation}
+
+% =========================================================================
+% PAGE 48
+% =========================================================================
+\section{Page 48: Analytical Derivation of the Magnitude of Shortest Distance}
+\label{sec:page48}
+
+\begin{conceptbox}[Manuscript Overview: Page 48]
+Page 48 delivers the complete analytical derivation of the formula for the magnitude of the shortest distance between two skew lines.
+\end{conceptbox}
+
+\begin{theorembox}[Magnitude of Shortest Distance (S.D.)]
+The shortest distance $d$ between the skew lines $L_1$ and $L_2$ is:
+\begin{equation}
+    \boxed{d = \frac{\left|\begin{matrix}
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{matrix}\right|}{\sqrt{(m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2 + (l_1 m_2 - l_2 m_1)^2}}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $P(x_1, y_1, z_1)$ be a point on $L_1$ and $Q(x_2, y_2, z_2)$ be a point on $L_2$.
+The common perpendicular segment $GH$ is perpendicular to both lines.
+Hence, the length $d = GH$ is equal to the orthogonal projection of the displacement segment $PQ$ onto the directed line $GH$ whose direction cosines are $(\lambda, \mu, \nu)$ (Page 20):
+\begin{equation}
+    d = |\text{Proj}_{GH}(\vec{PQ})| = |\lambda(x_2 - x_1) + \mu(y_2 - y_1) + \nu(z_2 - z_1)|.
+\end{equation}
+Substituting the expressions for $\lambda, \mu, \nu$ from Page 47:
+\begin{align}
+    d &= \left| (x_2 - x_1)\frac{m_1 n_2 - m_2 n_1}{\sin\theta} + (y_2 - y_1)\frac{n_1 l_2 - n_2 l_1}{\sin\theta} + (z_2 - z_1)\frac{l_1 m_2 - l_2 m_1}{\sin\theta} \right| \nonumber\\
+    &= \frac{1}{\sin\theta} \left| (x_2 - x_1)(m_1 n_2 - m_2 n_1) + (y_2 - y_1)(n_1 l_2 - n_2 l_1) + (z_2 - z_1)(l_1 m_2 - l_2 m_1) \right|.
+\end{align}
+Recognizing the numerator as the expansion of a $3 \times 3$ determinant:
+\begin{equation}
+    d = \frac{\left|\begin{matrix}
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{matrix}\right|}{\sqrt{(m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2 + (l_1 m_2 - l_2 m_1)^2}}.
+\end{equation}
+\end{proof}
+
+\begin{notebox}[Intersection as a Degenerate Case ($d = 0$)]
+If the two lines intersect, the shortest distance between them is zero:
+\begin{equation}
+    d = 0 \iff \begin{vmatrix}
+    x_2 - x_1 & y_2 - y_1 & z_2 - z_1 \\
+    l_1 & m_1 & n_1 \\
+    l_2 & m_2 & n_2
+    \end{vmatrix} = 0.
+\end{equation}
+This perfectly reproduces the coplanarity condition established on Page 42!
+\end{notebox}
+
+% =========================================================================
+% PAGE 49
+% =========================================================================
+\section{Page 49: Equations of the Line of Shortest Distance}
+\label{sec:page49}
+
+\begin{conceptbox}[Manuscript Overview: Page 49]
+Page 49 constructs the equations of the actual straight line containing the common perpendicular $GH$, expressed as the intersection of two planes.
+\end{conceptbox}
+
+\begin{theorembox}[Equations of the Line of Shortest Distance]
+The line of shortest distance between $L_1$ and $L_2$ is represented by the pair of planes:
+\begin{equation}
+    \boxed{\begin{vmatrix}
+    x - x_1 & y - y_1 & z - z_1 \\
+    l_1 & m_1 & n_1 \\
+    \lambda & \mu & \nu
+    \end{vmatrix} = 0 \quad \text{and} \quad
+    \begin{vmatrix}
+    x - x_2 & y - y_2 & z - z_2 \\
+    l_2 & m_2 & n_2 \\
+    \lambda & \mu & \nu
+    \end{vmatrix} = 0}
+\end{equation}
+where $(\lambda, \mu, \nu)$ are the direction ratios of the common perpendicular.
+\end{theorembox}
+
+\begin{proof}
+The line of shortest distance $GH$ intersects $L_1$ at $G$ and is perpendicular to $L_1$.
+Thus, $GH$ and $L_1$ are coplanar lines intersecting at $G$.
+The plane containing both $L_1$ and $GH$ passes through $(x_1, y_1, z_1)$ and has directions $(l_1, m_1, n_1)$ and $(\lambda, \mu, \nu)$. Its equation is:
+\begin{equation}
+    \Pi_1: \begin{vmatrix}
+    x - x_1 & y - y_1 & z - z_1 \\
+    l_1 & m_1 & n_1 \\
+    \lambda & \mu & \nu
+    \end{vmatrix} = 0.
+\end{equation}
+Similarly, $GH$ intersects $L_2$ at $H$ and is perpendicular to $L_2$.
+The plane containing both $L_2$ and $GH$ passes through $(x_2, y_2, z_2)$ and has directions $(l_2, m_2, n_2)$ and $(\lambda, \mu, \nu)$. Its equation is:
+\begin{equation}
+    \Pi_2: \begin{vmatrix}
+    x - x_2 & y - y_2 & z - z_2 \\
+    l_2 & m_2 & n_2 \\
+    \lambda & \mu & \nu
+    \end{vmatrix} = 0.
+\end{equation}
+Since the line $GH$ lies in both planes $\Pi_1$ and $\Pi_2$, it is precisely their line of intersection $\Pi_1 = 0 = \Pi_2$.
+\end{proof}
+
+% =========================================================================
+% PAGE 50
+% =========================================================================
+\section{Page 50: Comprehensive Solved Examination Problem on Skew Lines}
+\label{sec:page50}
+
+\begin{conceptbox}[Manuscript Overview: Page 50]
+Page 50 works through an extensive university examination problem, calculating the shortest distance between two given skew lines.
+\end{conceptbox}
+
+\begin{examplebox}[Examination Problem: Shortest Distance Calculation]
+Find the magnitude of the shortest distance between the lines:
+\begin{align}
+    L_1 &: \frac{x - 3}{3} = \frac{y - 8}{-1} = \frac{z - 3}{1}, \label{eq:ex_L1} \\
+    L_2 &: \frac{x + 3}{-3} = \frac{y + 7}{2} = \frac{z - 6}{4}. \label{eq:ex_L2}
+\end{align}
+\end{examplebox}
+
+\begin{proof}[Step-by-Step Analytical Solution]
+\textbf{Step 1: Identify Points and Direction Ratios}:
+\begin{align}
+    \text{From } L_1 &: \quad P_1 = (3, 8, 3), \quad (l_1, m_1, n_1) = (3, -1, 1), \\
+    \text{From } L_2 &: \quad P_2 = (-3, -7, 6), \quad (l_2, m_2, n_2) = (-3, 2, 4).
+\end{align}
+
+\textbf{Step 2: Direction Ratios of the Common Perpendicular}:
+Let the common perpendicular have direction ratios $(\lambda, \mu, \nu)$:
+\begin{align}
+    3\lambda - \mu + \nu &= 0, \\
+    -3\lambda + 2\mu + 4\nu &= 0.
+\end{align}
+Applying the cross-multiplication rule:
+\begin{align}
+    \frac{\lambda}{(-1)(4) - (1)(2)} &= \frac{\mu}{(1)(-3) - (3)(4)} = \frac{\nu}{(3)(2) - (-1)(-3)} \nonumber\\
+    \frac{\lambda}{-4 - 2} &= \frac{\mu}{-3 - 12} = \frac{\nu}{6 - 3} \nonumber\\
+    \frac{\lambda}{-6} &= \frac{\mu}{-15} = \frac{\nu}{3}.
+\end{align}
+Dividing by $-3$:
+\begin{equation}
+    \boxed{\frac{\lambda}{2} = \frac{\mu}{5} = \frac{\nu}{-1}}
+\end{equation}
+Thus, a set of direction ratios for the common perpendicular is $(a, b, c) = (2, 5, -1)$.
+
+\textbf{Step 3: Normalize to Direction Cosines}:
+\begin{align}
+    \sqrt{a^2 + b^2 + c^2} &= \sqrt{2^2 + 5^2 + (-1)^2} = \sqrt{4 + 25 + 1} = \sqrt{30}. \\
+    (\lambda, \mu, \nu) &= \left(\frac{2}{\sqrt{30}}, \; \frac{5}{\sqrt{30}}, \; \frac{-1}{\sqrt{30}}\right).
+\end{align}
+
+\textbf{Step 4: Vector Connecting Fixed Points}:
+\begin{equation}
+    \vec{P_1 P_2} = (-3 - 3)\,\hat{i} + (-7 - 8)\,\hat{j} + (6 - 3)\,\hat{k} = -6\,\hat{i} - 15\,\hat{j} + 3\,\hat{k}.
+\end{equation}
+
+\textbf{Step 5: Compute the Shortest Distance}:
+\begin{align}
+    d &= |\lambda(x_2 - x_1) + \mu(y_2 - y_1) + \nu(z_2 - z_1)| \nonumber\\
+    &= \left| \frac{2}{\sqrt{30}}(-6) + \frac{5}{\sqrt{30}}(-15) + \frac{-1}{\sqrt{30}}(3) \right| \nonumber\\
+    &= \frac{|-12 - 75 - 3|}{\sqrt{30}} = \frac{|-90|}{\sqrt{30}} = \frac{90}{\sqrt{30}}.
+\end{align}
+Rationalizing the denominator:
+\begin{equation}
+    \boxed{d = \frac{90\sqrt{30}}{30} = 3\sqrt{30}}
+\end{equation}
+\end{proof}
+
+% =========================================================================
+% PAGE 51
+% =========================================================================
+\section{Page 51: Equations of the Line of S.D. and Feet of Common Perpendicular}
+\label{sec:page51}
+
+\begin{conceptbox}[Manuscript Overview: Page 51]
+Page 51 completes the examination problem by:
+\begin{enumerate}[noitemsep]
+    \item Finding the Cartesian equations of the line of shortest distance.
+    \item Determining the exact spatial coordinates of the points of intersection (feet) $G$ and $H$.
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{Equations of the Line of Shortest Distance}
+Applying the two-plane representation from Page 49 with $(\lambda, \mu, \nu) \sim (2, 5, -1)$:
+\begin{enumerate}
+    \item \textbf{Plane 1 (Containing $L_1$ and $GH$)}:
+    \begin{equation}
+        \begin{vmatrix}
+        x - 3 & y - 8 & z - 3 \\
+        3 & -1 & 1 \\
+        2 & 5 & -1
+        \end{vmatrix} = 0.
+    \end{equation}
+    Expanding along row 1:
+    \begin{align}
+        (x - 3)[(-1)(-1) - (1)(5)] - (y - 8)[(3)(-1) - (1)(2)] + (z - 3)[(3)(5) - (-1)(2)] &= 0 \nonumber\\
+        (x - 3)(1 - 5) - (y - 8)(-3 - 2) + (z - 3)(15 + 2) &= 0 \nonumber\\
+        -4(x - 3) + 5(y - 8) + 17(z - 3) &= 0 \nonumber\\
+        -4x + 12 + 5y - 40 + 17z - 51 &= 0 \nonumber\\
+        \Aboxed{4x - 5y - 17z + 79 &= 0} \label{eq:p51_pl1}
+    \end{align}
+    \item \textbf{Plane 2 (Containing $L_2$ and $GH$)}:
+    \begin{equation}
+        \begin{vmatrix}
+        x + 3 & y + 7 & z - 6 \\
+        -3 & 2 & 4 \\
+        2 & 5 & -1
+        \end{vmatrix} = 0.
+    \end{equation}
+    Expanding along row 1:
+    \begin{align}
+        (x + 3)[(2)(-1) - (4)(5)] - (y + 7)[(-3)(-1) - (4)(2)] + (z - 6)[(-3)(5) - (2)(2)] &= 0 \nonumber\\
+        (x + 3)(-2 - 20) - (y + 7)(3 - 8) + (z - 6)(-15 - 4) &= 0 \nonumber\\
+        -22(x + 3) + 5(y + 7) - 19(z - 6) &= 0 \nonumber\\
+        -22x - 66 + 5y + 35 - 19z + 114 &= 0 \nonumber\\
+        \Aboxed{22x - 5y + 19z - 83 &= 0} \label{eq:p51_pl2}
+    \end{align}
+\end{enumerate}
+The equations of the line of shortest distance are given by \eqref{eq:p51_pl1} and \eqref{eq:p51_pl2} simultaneously.
+
+\subsection{Coordinates of the Feet $G$ and $H$}
+Let $G$ be a point on $L_1$ and $H$ be a point on $L_2$:
+\begin{align}
+    G &= (3 + 3r, \; 8 - r, \; 3 + r), \\
+    H &= (-3 - 3s, \; -7 + 2s, \; 6 + 4s).
+\end{align}
+The direction ratios of the segment $GH$ are:
+\begin{equation}
+    \vec{GH} = H - G = \bigl(-6 - 3s - 3r, \; -15 + 2s + r, \; 3 + 4s - r\bigr).
+\end{equation}
+Since $GH$ is along the common perpendicular with DRs $(2, 5, -1)$:
+\begin{equation}
+    \frac{-6 - 3s - 3r}{2} = \frac{-15 + 2s + r}{5} = \frac{3 + 4s - r}{-1} = k.
+\end{equation}
+Solving this linear system yields $r = 0$ and $s = 0$!
+Hence:
+\begin{equation}
+    \boxed{G = (3, 8, 3), \quad H = (-3, -7, 6)}
+\end{equation}
+\textbf{Verification}:
+\begin{equation}
+    GH = \sqrt{(-3-3)^2 + (-7-8)^2 + (6-3)^2} = \sqrt{(-6)^2 + (-15)^2 + 3^2} = \sqrt{36 + 225 + 9} = \sqrt{270} = 3\sqrt{30}.
+\end{equation}
+The distance matches the formula from Page 50 precisely!
+
+% =========================================================================
+% PAGE 52
+% =========================================================================
+\section{Page 52: Distance Between Parallel Lines and Chapter Summary}
+\label{sec:page52}
+
+\begin{conceptbox}[Manuscript Overview: Page 52]
+Page 52 concludes the analytical treatment of lines by considering the case of \textbf{parallel lines} (where $\vec{b}_1 \times \vec{b}_2 = \vec{0}$) and provides a comparative summary.
+\end{conceptbox}
+
+\subsection{Shortest Distance Between Parallel Lines}
+If two lines $L_1$ and $L_2$ are parallel, their direction ratios are proportional:
+\begin{align}
+    L_1 &: \frac{x - x_1}{l} = \frac{y - y_1}{m} = \frac{z - z_1}{n}, \\
+    L_2 &: \frac{x - x_2}{l} = \frac{y - y_2}{m} = \frac{z - z_2}{n}.
+\end{align}
+Here, the lines lie in a common plane, and the cross product of their directions vanishes.
+The perpendicular distance $d$ between them is obtained by taking the projection of $\vec{P_1 P_2}$ perpendicular to the direction vector $\hat{u}(l, m, n)$:
+
+\begin{theorembox}[Distance Between Parallel Lines]
+The perpendicular distance between two parallel lines with unit direction vector $\hat{u} = l\,\hat{i} + m\,\hat{j} + n\,\hat{k}$ is:
+\begin{equation}
+    \boxed{d = |\vec{P_1 P_2} \times \hat{u}| = \frac{\sqrt{\begin{vmatrix} y_2-y_1 & z_2-z_1 \\ m & n \end{vmatrix}^2 + \begin{vmatrix} z_2-z_1 & x_2-x_1 \\ n & l \end{vmatrix}^2 + \begin{vmatrix} x_2-x_1 & y_2-y_1 \\ l & m \end{vmatrix}^2}}{\sqrt{l^2 + m^2 + n^2}}}
+\end{equation}
+\end{theorembox}
+
+\subsection{Summary of Spatial Line Geometry}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Geometric Entity} & \textbf{Standard Analytical Expression} \\
+\hline
+Symmetrical line & $\frac{x-x_1}{l} = \frac{y-y_1}{m} = \frac{z-z_1}{n} = r$ \\
+General point on line & $(x_1 + lr, \; y_1 + mr, \; z_1 + nr)$ \\
+Angle with plane & $\sin\theta = \frac{Al+Bm+Cn}{\sqrt{\sum A^2}\sqrt{\sum l^2}}$ \\
+Coplanarity condition & $\det[\vec{P_2}-\vec{P_1}, \; \vec{b}_1, \; \vec{b}_2] = 0$ \\
+Shortest distance (skew) & $d = \frac{|\det[\vec{P_2}-\vec{P_1}, \; \vec{b}_1, \; \vec{b}_2]|}{|\vec{b}_1 \times \vec{b}_2|}$ \\
+Distance (parallel) & $d = \frac{|(\vec{P_2}-\vec{P_1}) \times \vec{b}|}{|\vec{b}|}$ \\
+\hline
+\end{tabular}
+\end{center}

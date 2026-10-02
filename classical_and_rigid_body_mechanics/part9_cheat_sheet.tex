@@ -1,0 +1,63 @@
+\chapter{Master Formula Cheat Sheet}
+
+\section{Statics, Friction \& Virtual Work}
+
+\begin{keybox}[Statics \& Equilibrium Reference]
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Coplanar Resultant \& Line of Action}:
+    \item \[ R = \sqrt{X^2 + Y^2}, \qquad \tan\theta = \frac{Y}{X}, \qquad y X - x Y = G \]
+    
+    \item \textbf{Lami's Theorem}:
+    \item \[ \frac{P}{\sin\alpha} = \frac{Q}{\sin\beta} = \frac{R}{\sin\gamma} \]
+    
+    \item \textbf{Limiting Friction \& Angle of Friction}:
+    \item \[ F_{\max} = \mu N, \qquad \tan\lambda = \mu, \qquad P_{\min} = W\tan(\alpha-\lambda) \]
+    
+    \item \textbf{Principle of Virtual Work}:
+    \item \[ \sum \delta W = 0 \quad (\text{Strings: } -T\delta l, \quad \text{Rods: } S\delta x, \quad \text{Gravity: } -W\delta y_{cg}) \]
+    
+    \item \textbf{Equilibrium Stability}:
+    \item \[ \frac{dV}{d\theta} = 0 \implies \text{Equilibrium}, \qquad \frac{d^2V}{d\theta^2} > 0 \implies \text{Stable (Minimum } V) \]
+\end{enumerate}
+\end{keybox}
+
+\section{Common Catenary \& Kinematics}
+
+\begin{keybox}[Catenary \& 2D Kinematics Reference]
+\begin{enumerate}[leftmargin=1.5em, start=6]
+    \item \textbf{Common Catenary Formulas}:
+    \item \[ s = c\tan\psi, \qquad y = c\cosh(x/c), \qquad y^2 = c^2+s^2, \qquad T = wy, \qquad T_0 = wc \]
+    
+    \item \textbf{Planar Kinematics (Polar \& Intrinsic)}:
+    \item \[ v_r = \dot{r}, \qquad v_\theta = r\dot{\theta}, \qquad a_r = \ddot{r}-r\dot{\theta}^2, \qquad a_\theta = \frac{1}{r}\frac{d}{dt}(r^2\dot{\theta}) \]
+    \item \[ v_t = \dot{s}, \qquad v_n = 0, \qquad a_t = \dot{v} = v\frac{dv}{ds}, \qquad a_n = \frac{v^2}{\rho} = v\dot{\psi} \]
+\end{enumerate}
+\end{keybox}
+
+\section{Simple Harmonic Motion \& Central Orbits}
+
+\begin{keybox}[SHM, Central Orbits \& Kepler Reference]
+\begin{enumerate}[leftmargin=1.5em, start=8]
+    \item \textbf{Simple Harmonic Motion (SHM)}:
+    \item \[ \ddot{x} = -\mu x \implies v^2 = \mu(a^2-x^2), \qquad T = \frac{2\pi}{\sqrt{\mu}}, \qquad x(t) = a\cos(\sqrt{\mu}t) \]
+    
+    \item \textbf{Central Orbits \& Kepler's Laws}:
+    \item \[ \frac{d^2u}{d\theta^2} + u = \frac{F}{h^2 u^2}, \qquad \frac{h^2}{p^3}\frac{dp}{dr} = F, \qquad T^2 = \left(\frac{4\pi^2}{\mu}\right)a^3 \]
+\end{enumerate}
+\end{keybox}
+
+\section{Constrained Motion, 3D Rigid Bodies \& Moving Frames}
+
+\begin{keybox}[Constrained Motion, 3D Dynamics \& Rotating Frames Reference]
+\begin{enumerate}[leftmargin=1.5em, start=10]
+    \item \textbf{Constrained Vertical Motion}:
+    \item \[ \text{Circle: } v^2 = u^2 - 2ag(1-\cos\theta), \qquad R = m\left[\frac{u^2}{a} - g(3-2\cos\theta)\right], \qquad u_{\text{loop}} \ge \sqrt{5ag} \]
+    \item \[ \text{Cycloid: } s = 4a\sin\psi \implies \ddot{s} = -\frac{g}{4a}s \implies T = 4\pi\sqrt{\frac{a}{g}} \]
+    
+    \item \textbf{Wrench \& Poinsot's Central Axis}:
+    \item \[ p = \frac{XL + YM + ZN}{X^2 + Y^2 + Z^2}, \qquad \frac{L - (yZ - zY)}{X} = \frac{M - (zX - xZ)}{Y} = \frac{N - (xY - yX)}{Z} = p \]
+    
+    \item \textbf{Coriolis \& Centrifugal Forces}:
+    \item \[ \mathbf{F}_{\text{Coriolis}} = -2m(\boldsymbol{\omega} \times \mathbf{v}_{\text{rel}}), \qquad \mathbf{F}_{\text{centrifugal}} = m\omega^2 \mathbf{r} \]
+\end{enumerate}
+\end{keybox}

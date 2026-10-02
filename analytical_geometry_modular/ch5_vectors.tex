@@ -1,0 +1,541 @@
+\chapter{Vector Treatment of Planes and Lines (Pages 53--62)}
+\label{ch:vectors}
+
+% =========================================================================
+% PAGE 53
+% =========================================================================
+\section{Page 53: Vector Equation of a Plane --- Normal Form and One-Point Form}
+\label{sec:page53}
+
+\begin{conceptbox}[Manuscript Overview: Page 53]
+Page 53 introduces the vector algebraic formulation of three-dimensional planes. It develops the vector normal form $\vec{r} \cdot \hat{n} = p$ and the one-point vector form $(\vec{r} - \vec{a}) \cdot \vec{n} = 0$, linking them directly with Cartesian coordinates.
+\end{conceptbox}
+
+\subsection{The Vector Normal Form of a Plane}
+\begin{theorembox}[Vector Normal Form]
+The vector equation of a plane situated at a perpendicular distance $p$ from the origin, with unit normal vector $\hat{n}$ pointing from the origin toward the plane, is:
+\begin{equation}
+    \boxed{\vec{r} \cdot \hat{n} = p} \quad (p \ge 0)
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $O$ be the origin of vectors.
+Draw $ON$ perpendicular to the given plane, meeting it at $N$.
+The length of $ON$ is $p \ge 0$, and the unit vector in the direction of $\vec{ON}$ is $\hat{n}$, so:
+\begin{equation}
+    \vec{ON} = p\,\hat{n}.
+\end{equation}
+Let $P$ be any arbitrary point on the plane with position vector $\vec{r} = \vec{OP}$.
+Join $NP$. Since $ON$ is normal to the entire plane, it is perpendicular to every vector lying in the plane:
+\begin{equation}
+    \vec{NP} \perp \vec{ON} \iff \vec{NP} \cdot \vec{ON} = 0.
+\end{equation}
+From vector triangle $\triangle ONP$:
+\begin{equation}
+    \vec{NP} = \vec{OP} - \vec{ON} = \vec{r} - p\,\hat{n}.
+\end{equation}
+Taking the scalar product with $\hat{n}$:
+\begin{align}
+    (\vec{r} - p\,\hat{n}) \cdot \hat{n} &= 0 \nonumber\\
+    \vec{r} \cdot \hat{n} - p(\hat{n} \cdot \hat{n}) &= 0.
+\end{align}
+Since $\hat{n}$ is a unit vector, $\hat{n} \cdot \hat{n} = |\hat{n}|^2 = 1$. Therefore:
+\begin{equation}
+    \boxed{\vec{r} \cdot \hat{n} = p}
+\end{equation}
+\end{proof}
+
+\subsection{Connection with Cartesian Coordinates}
+Let $\vec{r} = x\,\hat{i} + y\,\hat{j} + z\,\hat{k}$, and let $\hat{n} = l\,\hat{i} + m\,\hat{j} + n\,\hat{k}$ (where $l^2+m^2+n^2=1$).
+Then:
+\begin{equation}
+    \vec{r} \cdot \hat{n} = (x\,\hat{i} + y\,\hat{j} + z\,\hat{k}) \cdot (l\,\hat{i} + m\,\hat{j} + n\,\hat{k}) = lx + my + nz.
+\end{equation}
+Substituting this into $\vec{r} \cdot \hat{n} = p$ recovers the Cartesian normal form of Page 27:
+\begin{equation}
+    lx + my + nz = p.
+\end{equation}
+
+\subsection{Plane Passing Through a Point with Given Normal}
+\begin{theorembox}[One-Point Vector Form]
+The vector equation of a plane passing through a point $A$ with position vector $\vec{a}$ and perpendicular to a non-zero normal vector $\vec{n}$ is:
+\begin{equation}
+    \boxed{(\vec{r} - \vec{a}) \cdot \vec{n} = 0 \iff \vec{r} \cdot \vec{n} = \vec{a} \cdot \vec{n}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $P(\vec{r})$ be any point on the plane.
+The displacement vector $\vec{AP} = \vec{r} - \vec{a}$ lies entirely in the plane.
+Since $\vec{n}$ is normal to the plane, $\vec{AP} \perp \vec{n} \implies (\vec{r} - \vec{a}) \cdot \vec{n} = 0$.
+Expanding the dot product gives $\vec{r} \cdot \vec{n} = \vec{a} \cdot \vec{n} = d$.
+\end{proof}
+
+% =========================================================================
+% PAGE 54
+% =========================================================================
+\section{Page 54: General Vector Plane Equations and Perpendicular Distance}
+\label{sec:page54}
+
+\begin{conceptbox}[Manuscript Overview: Page 54]
+Page 54 investigates the general vector equation $\vec{r} \cdot \vec{n} = d$ (where $\vec{n}$ is not necessarily a unit vector), its normalization, and the vector formula for the perpendicular distance from an arbitrary point to a plane.
+\end{conceptbox}
+
+\subsection{General Vector Equation and Normalization}
+The general linear vector equation of a plane is:
+\begin{equation}
+    \vec{r} \cdot \vec{n} = d
+\end{equation}
+where $\vec{n} = A\,\hat{i} + B\,\hat{j} + C\,\hat{k}$ is any normal vector and $d$ is a scalar constant.
+Dividing both sides by the magnitude $|\vec{n}| = \sqrt{A^2 + B^2 + C^2}$:
+\begin{equation}
+    \vec{r} \cdot \left(\frac{\vec{n}}{|\vec{n}|}\right) = \frac{d}{|\vec{n}|} \iff \vec{r} \cdot \hat{n} = p
+\end{equation}
+where $p = \frac{|d|}{|\vec{n}|}$ represents the true perpendicular distance from the origin.
+
+\subsection{Perpendicular Distance of a Point from a Vector Plane}
+\begin{theorembox}[Perpendicular Distance to a Plane in Vector Form]
+The perpendicular distance $D$ of a point $P$ with position vector $\vec{a}$ from the plane $\vec{r} \cdot \vec{n} = d$ is:
+\begin{equation}
+    \boxed{D = \frac{|\vec{a} \cdot \vec{n} - d|}{|\vec{n}|}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $\Pi$ be the plane $\vec{r} \cdot \vec{n} = d$, and let $N$ be the foot of the perpendicular from $P(\vec{a})$ to $\Pi$.
+The displacement vector $\vec{PN}$ is parallel to the normal $\vec{n}$, so $\vec{PN} = \pm D\,\hat{n} = \pm D\,\frac{\vec{n}}{|\vec{n}|}$.
+The position vector of $N$ is:
+\begin{equation}
+    \vec{r}_N = \vec{a} + \vec{PN} = \vec{a} \pm D\,\frac{\vec{n}}{|\vec{n}|}.
+\end{equation}
+Since $N$ lies on the plane $\Pi$, its position vector satisfies $\vec{r}_N \cdot \vec{n} = d$:
+\begin{align}
+    \left(\vec{a} \pm D\,\frac{\vec{n}}{|\vec{n}|}\right) \cdot \vec{n} &= d \nonumber\\
+    \vec{a} \cdot \vec{n} \pm D\,\frac{|\vec{n}|^2}{|\vec{n}|} &= d \nonumber\\
+    \vec{a} \cdot \vec{n} \pm D|\vec{n}| &= d \nonumber\\
+    \pm D|\vec{n}| &= d - \vec{a} \cdot \vec{n}.
+\end{align}
+Taking the absolute value on both sides:
+\begin{equation}
+    D|\vec{n}| = |\vec{a} \cdot \vec{n} - d| \implies \boxed{D = \frac{|\vec{a} \cdot \vec{n} - d|}{|\vec{n}|}}.
+\end{equation}
+\end{proof}
+
+\subsection{Distance Between Two Parallel Planes in Vector Form}
+If two planes are parallel, their normals are parallel and can be taken as the same vector $\vec{n}$:
+\begin{equation}
+    \Pi_1: \vec{r} \cdot \vec{n} = d_1, \quad \Pi_2: \vec{r} \cdot \vec{n} = d_2.
+\end{equation}
+The perpendicular distance between them is:
+\begin{equation}
+    \boxed{D = \frac{|d_1 - d_2|}{|\vec{n}|}}
+\end{equation}
+
+% =========================================================================
+% PAGE 55
+% =========================================================================
+\section{Page 55: Angle Between Two Planes and Plane Through Three Points}
+\label{sec:page55}
+
+\begin{conceptbox}[Manuscript Overview: Page 55]
+Page 55 develops the vector formulation for:
+\begin{enumerate}[noitemsep]
+    \item The angle between two planes and the conditions of parallelism and perpendicularity.
+    \item The vector equation of a plane passing through three non-collinear points.
+\end{enumerate}
+\end{conceptbox}
+
+\subsection{Angle Between Two Planes}
+\begin{theorembox}[Angle Between Two Vector Planes]
+The angle $\theta$ between the two planes $\vec{r} \cdot \vec{n}_1 = d_1$ and $\vec{r} \cdot \vec{n}_2 = d_2$ is equal to the angle between their normal vectors $\vec{n}_1$ and $\vec{n}_2$:
+\begin{equation}
+    \boxed{\cos\theta = \frac{\vec{n}_1 \cdot \vec{n}_2}{|\vec{n}_1|\,|\vec{n}_2|}}
+\end{equation}
+\end{theorembox}
+
+\begin{notebox}[Parallelism and Perpendicularity]
+\begin{itemize}[noitemsep]
+    \item \textbf{Perpendicular Planes} ($\theta = 90^\circ$): $\cos\theta = 0 \iff \boxed{\vec{n}_1 \cdot \vec{n}_2 = 0}$.
+    \item \textbf{Parallel Planes} ($\theta = 0$ or $\pi$): $\vec{n}_1$ is parallel to $\vec{n}_2 \iff \boxed{\vec{n}_1 \times \vec{n}_2 = \vec{0}}$ or $\vec{n}_1 = \lambda \vec{n}_2$.
+\end{itemize}
+\end{notebox}
+
+\subsection{Plane Passing Through Three Points in Vector Form}
+\begin{theorembox}[Plane Through Three Points]
+The vector equation of the plane passing through three non-collinear points with position vectors $\vec{a}, \vec{b}, \vec{c}$ is:
+\begin{equation}
+    \boxed{(\vec{r} - \vec{a}) \cdot \bigl[(\vec{b} - \vec{a}) \times (\vec{c} - \vec{a})\bigr] = 0 \iff [\vec{r} - \vec{a}, \; \vec{b} - \vec{a}, \; \vec{c} - \vec{a}] = 0}
+\end{equation}
+In expanded scalar triple product notation:
+\begin{equation}
+    \boxed{\vec{r} \cdot (\vec{a} \times \vec{b} + \vec{b} \times \vec{c} + \vec{c} \times \vec{a}) = [\vec{a}, \vec{b}, \vec{c}]}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $A(\vec{a}), B(\vec{b}), C(\vec{c})$ be the three given points in the plane, and let $P(\vec{r})$ be any point on the plane.
+The vectors $\vec{AB} = \vec{b} - \vec{a}$ and $\vec{AC} = \vec{c} - \vec{a}$ both lie in the plane.
+Their vector cross product:
+\begin{equation}
+    \vec{n} = (\vec{b} - \vec{a}) \times (\vec{c} - \vec{a})
+\end{equation}
+is normal to the plane.
+Since the vector $\vec{AP} = \vec{r} - \vec{a}$ also lies in the plane, it is perpendicular to the normal $\vec{n}$:
+\begin{equation}
+    (\vec{r} - \vec{a}) \cdot \vec{n} = 0 \implies (\vec{r} - \vec{a}) \cdot \bigl[(\vec{b} - \vec{a}) \times (\vec{c} - \vec{a})\bigr] = 0.
+\end{equation}
+Expanding the cross product:
+\begin{align}
+    (\vec{b} - \vec{a}) \times (\vec{c} - \vec{a}) &= \vec{b} \times \vec{c} - \vec{b} \times \vec{a} - \vec{a} \times \vec{c} + \vec{a} \times \vec{a} \nonumber\\
+    &= \vec{b} \times \vec{c} + \vec{a} \times \vec{b} + \vec{c} \times \vec{a}.
+\end{align}
+Taking the dot product with $\vec{r} - \vec{a}$:
+\begin{align}
+    \vec{r} \cdot (\vec{a} \times \vec{b} + \vec{b} \times \vec{c} + \vec{c} \times \vec{a}) &= \vec{a} \cdot (\vec{a} \times \vec{b} + \vec{b} \times \vec{c} + \vec{c} \times \vec{a}) \nonumber\\
+    &= \vec{a} \cdot (\vec{a} \times \vec{b}) + \vec{a} \cdot (\vec{b} \times \vec{c}) + \vec{a} \cdot (\vec{c} \times \vec{a}).
+\end{align}
+Since $\vec{a} \cdot (\vec{a} \times \vec{b}) = 0$ and $\vec{a} \cdot (\vec{c} \times \vec{a}) = 0$:
+\begin{equation}
+    \vec{r} \cdot (\vec{a} \times \vec{b} + \vec{b} \times \vec{c} + \vec{c} \times \vec{a}) = [\vec{a}, \vec{b}, \vec{c}].
+\end{equation}
+\end{proof}
+
+% =========================================================================
+% PAGE 56
+% =========================================================================
+\section{Page 56: Vector Family of Planes Through an Intersection Line}
+\label{sec:page56}
+
+\begin{conceptbox}[Manuscript Overview: Page 56]
+Page 56 derives the vector equation representing the family of planes passing through the line of intersection of two given vector planes.
+\end{conceptbox}
+
+\begin{theorembox}[Family of Planes in Vector Form]
+Let two planes be given in vector form by:
+\begin{align}
+    \Pi_1 &: \vec{r} \cdot \vec{n}_1 = d_1, \\
+    \Pi_2 &: \vec{r} \cdot \vec{n}_2 = d_2.
+\end{align}
+The vector equation of any plane passing through their line of intersection is:
+\begin{equation}
+    \boxed{(\vec{r} \cdot \vec{n}_1 - d_1) + \lambda(\vec{r} \cdot \vec{n}_2 - d_2) = 0 \iff \vec{r} \cdot (\vec{n}_1 + \lambda \vec{n}_2) = d_1 + \lambda d_2}
+\end{equation}
+where $\lambda$ is an arbitrary scalar parameter.
+\end{theorembox}
+
+\begin{proof}
+\begin{enumerate}
+    \item The equation $\vec{r} \cdot (\vec{n}_1 + \lambda \vec{n}_2) = d_1 + \lambda d_2$ is linear in $\vec{r}$, with normal vector $\vec{n} = \vec{n}_1 + \lambda \vec{n}_2$. By Page 54, it represents a plane for every value of $\lambda$.
+    \item Let $\vec{r}_0$ be any point on the line of intersection of $\Pi_1$ and $\Pi_2$.
+    Then $\vec{r}_0$ satisfies both equations:
+    \begin{equation}
+        \vec{r}_0 \cdot \vec{n}_1 = d_1 \quad \text{and} \quad \vec{r}_0 \cdot \vec{n}_2 = d_2.
+    \end{equation}
+    Substituting $\vec{r}_0$ into the family equation:
+    \begin{equation}
+        (\vec{r}_0 \cdot \vec{n}_1 - d_1) + \lambda(\vec{r}_0 \cdot \vec{n}_2 - d_2) = (d_1 - d_1) + \lambda(d_2 - d_2) = 0 + \lambda(0) = 0.
+    \end{equation}
+    Thus, every point of the line of intersection lies on the plane.
+\end{enumerate}
+\end{proof}
+
+% =========================================================================
+% PAGE 57
+% =========================================================================
+\section{Page 57: Vector Equations of Dihedral Angle Bisectors}
+\label{sec:page57}
+
+\begin{conceptbox}[Manuscript Overview: Page 57]
+Page 57 translates the theory of dihedral angle bisectors into vector algebra, providing a coordinate-free formulation of the bisector planes.
+\end{conceptbox}
+
+\subsection{Derivation of the Vector Bisector Equations}
+Let two planes be given in vector form:
+\begin{align}
+    \Pi_1 &: \vec{r} \cdot \vec{n}_1 = d_1, \\
+    \Pi_2 &: \vec{r} \cdot \vec{n}_2 = d_2.
+\end{align}
+Let $\vec{r}$ be the position vector of any point lying on a bisecting plane.
+By definition, its perpendicular distances from $\Pi_1$ and $\Pi_2$ must be equal:
+\begin{equation}
+    \frac{|\vec{r} \cdot \vec{n}_1 - d_1|}{|\vec{n}_1|} = \frac{|\vec{r} \cdot \vec{n}_2 - d_2|}{|\vec{n}_2|}.
+\end{equation}
+Removing the absolute value signs yields the two bisecting planes:
+\begin{equation}
+    \boxed{\frac{\vec{r} \cdot \vec{n}_1 - d_1}{|\vec{n}_1|} = \pm \frac{\vec{r} \cdot \vec{n}_2 - d_2|}{|\vec{n}_2|}}
+\end{equation}
+Rewriting in terms of unit normal vectors $\hat{n}_1 = \frac{\vec{n}_1}{|\vec{n}_1|}$ and $\hat{n}_2 = \frac{\vec{n}_2}{|\vec{n}_2|}$, with $p_1 = \frac{d_1}{|\vec{n}_1|}$ and $p_2 = \frac{d_2}{|\vec{n}_2|}$:
+\begin{equation}
+    \boxed{\vec{r} \cdot (\hat{n}_1 \mp \hat{n}_2) = p_1 \mp p_2}
+\end{equation}
+
+\subsection{Orthogonality of the Vector Bisectors}
+The normal vectors to the two bisector planes are $\vec{N}_+ = \hat{n}_1 - \hat{n}_2$ and $\vec{N}_- = \hat{n}_1 + \hat{n}_2$.
+Their scalar product is:
+\begin{equation}
+    \vec{N}_+ \cdot \vec{N}_- = (\hat{n}_1 - \hat{n}_2) \cdot (\hat{n}_1 + \hat{n}_2) = |\hat{n}_1|^2 - |\hat{n}_2|^2 = 1 - 1 = \mathbf{0}.
+\end{equation}
+This confirms that the two bisector planes are mutually orthogonal.
+
+% =========================================================================
+% PAGE 58
+% =========================================================================
+\section{Page 58: Vector Equation of a Straight Line}
+\label{sec:page58}
+
+\begin{conceptbox}[Manuscript Overview: Page 58]
+Page 58 derives the vector equations of a straight line in space: the point-direction parametric form, the cross-product non-parametric form, and the two-point form.
+\end{conceptbox}
+
+\subsection{Point-Direction Vector Form}
+\begin{theorembox}[Vector Equation of a Line]
+The vector equation of a straight line passing through a point $A$ with position vector $\vec{a}$ and parallel to a non-zero vector $\vec{b}$ is:
+\begin{equation}
+    \boxed{\vec{r} = \vec{a} + \lambda \vec{b}, \quad \lambda \in \mathbb{R}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $P$ be any point on the line with position vector $\vec{r} = \vec{OP}$.
+The displacement vector $\vec{AP} = \vec{OP} - \vec{OA} = \vec{r} - \vec{a}$ lies along the line.
+Since the line is parallel to vector $\vec{b}$, the vector $\vec{r} - \vec{a}$ is collinear with $\vec{b}$:
+\begin{equation}
+    \vec{r} - \vec{a} = \lambda \vec{b} \iff \vec{r} = \vec{a} + \lambda \vec{b}.
+\end{equation}
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    \coordinate (O) at (0,0);
+    \coordinate (A) at (1.5, 2.0);
+    \coordinate (B) at (3.5, 1.2);
+
+    % Line L
+    \draw[very thick, primary] ($(A)-1.2*(B)$) -- ($(A)+2.2*(B)$) node[right] {Line $L$};
+
+    % Point P on line
+    \coordinate (P) at ($(A)+1.4*(B)$);
+
+    % Vectors
+    \draw[->, thick, secondary] (O) -- (A) node[midway, left] {$\vec{a}$};
+    \draw[->, thick, secondary] (O) -- (P) node[midway, right] {$\vec{r}$};
+    \draw[->, very thick, accent] (A) -- (P) node[midway, above left] {$\lambda\vec{b}$};
+
+    \fill (O) circle (2pt) node[below left] {$O$};
+    \fill[secondary] (A) circle (2pt) node[above left] {$A(\vec{a})$};
+    \fill[accent] (P) circle (2pt) node[above right] {$P(\vec{r})$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Non-Parametric Cross-Product Form}
+Since $\vec{r} - \vec{a}$ is collinear with $\vec{b}$, their vector cross product must vanish:
+\begin{equation}
+    \boxed{(\vec{r} - \vec{a}) \times \vec{b} = \vec{0} \iff \vec{r} \times \vec{b} = \vec{a} \times \vec{b}}
+\end{equation}
+
+\subsection{Two-Point Vector Form}
+If the line passes through two distinct points $A(\vec{a})$ and $B(\vec{b})$, its direction vector is $\vec{b} - \vec{a}$:
+\begin{equation}
+    \boxed{\vec{r} = \vec{a} + \lambda(\vec{b} - \vec{a}) = (1 - \lambda)\vec{a} + \lambda \vec{b}}
+\end{equation}
+In non-parametric form:
+\begin{equation}
+    \boxed{(\vec{r} - \vec{a}) \times (\vec{b} - \vec{a}) = \vec{0}}
+\end{equation}
+
+% =========================================================================
+% PAGE 59
+% =========================================================================
+\section{Page 59: Perpendicular Distance of a Point from a Vector Line}
+\label{sec:page59}
+
+\begin{conceptbox}[Manuscript Overview: Page 59]
+Page 59 derives the vector formula for the perpendicular distance from an external point to a straight line and determines the foot of the perpendicular.
+\end{conceptbox}
+
+\begin{theorembox}[Perpendicular Distance from Point to Line]
+The perpendicular distance $d$ from a point $P$ with position vector $\vec{p}$ to the straight line $\vec{r} = \vec{a} + \lambda \vec{b}$ is:
+\begin{equation}
+    \boxed{d = \frac{|(\vec{p} - \vec{a}) \times \vec{b}|}{|\vec{b}|}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $A$ be the point on the line with position vector $\vec{a}$, and let $N$ be the foot of the perpendicular dropped from $P(\vec{p})$ onto the line.
+In the right-angled triangle $\triangle APN$, the angle at $N$ is $90^\circ$:
+\begin{equation}
+    d = PN = AP\sin\theta = |\vec{p} - \vec{a}|\sin\theta
+\end{equation}
+where $\theta$ is the angle between the vector $\vec{AP} = \vec{p} - \vec{a}$ and the line direction vector $\vec{b}$.
+By the geometric definition of the vector cross product magnitude:
+\begin{equation}
+    |(\vec{p} - \vec{a}) \times \vec{b}| = |\vec{p} - \vec{a}|\,|\vec{b}|\sin\theta.
+\end{equation}
+Dividing by $|\vec{b}|$:
+\begin{equation}
+    d = |\vec{p} - \vec{a}|\sin\theta = \frac{|(\vec{p} - \vec{a}) \times \vec{b}|}{|\vec{b}|}.
+\end{equation}
+\end{proof}
+
+\subsection{Foot of the Perpendicular in Vector Form}
+The foot $N$ has position vector $\vec{n} = \vec{a} + \lambda_0 \vec{b}$.
+Since $PN \perp \vec{b}$:
+\begin{align}
+    (\vec{n} - \vec{p}) \cdot \vec{b} &= 0 \nonumber\\
+    \bigl[(\vec{a} + \lambda_0 \vec{b}) - \vec{p}\bigr] \cdot \vec{b} &= 0 \nonumber\\
+    (\vec{a} - \vec{p}) \cdot \vec{b} + \lambda_0 |\vec{b}|^2 &= 0 \nonumber\\
+    \implies \lambda_0 &= \frac{(\vec{p} - \vec{a}) \cdot \vec{b}}{|\vec{b}|^2}.
+\end{align}
+Substituting $\lambda_0$ back gives the exact position vector of the foot $N$:
+\begin{equation}
+    \boxed{\vec{r}_N = \vec{a} + \left( \frac{(\vec{p} - \vec{a}) \cdot \vec{b}}{|\vec{b}|^2} \right)\vec{b}}
+\end{equation}
+
+% =========================================================================
+% PAGE 60
+% =========================================================================
+\section{Page 60: Coplanarity of Vector Lines and the Plane Containing Them}
+\label{sec:page60}
+
+\begin{conceptbox}[Manuscript Overview: Page 60]
+Page 60 establishes the necessary and sufficient condition for two vector straight lines to be coplanar and derives the vector equation of the unique plane containing them.
+\end{conceptbox}
+
+\begin{theorembox}[Coplanarity of Vector Lines]
+Two straight lines:
+\begin{align}
+    L_1 &: \vec{r} = \vec{a}_1 + \lambda \vec{b}_1, \\
+    L_2 &: \vec{r} = \vec{a}_2 + \mu \vec{b}_2,
+\end{align}
+are \textbf{coplanar} if and only if their scalar triple product vanishes:
+\begin{equation}
+    \boxed{(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2) = 0 \iff [\vec{a}_2 - \vec{a}_1, \; \vec{b}_1, \; \vec{b}_2] = 0}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $A_1$ and $A_2$ be the points on $L_1$ and $L_2$ with position vectors $\vec{a}_1$ and $\vec{a}_2$.
+The displacement vector between them is $\vec{A_1 A_2} = \vec{a}_2 - \vec{a}_1$.
+If the two lines lie in a common plane:
+\begin{enumerate}
+    \item The line direction vectors $\vec{b}_1$ and $\vec{b}_2$ are parallel to the plane.
+    \item The displacement vector $\vec{a}_2 - \vec{a}_1$ joining points on the two lines lies entirely in the plane.
+\end{enumerate}
+Therefore, the three vectors $\vec{a}_2 - \vec{a}_1, \vec{b}_1, \vec{b}_2$ are coplanar.
+Three vectors are coplanar if and only if the volume of the parallelepiped formed by them is zero, which is given by their scalar triple product:
+\begin{equation}
+    (\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2) = 0.
+\end{equation}
+\end{proof}
+
+\subsection{Plane Containing the Two Coplanar Lines}
+The plane containing both lines passes through $\vec{a}_1$ and has normal $\vec{n} = \vec{b}_1 \times \vec{b}_2$:
+\begin{equation}
+    \boxed{(\vec{r} - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2) = 0}
+\end{equation}
+
+% =========================================================================
+% PAGE 61
+% =========================================================================
+\section{Page 61: Shortest Distance Between Skew Lines in Vector Form}
+\label{sec:page61}
+
+\begin{conceptbox}[Manuscript Overview: Page 61]
+Page 61 derives the vector formula for the shortest distance between two skew lines using vector projections and scalar triple products.
+\end{conceptbox}
+
+\begin{theorembox}[Shortest Distance in Vector Form]
+The shortest distance $d$ between the skew lines:
+\begin{align}
+    L_1 &: \vec{r} = \vec{a}_1 + \lambda \vec{b}_1, \\
+    L_2 &: \vec{r} = \vec{a}_2 + \mu \vec{b}_2,
+\end{align}
+is given by:
+\begin{equation}
+    \boxed{d = \frac{|(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2)|}{|\vec{b}_1 \times \vec{b}_2|}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+The shortest distance occurs along the line segment $GH$ perpendicular to both lines $L_1$ and $L_2$.
+The direction of the common perpendicular is perpendicular to both $\vec{b}_1$ and $\vec{b}_2$:
+\begin{equation}
+    \vec{n} = \vec{b}_1 \times \vec{b}_2.
+\end{equation}
+The unit vector along the common perpendicular is:
+\begin{equation}
+    \hat{n} = \frac{\vec{b}_1 \times \vec{b}_2}{|\vec{b}_1 \times \vec{b}_2|}.
+\end{equation}
+Let $A_1(\vec{a}_1)$ be on $L_1$ and $A_2(\vec{a}_2)$ be on $L_2$.
+The shortest distance $d$ is the magnitude of the orthogonal projection of $\vec{A_1 A_2} = \vec{a}_2 - \vec{a}_1$ onto $\hat{n}$:
+\begin{equation}
+    d = |(\vec{a}_2 - \vec{a}_1) \cdot \hat{n}| = \frac{|(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2)|}{|\vec{b}_1 \times \vec{b}_2|}.
+\end{equation}
+\end{proof}
+
+\subsection{Shortest Distance Between Parallel Lines in Vector Form}
+When the lines are parallel, $\vec{b}_1 = \vec{b}_2 = \vec{b}$:
+\begin{equation}
+    \boxed{d = \frac{|(\vec{a}_2 - \vec{a}_1) \times \vec{b}|}{|\vec{b}|}}
+\end{equation}
+
+% =========================================================================
+% PAGE 62
+% =========================================================================
+\section{Page 62: Solved Vector Examination Problems}
+\label{sec:page62}
+
+\begin{conceptbox}[Manuscript Overview: Page 62]
+Page 62 solves standard university examination problems illustrating vector shortest distance calculations and intersection algorithms.
+\end{conceptbox}
+
+\begin{examplebox}[Problem: Vector Shortest Distance Calculation]
+Find the shortest distance between the two lines whose vector equations are:
+\begin{align}
+    L_1 &: \vec{r} = (\hat{i} + 2\hat{j} + 3\hat{k}) + \lambda(2\hat{i} + 3\hat{j} + 4\hat{k}), \\
+    L_2 &: \vec{r} = (2\hat{i} + 4\hat{j} + 5\hat{k}) + \mu(3\hat{i} + 4\hat{j} + 5\hat{k}).
+\end{align}
+\end{examplebox}
+
+\begin{proof}[Complete Analytical Solution]
+\textbf{Step 1: Identify Vectors}:
+\begin{align}
+    \vec{a}_1 &= \hat{i} + 2\hat{j} + 3\hat{k}, \quad \vec{b}_1 = 2\hat{i} + 3\hat{j} + 4\hat{k}, \\
+    \vec{a}_2 &= 2\hat{i} + 4\hat{j} + 5\hat{k}, \quad \vec{b}_2 = 3\hat{i} + 4\hat{j} + 5\hat{k}.
+\end{align}
+
+\textbf{Step 2: Connecting Displacement Vector}:
+\begin{equation}
+    \vec{a}_2 - \vec{a}_1 = (2 - 1)\hat{i} + (4 - 2)\hat{j} + (5 - 3)\hat{k} = \hat{i} + 2\hat{j} + 2\hat{k}.
+\end{equation}
+
+\textbf{Step 3: Vector Cross Product $\vec{b}_1 \times \vec{b}_2$}:
+\begin{align}
+    \vec{b}_1 \times \vec{b}_2 &= \begin{vmatrix}
+    \hat{i} & \hat{j} & \hat{k} \\
+    2 & 3 & 4 \\
+    3 & 4 & 5
+    \end{vmatrix} \nonumber\\
+    &= \hat{i}[(3)(5) - (4)(4)] - \hat{j}[(2)(5) - (4)(3)] + \hat{k}[(2)(4) - (3)(3)] \nonumber\\
+    &= \hat{i}(15 - 16) - \hat{j}(10 - 12) + \hat{k}(8 - 9) \nonumber\\
+    &= -\hat{i} + 2\hat{j} - \hat{k}.
+\end{align}
+
+\textbf{Step 4: Magnitude $|\vec{b}_1 \times \vec{b}_2|$}:
+\begin{equation}
+    |\vec{b}_1 \times \vec{b}_2| = \sqrt{(-1)^2 + 2^2 + (-1)^2} = \sqrt{1 + 4 + 1} = \sqrt{6}.
+\end{equation}
+
+\textbf{Step 5: Scalar Triple Product}:
+\begin{align}
+    (\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2) &= (\hat{i} + 2\hat{j} + 2\hat{k}) \cdot (-\hat{i} + 2\hat{j} - \hat{k}) \nonumber\\
+    &= (1)(-1) + (2)(2) + (2)(-1) \nonumber\\
+    &= -1 + 4 - 2 = \mathbf{1}.
+\end{align}
+
+\textbf{Step 6: Compute Shortest Distance}:
+\begin{equation}
+    \boxed{d = \frac{|(\vec{a}_2 - \vec{a}_1) \cdot (\vec{b}_1 \times \vec{b}_2)|}{|\vec{b}_1 \times \vec{b}_2|} = \frac{|1|}{\sqrt{6}} = \frac{1}{\sqrt{6}} = \frac{\sqrt{6}}{6}}
+\end{equation}
+\end{proof}

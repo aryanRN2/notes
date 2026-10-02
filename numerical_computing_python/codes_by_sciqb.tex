@@ -1,0 +1,1410 @@
+\documentclass[10pt,a4paper]{report}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+% --- Color Palette ---
+\definecolor{primary}{HTML}{0F172A}       % Deep Slate 900
+\definecolor{secondary}{HTML}{1E40AF}     % Cobalt 800
+\definecolor{accentteal}{HTML}{0D9488}    % Teal 600
+\definecolor{codebg}{HTML}{F8FAFC}        % Off-white editor tint
+\definecolor{termbg}{HTML}{0F172A}        % Dark terminal background
+\definecolor{termfg}{HTML}{38BDF8}        % Cyan/Mint terminal text
+\definecolor{theorybg}{HTML}{F0FDF4}      % Light emerald tint
+\definecolor{theoryframe}{HTML}{16A34A}   % Emerald border
+
+% --- Syntax Highlighting Colors ---
+\definecolor{pykeyword}{HTML}{7C3AED}     % Violet bold
+\definecolor{pystring}{HTML}{047857}      % Emerald
+\definecolor{pycomment}{HTML}{64748B}     % Slate italic
+\definecolor{pynumber}{HTML}{C2410C}      % Orange/Coral
+\definecolor{pybuiltin}{HTML}{2563EB}     % Blue bold
+
+% --- Listings Definitions ---
+\lstdefinestyle{python_detailed}{
+    backgroundcolor=\color{codebg},
+    basicstyle=\fontsize{11pt}{15pt}\selectfont\ttfamily\color{primary},
+    keywordstyle=\color{pykeyword}\bfseries,
+    commentstyle=\color{pycomment}\itshape,
+    stringstyle=\color{pystring},
+    numberstyle=\footnotesize\color{pycomment},
+    numbers=left,
+    numbersep=8pt,
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    keepspaces=true,
+    tabsize=4,
+    columns=fullflexible,
+    morekeywords={with,as,True,False,None,self,append,round,range,len,abs,float,int,def,return,for,in,if,else,while,sum,min,max,prod,print}
+}
+
+\lstdefinestyle{terminal_output}{
+    backgroundcolor=\color{termbg},
+    basicstyle=\fontsize{10pt}{13.5pt}\selectfont\ttfamily\color{termfg},
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    keepspaces=true,
+    numbers=none
+}
+
+% --- Chapter & Section Heading Styling ---
+\titleformat{\chapter}[hang]
+  {\normalfont\LARGE\bfseries\color{primary}}
+  {\color{secondary}Chapter \thechapter:\quad}{0pt}
+  {}
+\titlespacing*{\chapter}{0pt}{5pt}{12pt}
+
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{secondary}}
+  {\thesection}{0.8em}{}
+\titlespacing*{\section}{0pt}{8pt}{6pt}
+
+% --- Page Header & Footer ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textbf{\color{secondary}Codes by sciqb -- Numerical Computing}}
+\fancyhead[R]{\small\nouppercase{\color{pycomment}\leftmark}}
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+\fancyfoot[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=secondary,
+    urlcolor=accentteal,
+    pdftitle={Codes by sciqb},
+    pdfauthor={Codes by sciqb},
+    pdfsubject={Numerical Computing Python Implementations and Execution Outputs}
+}
+
+\begin{document}
+
+% ==========================================
+% COVER PAGE
+% ==========================================
+\begin{titlepage}
+\begin{center}
+\vspace*{1.5cm}
+
+{\fontsize{32pt}{38pt}\selectfont\bfseries\color{primary} NUMERICAL ANALYSIS}\\[1.0cm]
+
+\textcolor{accentteal}{\rule{0.7\textwidth}{2.5pt}}\\[1.2cm]
+
+{\fontsize{36pt}{44pt}\selectfont\bfseries\color{secondary} Codes by sciqb}\\[0.8cm]
+{\large\color{pycomment} Complete Practical Handbook: Source Code \& Program Execution Outputs}\\[2.0cm]
+
+\vfill
+
+{\LARGE\textbf{\color{secondary}Codes by sciqb}}\\[0.3cm]
+{\small Semester 5 Mathematics \& Numerical Computing Laboratory Reference}\\[0.3cm]
+{\small\today}
+\vspace*{1.5cm}
+
+\end{center}
+\end{titlepage}
+
+% ==========================================
+% TABLE OF CONTENTS
+% ==========================================
+\tableofcontents
+\newpage
+\chapter{Transcendental \& Polynomial Equations}
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Bisection Method}
+\textbf{Category:} \textcolor{secondary}{Roots of Non-Linear Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{01_bisection_detailed.py}}
+
+The Bisection method is a robust bracketing method for finding real roots of a continuous function $f(x) = 0$. Given an initial bracket $[a, b]$ where $f(a) \cdot f(b) < 0$, Bolzano's theorem guarantees at least one root in $(a, b)$. In each iteration, the midpoint $c$ is calculated and the sign of $f(c)$ determines which sub-interval is retained.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+c = \frac{a + b}{2.0}, \quad \text{Update: } b = c \text{ if } f(a) \cdot f(c) < 0, \quad a = c \text{ if } f(a) \cdot f(c) > 0
+\]
+\[
+\text{Convergence: Linear}, \quad |e_{n+1}| \le \frac{1}{2}|e_n|, \quad \text{Error Bound: } \frac{b - a}{2^n}
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def bisection(f, a, b, tol=1e-5, max_iter=50):
+    if f(a) * f(b) >= 0:
+        return print("Error: f(a) and f(b) must have opposite signs.")
+
+    print(f"{'Iter':<6}{'a':<12}{'b':<12}{'c (Mid)':<14}{'f(c)':<12}")
+    print("-" * 56)
+
+    for i in range(1, max_iter + 1):
+        c = (a + b) / 2
+        fc = f(c)
+        print(f"{i:<6}{a:<12.5f}{b:<12.5f}{c:<14.5f}{fc:<12.5f}")
+
+        if abs(fc) < tol or (b - a) / 2 < tol:
+            return c
+        a, b = (a, c) if f(a) * fc < 0 else (c, b)
+
+    return (a + b) / 2
+
+def f(x):
+    return x**3 - x - 2
+
+root = bisection(f, 1.0, 2.0)
+print(f"\nRoot: {root:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  a           b           c (Mid)       f(c)        
+--------------------------------------------------------
+1     1.00000     2.00000     1.50000       -0.12500    
+2     1.50000     2.00000     1.75000       1.60938     
+3     1.50000     1.75000     1.62500       0.66602     
+4     1.50000     1.62500     1.56250       0.25220     
+5     1.50000     1.56250     1.53125       0.05911     
+6     1.50000     1.53125     1.51562       -0.03405    
+7     1.51562     1.53125     1.52344       0.01225     
+8     1.51562     1.52344     1.51953       -0.01097    
+9     1.51953     1.52344     1.52148       0.00062     
+10    1.51953     1.52148     1.52051       -0.00518    
+11    1.52051     1.52148     1.52100       -0.00228    
+12    1.52100     1.52148     1.52124       -0.00083    
+13    1.52124     1.52148     1.52136       -0.00010    
+14    1.52136     1.52148     1.52142       0.00026     
+15    1.52136     1.52142     1.52139       0.00008     
+16    1.52136     1.52139     1.52138       -0.00001    
+17    1.52138     1.52139     1.52139       0.00003     
+
+Root: 1.52139
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Regula-Falsi (False Position) Method}
+\textbf{Category:} \textcolor{secondary}{Roots of Non-Linear Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{02_regula_falsi_detailed.py}}
+
+The Regula-Falsi (False Position) method combines the reliability of bracketing with the acceleration of linear interpolation. Instead of bisecting the interval geometrically, it connects $(a, f(a))$ and $(b, f(b))$ with a secant line and determines the root estimate $c$ at the line's $x$-intercept.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+c = \frac{a f(b) - b f(a)}{f(b) - f(a)} = a - \frac{f(a)(b - a)}{f(b) - f(a)}
+\]
+\[
+\text{Update: } b = c \text{ if } f(a) \cdot f(c) < 0, \quad a = c \text{ if } f(a) \cdot f(c) > 0
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def regula_falsi(f, a, b, tol=1e-5, max_iter=50):
+    if f(a) * f(b) >= 0:
+        return print("Error: f(a) and f(b) must have opposite signs.")
+
+    print(f"{'Iter':<6}{'a':<12}{'b':<12}{'c':<14}{'f(c)':<12}")
+    print("-" * 56)
+
+    for i in range(1, max_iter + 1):
+        c = (a * f(b) - b * f(a)) / (f(b) - f(a))
+        fc = f(c)
+        print(f"{i:<6}{a:<12.5f}{b:<12.5f}{c:<14.5f}{fc:<12.5f}")
+
+        if abs(fc) < tol:
+            return c
+        a, b = (a, c) if f(a) * fc < 0 else (c, b)
+
+    return c
+
+def f(x):
+    return x**3 - 2 * x - 5
+
+root = regula_falsi(f, 2.0, 3.0)
+print(f"\nRoot: {root:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  a           b           c             f(c)        
+--------------------------------------------------------
+1     2.00000     3.00000     2.05882       -0.39080    
+2     2.05882     3.00000     2.08126       -0.14720    
+3     2.08126     3.00000     2.08964       -0.05468    
+4     2.08964     3.00000     2.09274       -0.02020    
+5     2.09274     3.00000     2.09388       -0.00745    
+6     2.09388     3.00000     2.09431       -0.00275    
+7     2.09431     3.00000     2.09446       -0.00101    
+8     2.09446     3.00000     2.09452       -0.00037    
+9     2.09452     3.00000     2.09454       -0.00014    
+10    2.09454     3.00000     2.09455       -0.00005    
+11    2.09455     3.00000     2.09455       -0.00002    
+12    2.09455     3.00000     2.09455       -0.00001    
+
+Root: 2.09455
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Newton-Raphson Method}
+\textbf{Category:} \textcolor{secondary}{Roots of Non-Linear Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{03_newton_raphson_detailed.py}}
+
+The Newton-Raphson method is an open root-finding technique that utilizes the tangent line at the current estimate $x_k$. Starting from an initial guess $x_0$, the method converges with quadratic order near simple roots.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}
+\]
+\[
+\text{Order of Convergence: } p = 2 \quad (\text{Quadratic, requires } f'(x_k) \neq 0)
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def newton_raphson(f, df, x0, tol=1e-5, max_iter=50):
+    print(f"{'Iter':<6}{'x0':<12}{'f(x0)':<14}{'df(x0)':<14}{'x1':<12}")
+    print("-" * 58)
+
+    for i in range(1, max_iter + 1):
+        fx, dfx = f(x0), df(x0)
+        if dfx == 0:
+            return print("Derivative is zero.")
+        x1 = x0 - fx / dfx
+        print(f"{i:<6}{x0:<12.5f}{fx:<14.5f}{dfx:<14.5f}{x1:<12.5f}")
+
+        if abs(x1 - x0) < tol or abs(f(x1)) < tol:
+            return x1
+        x0 = x1
+
+    return x0
+
+def f(x):
+    return x**3 - 3 * x + 1
+
+def df(x):
+    return 3 * x**2 - 3
+
+root = newton_raphson(f, df, 1.5)
+print(f"\nRoot: {root:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  x0          f(x0)         df(x0)        x1          
+----------------------------------------------------------
+1     1.50000     -0.12500      3.75000       1.53333     
+2     1.53333     0.00504       4.05333       1.53209     
+
+Root: 1.53209
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Secant Method}
+\textbf{Category:} \textcolor{secondary}{Roots of Non-Linear Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{04_secant_detailed.py}}
+
+The Secant method approximates the analytical derivative in Newton-Raphson using a finite-difference slope between the two most recent estimates $x_{k-1}$ and $x_k$. This avoids calculating $f'(x)$ while retaining rapid superlinear convergence.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+x_{k+1} = x_k - f(x_k) \cdot \frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}
+\]
+\[
+\text{Order of Convergence: } p = \frac{1 + \sqrt{5}}{2} \approx 1.618 \quad (\text{Golden Ratio, Superlinear})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def secant(f, x0, x1, tol=1e-5, max_iter=50):
+    print(f"{'Iter':<6}{'x0':<12}{'x1':<12}{'f(x1)':<14}{'x2':<12}")
+    print("-" * 56)
+
+    for i in range(1, max_iter + 1):
+        f0, f1 = f(x0), f(x1)
+        if f1 - f0 == 0:
+            break
+        x2 = x1 - f1 * (x1 - x0) / (f1 - f0)
+        print(f"{i:<6}{x0:<12.5f}{x1:<12.5f}{f1:<14.5f}{x2:<12.5f}")
+
+        if abs(x2 - x1) < tol or abs(f(x2)) < tol:
+            return x2
+        x0, x1 = x1, x2
+
+    return x1
+
+def f(x):
+    return x**2 - 4
+
+root = secant(f, 1.0, 3.0)
+print(f"\nRoot: {root:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  x0          x1          f(x1)         x2          
+--------------------------------------------------------
+1     1.00000     3.00000     5.00000       1.75000     
+2     3.00000     1.75000     -0.93750      1.94737     
+3     1.75000     1.94737     -0.20776      2.00356     
+4     1.94737     2.00356     0.01425       1.99995     
+5     2.00356     1.99995     -0.00019      2.00000     
+
+Root: 2.00000
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Fixed-Point Iteration Method}
+\textbf{Category:} \textcolor{secondary}{Roots of Non-Linear Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{05_fixed_point_detailed.py}}
+
+Fixed-point iteration rewrites the root problem $f(x) = 0$ as $x = g(x)$. Starting from $x_0$, successive estimates are generated by repeatedly evaluating $g(x)$. Convergence is guaranteed if $|g'(x)| < 1$ in an interval containing the fixed point.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+x_{k+1} = g(x_k)
+\]
+\[
+\text{Convergence Condition: } |g'(x^*)| < 1 \quad (\text{Contraction Mapping})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+import math
+
+def fixed_point(g, x0, tol=1e-5, max_iter=50):
+    print(f"{'Iter':<6}{'x0':<14}{'x1 = g(x0)':<14}")
+    print("-" * 34)
+
+    for i in range(1, max_iter + 1):
+        x1 = g(x0)
+        print(f"{i:<6}{x0:<14.5f}{x1:<14.5f}")
+        if abs(x1 - x0) < tol:
+            return x1
+        x0 = x1
+
+    return x0
+
+def g(x):
+    return math.cos(x)
+
+root = fixed_point(g, 0.5)
+print(f"\nFixed Point: {root:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  x0            x1 = g(x0)    
+----------------------------------
+1     0.50000       0.87758       
+2     0.87758       0.63901       
+3     0.63901       0.80269       
+4     0.80269       0.69478       
+5     0.69478       0.76820       
+6     0.76820       0.71917       
+7     0.71917       0.75236       
+8     0.75236       0.73008       
+9     0.73008       0.74512       
+10    0.74512       0.73501       
+11    0.73501       0.74183       
+12    0.74183       0.73724       
+13    0.73724       0.74033       
+14    0.74033       0.73825       
+15    0.73825       0.73965       
+16    0.73965       0.73870       
+17    0.73870       0.73934       
+18    0.73934       0.73891       
+19    0.73891       0.73920       
+20    0.73920       0.73901       
+21    0.73901       0.73914       
+22    0.73914       0.73905       
+23    0.73905       0.73911       
+24    0.73911       0.73907       
+25    0.73907       0.73910       
+26    0.73910       0.73908       
+27    0.73908       0.73909       
+28    0.73909       0.73908       
+
+Fixed Point: 0.73908
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\chapter{Systems of Linear Algebraic Equations}
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Gauss Elimination Method}
+\textbf{Category:} \textcolor{secondary}{Systems of Linear Algebraic Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{06_gauss_elimination_detailed.py}}
+
+Gauss Elimination is a direct method for solving a system of linear equations $A x = b$. It transforms the augmented matrix $[A \mid b]$ into upper-triangular form through forward row operations, followed by backward substitution to determine the unknowns.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+\text{Forward Elimination: } m_{ik} = \frac{a_{ik}}{a_{kk}}, \quad R_i \leftarrow R_i - m_{ik} R_k \quad (i > k)
+\]
+\[
+\text{Back Substitution: } x_i = \frac{1}{a_{ii}}\left(b_i - \sum_{j=i+1}^n a_{ij} x_j\right)
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def gauss_elimination(A, b):
+    n = len(b)
+    # Forward Elimination
+    for i in range(n):
+        for j in range(i + 1, n):
+            ratio = A[j][i] / A[i][i]
+            for k in range(i, n):
+                A[j][k] -= ratio * A[i][k]
+            b[j] -= ratio * b[i]
+
+    # Back Substitution
+    x = [0.0] * n
+    for i in range(n - 1, -1, -1):
+        x[i] = (b[i] - sum(A[i][j] * x[j] for j in range(i + 1, n))) / A[i][i]
+    return x
+
+A = [[2.0, 1.0, -1.0], [-3.0, -1.0, 2.0], [-2.0, 1.0, 2.0]]
+b = [8.0, -11.0, -3.0]
+ans = gauss_elimination(A, b)
+for i, val in enumerate(ans):
+    print(f"x{i+1} = {val:.4f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+x1 = 2.0000
+x2 = 3.0000
+x3 = -1.0000
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Gauss-Jordan Elimination Method}
+\textbf{Category:} \textcolor{secondary}{Systems of Linear Algebraic Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{07_gauss_jordan_detailed.py}}
+
+Gauss-Jordan elimination reduces the coefficient matrix directly into reduced row echelon form (identity matrix $I$) by performing row eliminations both below and above each pivot element. The solution appears directly in the augmented column.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+\text{Normalize Pivot Row: } R_i \leftarrow \frac{R_i}{a_{ii}}
+\]
+\[
+\text{Eliminate Other Rows: } R_k \leftarrow R_k - a_{ki} R_i \quad (\forall k \neq i)
+\]
+\[
+\text{Result: } [A \mid b] \longrightarrow [I \mid x]
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def gauss_jordan(A, b):
+    n = len(b)
+    for i in range(n):
+        p = A[i][i]
+        A[i] = [v / p for v in A[i]]
+        b[i] /= p
+        for k in range(n):
+            if k != i:
+                factor = A[k][i]
+                A[k] = [A[k][j] - factor * A[i][j] for j in range(n)]
+                b[k] -= factor * b[i]
+    return b
+
+A = [[2.0, 3.0, 1.0], [1.0, 2.0, 3.0], [3.0, 1.0, 2.0]]
+b = [9.0, 6.0, 8.0]
+ans = gauss_jordan(A, b)
+for i, val in enumerate(ans):
+    print(f"x{i+1} = {val:.4f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+x1 = 1.9444
+x2 = 1.6111
+x3 = 0.2778
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Gauss-Jacobi Iterative Method}
+\textbf{Category:} \textcolor{secondary}{Systems of Linear Algebraic Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{08_gauss_jacobi_detailed.py}}
+
+The Jacobi method is an iterative technique for solving $A x = b$. In each step, each unknown $x_i$ is updated solely using the values from the previous iteration step $k$. It converges for strictly diagonally dominant matrices.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j \neq i} a_{ij} x_j^{(k)}\right) \quad (i = 1, 2, \dots, n)
+\]
+\[
+\text{Strict Diagonal Dominance: } |a_{ii}| > \sum_{j \neq i} |a_{ij}|
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def gauss_jacobi(A, b, tol=1e-5, max_iter=50):
+    n = len(b)
+    x = [0.0] * n
+    print(f"{'Iter':<6}" + "".join(f"{'x' + str(i+1):<12}" for i in range(n)))
+    print("-" * (6 + 12 * n))
+
+    for step in range(1, max_iter + 1):
+        x_new = [(b[i] - sum(A[i][j] * x[j] for j in range(n) if j != i)) / A[i][i] for i in range(n)]
+        print(f"{step:<6}" + "".join(f"{v:<12.5f}" for v in x_new))
+
+        if max(abs(x_new[i] - x[i]) for i in range(n)) < tol:
+            return x_new
+        x = x_new
+    return x
+
+A = [[10.0, -1.0, 2.0], [-1.0, 11.0, -1.0], [2.0, -1.0, 10.0]]
+b = [6.0, 25.0, -11.0]
+sol = gauss_jacobi(A, b)
+print("\nSolution:", [round(v, 4) for v in sol])
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  x1          x2          x3          
+------------------------------------------
+1     0.60000     2.27273     -1.10000    
+2     1.04727     2.22727     -0.99273    
+3     1.02127     2.27769     -1.08673    
+4     1.04511     2.26678     -1.07649    
+5     1.04197     2.26988     -1.08235    
+6     1.04346     2.26906     -1.08141    
+7     1.04319     2.26928     -1.08179    
+8     1.04328     2.26922     -1.08171    
+9     1.04326     2.26923     -1.08174    
+10    1.04327     2.26923     -1.08173    
+
+Solution: [1.0433, 2.2692, -1.0817]
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Gauss-Seidel Iterative Method}
+\textbf{Category:} \textcolor{secondary}{Systems of Linear Algebraic Equations} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{09_gauss_seidel_detailed.py}}
+
+The Gauss-Seidel method accelerates Jacobi iteration by immediately utilizing the newly updated components $x_1^{(k+1)}, \dots, x_{i-1}^{(k+1)}$ as soon as they become available during the current iteration step.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+x_i^{(k+1)} = \frac{1}{a_{ii}}\left(b_i - \sum_{j < i} a_{ij} x_j^{(k+1)} - \sum_{j > i} a_{ij} x_j^{(k)}\right)
+\]
+\[
+\text{Convergence Rate: Typically converges in roughly half the iterations of Jacobi.}
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def gauss_seidel(A, b, tol=1e-5, max_iter=50):
+    n = len(b)
+    x = [0.0] * n
+    print(f"{'Iter':<6}" + "".join(f"{'x' + str(i+1):<12}" for i in range(n)))
+    print("-" * (6 + 12 * n))
+
+    for step in range(1, max_iter + 1):
+        x_old = list(x)
+        for i in range(n):
+            s = sum(A[i][j] * x[j] for j in range(n) if j != i)
+            x[i] = (b[i] - s) / A[i][i]
+
+        print(f"{step:<6}" + "".join(f"{v:<12.5f}" for v in x))
+        if max(abs(x[i] - x_old[i]) for i in range(n)) < tol:
+            return x
+    return x
+
+A = [[10.0, -1.0, 2.0], [-1.0, 11.0, -1.0], [2.0, -1.0, 10.0]]
+b = [6.0, 25.0, -11.0]
+sol = gauss_seidel(A, b)
+print("\nSolution:", [round(v, 4) for v in sol])
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  x1          x2          x3          
+------------------------------------------
+1     0.60000     2.32727     -0.98727    
+2     1.03018     2.27663     -1.07837    
+3     1.04334     2.26954     -1.08171    
+4     1.04330     2.26923     -1.08174    
+5     1.04327     2.26923     -1.08173    
+6     1.04327     2.26923     -1.08173    
+
+Solution: [1.0433, 2.2692, -1.0817]
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\chapter{Interpolation \& Polynomial Approximation}
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Lagrange Interpolation}
+\textbf{Category:} \textcolor{secondary}{Interpolation \& Polynomial Approximation} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{10_lagrange_detailed.py}}
+
+Lagrange interpolation constructs the unique polynomial of degree at most $n$ that passes through $n+1$ given points $(x_i, y_i)$. The formulation does not require the data nodes to be evenly spaced.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+P_n(x) = \sum_{i=0}^n y_i \ell_i(x), \quad \text{where } \ell_i(x) = \prod_{\substack{j=0 \\ j \neq i}}^n \frac{x - x_j}{x_i - x_j}
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+import math
+
+def lagrange(x_vals, y_vals, target_x):
+    n = len(x_vals)
+    print(f"{'i':<6}{'Basis L_i(x)':<16}{'y_i':<10}{'Term':<12}")
+    print("-" * 44)
+
+    total = 0.0
+    for i in range(n):
+        L_i = math.prod((target_x - x_vals[j]) / (x_vals[i] - x_vals[j]) for j in range(n) if i != j)
+        term = y_vals[i] * L_i
+        total += term
+        print(f"{i:<6}{L_i:<16.5f}{y_vals[i]:<10.2f}{term:<12.5f}")
+
+    return total
+
+ans = lagrange([5.0, 6.0, 9.0, 11.0], [12.0, 13.0, 14.0, 16.0], 10.0)
+print(f"\nInterpolated value: {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+i     Basis L_i(x)    y_i       Term        
+--------------------------------------------
+0     0.16667         12.00     2.00000     
+1     -0.33333        13.00     -4.33333    
+2     0.83333         14.00     11.66667    
+3     0.33333         16.00     5.33333     
+
+Interpolated value: 14.66667
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Newton's Divided Difference Interpolation}
+\textbf{Category:} \textcolor{secondary}{Interpolation \& Polynomial Approximation} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{11_newton_divided_diff_detailed.py}}
+
+Newton's Divided Difference method constructs an interpolating polynomial using divided differences. It is versatile for unequally spaced data points and allows easy addition of new data points without recomputing the entire table.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+f[x_i, \dots, x_{i+k}] = \frac{f[x_{i+1}, \dots, x_{i+k}] - f[x_i, \dots, x_{i+k-1}]}{x_{i+k} - x_i}
+\]
+\[
+P_n(x) = f[x_0] + \sum_{k=1}^n f[x_0, \dots, x_k] \prod_{j=0}^{k-1} (x - x_j)
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def newton_divided_diff(x, y, target_x):
+    n = len(x)
+    table = [[0.0] * n for _ in range(n)]
+    for i in range(n):
+        table[i][0] = y[i]
+
+    for j in range(1, n):
+        for i in range(n - j):
+            table[i][j] = (table[i + 1][j - 1] - table[i][j - 1]) / (x[i + j] - x[i])
+
+    print("Divided Difference Table:")
+    for i in range(n):
+        print(f"{x[i]:<6.1f}" + "".join(f"{table[i][j]:<12.4f}" for j in range(n - i)))
+
+    res, prod_term = table[0][0], 1.0
+    for j in range(1, n):
+        prod_term *= (target_x - x[j - 1])
+        res += table[0][j] * prod_term
+    return res
+
+ans = newton_divided_diff([4.0, 5.0, 7.0, 10.0, 11.0], [48.0, 100.0, 294.0, 900.0, 1210.0], 6.0)
+print(f"\nInterpolated Value: {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Divided Difference Table:
+4.0   48.0000     52.0000     15.0000     1.0000      0.0000      
+5.0   100.0000    97.0000     21.0000     1.0000      
+7.0   294.0000    202.0000    27.0000     
+10.0  900.0000    310.0000    
+11.0  1210.0000   
+
+Interpolated Value: 180.00000
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Newton's Forward Difference Interpolation}
+\textbf{Category:} \textcolor{secondary}{Interpolation \& Polynomial Approximation} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{12_newton_forward_detailed.py}}
+
+Newton's Forward Difference formula is designed for tabulated data where nodes are equally spaced ($x_i = x_0 + i h$). It is ideal for interpolating values near the start of the table.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+u = \frac{x - x_0}{h}, \quad \Delta y_i = y_{i+1} - y_i
+\]
+\[
+P_n(x) = y_0 + u \Delta y_0 + \frac{u(u-1)}{2!} \Delta^2 y_0 + \dots + \frac{u(u-1)\dots(u-n+1)}{n!} \Delta^n y_0
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+import math
+
+def newton_forward(x, y, target_x):
+    n = len(x)
+    h, u = x[1] - x[0], (target_x - x[0]) / (x[1] - x[0])
+    diff = [[0.0] * n for _ in range(n)]
+    for i in range(n):
+        diff[0][i] = y[i]
+
+    for order in range(1, n):
+        for i in range(n - order):
+            diff[order][i] = diff[order - 1][i + 1] - diff[order - 1][i]
+
+    print("Forward Difference Table:")
+    for i in range(n):
+        print(f"{x[i]:<6.1f}" + "".join(f"{diff[j][i]:<12.4f}" for j in range(n - i)))
+
+    res, u_term = diff[0][0], 1.0
+    for order in range(1, n):
+        u_term *= (u - (order - 1))
+        res += (u_term * diff[order][0]) / math.factorial(order)
+    return res
+
+ans = newton_forward([10.0, 20.0, 30.0, 40.0, 50.0], [0.1736, 0.3420, 0.5000, 0.6428, 0.7660], 15.0)
+print(f"\nInterpolated Value: {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Forward Difference Table:
+10.0  0.1736      0.1684      -0.0104     -0.0048     0.0004      
+20.0  0.3420      0.1580      -0.0152     -0.0044     
+30.0  0.5000      0.1428      -0.0196     
+40.0  0.6428      0.1232      
+50.0  0.7660      
+
+Interpolated Value: 0.25878
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\chapter{Numerical Quadrature \& Integration}
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Trapezoidal Rule of Numerical Integration}
+\textbf{Category:} \textcolor{secondary}{Numerical Quadrature \& Integration} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{13_trapezoidal_detailed.py}}
+
+The composite Trapezoidal rule evaluates $\int_a^b f(x)\,dx$ by approximating the integrand with linear segments across $n$ uniform subintervals of width $h = \frac{b-a}{n}$.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+I \approx \frac{h}{2}\left[f(a) + 2 \sum_{i=1}^{n-1} f(x_i) + f(b)\right], \quad h = \frac{b - a}{n}
+\]
+\[
+\text{Global Truncation Error: } E_T = -\frac{(b - a) h^2}{12} f''(\xi) \quad (\mathcal{O}(h^2) \text{ Accuracy})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def trapezoidal(f, a, b, n=6):
+    h = (b - a) / n
+    x_pts = [a + i * h for i in range(n + 1)]
+    y_pts = [f(x) for x in x_pts]
+
+    print(f"{'i':<6}{'x_i':<12}{'f(x_i)':<14}")
+    print("-" * 32)
+    for i, (xi, yi) in enumerate(zip(x_pts, y_pts)):
+        print(f"{i:<6}{xi:<12.4f}{yi:<14.5f}")
+
+    integral = (h / 2.0) * (y_pts[0] + 2 * sum(y_pts[1:n]) + y_pts[n])
+    return integral
+
+def f(x):
+    return 1 / (1 + x**2)
+
+ans = trapezoidal(f, 0.0, 1.0, n=6)
+print(f"\nIntegral: {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+i     x_i         f(x_i)        
+--------------------------------
+0     0.0000      1.00000       
+1     0.1667      0.97297       
+2     0.3333      0.90000       
+3     0.5000      0.80000       
+4     0.6667      0.69231       
+5     0.8333      0.59016       
+6     1.0000      0.50000       
+
+Integral: 0.78424
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Simpson's 1/3 Rule of Numerical Integration}
+\textbf{Category:} \textcolor{secondary}{Numerical Quadrature \& Integration} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{14_simpson_1_3_detailed.py}}
+
+Simpson's 1/3 rule fits quadratic parabolas over adjacent pairs of subintervals. The total number of intervals $n$ must be an even integer. It achieves fourth-order accuracy.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+I \approx \frac{h}{3}\left[f(a) + f(b) + 4 \sum_{i \text{ odd}} f(x_i) + 2 \sum_{i \text{ even}} f(x_i)\right], \quad (n \text{ must be even})
+\]
+\[
+\text{Global Truncation Error: } E_S = -\frac{(b - a) h^4}{180} f^{(4)}(\xi) \quad (\mathcal{O}(h^4) \text{ Accuracy})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def simpson_1_3(f, a, b, n=6):
+    if n % 2 != 0:
+        n += 1
+    h = (b - a) / n
+    x_pts = [a + i * h for i in range(n + 1)]
+    y_pts = [f(x) for x in x_pts]
+
+    print(f"{'i':<6}{'x_i':<12}{'f(x_i)':<14}{'Mult':<6}")
+    print("-" * 38)
+    for i, (xi, yi) in enumerate(zip(x_pts, y_pts)):
+        mult = 1 if i in (0, n) else (4 if i % 2 != 0 else 2)
+        print(f"{i:<6}{xi:<12.4f}{yi:<14.5f}{mult:<6}")
+
+    integral = (h / 3.0) * (y_pts[0] + y_pts[n] + 4 * sum(y_pts[1:n:2]) + 2 * sum(y_pts[2:n:2]))
+    return integral
+
+def f(x):
+    return 1 / (1 + x**2)
+
+ans = simpson_1_3(f, 0.0, 1.0, n=6)
+print(f"\nIntegral: {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+i     x_i         f(x_i)        Mult  
+--------------------------------------
+0     0.0000      1.00000       1     
+1     0.1667      0.97297       4     
+2     0.3333      0.90000       2     
+3     0.5000      0.80000       4     
+4     0.6667      0.69231       2     
+5     0.8333      0.59016       4     
+6     1.0000      0.50000       1     
+
+Integral: 0.78540
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Simpson's 3/8 Rule of Numerical Integration}
+\textbf{Category:} \textcolor{secondary}{Numerical Quadrature \& Integration} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{15_simpson_3_8_detailed.py}}
+
+Simpson's 3/8 rule fits cubic polynomials across groups of three consecutive subintervals. The total number of subintervals $n$ must be a multiple of 3.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+I \approx \frac{3h}{8}\left[f(a) + f(b) + 3 \sum_{i \nmid 3} f(x_i) + 2 \sum_{i \mid 3} f(x_i)\right], \quad (n \in 3\mathbb{Z})
+\]
+\[
+\text{Global Truncation Error: } E_{3/8} = -\frac{(b - a) h^4}{80} f^{(4)}(\xi) \quad (\mathcal{O}(h^4) \text{ Accuracy})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def simpson_3_8(f, a, b, n=6):
+    while n % 3 != 0:
+        n += 1
+    h = (b - a) / n
+    x_pts = [a + i * h for i in range(n + 1)]
+    y_pts = [f(x) for x in x_pts]
+
+    print(f"{'i':<6}{'x_i':<12}{'f(x_i)':<14}{'Mult':<6}")
+    print("-" * 38)
+    for i, (xi, yi) in enumerate(zip(x_pts, y_pts)):
+        mult = 1 if i in (0, n) else (2 if i % 3 == 0 else 3)
+        print(f"{i:<6}{xi:<12.4f}{yi:<14.5f}{mult:<6}")
+
+    middle = sum((2 if i % 3 == 0 else 3) * y_pts[i] for i in range(1, n))
+    return (3 * h / 8.0) * (y_pts[0] + y_pts[n] + middle)
+
+def f(x):
+    return 1 / (1 + x**2)
+
+ans = simpson_3_8(f, 0.0, 1.0, n=6)
+print(f"\nIntegral: {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+i     x_i         f(x_i)        Mult  
+--------------------------------------
+0     0.0000      1.00000       1     
+1     0.1667      0.97297       3     
+2     0.3333      0.90000       3     
+3     0.5000      0.80000       2     
+4     0.6667      0.69231       3     
+5     0.8333      0.59016       3     
+6     1.0000      0.50000       1     
+
+Integral: 0.78540
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\chapter{Ordinary Differential Equations (ODEs)}
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Euler's Method for ODEs}
+\textbf{Category:} \textcolor{secondary}{Ordinary Differential Equations (ODEs)} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{16_euler_detailed.py}}
+
+Euler's method is the classical first-order explicit single-step method for solving initial value problems $\frac{dy}{dx} = f(x, y)$ with $y(x_0) = y_0$.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+y_{n+1} = y_n + h \cdot f(x_n, y_n)
+\]
+\[
+\text{Global Error Order: } \mathcal{O}(h) \quad (\text{First-Order Accurate})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def euler(f, x0, y0, x_end, h=0.05):
+    x, y, step = x0, y0, 0
+    print(f"{'Step':<6}{'x':<10}{'y':<12}{'Slope':<12}")
+    print("-" * 40)
+
+    while x < x_end - 1e-9:
+        slope = f(x, y)
+        print(f"{step:<6}{x:<10.3f}{y:<12.5f}{slope:<12.5f}")
+        y += h * slope
+        x += h
+        step += 1
+
+    print(f"{step:<6}{x:<10.3f}{y:<12.5f}")
+    return y
+
+def f(x, y):
+    return x + y
+
+ans = euler(f, 0.0, 1.0, 0.2, h=0.05)
+print(f"\ny(0.2): {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Step  x         y           Slope       
+----------------------------------------
+0     0.000     1.00000     1.00000     
+1     0.050     1.05000     1.10000     
+2     0.100     1.10500     1.20500     
+3     0.150     1.16525     1.31525     
+4     0.200     1.23101     
+
+y(0.2): 1.23101
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Modified Euler's (Heun's) Method}
+\textbf{Category:} \textcolor{secondary}{Ordinary Differential Equations (ODEs)} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{17_modified_euler_detailed.py}}
+
+Heun's (Modified Euler) method improves upon Euler's method by implementing a predictor-corrector scheme that averages slopes at both the start and predicted end of the step.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+\text{Predictor: } \tilde{y}_{n+1} = y_n + h \cdot f(x_n, y_n)
+\]
+\[
+\text{Corrector: } y_{n+1} = y_n + \frac{h}{2}\left[f(x_n, y_n) + f(x_{n+1}, \tilde{y}_{n+1})\right] \quad (\mathcal{O}(h^2) \text{ Accuracy})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def modified_euler(f, x0, y0, x_end, h=0.05):
+    x, y, step = x0, y0, 0
+    print(f"{'Step':<6}{'x':<10}{'y':<12}{'y_predict':<14}")
+    print("-" * 42)
+
+    while x < x_end - 1e-9:
+        k1 = f(x, y)
+        y_predict = y + h * k1
+        print(f"{step:<6}{x:<10.3f}{y:<12.5f}{y_predict:<14.5f}")
+        y += (h / 2.0) * (k1 + f(x + h, y_predict))
+        x += h
+        step += 1
+
+    print(f"{step:<6}{x:<10.3f}{y:<12.5f}")
+    return y
+
+def f(x, y):
+    return x + y
+
+ans = modified_euler(f, 0.0, 1.0, 0.2, h=0.05)
+print(f"\ny(0.2): {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Step  x         y           y_predict     
+------------------------------------------
+0     0.000     1.00000     1.05000       
+1     0.050     1.05250     1.10763       
+2     0.100     1.11025     1.17077       
+3     0.150     1.17353     1.23971       
+4     0.200     1.24261     
+
+y(0.2): 1.24261
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Runge-Kutta 4th Order Method (RK4)}
+\textbf{Category:} \textcolor{secondary}{Ordinary Differential Equations (ODEs)} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{18_rk4_detailed.py}}
+
+The classical Runge-Kutta 4th Order (RK4) method evaluates four intermediate slopes per step and combines them with Simpson-type weighting to achieve fourth-order accuracy without evaluating higher derivatives.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+k_1 = h f(x_n, y_n), \quad k_2 = h f\left(x_n + \frac{h}{2}, y_n + \frac{k_1}{2}\right)
+\]
+\[
+k_3 = h f\left(x_n + \frac{h}{2}, y_n + \frac{k_2}{2}\right), \quad k_4 = h f(x_n + h, y_n + k_3)
+\]
+\[
+y_{n+1} = y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4) \quad (\mathcal{O}(h^4) \text{ Accuracy})
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def rk4(f, x0, y0, x_end, h=0.05):
+    x, y, step = x0, y0, 0
+    print(f"{'Step':<6}{'x':<8}{'y':<10}{'k1':<9}{'k2':<9}{'k3':<9}{'k4':<9}")
+    print("-" * 60)
+
+    while x < x_end - 1e-9:
+        k1 = h * f(x, y)
+        k2 = h * f(x + h / 2, y + k1 / 2)
+        k3 = h * f(x + h / 2, y + k2 / 2)
+        k4 = h * f(x + h, y + k3)
+        print(f"{step:<6}{x:<8.2f}{y:<10.4f}{k1:<9.4f}{k2:<9.4f}{k3:<9.4f}{k4:<9.4f}")
+        y += (k1 + 2 * k2 + 2 * k3 + k4) / 6.0
+        x += h
+        step += 1
+
+    print(f"{step:<6}{x:<8.2f}{y:<10.4f}")
+    return y
+
+def f(x, y):
+    return x + y
+
+ans = rk4(f, 0.0, 1.0, 0.2, h=0.05)
+print(f"\ny(0.2): {ans:.5f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Step  x       y         k1       k2       k3       k4       
+------------------------------------------------------------
+0     0.00    1.0000    0.0500   0.0525   0.0526   0.0551   
+1     0.05    1.0525    0.0551   0.0578   0.0578   0.0605   
+2     0.10    1.1103    0.0605   0.0633   0.0633   0.0662   
+3     0.15    1.1737    0.0662   0.0691   0.0692   0.0721   
+4     0.20    1.2428    
+
+y(0.2): 1.24281
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\chapter{Eigenvalue Problems \& Curve Fitting}
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Power Method for Dominant Eigenvalue}
+\textbf{Category:} \textcolor{secondary}{Eigenvalues \& Curve Fitting} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{19_power_method_detailed.py}}
+
+The Power Method is an iterative technique that computes the dominant eigenvalue (largest absolute magnitude) and its corresponding eigenvector for a square matrix $A$.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+y_{k+1} = A x_k, \quad \lambda_{k+1} = \max(|y_{k+1}|), \quad x_{k+1} = \frac{y_{k+1}}{\lambda_{k+1}}
+\]
+\[
+\text{Convergence Rate: } \left|\frac{\lambda_2}{\lambda_1}\right|^k \quad (\text{Requires } |\lambda_1| > |\lambda_2|)
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def power_method(A, tol=1e-5, max_iter=50):
+    n, x, eig_old = len(A), [1.0] * len(A), 0.0
+    print(f"{'Iter':<6}{'Eigenvalue':<14}{'Eigenvector':<20}")
+    print("-" * 40)
+
+    for step in range(1, max_iter + 1):
+        y = [sum(A[i][j] * x[j] for j in range(n)) for i in range(n)]
+        eig_new = max(y, key=abs)
+        x = [v / eig_new for v in y]
+        vec_str = "[" + ", ".join(f"{v:.3f}" for v in x) + "]"
+        print(f"{step:<6}{eig_new:<14.4f}{vec_str:<20}")
+
+        if abs(eig_new - eig_old) < tol:
+            return eig_new, x
+        eig_old = eig_new
+
+    return eig_new, x
+
+
+val, vec = power_method([[4.0, 1.0], [2.0, 3.0]])
+print(f"\nEigenvalue: {val:.4f}, Eigenvector: {[round(v, 4) for v in vec]}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+Iter  Eigenvalue    Eigenvector         
+----------------------------------------
+1     5.0000        [1.000, 1.000]      
+2     5.0000        [1.000, 1.000]      
+
+Eigenvalue: 5.0000, Eigenvector: [1.0, 1.0]
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\fancyfoot[L]{\scriptsize\textbf{\color{secondary}Codes by sciqb}}
+
+\section{Linear Curve Fitting (Least Squares)}
+\textbf{Category:} \textcolor{secondary}{Eigenvalues \& Curve Fitting} \quad | \quad \textbf{Code by:} \textcolor{secondary}{sciqb} \quad | \quad \textbf{Source:} \texttt{\detokenize{20_linear_fit_detailed.py}}
+
+Linear curve fitting finds the best-fit line $y = mx + c$ for a dataset of $n$ points by minimizing the sum of squared vertical residuals $\sum (y_i - (mx_i + c))^2$.
+
+\begin{tcolorbox}[colback=theorybg,colframe=theoryframe,title=\textbf{Mathematical Theory \& Formulation},boxrule=1pt,arc=2mm]
+\[
+\text{Normal Equations: } n c + m \sum x = \sum y, \quad c \sum x + m \sum x^2 = \sum x y
+\]
+\[
+m = \frac{n \sum xy - \sum x \sum y}{n \sum x^2 - (\sum x)^2}, \quad c = \frac{\sum y - m \sum x}{n}
+\]
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Python Implementation (Step-by-Step Functions)},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=python_detailed]
+def linear_fit(x, y):
+    n = len(x)
+    sx, sy = sum(x), sum(y)
+    sxy = sum(a * b for a, b in zip(x, y))
+    sx2 = sum(a**2 for a in x)
+
+    print(f"n = {n}, sum_x = {sx:.2f}, sum_y = {sy:.2f}, sum_xy = {sxy:.2f}, sum_x2 = {sx2:.2f}")
+    m = (n * sxy - sx * sy) / (n * sx2 - sx**2)
+    c = (sy - m * sx) / n
+    return m, c
+
+m, c = linear_fit([1.0, 2.0, 3.0, 4.0, 5.0], [2.2, 2.8, 3.6, 4.5, 5.1])
+print(f"Fitted Line: y = {m:.4f}x + {c:.4f}")
+
+
+\end{lstlisting}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=termbg,colframe=primary,title=\textbf{Program Execution Output \& Convergence Table},boxrule=1pt,arc=2mm]
+\begin{lstlisting}[style=terminal_output]
+n = 5, sum_x = 15.00, sum_y = 18.20, sum_xy = 62.10, sum_x2 = 55.00
+Fitted Line: y = 0.7500x + 1.3900
+\end{lstlisting}
+\end{tcolorbox}
+
+\newpage
+
+\chapter{Master Summary \& Quick-Reference Guide}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Unit 1: Roots of Non-Linear Equations},boxrule=1.2pt,arc=2mm]
+\begin{itemize}[leftmargin=*,itemsep=4pt]
+\item \textbf{1. Bisection Method:} $c = (a+b)/2.0$. Halves bracket interval. Order: Linear ($\mathcal{O}(2^{-n})$). Always converges if $f(a)f(b) < 0$.
+\item \textbf{2. Regula-Falsi (False Position):} $c = \frac{a f(b) - b f(a)}{f(b) - f(a)}$. Secant line $x$-intercept with guaranteed bracketing. Order: Superlinear to Linear.
+\item \textbf{3. Newton-Raphson Method:} $x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)}$. Tangent line root approximation. Order: Quadratic ($p=2$).
+\item \textbf{4. Secant Method:} $x_{k+1} = x_k - f(x_k)\frac{x_k - x_{k-1}}{f(x_k) - f(x_{k-1})}$. Finite-difference slope approximation. Order: $p \approx 1.618$.
+\item \textbf{5. Fixed-Point Iteration:} $x_{k+1} = g(x_k)$. Converges linearly if $|g'(x)| < 1$ in neighborhood of the fixed point.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Unit 2: Systems of Linear Algebraic Equations},boxrule=1.2pt,arc=2mm]
+\begin{itemize}[leftmargin=*,itemsep=4pt]
+\item \textbf{6. Gauss Elimination:} Converts $[A \mid b]$ to upper-triangular matrix, followed by back substitution. Operations: $\mathcal{O}(\frac{2}{3}n^3)$.
+\item \textbf{7. Gauss-Jordan Elimination:} Direct reduction to reduced row echelon form $[I \mid x]$ eliminating back substitution. Operations: $\mathcal{O}(n^3)$.
+\item \textbf{8. Gauss-Jacobi Iteration:} $x_i^{(k+1)} = \frac{1}{a_{ii}}(b_i - \sum_{j \neq i} a_{ij} x_j^{(k)})$. Requires strict diagonal dominance.
+\item \textbf{9. Gauss-Seidel Iteration:} $x_i^{(k+1)} = \frac{1}{a_{ii}}(b_i - \sum_{j < i} a_{ij} x_j^{(k+1)} - \sum_{j > i} a_{ij} x_j^{(k)})$. Converges $\approx 2\times$ faster than Jacobi.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Unit 3: Interpolation \& Polynomial Approximation},boxrule=1.2pt,arc=2mm]
+\begin{itemize}[leftmargin=*,itemsep=4pt]
+\item \textbf{10. Lagrange Interpolation:} $P(x) = \sum y_i \prod_{j \neq i} \frac{x - x_j}{x_i - x_j}$. Flexible formulation for arbitrary, unequally spaced nodes.
+\item \textbf{11. Newton's Divided Difference:} $P(x) = f[x_0] + \sum_{k=1}^n f[x_0,\dots,x_k] \prod_{j=0}^{k-1} (x - x_j)$. Ideal for incrementally adding data points.
+\item \textbf{12. Newton's Forward Difference:} $P(x) = y_0 + u \Delta y_0 + \frac{u(u-1)}{2!} \Delta^2 y_0 + \dots$. Specifically for equispaced points ($u = (x-x_0)/h$).
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Unit 4: Numerical Quadrature \& Integration},boxrule=1.2pt,arc=2mm]
+\begin{itemize}[leftmargin=*,itemsep=4pt]
+\item \textbf{13. Trapezoidal Rule:} $I \approx \frac{h}{2}[f(a) + 2\sum_{i=1}^{n-1} f(x_i) + f(b)]$. Linear piecewise approximation. Error: $\mathcal{O}(h^2)$.
+\item \textbf{14. Simpson's 1/3 Rule:} $I \approx \frac{h}{3}[f(a) + f(b) + 4\sum_{\text{odd}} + 2\sum_{\text{even}}]$. Parabolic piecewise fits. Requires even $n$. Error: $\mathcal{O}(h^4)$.
+\item \textbf{15. Simpson's 3/8 Rule:} $I \approx \frac{3h}{8}[f(a) + f(b) + 3\sum_{i \nmid 3} + 2\sum_{i \mid 3}]$. Cubic piecewise fits. Requires $n$ multiple of 3. Error: $\mathcal{O}(h^4)$.
+\end{itemize}
+\end{tcolorbox}
+
+\begin{tcolorbox}[colback=codebg,colframe=secondary,title=\textbf{Unit 5 \& 6: Differential Equations, Eigenvalues \& Curve Fitting},boxrule=1.2pt,arc=2mm]
+\begin{itemize}[leftmargin=*,itemsep=4pt]
+\item \textbf{16. Euler's Method:} $y_{n+1} = y_n + h f(x_n, y_n)$. Single-step explicit tangent method. Order: First-order $\mathcal{O}(h)$.
+\item \textbf{17. Modified Euler (Heun's):} Predictor-corrector scheme. Predicts $\tilde{y}_{n+1}$, corrects using average slope. Order: Second-order $\mathcal{O}(h^2)$.
+\item \textbf{18. Runge-Kutta 4 (RK4):} Four weighted intermediate slopes per step. Gold standard for initial value ODEs. Order: Fourth-order $\mathcal{O}(h^4)$.
+\item \textbf{19. Power Method:} $y_{k+1} = A x_k, \ \lambda_{k+1} = \max(|y_{k+1}|), \ x_{k+1} = y_{k+1} / \lambda_{k+1}$. Iteratively converges to dominant eigenvalue.
+\item \textbf{20. Linear Curve Fitting:} Minimizes $\sum (y_i - (m x_i + c))^2$ to determine optimal slope $m$ and intercept $c$ for best-fit straight line.
+\end{itemize}
+\end{tcolorbox}
+
+\end{document}

@@ -1,0 +1,762 @@
+\chapter{Group Actions, the Class Equation, and Ring Theory Basics}
+\label{chap:unit4}
+
+In this chapter, we bridge advanced group theory and commutative ring theory. We develop group actions, orbits, isotropy subgroups, the Orbit-Stabilizer Theorem, Cayley's Theorem, the Class Equation, and the classification of groups of order $p^2$. We then transition to ring theory: subrings, Gaussian integers, matrix rings, quaternions, ideals, quotient rings, ring homomorphisms, and prime/maximal ideals. Every theorem is presented with a complete, rigorous proof.
+
+% =========================================================
+\section{Group Actions, Orbits, and Isotropy Subgroups}
+\label{sec:group_actions}
+
+\begin{definition}[Group Action]
+Let $G$ be a group and let $A$ be a non-empty set. A \textbf{group action} (or \textbf{action}) of $G$ on $A$ is a map:
+\begin{align}
+G \times A &\longrightarrow A \\
+(g, a) &\longmapsto g \cdot a
+\end{align}
+satisfying the following two axioms for all $a \in A$ and $g_1, g_2 \in G$:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item \textbf{Identity:} $1_G \cdot a = a$,
+    \item \textbf{Compatibility / Associativity:} $g_1 \cdot (g_2 \cdot a) = (g_1 g_2) \cdot a$.
+\end{enumerate}
+When an action is given, $A$ is called a \textbf{$G$-set}.
+\end{definition}
+
+\begin{proposition}[Permutation Representation]
+\label{prop:perm_rep}
+An action of a group $G$ on a set $A$ is equivalent to a group homomorphism:
+\begin{equation}
+\sigma: G \longrightarrow S_A,
+\end{equation}
+where $S_A$ is the symmetric group of all permutations of $A$, defined by $\sigma(g)(a) = g \cdot a$.
+The \textbf{kernel} of the action is:
+\begin{equation}
+\ker(\sigma) = \{ g \in G \mid g \cdot a = a \text{ for all } a \in A \}.
+\end{equation}
+If $\ker(\sigma) = \{1_G\}$, the action is called \textbf{faithful}.
+\end{proposition}
+
+\begin{proof}
+Given an action $(g, a) \mapsto g \cdot a$:
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item For each $g \in G$, define $\sigma_g: A \to A$ by $\sigma_g(a) = g \cdot a$.
+    We check that $\sigma_g$ is a bijection on $A$:
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item $(\sigma_g \circ \sigma_{g^{-1}})(a) = g \cdot (g^{-1} \cdot a) = (g g^{-1}) \cdot a = 1_G \cdot a = a$.
+        \item $(\sigma_{g^{-1}} \circ \sigma_g)(a) = g^{-1} \cdot (g \cdot a) = (g^{-1} g) \cdot a = 1_G \cdot a = a$.
+    \end{itemize}
+    Thus $\sigma_g$ is invertible with inverse $\sigma_{g^{-1}}$, so $\sigma_g \in S_A$.
+    
+    \item Define $\sigma: G \to S_A$ by $\sigma(g) = \sigma_g$. For any $g_1, g_2 \in G$ and $a \in A$:
+    \begin{equation*}
+    \sigma(g_1 g_2)(a) = (g_1 g_2) \cdot a = g_1 \cdot (g_2 \cdot a) = \sigma_{g_1}\bigl(\sigma_{g_2}(a)\bigr) = (\sigma(g_1) \circ \sigma(g_2))(a).
+    \end{equation*}
+    Thus $\sigma(g_1 g_2) = \sigma(g_1) \circ \sigma(g_2)$, so $\sigma$ is a homomorphism.
+\end{enumerate}
+Conversely, given a homomorphism $\sigma: G \to S_A$, defining $g \cdot a = \sigma(g)(a)$ satisfies the action axioms.
+\end{proof}
+
+\begin{definition}[Orbit and Stabilizer / Isotropy Subgroup]
+Let $G$ act on a set $A$, and let $a \in A$.
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item The \textbf{orbit} of $a$, denoted $\mathcal{O}_a$ or $G \cdot a$, is:
+    \begin{equation}
+    \mathcal{O}_a = G \cdot a = \{ g \cdot a \mid g \in G \} \subseteq A.
+    \end{equation}
+    \item The \textbf{stabilizer} (or \textbf{isotropy subgroup}) of $a$, denoted $G_a$ or $\Stab_G(a)$, is:
+    \begin{equation}
+    G_a = \Stab_G(a) = \{ g \in G \mid g \cdot a = a \} \subseteq G.
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+\begin{proposition}[Orbits Partition the $G$-Set]
+\label{prop:orbits_partition}
+The relation $\sim$ on $A$ defined by $a \sim b \iff \exists g \in G, \, g \cdot a = b$ is an equivalence relation. Consequently, the orbits of $G$ on $A$ form a partition of $A$:
+\begin{equation}
+A = \bigcup_{i \in I} \mathcal{O}_{a_i} \quad (\text{disjoint union}).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+We verify the three equivalence relation axioms:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item \emph{Reflexive:} $1_G \cdot a = a \implies a \sim a$.
+    \item \emph{Symmetric:} If $a \sim b$, then $g \cdot a = b$ for some $g \in G$.
+    Acting on both sides by $g^{-1}$:
+    \begin{equation*}
+    g^{-1} \cdot b = g^{-1} \cdot (g \cdot a) = (g^{-1} g) \cdot a = 1_G \cdot a = a.
+    \end{equation*}
+    Thus $b \sim a$.
+    \item \emph{Transitive:} If $a \sim b$ and $b \sim c$, then $g_1 \cdot a = b$ and $g_2 \cdot b = c$.
+    Then:
+    \begin{equation*}
+    (g_2 g_1) \cdot a = g_2 \cdot (g_1 \cdot a) = g_2 \cdot b = c.
+    \end{equation*}
+    Since $g_2 g_1 \in G$, $a \sim c$.
+\end{itemize}
+The equivalence classes under $\sim$ are precisely the orbits $\mathcal{O}_a$. Therefore, the orbits partition $A$.
+\end{proof}
+
+\begin{theorem}[The Orbit-Stabilizer Theorem]
+\label{thm:orbit_stabilizer}
+Let $G$ act on a set $A$, and let $a \in A$. Then $G_a \le G$, and there is a natural bijection between the orbit $\mathcal{O}_a$ and the set of left cosets $G/G_a$. In particular, if $G$ is finite:
+\begin{equation}
+|\mathcal{O}_a| = [G : G_a] = \frac{|G|}{|G_a|}.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{Proof that $G_a \le G$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \emph{Non-empty:} $1_G \cdot a = a \implies 1_G \in G_a$, so $G_a \ne \emptyset$.
+        \item \emph{Subgroup Criterion:} Let $x, y \in G_a$, so $x \cdot a = a$ and $y \cdot a = a$.
+        From $y \cdot a = a$, act on both sides by $y^{-1}$:
+        \begin{equation*}
+        y^{-1} \cdot a = y^{-1} \cdot (y \cdot a) = (y^{-1} y) \cdot a = 1_G \cdot a = a.
+        \end{equation*}
+        Now evaluate $(xy^{-1}) \cdot a$:
+        \begin{equation*}
+        (xy^{-1}) \cdot a = x \cdot (y^{-1} \cdot a) = x \cdot a = a.
+        \end{equation*}
+        Thus $xy^{-1} \in G_a$, which proves $G_a \le G$.
+    \end{itemize}
+
+    \item \textbf{Construction of the Coset Mapping:}
+    Define the map:
+    \begin{align*}
+    \Phi: G/G_a &\longrightarrow \mathcal{O}_a \\
+    g G_a &\longmapsto g \cdot a.
+    \end{align*}
+
+    \item \textbf{Well-Definedness and Injectivity:}
+    For any $g_1, g_2 \in G$:
+    \begin{align*}
+    g_1 G_a = g_2 G_a 
+    &\iff g_2^{-1}g_1 \in G_a \quad \text{(by Lemma~\ref{lem:coset_props}(iii))} \\
+    &\iff (g_2^{-1}g_1) \cdot a = a \quad \text{(by definition of $G_a$)} \\
+    &\iff g_2 \cdot \bigl((g_2^{-1}g_1) \cdot a\bigr) = g_2 \cdot a \\
+    &\iff (g_2 g_2^{-1} g_1) \cdot a = g_2 \cdot a \\
+    &\iff g_1 \cdot a = g_2 \cdot a \\
+    &\iff \Phi(g_1 G_a) = \Phi(g_2 G_a).
+    \end{align*}
+    Reading left-to-right establishes well-definedness; reading right-to-left establishes injectivity.
+
+    \item \textbf{Surjectivity:}
+    Let $b \in \mathcal{O}_a$. By definition of the orbit, $b = g \cdot a$ for some $g \in G$.
+    Then the coset $g G_a \in G/G_a$ satisfies:
+    \begin{equation*}
+    \Phi(g G_a) = g \cdot a = b.
+    \end{equation*}
+    Thus $\Phi$ is surjective.
+\end{enumerate}
+Since $\Phi: G/G_a \to \mathcal{O}_a$ is a bijection:
+\begin{equation*}
+|\mathcal{O}_a| = |G/G_a| = [G : G_a] = \frac{|G|}{|G_a|}.
+\end{equation*}
+\end{proof}
+
+\begin{theorem}[Cayley's Theorem]
+\label{thm:cayley}
+Every group $G$ is isomorphic to a subgroup of the symmetric group $S_G$. In particular, if $|G| = n$, $G$ is isomorphic to a subgroup of $S_n$.
+\end{theorem}
+
+\begin{proof}
+Let $G$ act on itself ($A = G$) by left multiplication:
+\begin{equation*}
+g \cdot x = gx \quad \text{for all } g, x \in G.
+\end{equation*}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \emph{Verification of Action Axioms:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item $1_G \cdot x = 1_G x = x$.
+        \item $g_1 \cdot (g_2 \cdot x) = g_1(g_2 x) = (g_1 g_2)x = (g_1 g_2) \cdot x$ (by associativity in $G$).
+    \end{itemize}
+    
+    \item \emph{Homomorphism:}
+    By Proposition~\ref{prop:perm_rep}, this action yields a permutation representation homomorphism:
+    \begin{align*}
+    \sigma: G &\longrightarrow S_G \\
+    g &\longmapsto \sigma_g, \quad \text{where } \sigma_g(x) = gx.
+    \end{align*}
+
+    \item \emph{Injectivity (Kernel Computation):}
+    \begin{align*}
+    \ker(\sigma) &= \{ g \in G \mid \sigma_g = \text{id}_G \} \\
+    &= \{ g \in G \mid gx = x \text{ for all } x \in G \} \\
+    &= \{ g \in G \mid g \cdot 1_G = 1_G \} \\
+    &= \{ g \in G \mid g = 1_G \} \\
+    &= \{ 1_G \}.
+    \end{align*}
+    Since $\ker(\sigma) = \{1_G\}$, $\sigma$ is an injective homomorphism.
+    By the First Isomorphism Theorem (Theorem~\ref{thm:first_iso}):
+    \begin{equation*}
+    G \cong \im(\sigma) \le S_G.
+    \end{equation*}
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section[Conjugacy Classes, the Class Equation, and Groups of Order p\^{}2]{Conjugacy Classes, the Class Equation, and Groups of Order $p^2$}
+\label{sec:class_equation}
+
+\begin{definition}[Conjugation Action and Conjugacy Classes]
+Let $G$ act on itself by conjugation:
+\begin{equation}
+g \cdot x = g x g^{-1}.
+\end{equation}
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item The orbits under this action are called the \textbf{conjugacy classes} of $G$. The conjugacy class of $x \in G$ is:
+    \begin{equation}
+    \mathcal{C}\ell(x) = \{ g x g^{-1} \mid g \in G \}.
+    \end{equation}
+    \item The stabilizer of $x$ is the centralizer $C_G(x)$:
+    \begin{equation}
+    G_x = \{ g \in G \mid gxg^{-1} = x \} = \{ g \in G \mid gx = xg \} = C_G(x).
+    \end{equation}
+    \item By the Orbit-Stabilizer Theorem (Theorem~\ref{thm:orbit_stabilizer}):
+    \begin{equation}
+    |\mathcal{C}\ell(x)| = [G : C_G(x)].
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[The Class Equation]
+\label{thm:class_equation}
+Let $G$ be a finite group, and let $g_1, g_2, \dots, g_r$ be representatives of the distinct conjugacy classes of $G$ that contain strictly more than one element ($g_i \notin Z(G)$). Then:
+\begin{equation}
+|G| = |Z(G)| + \sum_{i=1}^r [G : C_G(g_i)].
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:orbits_partition}, the conjugacy classes partition the elements of $G$:
+\begin{equation*}
+G = \bigcup_{x} \mathcal{C}\ell(x) \implies |G| = \sum_{x} |\mathcal{C}\ell(x)|.
+\end{equation*}
+An element $x$ forms a singleton conjugacy class ($|\mathcal{C}\ell(x)| = 1$) if and only if:
+\begin{equation*}
+\mathcal{C}\ell(x) = \{x\} \iff \forall g \in G, \, gxg^{-1} = x \iff \forall g \in G, \, gx = xg \iff x \in Z(G).
+\end{equation*}
+There are precisely $|Z(G)|$ such elements, and each contributes $1$ to the sum of cardinalities.
+The remaining conjugacy classes have sizes strictly greater than $1$. Let $g_1, \dots, g_r$ be representatives of these distinct classes.
+By the Orbit-Stabilizer Theorem, each has cardinality:
+\begin{equation*}
+|\mathcal{C}\ell(g_i)| = [G : C_G(g_i)].
+\end{equation*}
+Summing over all classes gives:
+\begin{equation*}
+|G| = \sum_{z \in Z(G)} 1 + \sum_{i=1}^r |\mathcal{C}\ell(g_i)| = |Z(G)| + \sum_{i=1}^r [G : C_G(g_i)].
+\end{equation*}
+\end{proof}
+
+\begin{theorem}[$p$-Groups Have Non-Trivial Center]
+\label{thm:pgroup_center}
+Let $p$ be a prime number. If $G$ is a finite group of order $|G| = p^n$ with $n \ge 1$ (a $p$-group), then its center is non-trivial:
+\begin{equation}
+|Z(G)| \ge p > 1.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Apply the Class Equation (Theorem~\ref{thm:class_equation}) to $G$:
+\begin{equation*}
+|G| = |Z(G)| + \sum_{i=1}^r [G : C_G(g_i)].
+\end{equation*}
+For each representative $g_i \notin Z(G)$, $C_G(g_i)$ is a proper subgroup of $G$ ($C_G(g_i) < G$).
+By Lagrange's Theorem, $|C_G(g_i)| = p^{m_i}$ with $m_i < n$, which implies the index:
+\begin{equation*}
+[G : C_G(g_i)] = \frac{p^n}{p^{m_i}} = p^{n - m_i}, \quad \text{where } n - m_i \ge 1.
+\end{equation*}
+Therefore, $p$ divides $[G : C_G(g_i)]$ for all $i \in \{1, 2, \dots, r\}$.
+Since $|G| = p^n$ with $n \ge 1$, $p$ also divides $|G|$.
+Rearranging the Class Equation:
+\begin{equation*}
+|Z(G)| = |G| - \sum_{i=1}^r [G : C_G(g_i)].
+\end{equation*}
+Since $p$ divides every term on the right-hand side, $p$ divides $|Z(G)|$.
+Since $1_G \in Z(G)$, $|Z(G)| \ge 1$.
+Because $p \mid |Z(G)|$ and $|Z(G)| \ge 1$, it follows that $|Z(G)| \ge p > 1$.
+\end{proof}
+
+\begin{theorem}[Classification of Groups of Order $p^2$]
+\label{thm:groups_order_p2}
+Let $p$ be a prime number. If $G$ is a group of order $|G| = p^2$, then $G$ is abelian. Consequently:
+\begin{equation}
+G \cong \Z_{p^2} \quad \text{or} \quad G \cong \Z_p \times \Z_p.
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item By Theorem~\ref{thm:pgroup_center}, $|Z(G)| > 1$.
+    By Lagrange's Theorem, $|Z(G)|$ must divide $|G| = p^2$.
+    The positive divisors of $p^2$ are $1, p, p^2$.
+    Since $|Z(G)| > 1$, we must have:
+    \begin{equation*}
+    |Z(G)| = p \quad \text{or} \quad |Z(G)| = p^2.
+    \end{equation*}
+
+    \item Suppose for contradiction that $|Z(G)| = p$.
+    Then the order of the quotient group $G/Z(G)$ is:
+    \begin{equation*}
+    |G/Z(G)| = \frac{|G|}{|Z(G)|} = \frac{p^2}{p} = p.
+    \end{equation*}
+    By Corollary~\ref{cor:prime_order_cyclic}, any group of prime order is cyclic.
+    Therefore, $G/Z(G)$ is cyclic.
+
+    \item By Exercise 3 of Unit 2, if $G/Z(G)$ is cyclic, then $G$ is abelian.
+    If $G$ is abelian, then $Z(G) = G$, so $|Z(G)| = |G| = p^2$.
+    This contradicts our assumption that $|Z(G)| = p$.
+
+    \item Therefore, we must have $|Z(G)| = p^2 = |G|$, which implies $G = Z(G)$, so $G$ is abelian.
+\end{enumerate}
+Now we classify the abelian group $G$ of order $p^2$:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item If $G$ contains an element $x$ of order $p^2$, then $\langle x \rangle = G$, so $G$ is cyclic: $G \cong \Z_{p^2}$.
+    \item If $G$ contains no element of order $p^2$, then by Lagrange's Theorem every non-identity element has order $p$.
+    Choose $x \in G \setminus \{1\}$ and $y \in G \setminus \langle x \rangle$.
+    Let $H = \langle x \rangle \cong \Z_p$ and $K = \langle y \rangle \cong \Z_p$.
+    Since $G$ is abelian, $H \trianglelefteq G$ and $K \trianglelefteq G$.
+    Moreover, $H \cap K = \{1\}$ (since $|H \cap K|$ divides $p$ and $y \notin H$).
+    Then $|HK| = \frac{|H||K|}{|H \cap K|} = \frac{p \cdot p}{1} = p^2 = |G|$, so $HK = G$.
+    By Theorem~\ref{thm:internal_direct_product}, $G \cong H \times K \cong \Z_p \times \Z_p$.
+\end{itemize}
+\end{proof}
+
+% =========================================================
+\section{Introduction to Rings, Subrings, and Concrete Examples}
+\label{sec:rings_intro}
+
+\begin{definition}[Ring]
+A \textbf{ring} $(R, +, \cdot)$ is a set $R$ equipped with two binary operations, addition ($+$) and multiplication ($\cdot$), satisfying the following axioms for all $a, b, c \in R$:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $(R, +)$ is an abelian group with additive identity denoted $0$ (or $0_R$), and the additive inverse of $a$ denoted $-a$.
+    \item Multiplication is associative: $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
+    \item Multiplication is distributive over addition:
+    \begin{equation}
+    a \cdot (b + c) = a \cdot b + a \cdot c \quad \text{and} \quad (a + b) \cdot c = a \cdot c + b \cdot c.
+    \end{equation}
+\end{enumerate}
+If $ab = ba$ for all $a, b \in R$, $R$ is called \textbf{commutative}.
+If there exists an element $1 \in R$ ($1 \ne 0$) such that $1 \cdot a = a \cdot 1 = a$ for all $a \in R$, $R$ is called a \textbf{ring with unity} (or ring with identity).
+\end{definition}
+
+\begin{proposition}[Elementary Arithmetic in Rings]
+\label{prop:ring_arithmetic}
+Let $R$ be a ring. For all $a, b, c \in R$:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $0 \cdot a = a \cdot 0 = 0$.
+    \item $(-a)b = a(-b) = -(ab)$.
+    \item $(-a)(-b) = ab$.
+    \item $a(b - c) = ab - ac$ and $(a - b)c = ac - bc$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=6pt]
+    \item $0 \cdot a = (0 + 0) \cdot a = 0 \cdot a + 0 \cdot a$.
+    Adding $-(0 \cdot a)$ to both sides: $0 = 0 \cdot a$. Similarly $a \cdot 0 = 0$.
+    \item $ab + (-a)b = \bigl(a + (-a)\bigr)b = 0 \cdot b = 0$.
+    By uniqueness of additive inverses in $(R, +)$, $(-a)b = -(ab)$.
+    \item $(-a)(-b) = -\bigl(a(-b)\bigr) = -\bigl(-(ab)\bigr) = ab$.
+    \item $a(b - c) = a\bigl(b + (-c)\bigr) = ab + a(-c) = ab + \bigl(-(ac)\bigr) = ab - ac$.
+\end{enumerate}
+\end{proof}
+
+\begin{definition}[Subring]
+Let $R$ be a ring with unity $1_R$. A subset $S \subseteq R$ is called a \textbf{subring} of $R$ if $1_R \in S$, and for all $x, y \in S$:
+\begin{equation}
+x - y \in S \quad \text{and} \quad xy \in S.
+\end{equation}
+\end{definition}
+
+\subsection{Concrete Examples of Rings}
+
+\begin{example}[Gaussian Integers {$\Z[i]$}]
+The ring of \textbf{Gaussian integers} is:
+\begin{equation}
+\Z[i] = \{ a + bi \mid a, b \in \Z, \, i^2 = -1 \}.
+\end{equation}
+It is a commutative ring with unity $1 = 1 + 0i$. The \textbf{field norm}:
+\begin{equation}
+N(a + bi) = a^2 + b^2 = (a + bi)(a - bi)
+\end{equation}
+satisfies $N(\alpha \beta) = N(\alpha)N(\beta)$.
+An element $\alpha \in \Z[i]$ is a unit if and only if $N(\alpha) = 1$, giving four units:
+\begin{equation}
+(\Z[i])^\times = \{ 1, -1, i, -i \}.
+\end{equation}
+\end{example}
+
+\begin{example}[Matrix Rings $M_n(R)$]
+Let $R$ be a ring. The set $M_n(R)$ of all $n \times n$ matrices with entries in $R$ forms a ring under standard matrix addition and multiplication.
+For $n \ge 2$, $M_n(R)$ is non-commutative. The identity element is the identity matrix $I_n$.
+\end{example}
+
+\begin{example}[Real Hamilton Quaternions $\Hbb$]
+The ring of \textbf{quaternions} over $\R$ is:
+\begin{equation}
+\Hbb = \{ a + bi + cj + dk \mid a, b, c, d \in \R \}
+\end{equation}
+with basis $\{1, i, j, k\}$ and relations:
+\begin{equation}
+i^2 = j^2 = k^2 = ijk = -1, \quad ij = -ji = k, \quad jk = -kj = i, \quad ki = -ik = j.
+\end{equation}
+The conjugate of $q = a + bi + cj + dk$ is $\bar{q} = a - bi - cj - dk$, and the norm is:
+\begin{equation}
+N(q) = q \bar{q} = a^2 + b^2 + c^2 + d^2.
+\end{equation}
+Every non-zero quaternion $q \ne 0$ has multiplicative inverse:
+\begin{equation}
+q^{-1} = \frac{\bar{q}}{N(q)} = \frac{a - bi - cj - dk}{a^2 + b^2 + c^2 + d^2}.
+\end{equation}
+Thus $\Hbb$ is a non-commutative division ring.
+\end{example}
+
+% =========================================================
+\section{Ring Homomorphisms, Ideals, and Quotient Rings}
+\label{sec:ideals_quotients}
+
+\begin{definition}[Ring Homomorphism]
+Let $R$ and $S$ be rings with unity. A map $\varphi: R \to S$ is a \textbf{ring homomorphism} if for all $a, b \in R$:
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $\varphi(a + b) = \varphi(a) + \varphi(b)$,
+    \item $\varphi(ab) = \varphi(a)\varphi(b)$,
+    \item $\varphi(1_R) = 1_S$.
+\end{enumerate}
+The \textbf{kernel} of $\varphi$ is $\ker(\varphi) = \{ r \in R \mid \varphi(r) = 0_S \}$.
+\end{definition}
+
+\begin{definition}[Ideal]
+Let $R$ be a ring. A subset $I \subseteq R$ is called a \textbf{(two-sided) ideal}, denoted $I \trianglelefteq R$, if:
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $(I, +)$ is a subgroup of $(R, +)$ ($0 \in I$ and $x - y \in I$ for all $x, y \in I$).
+    \item \textbf{Absorption Property:} For every $r \in R$ and every $x \in I$:
+    \begin{equation}
+    rx \in I \quad \text{and} \quad xr \in I.
+    \end{equation}
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Quotient Rings and First Isomorphism Theorem for Rings]
+\label{thm:ring_iso1}
+Let $I \trianglelefteq R$.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item The set of additive cosets $R/I = \{ r + I \mid r \in R \}$ is a ring under the well-defined operations:
+    \begin{align}
+    (a + I) + (b + I) &= (a + b) + I, \\
+    (a + I)(b + I) &= (ab) + I.
+    \end{align}
+    \item If $\varphi: R \to S$ is a ring homomorphism, then $\ker(\varphi) \trianglelefteq R$, and:
+    \begin{equation}
+    R/\ker(\varphi) \cong \im(\varphi).
+    \end{equation}
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Well-Definedness of Coset Multiplication:}
+    Suppose $a + I = a' + I$ and $b + I = b' + I$.
+    Then $a' = a + x$ and $b' = b + y$ for some $x, y \in I$.
+    Compute the product $a'b'$:
+    \begin{equation*}
+    a'b' = (a + x)(b + y) = ab + ay + xb + xy.
+    \end{equation*}
+    Since $I$ is an ideal, $y \in I \implies ay \in I$, $x \in I \implies xb \in I$, and $xy \in I$.
+    Since $(I, +)$ is closed under addition, $ay + xb + xy \in I$.
+    Therefore:
+    \begin{equation*}
+    a'b' \in ab + I \implies a'b' + I = ab + I.
+    \end{equation*}
+    Thus multiplication is well-defined. The ring axioms for $R/I$ follow directly from those of $R$.
+
+    \item \textbf{First Isomorphism Theorem for Rings:}
+    Let $K = \ker(\varphi)$.
+    Since $\varphi$ is a group homomorphism on $(R, +)$, $K$ is an additive subgroup.
+    For any $r \in R$ and $k \in K$:
+    \begin{equation*}
+    \varphi(rk) = \varphi(r)\varphi(k) = \varphi(r) \cdot 0_S = 0_S \implies rk \in K,
+    \end{equation*}
+    and similarly $kr \in K$. Thus $K \trianglelefteq R$.
+    
+    The map $\bar{\varphi}: R/K \to \im(\varphi)$ defined by $\bar{\varphi}(r + K) = \varphi(r)$ is well-defined and bijective on additive groups (by Theorem~\ref{thm:first_iso}).
+    Furthermore:
+    \begin{equation*}
+    \bar{\varphi}\bigl((a+K)(b+K)\bigr) = \bar{\varphi}(ab + K) = \varphi(ab) = \varphi(a)\varphi(b) = \bar{\varphi}(a+K)\bar{\varphi}(b+K),
+    \end{equation*}
+    and $\bar{\varphi}(1_R + K) = \varphi(1_R) = 1_S$.
+    Thus $\bar{\varphi}$ is a ring isomorphism: $R/\ker(\varphi) \cong \im(\varphi)$.
+\end{enumerate}
+\end{proof}
+
+\begin{definition}[Prime and Maximal Ideals]
+Let $R$ be a commutative ring with unity $1 \ne 0$, and let $I \subset R$ be a proper ideal ($I \ne R$).
+\begin{enumerate}[label=\textbf{(\arabic*)}, leftmargin=*, itemsep=4pt]
+    \item $I$ is a \textbf{prime ideal} if for all $a, b \in R$:
+    \begin{equation}
+    ab \in I \implies a \in I \quad \text{or} \quad b \in I.
+    \end{equation}
+    \item $I$ is a \textbf{maximal ideal} if there is no ideal $J$ of $R$ such that $I \subsetneq J \subsetneq R$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Characterization of Prime and Maximal Ideals]
+\label{thm:prime_maximal_char}
+Let $R$ be a commutative ring with unity $1$.
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=4pt]
+    \item $I$ is a prime ideal in $R$ if and only if $R/I$ is an integral domain.
+    \item $I$ is a maximal ideal in $R$ if and only if $R/I$ is a field.
+    \item Every maximal ideal in $R$ is a prime ideal.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\begin{enumerate}[label=\textbf{(\roman*)}, leftmargin=*, itemsep=8pt]
+    \item \textbf{Prime Ideals and Integral Domains:}
+    $R/I$ is a commutative ring with unity $1 + I \ne 0 + I$ (since $I \ne R$).
+    The quotient ring $R/I$ is an integral domain if and only if:
+    \begin{align*}
+    (a+I)(b+I) = 0+I &\implies a+I = 0+I \quad\text{or}\quad b+I = 0+I \\
+    &\iff ab + I = I \implies a+I = I \quad\text{or}\quad b+I = I \\
+    &\iff ab \in I \implies a \in I \quad\text{or}\quad b \in I \\
+    &\iff I \text{ is a prime ideal in } R.
+    \end{align*}
+
+    \item \textbf{Maximal Ideals and Fields:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+        \item \textbf{Direction $(\implies)$:} Suppose $I$ is maximal. Let $a + I \in R/I$ with $a + I \ne 0 + I$ (so $a \notin I$).
+        Consider the ideal $J = I + (a) = \{ i + ra \mid i \in I, r \in R \}$.
+        Since $I \subseteq J$ and $a \in J \setminus I$, we have $I \subsetneq J$.
+        By maximality of $I$, we must have $J = R$.
+        Since $1 \in R = J$, there exist $i \in I$ and $r \in R$ such that:
+        \begin{equation*}
+        1 = i + ra \implies 1 - ra = i \in I \implies ra + I = 1 + I \implies (r+I)(a+I) = 1+I.
+        \end{equation*}
+        Thus $r + I$ is the multiplicative inverse of $a + I$. Hence $R/I$ is a field.
+        
+        \item \textbf{Direction $(\impliedby)$:} Suppose $R/I$ is a field.
+        Let $J$ be an ideal of $R$ with $I \subsetneq J \subseteq R$.
+        Choose an element $x \in J \setminus I$.
+        Then $x + I \ne 0 + I$ in $R/I$.
+        Since $R/I$ is a field, $x + I$ is invertible: there exists $y \in R$ such that:
+        \begin{equation*}
+        (x + I)(y + I) = 1 + I \implies xy + I = 1 + I \implies 1 - xy \in I \subseteq J.
+        \end{equation*}
+        Since $x \in J$ and $J$ is an ideal, $xy \in J$.
+        Then $1 = (1 - xy) + xy \in J$.
+        An ideal containing $1$ must be the whole ring: $J = R$.
+        Therefore, $I$ is maximal.
+    \end{itemize}
+
+    \item \textbf{Maximal $\implies$ Prime:}
+    If $I$ is maximal, then $R/I$ is a field.
+    Since every field is an integral domain (non-zero elements are units, hence cannot be zero divisors), $R/I$ is an integral domain.
+    By part (i), $I$ is a prime ideal.
+\end{enumerate}
+\end{proof}
+
+% =========================================================
+\section{Exercises and Step-by-Step Solutions}
+\label{sec:unit4_exercises}
+
+\begin{problem}[Exercise 1: Stabilizers in the Same Orbit are Conjugate]
+Let $G$ act on a set $A$. Prove that for any $a \in A$ and $g \in G$, the stabilizer of $g \cdot a$ is conjugate to the stabilizer of $a$:
+\begin{equation}
+G_{g \cdot a} = g G_a g^{-1}.
+\end{equation}
+\end{problem}
+
+\begin{proof}[Solution]
+We prove double containment:
+\begin{itemize}[leftmargin=1.5em, itemsep=6pt]
+    \item \textbf{Direction $(\subseteq)$:}
+    Let $x \in G_{g \cdot a}$.
+    By definition of stabilizer:
+    \begin{align*}
+    x \cdot (g \cdot a) = g \cdot a 
+    &\implies (xg) \cdot a = g \cdot a \\
+    &\implies g^{-1} \cdot \bigl((xg) \cdot a\bigr) = g^{-1} \cdot (g \cdot a) \\
+    &\implies (g^{-1}xg) \cdot a = (g^{-1}g) \cdot a = 1_G \cdot a = a.
+    \end{align*}
+    Thus $g^{-1}xg \in G_a$.
+    Multiplying on the left by $g$ and on the right by $g^{-1}$:
+    \begin{equation*}
+    x = g(g^{-1}xg)g^{-1} \in g G_a g^{-1}.
+    \end{equation*}
+    Thus $G_{g \cdot a} \subseteq g G_a g^{-1}$.
+
+    \item \textbf{Direction $(\supseteq)$:}
+    Let $y \in g G_a g^{-1}$, so $y = g h g^{-1}$ for some $h \in G_a$ (where $h \cdot a = a$).
+    Evaluate the action of $y$ on $g \cdot a$:
+    \begin{align*}
+    y \cdot (g \cdot a) &= (g h g^{-1}) \cdot (g \cdot a) \\
+    &= (g h g^{-1} g) \cdot a \\
+    &= (gh) \cdot a \\
+    &= g \cdot (h \cdot a) \\
+    &= g \cdot a \quad \text{(since $h \in G_a$)}.
+    \end{align*}
+    Thus $y \in G_{g \cdot a}$, which proves $g G_a g^{-1} \subseteq G_{g \cdot a}$.
+\end{itemize}
+Combining both inclusions gives $G_{g \cdot a} = g G_a g^{-1}$.
+\end{proof}
+
+\begin{problem}[Exercise 2: Class Equation of the Dihedral Group $D_8$]
+Determine the conjugacy classes and write out the explicit Class Equation for the dihedral group $D_8 = \langle r, s \mid r^4 = s^2 = 1, \, srs = r^{-1} \rangle$ of order 8.
+\end{problem}
+
+\begin{proof}[Solution]
+The elements of $D_8$ are $\{1, r, r^2, r^3, s, sr, sr^2, sr^3\}$.
+We compute the conjugates of all elements:
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item Identity: $\mathcal{C}\ell(1) = \{1\}$.
+    \item Powers of $r$:
+    \begin{itemize}[leftmargin=1em, itemsep=2pt]
+        \item $s r s = r^3 \implies \mathcal{C}\ell(r) = \{r, r^3\}$.
+        \item $s r^2 s = (r^2)^{-1} = r^2$, and $r r^2 r^{-1} = r^2$. Thus $r^2 \in Z(D_8)$, so $\mathcal{C}\ell(r^2) = \{r^2\}$.
+    \end{itemize}
+    Thus the center of $D_8$ is $Z(D_8) = \{1, r^2\}$ (order 2).
+    \item Reflections:
+    \begin{itemize}[leftmargin=1em, itemsep=2pt]
+        \item $r s r^{-1} = r(sr^{-1}) = r(sr^3) = sr^2 \implies \mathcal{C}\ell(s) = \{s, sr^2\}$.
+        \item $r (sr) r^{-1} = r(s) = sr^3 \implies \mathcal{C}\ell(sr) = \{sr, sr^3\}$.
+    \end{itemize}
+\end{itemize}
+The 5 distinct conjugacy classes are:
+\begin{equation*}
+\{1\}, \quad \{r^2\}, \quad \{r, r^3\}, \quad \{s, sr^2\}, \quad \{sr, sr^3\}.
+\end{equation*}
+The centralizers of the representatives of non-central classes are:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+    \item $C_{D_8}(r) = \langle r \rangle = \{1, r, r^2, r^3\}$ (order 4, index $8/4 = 2$).
+    \item $C_{D_8}(s) = \{1, r^2, s, sr^2\}$ (order 4, index $8/4 = 2$).
+    \item $C_{D_8}(sr) = \{1, r^2, sr, sr^3\}$ (order 4, index $8/4 = 2$).
+\end{itemize}
+The explicit Class Equation is:
+\begin{equation}
+|D_8| = |Z(D_8)| + [D_8 : C_{D_8}(r)] + [D_8 : C_{D_8}(s)] + [D_8 : C_{D_8}(sr)],
+\end{equation}
+which translates numerically to:
+\begin{equation}
+8 = 2 + 2 + 2 + 2.
+\end{equation}
+\end{proof}
+
+\begin{problem}[Exercise 3: Alternative Proof that Groups of Order $p^2$ are Abelian]
+Prove that any group $G$ of order $p^2$ ($p$ prime) is abelian without using the Class Equation directly, by analyzing element centralizers.
+\end{problem}
+
+\begin{proof}[Solution]
+By Lagrange's Theorem, the possible orders of elements in $G$ are $1, p, p^2$.
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item If $G$ has an element of order $p^2$, then $G$ is cyclic, hence abelian.
+    \item Now assume every non-identity element of $G$ has order $p$.
+    Let $x \in G \setminus \{1\}$.
+    The cyclic subgroup $\langle x \rangle$ has order $p$.
+    The centralizer $C_G(x)$ contains $\langle x \rangle$, so $|C_G(x)| \ge p$.
+    By Lagrange's Theorem, $|C_G(x)|$ divides $|G| = p^2$, so $|C_G(x)| \in \{p, p^2\}$.
+    
+    If $|C_G(x)| = p^2$ for all $x \in G$, then $C_G(x) = G$ for all $x$, meaning every element commutes with all of $G$, so $G$ is abelian.
+    
+    Suppose for contradiction that there exists $x \in G \setminus \{1\}$ such that $|C_G(x)| = p$.
+    Then $C_G(x) = \langle x \rangle$.
+    Since $[G : C_G(x)] = p^2/p = p$, there are $p$ distinct left cosets of $\langle x \rangle$ in $G$.
+    Since $\langle x \rangle$ has prime index $p$ in a group of order $p^2$, $\langle x \rangle \trianglelefteq G$.
+    For any $y \in G \setminus \langle x \rangle$, $y x y^{-1} \in \langle x \rangle$, so $y x y^{-1} = x^k$ for some $1 \le k \le p - 1$.
+    Then $y^p x y^{-p} = x^{k^p}$.
+    Since $y^p = 1$, $x = x^{k^p}$, so $k^p \equiv 1 \pmod p$.
+    By Fermat's Little Theorem, $k^p \equiv k \pmod p$, which forces $k \equiv 1 \pmod p$.
+    Thus $y x y^{-1} = x \implies yx = xy$.
+    This means $y \in C_G(x)$, contradicting $y \notin \langle x \rangle = C_G(x)$.
+\end{itemize}
+Therefore, $G$ must be abelian.
+\end{proof}
+
+\begin{problem}[Exercise 4: Subring vs. Ideal in Matrix Rings]
+Prove that the set of upper-triangular matrices:
+\begin{equation}
+S = \left\{ \begin{pmatrix} a & b \\ 0 & d \end{pmatrix} \;\middle|\; a, b, d \in \R \right\}
+\end{equation}
+is a subring of $M_2(\R)$, but is \textbf{not} an ideal of $M_2(\R)$.
+\end{problem}
+
+\begin{proof}[Solution]
+\begin{enumerate}[label=\arabic*., leftmargin=*]
+    \item \textbf{$S$ is a Subring of $M_2(\R)$:}
+    \begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+        \item $I_2 = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} \in S$ (setting $a = 1, b = 0, d = 1$).
+        \item For $A = \begin{pmatrix} a_1 & b_1 \\ 0 & d_1 \end{pmatrix}, B = \begin{pmatrix} a_2 & b_2 \\ 0 & d_2 \end{pmatrix} \in S$:
+        \begin{equation*}
+        A - B = \begin{pmatrix} a_1 - a_2 & b_1 - b_2 \\ 0 & d_1 - d_2 \end{pmatrix} \in S.
+        \end{equation*}
+        \item The product is:
+        \begin{equation*}
+        AB = \begin{pmatrix} a_1 & b_1 \\ 0 & d_1 \end{pmatrix}\begin{pmatrix} a_2 & b_2 \\ 0 & d_2 \end{pmatrix} = \begin{pmatrix} a_1 a_2 & a_1 b_2 + b_1 d_2 \\ 0 & d_1 d_2 \end{pmatrix} \in S.
+        \end{equation*}
+    \end{itemize}
+    Thus $S$ is a subring.
+
+    \item \textbf{$S$ is Not an Ideal of $M_2(\R)$:}
+    Choose $X = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix} \in M_2(\R)$ and $A = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I_2 \in S$.
+    Then:
+    \begin{equation*}
+    XA = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 0 & 0 \\ 1 & 0 \end{pmatrix} \notin S.
+    \end{equation*}
+    Since the bottom-left entry is $1 \ne 0$, $XA \notin S$.
+    Thus $S$ does not satisfy the absorption property, so $S$ is not an ideal.
+\end{enumerate}
+\end{proof}
+
+\begin{problem}[Exercise 5: Prime and Maximal Properties of {$(x) \subseteq R[x]$}]
+Let $R$ be a commutative ring with unity $1$. Prove that the principal ideal $(x)$ in $R[x]$ is a prime ideal if and only if $R$ is an integral domain, and is a maximal ideal if and only if $R$ is a field.
+\end{problem}
+
+\begin{proof}[Solution]
+Define the evaluation homomorphism at 0:
+\begin{align*}
+\operatorname{ev}_0: R[x] &\longrightarrow R \\
+f(x) = \sum a_i x^i &\longmapsto f(0) = a_0.
+\end{align*}
+\begin{itemize}[leftmargin=1.5em, itemsep=3pt]
+    \item $\operatorname{ev}_0$ is surjective since for any $r \in R$, the constant polynomial $f(x) = r$ satisfies $\operatorname{ev}_0(r) = r$.
+    \item The kernel is:
+    \begin{equation*}
+    \ker(\operatorname{ev}_0) = \{ f(x) \in R[x] \mid f(0) = 0 \} = \{ a_n x^n + \dots + a_1 x \mid a_i \in R \} = (x).
+    \end{equation*}
+\end{itemize}
+By the First Isomorphism Theorem for Rings (Theorem~\ref{thm:ring_iso1}(ii)):
+\begin{equation*}
+R[x]/(x) \cong R.
+\end{equation*}
+Now apply Theorem~\ref{thm:prime_maximal_char}:
+\begin{itemize}[leftmargin=1.5em, itemsep=4pt]
+    \item $(x)$ is prime $\iff R[x]/(x)$ is an integral domain $\iff R$ is an integral domain.
+    \item $(x)$ is maximal $\iff R[x]/(x)$ is a field $\iff R$ is a field.
+\end{itemize}
+\end{proof}
+
+\begin{problem}[Exercise 6: The Ideal $(2)$ in Gaussian Integers]
+Show that in the ring of Gaussian integers $\Z[i]$, the principal ideal $(2)$ is \textbf{not} prime by finding elements $a, b \in \Z[i]$ such that $ab \in (2)$ but $a \notin (2)$ and $b \notin (2)$.
+\end{problem}
+
+\begin{proof}[Solution]
+Consider the element $1 + i \in \Z[i]$.
+Compute its square:
+\begin{equation*}
+(1 + i)^2 = 1^2 + 2i + i^2 = 1 + 2i - 1 = 2i = 2 \cdot i.
+\end{equation*}
+Since $i \in \Z[i]$, $2i \in (2)$.
+Therefore:
+\begin{equation*}
+(1 + i)(1 + i) \in (2).
+\end{equation*}
+Now we test whether $1 + i \in (2)$.
+If $1 + i \in (2)$, there would exist $a + bi \in \Z[i]$ such that:
+\begin{equation*}
+1 + i = 2(a + bi) = 2a + 2bi.
+\end{equation*}
+Equating real parts gives $2a = 1 \implies a = 1/2 \notin \Z$, which is impossible.
+Thus $1 + i \notin (2)$.
+Since $(1+i)(1+i) \in (2)$ while $1+i \notin (2)$, the ideal $(2)$ is not prime in $\Z[i]$.
+\end{proof}

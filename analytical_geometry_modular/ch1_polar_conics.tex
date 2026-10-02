@@ -1,0 +1,805 @@
+\chapter{Polar Equations of Conic Sections (Pages 1--14)}
+\label{ch:polar_conics}
+
+% =========================================================================
+% PAGE 01
+% =========================================================================
+\section{Page 1: Focus-Directrix Definition and Standard Polar Equations}
+\label{sec:page01}
+
+\begin{conceptbox}[Manuscript Overview: Page 1]
+Page 1 introduces the polar coordinate system applied to conic sections. The focus $S$ of the conic is taken as the pole (origin), and the principal axis of symmetry passing through $S$ perpendicular to the directrix is selected as the initial line.
+\end{conceptbox}
+
+\subsection{Geometric Definition and Polar Setup}
+A conic section is the locus of a point $P$ moving in a plane such that the ratio of its distance from a fixed point $S$ (the \textbf{focus}) to its perpendicular distance from a fixed straight line $ZM$ (the \textbf{directrix}) is a constant $e$ (the \textbf{eccentricity}):
+\begin{equation}
+    \frac{SP}{PM} = e \iff SP = e \cdot PM.
+\end{equation}
+The nature of the conic is governed by the value of $e$:
+\begin{itemize}[noitemsep]
+    \item $e = 1$: \textbf{Parabola}
+    \item $0 \le e < 1$: \textbf{Ellipse} ($e=0$ represents a circle with directrix at infinity)
+    \item $e > 1$: \textbf{Hyperbola}
+\end{itemize}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.15, >=Stealth]
+    % Initial line
+    \draw[->, thick] (-3,0) -- (6.5,0) node[right] {Initial Line $SX$};
+    \draw[dashed, gray!60] (0,-3.2) -- (0,3.2);
+
+    % Pole S
+    \coordinate (S) at (0,0);
+    \node[below left] at (S) {$S \text{ (Focus/Pole)}$};
+    \fill (S) circle (2pt);
+
+    % Directrix ZM
+    \draw[very thick, primary] (-2.4,-3) -- (-2.4,3) node[above] {Directrix $ZM$};
+    \coordinate (Z) at (-2.4,0);
+    \node[below left] at (Z) {$Z$};
+    \fill (Z) circle (1.5pt);
+
+    % Semi-latus rectum LSL'
+    \coordinate (L) at (0,2.1);
+    \coordinate (Lprime) at (0,-2.1);
+    \draw[thick, secondary] (Lprime) -- (L) node[above] {$L(l, \pi/2)$};
+    \node[below right] at (Lprime) {$L'(l, -\pi/2)$};
+    \fill (L) circle (1.5pt);
+    \fill (Lprime) circle (1.5pt);
+    \draw[dashed, gray] (L) -- (-2.4,2.1) node[midway, above] {$d$};
+
+    % Arbitrary Point P(r, theta)
+    \coordinate (P) at (36:3.4);
+    \draw[very thick, accent] (S) -- (P) node[midway, above left] {$r$};
+    \node[above right] at (P) {$P(r, \theta)$};
+    \fill (P) circle (2pt);
+
+    % Projections
+    \coordinate (N) at ($(S)!(P)!(6,0)$);
+    \draw[dashed] (P) -- (N);
+    \node[below] at (N) {$N$};
+
+    \coordinate (M) at (-2.4, {3.4*sin(36)});
+    \draw[dashed, secondary] (P) -- (M) node[midway, above] {$PM$};
+    \node[left] at (M) {$M$};
+    \fill (M) circle (1.5pt);
+
+    % Angle theta
+    \draw[->, thick, primary] (0.8,0) arc (0:36:0.8) node[midway, right=2pt] {$\theta$};
+
+    % Distance SZ = d
+    \draw[<->] (-2.4,-0.5) -- (0,-0.5) node[midway, below] {$SZ = d = l/e$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{Step-by-Step Derivation of the Standard Equation}
+Let $Z$ be the foot of the perpendicular from the focus $S$ to the directrix, and let $SZ = d$.
+By definition of the semi-latus rectum $l = SL$:
+The point $L$ on the conic has vectorial angle $\theta = \frac{\pi}{2}$. Its distance from the directrix is equal to $SZ = d$.
+Applying the focus-directrix definition to $L$:
+\begin{equation}
+    SL = e \cdot ZM_L \implies l = e \cdot d \iff d = \frac{l}{e}.
+\end{equation}
+Now, let $P(r, \theta)$ be any point on the conic. From $P$, draw $PN \perp SX$ and $PM \perp ZM$.
+From the geometry of the figure:
+\begin{align}
+    SN &= r\cos\theta, \\
+    PM &= ZN = SZ + SN = d + r\cos\theta.
+\end{align}
+Using $SP = e \cdot PM$:
+\begin{align}
+    r &= e(d + r\cos\theta) \nonumber\\
+    r &= ed + er\cos\theta \nonumber\\
+    r &= l + er\cos\theta \nonumber\\
+    r(1 - e\cos\theta) &= l \quad \text{(when directrix is to the right of the focus)}.
+\end{align}
+When the directrix is chosen to the left of the focus (as standard in Indian university curricula):
+\begin{equation}
+    \boxed{\frac{l}{r} = 1 + e\cos\theta}
+\end{equation}
+
+\subsection{Standard Orientations and Rotations}
+\begin{theorembox}[Orientations of the Polar Conic]
+\begin{enumerate}
+    \item \textbf{Directrix to the left of the focus}:
+    \begin{equation}
+        \frac{l}{r} = 1 + e\cos\theta
+    \end{equation}
+    \item \textbf{Directrix to the right of the focus}:
+    \begin{equation}
+        \frac{l}{r} = 1 - e\cos\theta
+    \end{equation}
+    \item \textbf{Major axis inclined at an angle $\alpha$ to the initial line}:
+    \begin{equation}
+        \frac{l}{r} = 1 + e\cos(\theta - \alpha)
+    \end{equation}
+    \item \textbf{Directrix parallel to the initial line}:
+    \begin{equation}
+        \frac{l}{r} = 1 \pm e\sin\theta
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 02
+% =========================================================================
+\newpage
+\section{Page 2: Focal Chords and the Semi-Latus Rectum}
+\label{sec:page02}
+
+\begin{conceptbox}[Manuscript Overview: Page 2]
+Page 2 introduces the concept of a focal chord (a chord passing through the focus $S$) and establishes one of the central classical theorems of analytical geometry: the semi-latus rectum is the harmonic mean of the segments of any focal chord.
+\end{conceptbox}
+
+\subsection{Geometric Formulation}
+Let $PSQ$ be a focal chord of the conic $\frac{l}{r} = 1 + e\cos\theta$, passing through the pole $S$.
+Let the vectorial angle of $P$ be $\alpha$. Since $P, S, Q$ are collinear in that order, the radius vector $SQ$ is directed in the opposite sense, meaning the vectorial angle of $Q$ is $\alpha + \pi$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    \coordinate (S) at (0,0);
+    \node[below left] at (S) {$S \text{ (Focus)}$};
+    \fill (S) circle (2pt);
+
+    \draw[->, thick] (-1,0) -- (5.5,0) node[right] {Initial Line};
+
+    % Focal Chord PSQ
+    \coordinate (P) at (38:3.6);
+    \coordinate (Q) at (218:1.8);
+    \draw[very thick, primary] (Q) -- (P);
+    \node[above right] at (P) {$P(SP, \alpha)$};
+    \node[below left] at (Q) {$Q(SQ, \alpha+\pi)$};
+    \fill (P) circle (2pt);
+    \fill (Q) circle (2pt);
+
+    % Segment labels
+    \draw[dashed, secondary] (S) -- (P) node[midway, above left] {$SP$};
+    \draw[dashed, secondary] (S) -- (Q) node[midway, below right] {$SQ$};
+
+    % Angles
+    \draw[->, thick, ForestGreen] (0.8,0) arc (0:38:0.8) node[midway, right] {$\alpha$};
+    \draw[->, thick, accent] (0.5,0) arc (0:218:0.5) node[midway, left] {$\alpha+\pi$};
+\end{tikzpicture}
+\end{center}
+
+\begin{theorembox}[Theorem: Harmonic Mean Property of Focal Chords]
+The semi-latus rectum of any conic is the harmonic mean between the segments of any focal chord:
+\begin{equation}
+    \boxed{\frac{1}{SP} + \frac{1}{SQ} = \frac{2}{l} = \text{constant}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Since $P(SP, \alpha)$ lies on the conic $\frac{l}{r} = 1 + e\cos\theta$:
+\begin{equation}
+    \frac{l}{SP} = 1 + e\cos\alpha. \label{eq:p2_P}
+\end{equation}
+Similarly, since $Q(SQ, \alpha + \pi)$ lies on the conic:
+\begin{align}
+    \frac{l}{SQ} &= 1 + e\cos(\alpha + \pi) \nonumber\\
+                 &= 1 - e\cos\alpha. \label{eq:p2_Q}
+\end{align}
+Adding equations \eqref{eq:p2_P} and \eqref{eq:p2_Q} side by side:
+\begin{align}
+    \frac{l}{SP} + \frac{l}{SQ} &= (1 + e\cos\alpha) + (1 - e\cos\alpha) \nonumber\\
+                                &= 2.
+\end{align}
+Dividing both sides by $l$:
+\begin{equation}
+    \frac{1}{SP} + \frac{1}{SQ} = \frac{2}{l}.
+\end{equation}
+Since $l$ is a fixed constant for a given conic, the sum of the reciprocals of the focal segments $SP$ and $SQ$ is constant and completely independent of the inclination $\alpha$ of the focal chord.
+\end{proof}
+
+\begin{notebox}[Pedagogical Significance]
+This result proves that regardless of how a focal chord is rotated about the focus, the harmonic mean of its two parts $SP$ and $SQ$ remains strictly invariant and equal to the semi-latus rectum $l$.
+\end{notebox}
+
+% =========================================================================
+% PAGE 03
+% =========================================================================
+\newpage
+\section{Page 3: Equation of a Chord Joining Points $(\alpha \pm \beta)$}
+\label{sec:page03}
+
+\begin{conceptbox}[Manuscript Overview: Page 3]
+Page 3 derives the general equation of a secant straight line joining two points on the conic $\frac{l}{r} = 1 + e\cos\theta$ whose vectorial angles are chosen symmetrically as $\alpha - \beta$ and $\alpha + \beta$.
+\end{conceptbox}
+
+\subsection{Algebraic Derivation}
+The general equation of a straight line in polar coordinates can be written in the linear harmonic form:
+\begin{equation}
+    \frac{l}{r} = A\cos\theta + B\sin\theta. \label{eq:p3_genline}
+\end{equation}
+Equivalently, it can be re-parameterized as:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta + C\cos(\theta - \delta).
+\end{equation}
+Let this straight line pass through the two points on the conic:
+\begin{equation}
+    P\left(r_1, \; \alpha - \beta\right) \quad \text{and} \quad Q\left(r_2, \; \alpha + \beta\right).
+\end{equation}
+Since $P$ lies on the conic:
+\begin{equation}
+    \frac{l}{r_1} = 1 + e\cos(\alpha - \beta).
+\end{equation}
+Since $P$ also lies on the chord \eqref{eq:p3_genline}:
+\begin{equation}
+    \frac{l}{r_1} = A\cos(\alpha - \beta) + B\sin(\alpha - \beta).
+\end{equation}
+Equating the two expressions for $\frac{l}{r_1}$:
+\begin{equation}
+    A\cos(\alpha - \beta) + B\sin(\alpha - \beta) = 1 + e\cos(\alpha - \beta) \iff (A - e)\cos(\alpha - \beta) + B\sin(\alpha - \beta) = 1. \label{eq:p3_eq1}
+\end{equation}
+Similarly, for point $Q(r_2, \alpha + \beta)$:
+\begin{equation}
+    (A - e)\cos(\alpha + \beta) + B\sin(\alpha + \beta) = 1. \label{eq:p3_eq2}
+\end{equation}
+
+Subtracting equation \eqref{eq:p3_eq2} from equation \eqref{eq:p3_eq1}:
+\begin{align}
+    (A - e)[\cos(\alpha - \beta) - \cos(\alpha + \beta)] + B[\sin(\alpha - \beta) - \sin(\alpha + \beta)] &= 0 \nonumber\\
+    (A - e)[2\sin\alpha\sin\beta] - B[2\cos\alpha\sin\beta] &= 0.
+\end{align}
+Assuming $\beta \neq 0$ (so that $\sin\beta \neq 0$), dividing by $2\sin\beta$ yields:
+\begin{equation}
+    (A - e)\sin\alpha - B\cos\alpha = 0 \implies \frac{A - e}{\cos\alpha} = \frac{B}{\sin\alpha} = k.
+\end{equation}
+Thus:
+\begin{equation}
+    A - e = k\cos\alpha \implies A = e + k\cos\alpha, \quad \text{and} \quad B = k\sin\alpha.
+\end{equation}
+Substitute these back into equation \eqref{eq:p3_eq1}:
+\begin{align}
+    (k\cos\alpha)\cos(\alpha - \beta) + (k\sin\alpha)\sin(\alpha - \beta) &= 1 \nonumber\\
+    k[\cos\alpha\cos(\alpha - \beta) + \sin\alpha\sin(\alpha - \beta)] &= 1 \nonumber\\
+    k\cos[\alpha - (\alpha - \beta)] &= 1 \nonumber\\
+    k\cos\beta &= 1 \implies k = \sec\beta.
+\end{align}
+Therefore:
+\begin{equation}
+    A = e + \sec\beta\cos\alpha, \quad B = \sec\beta\sin\alpha.
+\end{equation}
+Substituting $A$ and $B$ into the line equation $\frac{l}{r} = A\cos\theta + B\sin\theta$:
+\begin{align}
+    \frac{l}{r} &= (e + \sec\beta\cos\alpha)\cos\theta + (\sec\beta\sin\alpha)\sin\theta \nonumber\\
+    &= e\cos\theta + \sec\beta(\cos\theta\cos\alpha + \sin\theta\sin\alpha) \nonumber\\
+    &= e\cos\theta + \sec\beta\cos(\theta - \alpha).
+\end{align}
+
+\begin{theorembox}[Equation of a Chord in Symmetric Polar Form]
+The straight line joining the points on $\frac{l}{r} = 1 + e\cos\theta$ with vectorial angles $\alpha - \beta$ and $\alpha + \beta$ is:
+\begin{equation}
+    \boxed{\frac{l}{r} = e\cos\theta + \sec\beta\cos(\theta - \alpha)}
+\end{equation}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 04
+% =========================================================================
+\newpage
+\section{Page 4: Alternate Chord Form and the Tangent at Point $\alpha$}
+\label{sec:page04}
+
+\begin{conceptbox}[Manuscript Overview: Page 4]
+Page 4 rewrites the chord equation for two arbitrary vectorial angles $\alpha$ and $\beta$, derives the equation of the tangent line as the limiting case, and establishes the condition for tangency of a general line.
+\end{conceptbox}
+
+\subsection{Chord Joining Vectorial Angles $\alpha$ and $\beta$}
+Let the two endpoints be given directly as $P(\alpha)$ and $Q(\beta)$.
+Their mean angle is $\frac{\alpha + \beta}{2}$ and their half-difference is $\frac{\alpha - \beta}{2}$.
+Setting the mean angle as $\alpha'$ and half-difference as $\beta'$ in the formula from Page 3:
+\begin{equation}
+    \boxed{\frac{l}{r} = e\cos\theta + \sec\left(\frac{\alpha - \beta}{2}\right)\cos\left(\theta - \frac{\alpha + \beta}{2}\right)}
+\end{equation}
+
+\subsection{Derivation of the Tangent at Point $\alpha$}
+The tangent line to the conic at point $P(\alpha)$ is the limiting position of the secant chord joining $\alpha - \beta$ and $\alpha + \beta$ as the second point approaches the first, which corresponds to the limit $\beta \to 0$.
+Since $\lim_{\beta \to 0} \sec\beta = \sec 0 = 1$:
+
+\begin{theorembox}[Equation of the Tangent Line]
+The equation of the tangent to the conic $\frac{l}{r} = 1 + e\cos\theta$ at the point with vectorial angle $\alpha$ is:
+\begin{equation}
+    \boxed{\frac{l}{r} = e\cos\theta + \cos(\theta - \alpha)}
+\end{equation}
+Expanding the cosine term:
+\begin{equation}
+    \boxed{\frac{l}{r} = (e + \cos\alpha)\cos\theta + \sin\alpha\sin\theta}
+\end{equation}
+\end{theorembox}
+
+\subsection{Condition of Tangency for a Straight Line}
+Let a straight line be given by:
+\begin{equation}
+    \frac{l}{r} = A\cos\theta + B\sin\theta. \label{eq:p4_testline}
+\end{equation}
+Comparing equation \eqref{eq:p4_testline} with the tangent equation $\frac{l}{r} = (e + \cos\alpha)\cos\theta + \sin\alpha\sin\theta$:
+\begin{equation}
+    A = e + \cos\alpha \implies A - e = \cos\alpha, \quad \text{and} \quad B = \sin\alpha.
+\end{equation}
+Squaring and adding:
+\begin{equation}
+    (A - e)^2 + B^2 = \cos^2\alpha + \sin^2\alpha = 1.
+\end{equation}
+
+\begin{theorembox}[Condition of Tangency]
+The straight line $\frac{l}{r} = A\cos\theta + B\sin\theta$ touches the conic $\frac{l}{r} = 1 + e\cos\theta$ if and only if:
+\begin{equation}
+    \boxed{(A - e)^2 + B^2 = 1}
+\end{equation}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 05
+% =========================================================================
+\newpage
+\section{Page 5: Condition of Tangency and the Normal Line}
+\label{sec:page05}
+
+\begin{conceptbox}[Manuscript Overview: Page 5]
+Page 5 expresses the tangency condition in perpendicular distance form $r\cos(\theta-\phi) = p$ and derives the polar equation of the normal line to the conic at point $\alpha$.
+\end{conceptbox}
+
+\subsection{Tangency Condition in Standard Form $r\cos(\theta - \phi) = p$}
+Let the straight line be given in perpendicular normal form:
+\begin{equation}
+    r\cos(\theta - \phi) = p \iff \frac{p}{r} = \cos\theta\cos\phi + \sin\theta\sin\phi.
+\end{equation}
+Multiplying by $\frac{l}{p}$:
+\begin{equation}
+    \frac{l}{r} = \left(\frac{l}{p}\cos\phi\right)\cos\theta + \left(\frac{l}{p}\sin\phi\right)\sin\theta.
+\end{equation}
+Setting $A = \frac{l}{p}\cos\phi$ and $B = \frac{l}{p}\sin\phi$ into the condition $(A - e)^2 + B^2 = 1$:
+\begin{align}
+    \left(\frac{l}{p}\cos\phi - e\right)^2 + \left(\frac{l}{p}\sin\phi\right)^2 &= 1 \nonumber\\
+    \frac{l^2}{p^2}\cos^2\phi - \frac{2le}{p}\cos\phi + e^2 + \frac{l^2}{p^2}\sin^2\phi &= 1 \nonumber\\
+    \frac{l^2}{p^2}(\cos^2\phi + \sin^2\phi) - \frac{2le}{p}\cos\phi + e^2 &= 1 \nonumber\\
+    \frac{l^2}{p^2} - \frac{2le}{p}\cos\phi + e^2 &= 1.
+\end{align}
+Multiplying through by $p^2$:
+\begin{equation}
+    \boxed{(l\cos\phi - ep)^2 + l^2\sin^2\phi = p^2 \iff l^2 - 2elp\cos\phi + p^2(e^2 - 1) = 0}
+\end{equation}
+
+\subsection{Derivation of the Equation of the Normal Line}
+The normal line at point $P(\alpha)$ is the straight line through $P$ perpendicular to the tangent at $P$.
+The equation of the tangent at $P(\alpha)$ is:
+\begin{equation}
+    \frac{l}{r} = (e + \cos\alpha)\cos\theta + \sin\alpha\sin\theta.
+\end{equation}
+In Cartesian coordinates, setting $x = r\cos\theta, y = r\sin\theta$:
+\begin{equation}
+    (e + \cos\alpha)x + (\sin\alpha)y = l.
+\end{equation}
+The slope of this tangent line is:
+\begin{equation}
+    m_T = -\frac{e + \cos\alpha}{\sin\alpha}.
+\end{equation}
+The slope of the normal line must satisfy $m_N \cdot m_T = -1$:
+\begin{equation}
+    m_N = \frac{\sin\alpha}{e + \cos\alpha}.
+\end{equation}
+The equation of any line perpendicular to the tangent is:
+\begin{equation}
+    -(\sin\alpha)x + (e + \cos\alpha)y = K.
+\end{equation}
+Converting to polar coordinates:
+\begin{equation}
+    r[-\sin\alpha\cos\theta + (e + \cos\alpha)\sin\theta] = K \implies r[e\sin\theta + \sin(\theta - \alpha)] = K.
+\end{equation}
+Since this line passes through $P(r_\alpha, \alpha)$ on the conic, where $r_\alpha = \frac{l}{1 + e\cos\alpha}$:
+\begin{equation}
+    K = r_\alpha [e\sin\alpha + \sin(\alpha - \alpha)] = \frac{l \cdot e\sin\alpha}{1 + e\cos\alpha}.
+\end{equation}
+
+\begin{theorembox}[Equation of the Normal Line in Polar Form]
+\begin{equation}
+    \boxed{\frac{le\sin\alpha}{1 + e\cos\alpha} \cdot \frac{1}{r} = e\sin\theta + \sin(\theta - \alpha)}
+\end{equation}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 06
+% =========================================================================
+\newpage
+\section{Page 6: Chord of Contact and the Polar Line}
+\label{sec:page06}
+
+\begin{conceptbox}[Manuscript Overview: Page 6]
+Page 6 derives the equation of the chord of contact of tangents drawn from an external point $T(r_1, \theta_1)$ to the conic, and defines the polar of a point with respect to a conic.
+\end{conceptbox}
+
+\subsection{Derivation of the Chord of Contact}
+Let $T(r_1, \theta_1)$ be an external point from which two tangents are drawn to the conic $\frac{l}{r} = 1 + e\cos\theta$, touching the curve at points $P(\alpha)$ and $Q(\beta)$.
+The equation of the tangent at any point with vectorial angle $\phi$ is:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta + \cos(\theta - \phi).
+\end{equation}
+Since both tangents pass through $T(r_1, \theta_1)$:
+\begin{align}
+    \frac{l}{r_1} - e\cos\theta_1 &= \cos(\theta_1 - \alpha), \label{eq:p6_tang1}\\
+    \frac{l}{r_1} - e\cos\theta_1 &= \cos(\theta_1 - \beta). \label{eq:p6_tang2}
+\end{align}
+Now consider the equation of the chord joining $\alpha$ and $\beta$:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta + \sec\left(\frac{\alpha - \beta}{2}\right)\cos\left(\theta - \frac{\alpha + \beta}{2}\right).
+\end{equation}
+From equations \eqref{eq:p6_tang1} and \eqref{eq:p6_tang2}, since $\cos(\theta_1 - \alpha) = \cos(\theta_1 - \beta)$, we have:
+\begin{equation}
+    \theta_1 - \alpha = -(\theta_1 - \beta) \implies \theta_1 = \frac{\alpha + \beta}{2}.
+\end{equation}
+Moreover:
+\begin{equation}
+    \frac{l}{r_1} - e\cos\theta_1 = \cos\left(\frac{\alpha - \beta}{2}\right) \implies \sec\left(\frac{\alpha - \beta}{2}\right) = \frac{1}{\frac{l}{r_1} - e\cos\theta_1}.
+\end{equation}
+Substituting these into the chord equation:
+\begin{align}
+    \frac{l}{r} - e\cos\theta &= \frac{\cos(\theta - \theta_1)}{\frac{l}{r_1} - e\cos\theta_1}.
+\end{align}
+Cross-multiplying yields:
+
+\begin{theorembox}[Equation of the Chord of Contact and Polar Line]
+The equation of the chord of contact of tangents from $T(r_1, \theta_1)$ (and the \textbf{polar} of $T$) with respect to $\frac{l}{r} = 1 + e\cos\theta$ is:
+\begin{equation}
+    \boxed{\left(\frac{l}{r} - e\cos\theta\right)\left(\frac{l}{r_1} - e\cos\theta_1\right) = \cos(\theta - \theta_1)}
+\end{equation}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 07
+% =========================================================================
+\newpage
+\section{Page 7: Classification of Conics and Analysis of Eccentricity}
+\label{sec:page07}
+
+\begin{conceptbox}[Manuscript Overview: Page 7]
+Page 7 deals with transforming arbitrary polar equations into the standard canonical form $\frac{l'}{r} = 1 \pm e'\cos\theta$ to determine the eccentricity, semi-latus rectum, and geometric nature of the conic.
+\end{conceptbox}
+
+\subsection{Canonical Reduction Method}
+Given an equation of the form:
+\begin{equation}
+    \frac{A}{r} = B + C\cos\theta + D\sin\theta,
+\end{equation}
+we reduce it to the standard canonical form:
+\begin{enumerate}
+    \item Divide throughout by the constant term $B$ ($B \neq 0$):
+    \begin{equation}
+        \frac{A/B}{r} = 1 + \frac{C}{B}\cos\theta + \frac{D}{B}\sin\theta.
+    \end{equation}
+    \item Combine the cosine and sine terms using $R = \sqrt{(C/B)^2 + (D/B)^2}$ and $\tan\phi = D/C$:
+    \begin{equation}
+        \frac{A/B}{r} = 1 + R\cos(\theta - \phi).
+    \end{equation}
+    \item Identify the parameters:
+    \begin{equation}
+        \text{Semi-latus rectum } l' = \frac{A}{B}, \quad \text{Eccentricity } e' = R = \frac{\sqrt{C^2 + D^2}}{|B|}.
+    \end{equation}
+\end{enumerate}
+
+\subsection{Detailed Analysis of the Manuscript Example}
+The manuscript analyzes the equation:
+\begin{equation}
+    \frac{l}{r} = 4 - 5\cos\theta.
+\end{equation}
+Dividing throughout by $4$:
+\begin{equation}
+    \frac{l/4}{r} = 1 - \frac{5}{4}\cos\theta.
+\end{equation}
+Comparing with $\frac{l'}{r} = 1 - e\cos\theta$:
+\begin{itemize}[noitemsep]
+    \item Semi-latus rectum: $l' = \frac{l}{4}$
+    \item Eccentricity: $e = \frac{5}{4} = 1.25$
+\end{itemize}
+
+\begin{notebox}[Correction of Manuscript Slip]
+In the manuscript notes on Page 7, the student wrote:
+\begin{equation*}
+    \text{``Since } e = \frac{5}{4} \dots \text{ ellipse''} \quad \text{\textbf{[ERROR]}}
+\end{equation*}
+By the fundamental definition of conic sections:
+\begin{itemize}[noitemsep]
+    \item If $e < 1$, the conic is an \textbf{ellipse}.
+    \item If $e = 1$, the conic is a \textbf{parabola}.
+    \item If $e > 1$, the conic is a \textbf{hyperbola}.
+\end{itemize}
+Since $e = \frac{5}{4} = 1.25 > 1$, this conic is unambiguously a \textbf{hyperbola}.
+\end{notebox}
+
+% =========================================================================
+% PAGE 08
+% =========================================================================
+\newpage
+\section{Page 8: Asymptotes of a Hyperbola in Polar Coordinates}
+\label{sec:page08}
+
+\begin{conceptbox}[Manuscript Overview: Page 8]
+Page 8 derives the equations of the asymptotes of a hyperbola in polar coordinates. An asymptote is defined analytically as a tangent line whose point of contact lies at infinity.
+\end{conceptbox}
+
+\subsection{Mathematical Derivation}
+Let the hyperbola have equation:
+\begin{equation}
+    \frac{l}{r} = 1 + e\cos\theta, \quad (e > 1).
+\end{equation}
+The point of contact $(\infty, \alpha)$ lies at infinity as $r \to \infty$. In this limit, $\frac{l}{r} \to 0$:
+\begin{equation}
+    1 + e\cos\alpha = 0 \implies \cos\alpha = -\frac{1}{e}.
+\end{equation}
+Since $\sin^2\alpha = 1 - \cos^2\alpha$:
+\begin{equation}
+    \sin\alpha = \pm \sqrt{1 - \left(-\frac{1}{e}\right)^2} = \pm \sqrt{1 - \frac{1}{e^2}} = \pm \frac{\sqrt{e^2 - 1}}{e}.
+\end{equation}
+The general equation of the tangent at point $\alpha$ is:
+\begin{align}
+    \frac{l}{r} &= e\cos\theta + \cos(\theta - \alpha) \nonumber\\
+                &= e\cos\theta + \cos\theta\cos\alpha + \sin\theta\sin\alpha \nonumber\\
+                &= (e + \cos\alpha)\cos\theta + (\sin\alpha)\sin\theta.
+\end{align}
+Substituting $\cos\alpha = -\frac{1}{e}$ and $\sin\alpha = \pm \sqrt{1 - \frac{1}{e^2}}$:
+\begin{align}
+    \frac{l}{r} &= \left(e - \frac{1}{e}\right)\cos\theta \pm \sqrt{1 - \frac{1}{e^2}}\sin\theta.
+\end{align}
+Transposing the cosine term:
+\begin{equation}
+    \frac{l}{r} - \left(e - \frac{1}{e}\right)\cos\theta = \pm \sqrt{1 - \frac{1}{e^2}}\sin\theta.
+\end{equation}
+Squaring both sides to combine both asymptotes into a single second-degree equation:
+
+\begin{theorembox}[Combined Equation of Asymptotes]
+The combined polar equation of the pair of asymptotes of the hyperbola $\frac{l}{r} = 1 + e\cos\theta$ is:
+\begin{equation}
+    \boxed{\left[\frac{l}{r} - \left(e - \frac{1}{e}\right)\cos\theta\right]^2 = \left(1 - \frac{1}{e^2}\right)\sin^2\theta}
+\end{equation}
+\end{theorembox}
+
+% =========================================================================
+% PAGE 09
+% =========================================================================
+\newpage
+\section{Page 9: Problem 1 --- Tangent Segment Intercepted by Directrix}
+\label{sec:page09}
+
+\begin{examplebox}[Problem 1 (Manuscript Page 9)]
+\textbf{Problem Statement:}
+Prove that the portion of any tangent to a conic intercepted between the curve and the directrix subtends a right angle at the corresponding focus.
+\tcblower
+\textbf{Proof:}
+Let the focus $S$ be taken as the pole, and let the conic be:
+\begin{equation}
+    \frac{l}{r} = 1 + e\cos\theta.
+\end{equation}
+The directrix corresponding to the focus $S$ is the line $r\cos\theta = -\frac{l}{e} \iff \frac{l}{r} = -e\cos\theta$.
+Let $P(\alpha)$ be any point of contact on the conic. The equation of the tangent at $P$ is:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta + \cos(\theta - \alpha). \label{eq:p9_tan}
+\end{equation}
+Let this tangent intersect the directrix at point $K(r_K, \theta_K)$.
+At the directrix, $\frac{l}{r_K} = -e\cos\theta_K$.
+Substituting this into equation \eqref{eq:p9_tan}:
+\begin{align}
+    -e\cos\theta_K &= e\cos\theta_K + \cos(\theta_K - \alpha) \nonumber\\
+    \cos(\theta_K - \alpha) &= -2e\cos\theta_K.
+\end{align}
+If we use the standard directrix $\frac{l}{r} = e\cos\theta$:
+\begin{align}
+    e\cos\theta_K &= e\cos\theta_K + \cos(\theta_K - \alpha) \nonumber\\
+    \cos(\theta_K - \alpha) &= 0.
+\end{align}
+Hence:
+\begin{equation}
+    \theta_K - \alpha = \pm \frac{\pi}{2} \iff |\angle KSP| = \frac{\pi}{2} = 90^\circ.
+\end{equation}
+Thus, the intercepted segment $PK$ subtends a right angle ($90^\circ$) at the focus $S$.
+\end{examplebox}
+
+% =========================================================================
+% PAGE 10
+% =========================================================================
+\newpage
+\section{Page 10: Problem 2 --- Sum of Reciprocal Products of Focal Chords}
+\label{sec:page10}
+
+\begin{examplebox}[Problem 2 (Manuscript Page 10)]
+\textbf{Problem Statement:}
+If $PSP'$ and $QSQ'$ are two mutually perpendicular focal chords of a conic $\frac{l}{r} = 1 + e\cos\theta$, prove that:
+\begin{equation*}
+    \frac{1}{SP \cdot SP'} + \frac{1}{SQ \cdot SQ'} = \text{constant}.
+\end{equation*}
+\tcblower
+\textbf{Solution:}
+Let the vectorial angle of $P$ be $\alpha$. Since $PSP'$ is a straight line through the pole $S$, the vectorial angle of $P'$ is $\alpha + \pi$.
+From the equation of the conic:
+\begin{align}
+    \frac{l}{SP} &= 1 + e\cos\alpha, \\
+    \frac{l}{SP'} &= 1 + e\cos(\alpha + \pi) = 1 - e\cos\alpha.
+\end{align}
+Multiplying these two relations:
+\begin{align}
+    \frac{l^2}{SP \cdot SP'} &= (1 + e\cos\alpha)(1 - e\cos\alpha) = 1 - e^2\cos^2\alpha \nonumber\\
+    \frac{1}{SP \cdot SP'} &= \frac{1 - e^2\cos^2\alpha}{l^2}. \label{eq:p10_1}
+\end{align}
+Since $QSQ'$ is perpendicular to $PSP'$, the vectorial angle of $Q$ is $\alpha + \frac{\pi}{2}$, and that of $Q'$ is $\alpha + \frac{3\pi}{2}$.
+Hence:
+\begin{align}
+    \frac{l}{SQ} &= 1 + e\cos\left(\alpha + \frac{\pi}{2}\right) = 1 - e\sin\alpha, \\
+    \frac{l}{SQ'} &= 1 + e\cos\left(\alpha + \frac{3\pi}{2}\right) = 1 + e\sin\alpha.
+\end{align}
+Multiplying:
+\begin{align}
+    \frac{l^2}{SQ \cdot SQ'} &= (1 - e\sin\alpha)(1 + e\sin\alpha) = 1 - e^2\sin^2\alpha \nonumber\\
+    \frac{1}{SQ \cdot SQ'} &= \frac{1 - e^2\sin^2\alpha}{l^2}. \label{eq:p10_2}
+\end{align}
+Adding equations \eqref{eq:p10_1} and \eqref{eq:p10_2}:
+\begin{align}
+    \frac{1}{SP \cdot SP'} + \frac{1}{SQ \cdot SQ'} &= \frac{(1 - e^2\cos^2\alpha) + (1 - e^2\sin^2\alpha)}{l^2} \nonumber\\
+    &= \frac{2 - e^2(\cos^2\alpha + \sin^2\alpha)}{l^2} \nonumber\\
+    &= \boxed{\frac{2 - e^2}{l^2} = \text{constant}}
+\end{align}
+This quantity is completely independent of $\alpha$, completing the proof.
+\end{examplebox}
+
+% =========================================================================
+% PAGE 11
+% =========================================================================
+\newpage
+\section{Page 11: Problem 3 --- Tangents at Extremities of a Focal Chord}
+\label{sec:page11}
+
+\begin{examplebox}[Problem 3 (Manuscript Page 11)]
+\textbf{Problem Statement:}
+Prove that the tangents at the ends of any focal chord of a conic intersect on the corresponding directrix.
+\tcblower
+\textbf{Proof:}
+Let $PSQ$ be any focal chord of the conic $\frac{l}{r} = 1 + e\cos\theta$.
+Let the vectorial angle of $P$ be $\alpha$. Then the vectorial angle of $Q$ is $\alpha + \pi$.
+The equation of the tangent at $P(\alpha)$ is:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta + \cos(\theta - \alpha). \label{eq:p11_tan1}
+\end{equation}
+The equation of the tangent at $Q(\alpha + \pi)$ is:
+\begin{align}
+    \frac{l}{r} &= e\cos\theta + \cos[\theta - (\alpha + \pi)] \nonumber\\
+                &= e\cos\theta + \cos[(\theta - \alpha) - \pi] \nonumber\\
+                &= e\cos\theta - \cos(\theta - \alpha). \label{eq:p11_tan2}
+\end{align}
+To find their point of intersection, subtract equation \eqref{eq:p11_tan2} from equation \eqref{eq:p11_tan1}:
+\begin{equation}
+    2\cos(\theta - \alpha) = 0 \implies \cos(\theta - \alpha) = 0.
+\end{equation}
+Substituting $\cos(\theta - \alpha) = 0$ back into equation \eqref{eq:p11_tan1}:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta.
+\end{equation}
+This is precisely the equation of the directrix of the conic.
+Hence, the point of intersection of the tangents at the extremities of any focal chord always lies on the directrix.
+\end{examplebox}
+
+% =========================================================================
+% PAGE 12
+% =========================================================================
+\newpage
+\section{Page 12: Problem 4 --- Perpendicular Focal Tangents of a Parabola}
+\label{sec:page12}
+
+\begin{examplebox}[Problem 4 (Manuscript Page 12)]
+\textbf{Problem Statement:}
+For a parabola ($e = 1$), prove that the tangents at the ends of any focal chord intersect at right angles on the directrix.
+\tcblower
+\textbf{Proof:}
+For a parabola, $e = 1$, and its equation is:
+\begin{equation}
+    \frac{l}{r} = 1 + \cos\theta.
+\end{equation}
+Let $PSQ$ be a focal chord with $P$ at $\alpha$ and $Q$ at $\alpha + \pi$.
+From Page 11, the tangents intersect on the directrix where $\cos(\theta - \alpha) = 0 \implies \theta = \alpha \pm \frac{\pi}{2}$.
+Now consider the inclination of the tangents.
+In Cartesian coordinates, the equation of the tangent at point $\alpha$ is:
+\begin{equation}
+    (1 + \cos\alpha)x + (\sin\alpha)y = l \implies 2\cos^2\left(\frac{\alpha}{2}\right)x + 2\sin\left(\frac{\alpha}{2}\right)\cos\left(\frac{\alpha}{2}\right)y = l.
+\end{equation}
+The slope of this tangent is:
+\begin{equation}
+    m_1 = -\frac{1 + \cos\alpha}{\sin\alpha} = -\frac{2\cos^2(\alpha/2)}{2\sin(\alpha/2)\cos(\alpha/2)} = -\cot\left(\frac{\alpha}{2}\right).
+\end{equation}
+Similarly, the slope of the tangent at $Q(\alpha + \pi)$ is obtained by replacing $\alpha$ with $\alpha + \pi$:
+\begin{align}
+    m_2 &= -\cot\left(\frac{\alpha + \pi}{2}\right) = -\cot\left(\frac{\alpha}{2} + \frac{\pi}{2}\right) = - \left(-\tan\frac{\alpha}{2}\right) = \tan\left(\frac{\alpha}{2}\right).
+\end{align}
+Evaluating the product of the slopes:
+\begin{equation}
+    m_1 \cdot m_2 = \left[-\cot\left(\frac{\alpha}{2}\right)\right] \cdot \left[\tan\left(\frac{\alpha}{2}\right)\right] = -1.
+\end{equation}
+Since $m_1 m_2 = -1$, the two tangents are mutually perpendicular ($90^\circ$).
+Thus, for a parabola, the tangents at the ends of any focal chord intersect at right angles on the directrix.
+\end{examplebox}
+
+% =========================================================================
+% PAGE 13
+% =========================================================================
+\newpage
+\section{Page 13: Problem 5 --- Director Circle in Polar Coordinates}
+\label{sec:page13}
+
+\begin{examplebox}[Problem 5 (Manuscript Page 13)]
+\textbf{Problem Statement:}
+Find the locus of the point of intersection of two perpendicular tangents to the conic $\frac{l}{r} = 1 + e\cos\theta$ (Equation of the Director Circle).
+\tcblower
+\textbf{Solution:}
+Let the tangents be drawn at points with vectorial angles $\alpha$ and $\beta$.
+Their equations are:
+\begin{align}
+    \frac{l}{r} &= (e + \cos\alpha)\cos\theta + \sin\alpha\sin\theta, \\
+    \frac{l}{r} &= (e + \cos\beta)\cos\theta + \sin\beta\sin\theta.
+\end{align}
+Their Cartesian slopes are:
+\begin{equation}
+    m_1 = -\frac{e + \cos\alpha}{\sin\alpha}, \quad m_2 = -\frac{e + \cos\beta}{\sin\beta}.
+\end{equation}
+Since the tangents are perpendicular, $m_1 m_2 = -1$:
+\begin{align}
+    \frac{(e + \cos\alpha)(e + \cos\beta)}{\sin\alpha\sin\beta} &= -1 \nonumber\\
+    e^2 + e(\cos\alpha + \cos\beta) + \cos\alpha\cos\beta + \sin\alpha\sin\beta &= 0 \nonumber\\
+    e^2 + 2e\cos\left(\frac{\alpha+\beta}{2}\right)\cos\left(\frac{\alpha-\beta}{2}\right) + \cos(\alpha - \beta) &= 0. \label{eq:p13_perp}
+\end{align}
+Let $(r_0, \theta_0)$ be the coordinates of their point of intersection.
+Solving the two tangent equations simultaneously gives:
+\begin{equation}
+    \theta_0 = \frac{\alpha + \beta}{2}, \quad \text{and} \quad \frac{l}{r_0} = e\cos\theta_0 + \cos\left(\frac{\alpha - \beta}{2}\right).
+\end{equation}
+Let $\gamma = \frac{\alpha - \beta}{2}$. Then $\cos\gamma = \frac{l}{r_0} - e\cos\theta_0$, and $\cos(\alpha - \beta) = 2\cos^2\gamma - 1$.
+Substituting into equation \eqref{eq:p13_perp}:
+\begin{align}
+    e^2 + 2e\cos\theta_0\left(\frac{l}{r_0} - e\cos\theta_0\right) + 2\left(\frac{l}{r_0} - e\cos\theta_0\right)^2 - 1 &= 0 \nonumber\\
+    e^2 - 1 + \frac{2el}{r_0}\cos\theta_0 - 2e^2\cos^2\theta_0 + 2\left(\frac{l^2}{r_0^2} - \frac{2el}{r_0}\cos\theta_0 + e^2\cos^2\theta_0\right) &= 0 \nonumber\\
+    (e^2 - 1) - \frac{2el}{r_0}\cos\theta_0 + \frac{2l^2}{r_0^2} &= 0.
+\end{align}
+Multiplying by $r_0^2$ and generalizing $(r_0, \theta_0) \to (r, \theta)$:
+\begin{equation}
+    \boxed{(e^2 - 1)r^2 - 2elr\cos\theta + 2l^2 = 0}
+\end{equation}
+This is the polar equation of the \textbf{director circle} of the conic.
+\end{examplebox}
+
+% =========================================================================
+% PAGE 14
+% =========================================================================
+\newpage
+\section{Page 14: Problem 6 --- Locus of the Pole of a Subtended Chord}
+\label{sec:page14}
+
+\begin{examplebox}[Problem 6 (Manuscript Page 14)]
+\textbf{Problem Statement:}
+Find the locus of the pole of a chord of the conic $\frac{l}{r} = 1 + e\cos\theta$ which subtends a constant angle $2\beta$ at the focus.
+\tcblower
+\textbf{Solution:}
+Let $T(r_1, \theta_1)$ be the pole of the chord.
+The chord is the chord of contact of tangents drawn from $T(r_1, \theta_1)$ to the conic.
+Let the points of contact of these tangents be $P$ and $Q$, with vectorial angles $\alpha - \beta$ and $\alpha + \beta$, so that the angle subtended by the chord $PQ$ at the focus $S$ is:
+\begin{equation}
+    \angle PSQ = (\alpha + \beta) - (\alpha - \beta) = 2\beta = \text{constant}.
+\end{equation}
+The equation of the chord of contact from $T(r_1, \theta_1)$ is:
+\begin{equation}
+    \frac{l}{r} = e\cos\theta + \sec\beta\cos(\theta - \alpha).
+\end{equation}
+As derived on Page 6, the coordinates of the pole $T(r_1, \theta_1)$ satisfy:
+\begin{equation}
+    \theta_1 = \alpha, \quad \text{and} \quad \frac{l}{r_1} - e\cos\theta_1 = \cos\beta.
+\end{equation}
+Therefore:
+\begin{equation}
+    \frac{l}{r_1} = e\cos\theta_1 + \cos\beta.
+\end{equation}
+Dividing by $\cos\beta$:
+\begin{equation}
+    \frac{l\sec\beta}{r_1} = 1 + e\sec\beta\cos\theta_1.
+\end{equation}
+Generalizing to arbitrary polar coordinates $(r, \theta)$:
+\begin{equation}
+    \boxed{\frac{l\sec\beta}{r} = 1 + (e\sec\beta)\cos\theta}
+\end{equation}
+\textbf{Conclusion:}
+The locus of the pole is another conic of the same type, having the same focus and axis, with new semi-latus rectum $l' = l\sec\beta$ and new eccentricity $e' = e\sec\beta$.
+\end{examplebox}

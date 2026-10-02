@@ -1,0 +1,773 @@
+\chapter{3D Cartesian Coordinates and Direction Cosines (Pages 15--24)}
+\label{ch:coordinates_dc_dr}
+
+% =========================================================================
+% PAGE 15
+% =========================================================================
+\section{Page 15: Introduction to 3D Cartesian Coordinates and Section Formulae}
+\label{sec:page15}
+
+\begin{conceptbox}[Manuscript Overview: Page 15]
+Page 15 transitions the course from two-dimensional polar geometry to three-dimensional analytical geometry. It introduces the rectangular Cartesian coordinate frame in $\mathbb{R}^3$, the definition of points $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$, the section formula dividing a segment in the ratio $m_1 : m_2$, the midpoint formula, and the concept of changing coordinates via translation of axes.
+\end{conceptbox}
+
+\subsection{The Spatial Cartesian Coordinate System}
+To represent spatial configurations analytically, three mutually perpendicular straight lines are chosen that intersect at a single point $O$, known as the \textbf{origin}:
+\begin{itemize}[noitemsep]
+    \item $X'OX$: The \textbf{$x$-axis} (abscissa axis).
+    \item $Y'OY$: The \textbf{$y$-axis}.
+    \item $Z'OZ$: The \textbf{$z$-axis} (applicate axis).
+\end{itemize}
+These three lines define three mutually perpendicular planes, known as the \textbf{coordinate planes}:
+\begin{enumerate}[noitemsep]
+    \item The \textbf{$xy$-plane}: $z = 0$, spanned by the $x$- and $y$-axes.
+    \item The \textbf{$yz$-plane}: $x = 0$, spanned by the $y$- and $z$-axes.
+    \item The \textbf{$zx$-plane}: $y = 0$, spanned by the $z$- and $x$-axes.
+\end{enumerate}
+These planes divide the whole of three-dimensional Euclidean space into $8$ compartments, termed \textbf{octants}. The signs of the triad of real numbers $(x, y, z)$ determine the octant in which any point $P$ resides.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth, 3d view={120}{25}]
+    % Axes
+    \draw[->, thick] (0,0,0) -- (4.8,0,0) node[anchor=north east]{$x$};
+    \draw[->, thick] (0,0,0) -- (0,5.2,0) node[anchor=north west]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,0,4.2) node[anchor=south]{$z$};
+
+    % Origin
+    \coordinate (O) at (0,0,0);
+    \node[below left] at (O) {$O(0,0,0)$};
+
+    % Coordinates of P
+    \def\px{3.2}
+    \def\py{4.0}
+    \def\pz{2.8}
+
+    \coordinate (P) at (\px,\py,\pz);
+    \coordinate (A) at (\px,0,0);
+    \coordinate (B) at (0,\py,0);
+    \coordinate (C) at (0,0,\pz);
+    \coordinate (M) at (\px,\py,0); % xy projection
+    \coordinate (N) at (0,\py,\pz); % yz projection
+    \coordinate (L) at (\px,0,\pz); % zx projection
+
+    % Box edges
+    \draw[dashed, gray!80] (A) -- (M) -- (B);
+    \draw[dashed, gray!80] (O) -- (M);
+    \draw[dashed, secondary, thick] (M) -- (P) node[midway, right] {$z$};
+    \draw[dashed, gray!80] (C) -- (L) -- (A);
+    \draw[dashed, gray!80] (C) -- (N) -- (B);
+    \draw[dashed, gray!80] (L) -- (P);
+    \draw[dashed, gray!80] (N) -- (P);
+
+    % Distance OP
+    \draw[very thick, primary] (O) -- (P) node[midway, above left] {$r = OP$};
+
+    % Points
+    \fill (O) circle (2pt);
+    \fill[accent] (P) circle (2.5pt) node[above right] {$P(x,y,z)$};
+    \fill[secondary] (M) circle (1.8pt) node[below right] {$M(x,y,0)$};
+\end{tikzpicture}
+\end{center}
+
+\subsection{The 3D Distance Formula}
+Let $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$ be two arbitrary points in space. Construct a rectangular cuboid whose opposite vertices are $P$ and $Q$, with faces parallel to the coordinate planes. The lengths of the edges of this cuboid are:
+\begin{equation}
+    \Delta x = |x_2 - x_1|, \quad \Delta y = |y_2 - y_1|, \quad \Delta z = |z_2 - z_1|.
+\end{equation}
+By double application of the Pythagorean theorem:
+\begin{equation}
+    PQ^2 = (\Delta x)^2 + (\Delta y)^2 + (\Delta z)^2 = (x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2.
+\end{equation}
+Thus, the Euclidean distance between $P$ and $Q$ is:
+\begin{equation}
+    \boxed{PQ = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}}
+\end{equation}
+In particular, the distance of any point $P(x, y, z)$ from the origin $O(0,0,0)$ is:
+\begin{equation}
+    OP = \sqrt{x^2 + y^2 + z^2}.
+\end{equation}
+
+\subsection{Section Formula (Internal and External Division)}
+\begin{theorembox}[Section Formula in Three Dimensions]
+Let $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$ be two given points. Let $R(x, y, z)$ be a point dividing the directed line segment $PQ$ in the given ratio $m_1 : m_2$.
+\begin{enumerate}
+    \item \textbf{Internal Division}: If $R$ lies between $P$ and $Q$,
+    \begin{equation}
+        \boxed{x = \frac{m_1 x_2 + m_2 x_1}{m_1 + m_2}, \quad y = \frac{m_1 y_2 + m_2 y_1}{m_1 + m_2}, \quad z = \frac{m_1 z_2 + m_2 z_1}{m_1 + m_2}}
+    \end{equation}
+    \item \textbf{External Division}: If $R$ lies on the line produced outside the segment $PQ$,
+    \begin{equation}
+        \boxed{x = \frac{m_1 x_2 - m_2 x_1}{m_1 - m_2}, \quad y = \frac{m_1 y_2 - m_2 y_1}{m_1 - m_2}, \quad z = \frac{m_1 z_2 - m_2 z_1}{m_1 - m_2}} \quad (m_1 \neq m_2).
+    \end{equation}
+\end{enumerate}
+\end{theorembox}
+
+\begin{proof}
+Draw perpendiculars $PP', QQ', RR'$ from $P, Q, R$ respectively to the $xy$-plane. The feet of these perpendiculars $P', Q', R'$ lie in the $xy$-plane and have coordinates $(x_1, y_1, 0)$, $(x_2, y_2, 0)$, and $(x, y, 0)$.
+Since $PP', RR', QQ'$ are all perpendicular to the $xy$-plane, they are parallel to one another and lie in a common plane.
+Through $R$, draw a line parallel to $P'Q'$ meeting $PP'$ at $S$ and $QQ'$ at $T$.
+From the elementary geometry of similar triangles $\triangle PSR \sim \triangle RTQ$:
+\begin{equation}
+    \frac{PR}{RQ} = \frac{m_1}{m_2} = \frac{z - z_1}{z_2 - z}.
+\end{equation}
+Cross-multiplying gives:
+\begin{equation}
+    m_1(z_2 - z) = m_2(z - z_1) \implies (m_1 + m_2)z = m_1 z_2 + m_2 z_1 \implies z = \frac{m_1 z_2 + m_2 z_1}{m_1 + m_2}.
+\end{equation}
+By projecting onto the $yz$-plane and $zx$-plane in an identical manner, we obtain:
+\begin{equation}
+    x = \frac{m_1 x_2 + m_2 x_1}{m_1 + m_2}, \quad y = \frac{m_1 y_2 + m_2 y_1}{m_1 + m_2}.
+\end{equation}
+For external division, replacing $m_2$ by $-m_2$ yields the required result.
+\end{proof}
+
+\begin{notebox}[Important Corollaries of the Section Formula]
+\begin{itemize}[noitemsep]
+    \item \textbf{Midpoint Formula}: When $m_1 : m_2 = 1 : 1$, the midpoint $M$ of segment $PQ$ is:
+    \begin{equation}
+        M = \left(\frac{x_1 + x_2}{2}, \; \frac{y_1 + y_2}{2}, \; \frac{z_1 + z_2}{2}\right).
+    \end{equation}
+    \item \textbf{Centroid of a Triangle}: If vertices are $A(x_1, y_1, z_1), B(x_2, y_2, z_2), C(x_3, y_3, z_3)$, the medians intersect at centroid $G$:
+    \begin{equation}
+        G = \left(\frac{x_1+x_2+x_3}{3}, \; \frac{y_1+y_2+y_3}{3}, \; \frac{z_1+z_2+z_3}{3}\right).
+    \end{equation}
+    \item \textbf{Centroid of a Tetrahedron}: If vertices are $A_i(x_i, y_i, z_i)$ for $i=1,2,3,4$, the centroid is:
+    \begin{equation}
+        G = \left(\frac{\sum x_i}{4}, \; \frac{\sum y_i}{4}, \; \frac{\sum z_i}{4}\right).
+    \end{equation}
+\end{itemize}
+\end{notebox}
+
+% =========================================================================
+% PAGE 16
+% =========================================================================
+\section{Page 16: Transformation of Coordinates --- Translation of Axes}
+\label{sec:page16}
+
+\begin{conceptbox}[Manuscript Overview: Page 16]
+Page 16 explores the kinematics of coordinate frames in space. It focuses on the translation of axes: shifting the origin from $O(0,0,0)$ to a new point $O'(h, k, l)$ while maintaining the parallel orientation of all three coordinate axes.
+\end{conceptbox}
+
+\subsection{Transformation Equations for Translation}
+Let $OX, OY, OZ$ be the original coordinate axes with origin $O(0,0,0)$.
+Let the origin be shifted to a new point $O'$ whose coordinates with respect to the original system are $(h, k, l)$.
+Let through $O'$ three new axes $O'X', O'Y', O'Z'$ be drawn parallel respectively to $OX, OY, OZ$ and directed in the same sense.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth]
+    % Old axes
+    \draw[->, thick, gray] (0,0) -- (5.5,0) node[right] {$X$};
+    \draw[->, thick, gray] (0,0) -- (0,4.5) node[above] {$Y$};
+    \node[below left] at (0,0) {$O(0,0,0)$};
+
+    % New origin O'
+    \coordinate (Oprime) at (2.2, 1.4);
+    \fill[primary] (Oprime) circle (2pt) node[below right] {$O'(h,k,l)$};
+    \draw[dashed, gray] (2.2,0) node[below] {$h$} -- (Oprime) -- (0,1.4) node[left] {$k$};
+
+    % New axes
+    \draw[->, very thick, primary] (Oprime) -- ++(3.8,0) node[right] {$X'$};
+    \draw[->, very thick, primary] (Oprime) -- ++(0,3.2) node[above] {$Y'$};
+
+    % Point P
+    \coordinate (P) at (4.5, 3.6);
+    \fill[accent] (P) circle (2.2pt) node[above right] {$P(x,y,z) \equiv P(x',y',z')$};
+
+    % Vector arrows
+    \draw[->, thick, secondary] (0,0) -- (Oprime) node[midway, below right] {$\vec{r}_0$};
+    \draw[->, thick, accent] (Oprime) -- (P) node[midway, below right] {$\vec{r}'$};
+    \draw[->, very thick, primary] (0,0) -- (P) node[midway, above left] {$\vec{r}$};
+\end{tikzpicture}
+\end{center}
+
+Let $P$ be any point in space whose coordinates are:
+\begin{itemize}[noitemsep]
+    \item $(x, y, z)$ with respect to the old axes $OX, OY, OZ$.
+    \item $(x', y', z')$ with respect to the new axes $O'X', O'Y', O'Z'$.
+\end{itemize}
+
+\begin{theorembox}[Transformation of Coordinates under Translation]
+The relations connecting the old coordinates $(x,y,z)$ and the new coordinates $(x',y',z')$ are:
+\begin{equation}
+    \boxed{x = x' + h, \quad y = y' + k, \quad z = z' + l}
+\end{equation}
+Conversely, the new coordinates in terms of the old coordinates are:
+\begin{equation}
+    \boxed{x' = x - h, \quad y' = y - k, \quad z' = z - l}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let the position vectors of $O'$ and $P$ with respect to the original origin $O$ be $\vec{r}_0$ and $\vec{r}$ respectively:
+\begin{align}
+    \vec{r}_0 &= h\,\hat{i} + k\,\hat{j} + l\,\hat{k}, \\
+    \vec{r} &= x\,\hat{i} + y\,\hat{j} + z\,\hat{k}.
+\end{align}
+The position vector of $P$ relative to the new origin $O'$ is $\vec{r}' = x'\,\hat{i} + y'\,\hat{j} + z'\,\hat{k}$.
+By vector addition in triangle $\triangle OO'P$:
+\begin{equation}
+    \vec{OP} = \vec{OO'} + \vec{O'P} \implies \vec{r} = \vec{r}_0 + \vec{r}'.
+\end{equation}
+Equating components along the three mutually orthogonal basis vectors $\hat{i}, \hat{j}, \hat{k}$:
+\begin{equation}
+    x = x' + h, \quad y = y' + k, \quad z = z' + l.
+\end{equation}
+\end{proof}
+
+\subsection{Invariance of Spatial Distances}
+A fundamental geometric invariant under pure translation is the Euclidean distance between any pair of points:
+\begin{align}
+    d^2 &= (x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2 \nonumber\\
+    &= \bigl[(x'_2 + h) - (x'_1 + h)\bigr]^2 + \bigl[(y'_2 + k) - (y'_1 + k)\bigr]^2 + \bigl[(z'_2 + l) - (z'_1 + l)\bigr]^2 \nonumber\\
+    &= (x'_2 - x'_1)^2 + (y'_2 - y'_1)^2 + (z'_2 - z'_1)^2.
+\end{align}
+Thus, distance is strictly invariant under translation of axes.
+
+% =========================================================================
+% PAGE 17
+% =========================================================================
+\section{Page 17: Projection of a Directed Line Segment on Coordinate Axes}
+\label{sec:page17}
+
+\begin{conceptbox}[Manuscript Overview: Page 17]
+Page 17 analyzes the projection of a directed line segment $OP$ on the three rectangular coordinate axes. It establishes that the coordinates $(x,y,z)$ of any point $P$ are precisely the orthogonal projections of the position vector $\vec{OP}$ on the $x$-, $y$-, and $z$-axes.
+\end{conceptbox}
+
+\subsection{Geometric Definition of Orthogonal Projection}
+The \textbf{orthogonal projection} of a directed line segment $AB$ onto a directed line $L$ is the directed segment $A'B'$ on $L$, where $A'$ and $B'$ are the feet of the perpendiculars dropped from $A$ and $B$ respectively onto $L$.
+If $\theta$ is the angle between the directed segment $\vec{AB}$ and the directed line $L$, then the algebraic magnitude of the projection is:
+\begin{equation}
+    \text{Proj}_L(\vec{AB}) = |\vec{AB}|\cos\theta.
+\end{equation}
+
+\subsection{Projections of the Radius Vector $OP$}
+Let $P(x,y,z)$ be any point in space, and let $OP = r = \sqrt{x^2+y^2+z^2}$.
+Let the directed line segment $OP$ make angles $\alpha, \beta, \gamma$ with the positive directions of the coordinate axes $OX, OY, OZ$ respectively. These angles are called the \textbf{direction angles} of the line $OP$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.1, >=Stealth, 3d view={120}{25}]
+    % Axes
+    \draw[->, thick] (0,0,0) -- (4.2,0,0) node[anchor=north east]{$x$};
+    \draw[->, thick] (0,0,0) -- (0,4.8,0) node[anchor=north west]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,0,3.8) node[anchor=south]{$z$};
+
+    \coordinate (O) at (0,0,0);
+    \coordinate (P) at (2.8, 3.6, 2.4);
+    \coordinate (A) at (2.8,0,0);
+    \coordinate (B) at (0,3.6,0);
+    \coordinate (C) at (0,0,2.4);
+
+    % Segment OP
+    \draw[very thick, primary] (O) -- (P) node[midway, above left] {$r = OP$};
+    \fill[accent] (P) circle (2pt) node[above right] {$P(x,y,z)$};
+
+    % Projection right triangles
+    \draw[dashed, secondary, thick] (P) -- (A) node[midway, below right] {$PA \perp OX$};
+    \draw[dashed, secondary, thick] (P) -- (B);
+    \draw[dashed, secondary, thick] (P) -- (C);
+
+    \node[below] at (A) {$A(x,0,0)$};
+    \node[left] at (B) {$B(0,y,0)$};
+    \node[above left] at (C) {$C(0,0,z)$};
+\end{tikzpicture}
+\end{center}
+
+In the right-angled triangle $\triangle OAP$, the angle at $A$ is $90^\circ$ because $PA$ lies in the plane perpendicular to the $x$-axis:
+\begin{equation}
+    \cos\alpha = \frac{OA}{OP} = \frac{x}{r} \implies \boxed{x = r\cos\alpha}
+\end{equation}
+Similarly, from the right-angled triangles $\triangle OBP$ and $\triangle OCP$:
+\begin{align}
+    \cos\beta &= \frac{OB}{OP} = \frac{y}{r} \implies \boxed{y = r\cos\beta} \\
+    \cos\gamma &= \frac{OC}{OP} = \frac{z}{r} \implies \boxed{z = r\cos\gamma}
+\end{align}
+
+\begin{theorembox}[Coordinates as Projections]
+The coordinates $(x,y,z)$ of any point $P$ at distance $r$ from the origin are the orthogonal projections of the radius vector $OP$ on the three coordinate axes:
+\begin{equation}
+    x = r\cos\alpha, \quad y = r\cos\beta, \quad z = r\cos\gamma
+\end{equation}
+where $\alpha, \beta, \gamma$ are the direction angles of $OP$.
+\end{theorembox}
+
+% =========================================================================
+% PAGE 18
+% =========================================================================
+\section{Page 18: Projection of a Broken Line --- The Contour Theorem}
+\label{sec:page18}
+
+\begin{conceptbox}[Manuscript Overview: Page 18]
+Page 18 derives the fundamental projection theorem for broken polygonal lines (the \textbf{Contour Theorem}). It proves that the projection of the straight segment joining the initial point to the terminal point equals the algebraic sum of the projections of the individual segments composing the path.
+\end{conceptbox}
+
+\subsection{The Fundamental Projection Theorem}
+\begin{theorembox}[Projection of a Broken Line (Contour Theorem)]
+Let $P_0, P_1, P_2, \dots, P_n$ be any sequence of points in space forming a broken line (polygonal path). Then the orthogonal projection of the direct segment $P_0 P_n$ on any directed line $L$ is equal to the algebraic sum of the projections of the individual directed segments $P_0 P_1, P_1 P_2, \dots, P_{n-1} P_n$ on $L$:
+\begin{equation}
+    \boxed{\text{Proj}_L(P_0 P_n) = \sum_{i=1}^n \text{Proj}_L(P_{i-1} P_i)}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $L$ be a directed line, and let $\hat{u}$ be a unit vector along $L$.
+By vector addition, the displacement vector from $P_0$ to $P_n$ is:
+\begin{equation}
+    \vec{P_0 P_n} = \vec{P_0 P_1} + \vec{P_1 P_2} + \vec{P_2 P_3} + \dots + \vec{P_{n-1} P_n}.
+\end{equation}
+The orthogonal projection of any directed segment $\vec{AB}$ on $L$ is given by the scalar dot product with the unit vector $\hat{u}$:
+\begin{equation}
+    \text{Proj}_L(\vec{AB}) = \vec{AB} \cdot \hat{u}.
+\end{equation}
+Taking the dot product of both sides with $\hat{u}$:
+\begin{align}
+    \vec{P_0 P_n} \cdot \hat{u} &= \left( \sum_{i=1}^n \vec{P_{i-1} P_i} \right) \cdot \hat{u} \nonumber\\
+    &= \sum_{i=1}^n (\vec{P_{i-1} P_i} \cdot \hat{u}).
+\end{align}
+Since $\vec{P_0 P_n} \cdot \hat{u} = \text{Proj}_L(P_0 P_n)$ and $\vec{P_{i-1} P_i} \cdot \hat{u} = \text{Proj}_L(P_{i-1} P_i)$, the theorem is proved.
+\end{proof}
+
+\subsection{Application: Projections of Arbitrary Spatial Displacements}
+Consider two points $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$. We can go from $P$ to $Q$ along a broken path of three mutually orthogonal segments parallel to the coordinate axes:
+\begin{enumerate}[noitemsep]
+    \item From $P(x_1, y_1, z_1)$ to $A(x_2, y_1, z_1)$ parallel to the $x$-axis, length $\Delta x = x_2 - x_1$.
+    \item From $A(x_2, y_1, z_1)$ to $B(x_2, y_2, z_1)$ parallel to the $y$-axis, length $\Delta y = y_2 - y_1$.
+    \item From $B(x_2, y_2, z_1)$ to $Q(x_2, y_2, z_2)$ parallel to the $z$-axis, length $\Delta z = z_2 - z_1$.
+\end{enumerate}
+By the Contour Theorem, for any directed line $L$:
+\begin{equation}
+    \text{Proj}_L(PQ) = \text{Proj}_L(PA) + \text{Proj}_L(AB) + \text{Proj}_L(BQ).
+\end{equation}
+This theorem forms the operational foundation for calculating direction cosines, distances, and angles between lines in space.
+
+% =========================================================================
+% PAGE 19
+% =========================================================================
+\section{Page 19: Direction Cosines and the Fundamental Identity $l^2+m^2+n^2=1$}
+\label{sec:page19}
+
+\begin{conceptbox}[Manuscript Overview: Page 19]
+Page 19 formalizes the definitions of the direction cosines $l = \cos\alpha$, $m = \cos\beta$, and $n = \cos\gamma$. It proves the fundamental quadratic identity $l^2 + m^2 + n^2 = 1$ using the rectangular parallelepiped geometry and establishes key trigonometric corollaries.
+\end{conceptbox}
+
+\subsection{Definition of Direction Cosines}
+\begin{conceptbox}[Direction Cosines (DCs)]
+If a directed straight line makes angles $\alpha, \beta, \gamma$ with the positive directions of the coordinate axes $OX, OY, OZ$ respectively (where $0 \le \alpha, \beta, \gamma \le \pi$), then the cosines of these angles are called the \textbf{direction cosines} of the line, denoted conventionally by:
+\begin{equation}
+    l = \cos\alpha, \quad m = \cos\beta, \quad n = \cos\gamma.
+\end{equation}
+\end{conceptbox}
+
+\subsection{The Fundamental Quadratic Identity}
+\begin{theorembox}[Fundamental Identity for Direction Cosines]
+For any straight line in three-dimensional space with direction cosines $(l, m, n)$:
+\begin{equation}
+    \boxed{l^2 + m^2 + n^2 = 1 \iff \cos^2\alpha + \cos^2\beta + \cos^2\gamma = 1}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let a line through the origin $O$ have direction cosines $l, m, n$.
+Let $P(x, y, z)$ be any point on this line at distance $r$ from $O$, so that $OP = r > 0$.
+From the projection relations established on Page 17:
+\begin{equation}
+    x = r\cos\alpha = lr, \quad y = r\cos\beta = mr, \quad z = r\cos\gamma = nr.
+\end{equation}
+From the 3D distance formula, the squared distance $OP^2$ is:
+\begin{equation}
+    r^2 = x^2 + y^2 + z^2.
+\end{equation}
+Substituting the expressions for $x, y, z$:
+\begin{align}
+    r^2 &= (lr)^2 + (mr)^2 + (nr)^2 \nonumber\\
+    r^2 &= r^2(l^2 + m^2 + n^2).
+\end{align}
+Since $r > 0$, we divide both sides by $r^2$:
+\begin{equation}
+    \boxed{l^2 + m^2 + n^2 = 1}
+\end{equation}
+\end{proof}
+
+\begin{notebox}[Trigonometric Corollaries]
+\begin{enumerate}
+    \item \textbf{Sum of Squared Sines}:
+    Using $\sin^2\theta = 1 - \cos^2\theta$ for each angle:
+    \begin{align}
+        \sin^2\alpha + \sin^2\beta + \sin^2\gamma &= (1 - \cos^2\alpha) + (1 - \cos^2\beta) + (1 - \cos^2\gamma) \nonumber\\
+        &= 3 - (\cos^2\alpha + \cos^2\beta + \cos^2\gamma) = 3 - 1 = \boxed{2}.
+    \end{align}
+    \item \textbf{Sum of Double Angles}:
+    Using $\cos 2\theta = 2\cos^2\theta - 1$:
+    \begin{align}
+        \cos 2\alpha + \cos 2\beta + \cos 2\gamma &= (2\cos^2\alpha - 1) + (2\cos^2\beta - 1) + (2\cos^2\gamma - 1) \nonumber\\
+        &= 2(\cos^2\alpha + \cos^2\beta + \cos^2\gamma) - 3 = 2(1) - 3 = \boxed{-1}.
+    \end{align}
+    \item \textbf{Range of DCs}: Since $l^2 \le l^2+m^2+n^2=1$, every direction cosine satisfies:
+    \begin{equation}
+        -1 \le l \le 1, \quad -1 \le m \le 1, \quad -1 \le n \le 1.
+    \end{equation}
+\end{enumerate}
+\end{notebox}
+
+% =========================================================================
+% PAGE 20
+% =========================================================================
+\section{Page 20: Projection of Segment $PQ$ on a Line with Direction Cosines $(l,m,n)$}
+\label{sec:page20}
+
+\begin{conceptbox}[Manuscript Overview: Page 20]
+Page 20 derives the general formula for the orthogonal projection of a segment joining $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$ onto an arbitrary straight line in space having direction cosines $(l, m, n)$.
+\end{conceptbox}
+
+\subsection{Step-by-Step Derivation of the Projection Formula}
+\begin{theorembox}[Projection of a Segment on an Arbitrary Line]
+The orthogonal projection of the directed line segment joining $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$ onto a line $L$ whose direction cosines are $(l, m, n)$ is given by:
+\begin{equation}
+    \boxed{\text{Proj}_L(PQ) = l(x_2 - x_1) + m(y_2 - y_1) + n(z_2 - z_1)}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Let $L$ be a line passing through the origin (without loss of generality, since projection depends only on direction) having direction cosines $(l, m, n) = (\cos\alpha, \cos\beta, \cos\gamma)$.
+The unit vector along line $L$ is:
+\begin{equation}
+    \hat{u} = l\,\hat{i} + m\,\hat{j} + n\,\hat{k}.
+\end{equation}
+The displacement vector from $P$ to $Q$ is:
+\begin{equation}
+    \vec{PQ} = (x_2 - x_1)\,\hat{i} + (y_2 - y_1)\,\hat{j} + (z_2 - z_1)\,\hat{k}.
+\end{equation}
+By the geometric definition of projection via scalar product:
+\begin{align}
+    \text{Proj}_L(PQ) &= \vec{PQ} \cdot \hat{u} \nonumber\\
+    &= \bigl[(x_2 - x_1)\,\hat{i} + (y_2 - y_1)\,\hat{j} + (z_2 - z_1)\,\hat{k}\bigr] \cdot (l\,\hat{i} + m\,\hat{j} + n\,\hat{k}) \nonumber\\
+    &= l(x_2 - x_1) + m(y_2 - y_1) + n(z_2 - z_1).
+\end{align}
+Alternatively, using the Contour Theorem of Page 18:
+Let the coordinate displacements be $PA = x_2 - x_1$ (parallel to $OX$), $AB = y_2 - y_1$ (parallel to $OY$), and $BQ = z_2 - z_1$ (parallel to $OZ$).
+The angle between $PA$ and line $L$ is $\alpha$, so $\text{Proj}_L(PA) = (x_2 - x_1)\cos\alpha = l(x_2 - x_1)$.
+The angle between $AB$ and line $L$ is $\beta$, so $\text{Proj}_L(AB) = (y_2 - y_1)\cos\beta = m(y_2 - y_1)$.
+The angle between $BQ$ and line $L$ is $\gamma$, so $\text{Proj}_L(BQ) = (z_2 - z_1)\cos\gamma = n(z_2 - z_1)$.
+Summing the three projections yields:
+\begin{equation}
+    \text{Proj}_L(PQ) = l(x_2 - x_1) + m(y_2 - y_1) + n(z_2 - z_1).
+\end{equation}
+\end{proof}
+
+\subsection{Derivation of the Distance Formula via Self-Projection}
+If line $L$ is chosen along the directed segment $PQ$ itself, then the projection of $PQ$ onto $L$ is its full length $d = PQ$.
+The direction cosines of the segment $PQ$ are:
+\begin{equation}
+    l = \frac{x_2 - x_1}{d}, \quad m = \frac{y_2 - y_1}{d}, \quad n = \frac{z_2 - z_1}{d}.
+\end{equation}
+Applying the projection formula:
+\begin{align}
+    d &= l(x_2 - x_1) + m(y_2 - y_1) + n(z_2 - z_1) \nonumber\\
+    &= \frac{x_2 - x_1}{d}(x_2 - x_1) + \frac{y_2 - y_1}{d}(y_2 - y_1) + \frac{z_2 - z_1}{d}(z_2 - z_1) \nonumber\\
+    d^2 &= (x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2 \nonumber\\
+    \implies d &= \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}.
+\end{align}
+
+% =========================================================================
+% PAGE 21
+% =========================================================================
+\section{Page 21: Direction Ratios and Normalization to Direction Cosines}
+\label{sec:page21}
+
+\begin{conceptbox}[Manuscript Overview: Page 21]
+Page 21 introduces \textbf{Direction Ratios} (DRs), which avoid the quadratic constraint $l^2+m^2+n^2=1$. It establishes the normalization algorithm to recover direction cosines from ratios and derives the analytical condition for the perpendicularity of two lines.
+\end{conceptbox}
+
+\subsection{Definition of Direction Ratios}
+\begin{conceptbox}[Direction Ratios (DRs)]
+Any three real numbers $a, b, c$ that are proportional to the direction cosines $l, m, n$ of a line are called the \textbf{direction ratios} (or direction numbers) of that line:
+\begin{equation}
+    \frac{l}{a} = \frac{m}{b} = \frac{n}{c} = k \quad (k \neq 0).
+\end{equation}
+\end{conceptbox}
+
+\subsection{Normalization Formula}
+\begin{theorembox}[Conversion from Direction Ratios to Direction Cosines]
+If $a, b, c$ are the direction ratios of a line, then its actual direction cosines $l, m, n$ are given by:
+\begin{equation}
+    \boxed{l = \pm \frac{a}{\sqrt{a^2 + b^2 + c^2}}, \quad m = \pm \frac{b}{\sqrt{a^2 + b^2 + c^2}}, \quad n = \pm \frac{c}{\sqrt{a^2 + b^2 + c^2}}}
+\end{equation}
+where either all upper signs or all lower signs are taken simultaneously.
+\end{theorembox}
+
+\begin{proof}
+Let $\frac{l}{a} = \frac{m}{b} = \frac{n}{c} = k$. Then:
+\begin{equation}
+    l = ka, \quad m = kb, \quad n = kc.
+\end{equation}
+Squaring and adding these equations:
+\begin{equation}
+    l^2 + m^2 + n^2 = k^2(a^2 + b^2 + c^2).
+\end{equation}
+Since $l^2 + m^2 + n^2 = 1$:
+\begin{equation}
+    1 = k^2(a^2 + b^2 + c^2) \implies k = \pm \frac{1}{\sqrt{a^2 + b^2 + c^2}}.
+\end{equation}
+Substituting $k$ back into $l = ka, m = kb, n = kc$ yields the normalization equations.
+\end{proof}
+
+\subsection{Direction Ratios of the Line Joining Two Points}
+For a line passing through $P(x_1, y_1, z_1)$ and $Q(x_2, y_2, z_2)$, its direction cosines are:
+\begin{equation}
+    l = \frac{x_2 - x_1}{d}, \quad m = \frac{y_2 - y_1}{d}, \quad n = \frac{z_2 - z_1}{d}, \quad \text{where } d = PQ.
+\end{equation}
+Multiplying each by $d$ demonstrates that:
+\begin{equation}
+    \boxed{(a, b, c) = (x_2 - x_1, \; y_2 - y_1, \; z_2 - z_1)}
+\end{equation}
+are a valid set of direction ratios for the line joining $P$ and $Q$.
+
+\subsection{Condition for Perpendicularity of Two Lines}
+Two lines $L_1$ and $L_2$ with direction cosines $(l_1, m_1, n_1)$ and $(l_2, m_2, n_2)$ are perpendicular ($\theta = 90^\circ \iff \cos\theta = 0$) if and only if:
+\begin{equation}
+    \boxed{l_1 l_2 + m_1 m_2 + n_1 n_2 = 0}
+\end{equation}
+In terms of direction ratios $(a_1, b_1, c_1)$ and $(a_2, b_2, c_2)$:
+\begin{equation}
+    \boxed{a_1 a_2 + b_1 b_2 + c_1 c_2 = 0}
+\end{equation}
+
+% =========================================================================
+% PAGE 22
+% =========================================================================
+\section{Page 22: Angle Between Two Directed Lines in Space}
+\label{sec:page22}
+
+\begin{conceptbox}[Manuscript Overview: Page 22]
+Page 22 derives the cosine formula for the angle $\theta$ between two straight lines in three dimensions, given their direction cosines $(l_1, m_1, n_1)$ and $(l_2, m_2, n_2)$ or their direction ratios.
+\end{conceptbox}
+
+\subsection{Derivation of the Cosine Formula}
+\begin{theorembox}[Angle Between Two Lines]
+Let $L_1$ and $L_2$ be two straight lines in space having direction cosines $(l_1, m_1, n_1)$ and $(l_2, m_2, n_2)$. The angle $\theta$ between them is given by:
+\begin{equation}
+    \boxed{\cos\theta = l_1 l_2 + m_1 m_2 + n_1 n_2}
+\end{equation}
+In terms of direction ratios $(a_1, b_1, c_1)$ and $(a_2, b_2, c_2)$:
+\begin{equation}
+    \boxed{\cos\theta = \frac{a_1 a_2 + b_1 b_2 + c_1 c_2}{\sqrt{a_1^2 + b_1^2 + c_1^2}\,\sqrt{a_2^2 + b_2^2 + c_2^2}}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Draw two lines through the origin $O$ parallel to $L_1$ and $L_2$.
+On these lines, choose points $P$ and $Q$ such that $OP = 1$ and $OQ = 1$.
+The coordinates of $P$ and $Q$ are:
+\begin{equation}
+    P(l_1, m_1, n_1), \quad Q(l_2, m_2, n_2).
+\end{equation}
+In triangle $\triangle OPQ$, let $\angle POQ = \theta$.
+By the law of cosines in $\triangle OPQ$:
+\begin{equation}
+    PQ^2 = OP^2 + OQ^2 - 2(OP)(OQ)\cos\theta = 1^2 + 1^2 - 2(1)(1)\cos\theta = 2 - 2\cos\theta.
+\end{equation}
+Using the 3D distance formula to evaluate $PQ^2$:
+\begin{align}
+    PQ^2 &= (l_2 - l_1)^2 + (m_2 - m_1)^2 + (n_2 - n_1)^2 \nonumber\\
+    &= (l_2^2 + m_2^2 + n_2^2) + (l_1^2 + m_1^2 + n_1^2) - 2(l_1 l_2 + m_1 m_2 + n_1 n_2).
+\end{align}
+Since $l_1^2+m_1^2+n_1^2 = 1$ and $l_2^2+m_2^2+n_2^2 = 1$:
+\begin{equation}
+    PQ^2 = 1 + 1 - 2(l_1 l_2 + m_1 m_2 + n_1 n_2) = 2 - 2(l_1 l_2 + m_1 m_2 + n_1 n_2).
+\end{equation}
+Equating the two expressions for $PQ^2$:
+\begin{equation}
+    2 - 2\cos\theta = 2 - 2(l_1 l_2 + m_1 m_2 + n_1 n_2) \implies \boxed{\cos\theta = l_1 l_2 + m_1 m_2 + n_1 n_2}.
+\end{equation}
+Substituting $l_i = \frac{a_i}{\sqrt{\sum a_i^2}}$ gives the direction ratio formulation.
+\end{proof}
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    \coordinate (O) at (0,0);
+    \coordinate (P) at (25:3.2);
+    \coordinate (Q) at (75:3.2);
+
+    \draw[->, very thick, primary] (O) -- (P) node[right] {$P(l_1, m_1, n_1)$};
+    \draw[->, very thick, secondary] (O) -- (Q) node[above] {$Q(l_2, m_2, n_2)$};
+    \draw[thick, accent, dashed] (P) -- (Q) node[midway, above right] {$PQ$};
+
+    \draw[->, thick] (1,0) arc (0:25:1) node[midway, right=1pt] {$\theta_1$};
+    \draw[->, thick, primary] (0.8, {0.8*tan(25)}) arc (25:75:0.8) node[midway, above right] {$\theta$};
+
+    \node[below left] at (O) {$O$};
+    \node[midway, below] at ($(O)!0.5!(P)$) {$OP = 1$};
+    \node[midway, left] at ($(O)!0.5!(Q)$) {$OQ = 1$};
+\end{tikzpicture}
+\end{center}
+
+% =========================================================================
+% PAGE 23
+% =========================================================================
+\section{Page 23: Sine of the Angle, Lagrange's Identity, and Parallelism}
+\label{sec:page23}
+
+\begin{conceptbox}[Manuscript Overview: Page 23]
+Page 23 derives the formula for $\sin\theta$ between two lines using Lagrange's algebraic identity and establishes the condition for two lines to be parallel in space.
+\end{conceptbox}
+
+\subsection{Lagrange's Identity and the Sine Formula}
+\begin{theorembox}[Sine of the Angle Between Two Lines]
+The sine of the angle $\theta$ between two lines with direction cosines $(l_1, m_1, n_1)$ and $(l_2, m_2, n_2)$ is given by:
+\begin{equation}
+    \boxed{\sin\theta = \sqrt{(l_1 m_2 - l_2 m_1)^2 + (m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2}}
+\end{equation}
+\end{theorembox}
+
+\begin{proof}
+Using $\sin^2\theta = 1 - \cos^2\theta$:
+Since $l_1^2+m_1^2+n_1^2 = 1$ and $l_2^2+m_2^2+n_2^2 = 1$, we can write $1$ as their product:
+\begin{equation}
+    \sin^2\theta = (l_1^2 + m_1^2 + n_1^2)(l_2^2 + m_2^2 + n_2^2) - (l_1 l_2 + m_1 m_2 + n_1 n_2)^2.
+\end{equation}
+By \textbf{Lagrange's Algebraic Identity}:
+For any six real numbers $(A, B, C)$ and $(X, Y, Z)$:
+\begin{equation}
+    (A^2 + B^2 + C^2)(X^2 + Y^2 + Z^2) - (AX + BY + CZ)^2 = (AY - BX)^2 + (BZ - CY)^2 + (CX - AZ)^2.
+\end{equation}
+Setting $(A, B, C) = (l_1, m_1, n_1)$ and $(X, Y, Z) = (l_2, m_2, n_2)$:
+\begin{equation}
+    \sin^2\theta = (l_1 m_2 - l_2 m_1)^2 + (m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2.
+\end{equation}
+Taking the principal square root (since $0 \le \theta \le \pi \implies \sin\theta \ge 0$):
+\begin{equation}
+    \sin\theta = \sqrt{(l_1 m_2 - l_2 m_1)^2 + (m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2}.
+\end{equation}
+\end{proof}
+
+\subsection{Condition for Parallelism of Two Lines}
+Two lines $L_1$ and $L_2$ are parallel if and only if the angle between them is $\theta = 0$ or $\theta = \pi$, which implies $\sin\theta = 0$.
+Since $\sin^2\theta$ is the sum of three non-negative squared terms:
+\begin{equation}
+    (l_1 m_2 - l_2 m_1)^2 + (m_1 n_2 - m_2 n_1)^2 + (n_1 l_2 - n_2 l_1)^2 = 0.
+\end{equation}
+A sum of squares of real numbers vanishes if and only if each individual term vanishes simultaneously:
+\begin{equation}
+    l_1 m_2 - l_2 m_1 = 0, \quad m_1 n_2 - m_2 n_1 = 0, \quad n_1 l_2 - n_2 l_1 = 0.
+\end{equation}
+This yields the celebrated proportionality condition:
+\begin{equation}
+    \boxed{\frac{l_1}{l_2} = \frac{m_1}{m_2} = \frac{n_1}{n_2}}
+\end{equation}
+In terms of direction ratios $(a_1, b_1, c_1)$ and $(a_2, b_2, c_2)$:
+\begin{equation}
+    \boxed{\frac{a_1}{a_2} = \frac{b_1}{b_2} = \frac{c_1}{c_2}}
+\end{equation}
+
+% =========================================================================
+% PAGE 24
+% =========================================================================
+\section{Page 24: Solved Problem --- The Four Diagonals of a Cube}
+\label{sec:page24}
+
+\begin{conceptbox}[Manuscript Overview: Page 24]
+Page 24 presents a classic examination problem: determining the direction cosines of the four body diagonals of a cube and computing the angles between any pair of diagonals, as well as between a diagonal and an edge.
+\end{conceptbox}
+
+\begin{examplebox}[Examination Problem: The Diagonals of a Cube]
+Prove that the angle between any two diagonals of a cube is $\cos^{-1}\left(\frac{1}{3}\right) \approx 70^\circ 32'$.
+\end{examplebox}
+
+\begin{proof}[Complete Step-by-Step Solution]
+Let $OABC-DEFG$ be a cube of edge length $a$.
+Set the origin at vertex $O(0,0,0)$, and let the three coterminous edges $OA, OC, OD$ lie along the positive directions of the $x$-, $y$-, and $z$-axes respectively.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth, 3d view={125}{25}]
+    \def\a{3.2}
+    % Axes
+    \draw[->, thick] (0,0,0) -- (4.2,0,0) node[anchor=north east]{$x$};
+    \draw[->, thick] (0,0,0) -- (0,4.2,0) node[anchor=north west]{$y$};
+    \draw[->, thick] (0,0,0) -- (0,0,4.2) node[anchor=south]{$z$};
+
+    % Vertices
+    \coordinate (O) at (0,0,0);
+    \coordinate (A) at (\a,0,0);
+    \coordinate (C) at (0,\a,0);
+    \coordinate (D) at (0,0,\a);
+    \coordinate (B) at (\a,\a,0);
+    \coordinate (E) at (\a,0,\a);
+    \coordinate (G) at (0,\a,\a);
+    \coordinate (F) at (\a,\a,\a);
+
+    % Edges
+    \draw[thick] (A) -- (B) -- (C);
+    \draw[thick] (A) -- (E) -- (F) -- (B);
+    \draw[thick] (C) -- (G) -- (F);
+    \draw[thick] (D) -- (E);
+    \draw[thick] (D) -- (G);
+    \draw[dashed, thick] (O) -- (A);
+    \draw[dashed, thick] (O) -- (C);
+    \draw[dashed, thick] (O) -- (D);
+
+    % Diagonals
+    \draw[very thick, primary] (O) -- (F) node[midway, above left] {$OF$};
+    \draw[very thick, accent, dashed] (A) -- (G) node[midway, below right] {$AG$};
+
+    % Nodes
+    \node[below left] at (O) {$O(0,0,0)$};
+    \node[below] at (A) {$A(a,0,0)$};
+    \node[right] at (C) {$C(0,a,0)$};
+    \node[left] at (D) {$D(0,0,a)$};
+    \node[above right] at (F) {$F(a,a,a)$};
+    \node[above left] at (G) {$G(0,a,a)$};
+\end{tikzpicture}
+\end{center}
+
+The coordinates of the $8$ vertices of the cube are:
+\begin{align}
+    &O(0,0,0), \quad A(a,0,0), \quad C(0,a,0), \quad D(0,0,a), \nonumber\\
+    &B(a,a,0), \quad E(a,0,a), \quad G(0,a,a), \quad F(a,a,a).
+\end{align}
+The cube possesses $4$ body diagonals connecting opposite pairs of vertices:
+\begin{enumerate}
+    \item Diagonal $OF$: joins $O(0,0,0)$ to $F(a,a,a)$.
+    \begin{align}
+        \text{DRs} &= (a - 0, \; a - 0, \; a - 0) = (a, a, a) \sim (1, 1, 1). \nonumber\\
+        \text{Length } OF &= \sqrt{a^2 + a^2 + a^2} = a\sqrt{3}. \nonumber\\
+        \text{DCs of } OF &= \left(\frac{1}{\sqrt{3}}, \; \frac{1}{\sqrt{3}}, \; \frac{1}{\sqrt{3}}\right).
+    \end{align}
+    \item Diagonal $AG$: joins $A(a,0,0)$ to $G(0,a,a)$.
+    \begin{align}
+        \text{DRs} &= (0 - a, \; a - 0, \; a - 0) = (-a, a, a) \sim (-1, 1, 1). \nonumber\\
+        \text{DCs of } AG &= \left(-\frac{1}{\sqrt{3}}, \; \frac{1}{\sqrt{3}}, \; \frac{1}{\sqrt{3}}\right).
+    \end{align}
+    \item Diagonal $BE$: joins $B(a,a,0)$ to $E(0,0,a)$ (or $(a,0,a)$ to $(0,a,0)$):
+    \begin{align}
+        \text{DRs} &\sim (1, -1, 1). \nonumber\\
+        \text{DCs of } BE &= \left(\frac{1}{\sqrt{3}}, \; -\frac{1}{\sqrt{3}}, \; \frac{1}{\sqrt{3}}\right).
+    \end{align}
+    \item Diagonal $CD$: joins $C(0,a,0)$ to $D(a,a,0)$'s opposite vertex:
+    \begin{align}
+        \text{DRs} &\sim (1, 1, -1). \nonumber\\
+        \text{DCs of } CD &= \left(\frac{1}{\sqrt{3}}, \; \frac{1}{\sqrt{3}}, \; -\frac{1}{\sqrt{3}}\right).
+    \end{align}
+\end{enumerate}
+
+Now, let $\theta$ be the angle between any two diagonals, say $OF$ and $AG$:
+\begin{align}
+    \cos\theta &= l_1 l_2 + m_1 m_2 + n_1 n_2 \nonumber\\
+    &= \left(\frac{1}{\sqrt{3}}\right)\left(-\frac{1}{\sqrt{3}}\right) + \left(\frac{1}{\sqrt{3}}\right)\left(\frac{1}{\sqrt{3}}\right) + \left(\frac{1}{\sqrt{3}}\right)\left(\frac{1}{\sqrt{3}}\right) \nonumber\\
+    &= -\frac{1}{3} + \frac{1}{3} + \frac{1}{3} = \frac{1}{3}.
+\end{align}
+For any other pair of diagonals, the calculation yields $\pm \frac{1}{3}$. Taking the acute angle between the diagonals:
+\begin{equation}
+    \boxed{\theta = \cos^{-1}\left(\frac{1}{3}\right) \approx 70^\circ 31' 44''}
+\end{equation}
+\end{proof}
+
+\begin{notebox}[Angle Between a Body Diagonal and an Edge]
+Consider the diagonal $OF$ with DCs $\left(\frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}, \frac{1}{\sqrt{3}}\right)$ and the edge $OA$ lying along the $x$-axis with DCs $(1, 0, 0)$.
+The angle $\phi$ between them is:
+\begin{equation}
+    \cos\phi = \left(\frac{1}{\sqrt{3}}\right)(1) + \left(\frac{1}{\sqrt{3}}\right)(0) + \left(\frac{1}{\sqrt{3}}\right)(0) = \frac{1}{\sqrt{3}} \implies \phi = \cos^{-1}\left(\frac{1}{\sqrt{3}}\right) \approx 54^\circ 44'.
+\end{equation}
+Similarly, the angle $\psi$ between a body diagonal and a face diagonal (e.g., $OB$ with DCs $\left(\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0\right)$) is:
+\begin{equation}
+    \cos\psi = \left(\frac{1}{\sqrt{3}}\right)\left(\frac{1}{\sqrt{2}}\right) + \left(\frac{1}{\sqrt{3}}\right)\left(\frac{1}{\sqrt{2}}\right) + 0 = \frac{2}{\sqrt{6}} = \sqrt{\frac{2}{3}} \implies \psi = \cos^{-1}\left(\sqrt{\frac{2}{3}}\right) \approx 35^\circ 16'.
+\end{equation}
+\end{notebox}

@@ -1,0 +1,108 @@
+\chapter{Completeness}
+\label{chap:completeness}
+
+Completeness is a foundational concept in mathematical analysis that guarantees sequence convergence within a space without missing limit points. This chapter investigates Cauchy sequences, complete metric spaces, density, separability, Baire's Category Theorem, and metric space completion.
+
+\section{Convergent Sequences and Cauchy Sequences}
+\label{sec:sequences_completeness}
+
+\begin{definition}[Convergent Sequence]
+A sequence $(x_n)$ in a metric space $(X,d)$ is said to \textbf{converge} to a point $x \in X$, written $x_n \to x$ or $\lim_{n \to \infty} x_n = x$, if for every $\eps > 0$, there exists an integer $N \in \N$ such that:
+\[
+d(x_n, x) < \eps \quad \text{for all } n \ge N.
+\]
+\end{definition}
+
+\begin{theorem}[Uniqueness and Boundedness]
+In any metric space $(X,d)$:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item Every convergent sequence has a unique limit.
+    \item Every convergent sequence is bounded.
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}[Cauchy Sequence]
+A sequence $(x_n)$ in a metric space $(X,d)$ is called a \textbf{Cauchy sequence} if for every $\eps > 0$, there exists $N \in \N$ such that:
+\[
+d(x_m, x_n) < \eps \quad \text{for all } m, n \ge N.
+\]
+\end{definition}
+
+\begin{theorem}
+Every convergent sequence in a metric space is a Cauchy sequence.
+\end{theorem}
+
+
+\section{Complete Metric Spaces}
+\label{sec:complete_spaces}
+
+\begin{definition}[Complete Metric Space]
+A metric space $(X,d)$ is called \textbf{complete} if every Cauchy sequence in $X$ converges to a point in $X$.
+\end{definition}
+
+\begin{theorem}[Completeness of Canonical Spaces]
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item The real line $(\R, |\cdot|)$ and complex plane $(\C, |\cdot|)$ are complete metric spaces.
+    \item Euclidean space $(\R^n, d_2)$ is complete.
+    \item The sequence space $\ell_p$ ($1 \le p < \infty$) is complete.
+    \item The space of bounded sequences $\ell_\infty$ is complete.
+    \item The function space $C[a,b]$ under the uniform metric $d_\infty(f,g) = \max_{x \in [a,b]} |f(x)-g(x)|$ is complete.
+\end{enumerate}
+\end{theorem}
+
+\begin{example}[Incomplete Metric Space]
+The rational numbers $(\mathbb{Q}, |\cdot|)$ is incomplete because sequences of rationals approximating $\sqrt{2}$ are Cauchy in $\mathbb{Q}$ but fail to converge in $\mathbb{Q}$.
+\end{example}
+
+\begin{theorem}[Closed Subsets of Complete Spaces]
+Let $(X,d)$ be a complete metric space and $Y \subseteq X$. The subspace $(Y, d|_Y)$ is complete if and only if $Y$ is a closed subset of $X$.
+\end{theorem}
+
+
+\section{Dense Sets, Separability, and Nowhere Dense Sets}
+\label{sec:density_separability}
+
+\begin{definition}[Dense Set]
+A subset $A$ of a metric space $(X,d)$ is called \textbf{dense} in $X$ if $\overline{A} = X$, i.e., for every $x \in X$ and every $\eps > 0$, $B(x,\eps) \cap A \neq \emptyset$.
+\end{definition}
+
+\begin{definition}[Separable Space]
+A metric space $(X,d)$ is called \textbf{separable} if it contains a countable dense subset.
+\end{definition}
+
+\begin{theorem}[Separability Examples]
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item $\R^n$ is separable because $\mathbb{Q}^n$ is a countable dense subset.
+    \item $\ell_p$ ($1 \le p < \infty$) is separable.
+    \item $\ell_\infty$ is \textbf{not} separable.
+    \item $C[a,b]$ is separable (by the Weierstrass Approximation Theorem using polynomials with rational coefficients).
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}[Nowhere Dense Set]
+A subset $A \subseteq X$ is called \textbf{nowhere dense} in $X$ if $\Int(\overline{A}) = \emptyset$, i.e., the closure of $A$ contains no open balls.
+\end{definition}
+
+
+\section{Baire's Category Theorem}
+\label{sec:baire_category}
+
+\begin{definition}[Meagre / First Category Sets]
+A subset $A \subseteq X$ is of \textbf{first category} (or \textbf{meagre}) in $X$ if $A = \bigcup_{n=1}^\infty A_n$, where each $A_n$ is nowhere dense in $X$. A set that is not of first category is of \textbf{second category} (or \textbf{non-meagre}).
+\end{definition}
+
+\begin{theorem}[Baire's Category Theorem]
+Every complete metric space $(X,d)$ is of second category in itself. Equivalent statements:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item If $(X,d)$ is complete and $X = \bigcup_{n=1}^\infty F_n$ where each $F_n$ is closed, then at least one $F_n$ has a non-empty interior ($\Int(F_n) \neq \emptyset$).
+    \item The intersection of any countable collection of dense open sets in a complete metric space is dense.
+\end{enumerate}
+\end{theorem}
+
+
+\section{Completion of a Metric Space}
+\label{sec:completion}
+
+\begin{theorem}[Metric Space Completion]
+For every metric space $(X,d)$, there exists a complete metric space $(\widehat{X}, \widehat{d})$ and an isometry $W: X \to \widehat{X}$ such that $W(X)$ is dense in $\widehat{X}$. Furthermore, $(\widehat{X}, \widehat{d})$ is unique up to isometry.
+\end{theorem}

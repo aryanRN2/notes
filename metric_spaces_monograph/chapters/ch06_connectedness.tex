@@ -1,0 +1,64 @@
+\chapter{Connectedness}
+\label{chap:connectedness}
+
+Connectedness formalizes the notion of a space consisting of a single "piece". This chapter explores separated sets, connected spaces, connected components, connected subsets of $\R$, and the generalized Intermediate Value Theorem.
+
+\section{Separated Sets and Connected Spaces}
+\label{sec:separated_sets}
+
+\begin{definition}[Separated Sets]
+Two non-empty subsets $A$ and $B$ of a metric space $(X,d)$ are called \textbf{separated} if:
+\[
+\overline{A} \cap B = \emptyset \quad \text{and} \quad A \cap \overline{B} = \emptyset.
+\]
+\end{definition}
+
+\begin{definition}[Connected Space]
+A metric space $(X,d)$ is called \textbf{disconnected} if $X$ can be written as the union of two non-empty separated sets $A$ and $B$, i.e., $X = A \cup B$ with $A \neq \emptyset, B \neq \emptyset$, and $\overline{A} \cap B = \emptyset = A \cap \overline{B}$. A space $X$ is \textbf{connected} if it is not disconnected.
+\end{definition}
+
+\begin{theorem}[Equivalent Characterisations of Connectedness]
+For any metric space $(X,d)$, the following statements are equivalent:
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item $X$ is connected.
+    \item The only subsets of $X$ that are both open and closed (clopen) are $\emptyset$ and $X$.
+    \item $X$ cannot be written as the union of two disjoint non-empty open sets.
+    \item $X$ cannot be written as the union of two disjoint non-empty closed sets.
+    \item Every continuous function $f: X \to \{0,1\}$ (with discrete metric on $\{0,1\}$) is constant.
+\end{enumerate}
+\end{theorem}
+
+
+\section{Connected Components}
+\label{sec:components}
+
+\begin{definition}[Connected Component]
+Let $(X,d)$ be a metric space and $x \in X$. The \textbf{connected component} of $x$, denoted $C(x)$, is the union of all connected subsets of $X$ containing $x$:
+\[
+C(x) = \bigcup \{E \subseteq X : x \in E \text{ and } E \text{ is connected}\}.
+\]
+\end{definition}
+
+\begin{theorem}[Properties of Components]
+\begin{enumerate}[label=\rm{(\roman*)}]
+    \item For each $x \in X$, $C(x)$ is a maximal connected subset of $X$.
+    \item $C(x)$ is a closed set in $X$.
+    \item The connected components form a partition of $X$ into pairwise disjoint closed connected sets.
+\end{enumerate}
+\end{theorem}
+
+
+\section{Connected Subsets of $\R$ and Continuous Images}
+\label{sec:connected_real}
+
+\begin{theorem}[Connected Subsets of $\R$]
+A subset $E \subseteq \R$ (with the standard metric) is connected if and only if $E$ is an interval (open, closed, half-open, or infinite).
+\end{theorem}
+
+\begin{theorem}[Preservation of Connectedness]
+Let $f: (X, d_X) \to (Y, d_Y)$ be a continuous mapping. If $E \subseteq X$ is connected, then its image $f(E)$ is connected in $Y$.
+\end{theorem}
+
+\begin{theorem}[Generalized Intermediate Value Theorem]
+Let $(X,d)$ be a connected metric space and $f: X \to \R$ a continuous function. If $a,b \in X$ and $c \in \R$ is any value between $f(a)$ and $f(b)$, then there exists $x_0 \in X$ such that $f(x_0) = c$.
+\end{theorem}
