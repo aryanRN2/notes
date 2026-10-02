@@ -1,0 +1,212 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\begin{document}
+% ==================== PAGE 5 ====================
+$f : G \to \text{Sym}(A)$ s.t.
+\[
+f(g) = \sigma_g
+\]
+where $\sigma_g(a) = g * a = ga$
+
+\noindent Let $f(g_1) = f(g_2)$
+\begin{align*}
+&\Rightarrow \sigma_{g_1} = \sigma_{g_2} \\
+&\Rightarrow \sigma_{g_1}(a) = \sigma_{g_2}(a) \\
+&\Rightarrow g_1 * a = g_2 * a \\
+&\Rightarrow g_1 * e = g_2 * e \quad (\text{put } a = e \in A) \\
+&\Rightarrow g_1 e = g_2 e \\
+&\Rightarrow g_1 = g_2
+\end{align*}
+$\therefore f$ is one-one
+\[
+\Rightarrow \ker f = \{e\}
+\]
+Also, by fundamental theorem of group homomorphism
+\begin{align*}
+G/\ker f &\cong f(G) \\
+G/\{e\} &\cong f(G) \\
+G &\cong f(G)
+\end{align*}
+So, $G \cong f(G) \le \text{Sym}(A) = \text{Sym}(G)$.
+
+\bigskip
+\noindent \textbf{Kernel of an action}
+
+\noindent Let $* : G \times A \to A$ be a group action, then Kernel of $*$ is defined as
+\[
+\ker * = \{g \in G \mid g * a = a, \; \forall\, a \in A\}
+\]
+i.e. those elements of $G$ that fix all element of $A$.
+\[
+\ker * \le G
+\]
+
+\newpage
+% ==================== PAGE 6 ====================
+\noindent \textbf{Proof:} $e \in \ker * \implies \ker * \ne \phi$
+
+\noindent Let $g_1, g_2 \in \ker *$. Then
+\[
+g_1 * a = a \quad \text{and} \quad g_2 * a = a, \quad \forall\, a \in A
+\]
+Now,
+\begin{align*}
+(g_1 g_2) * a &= g_1 * (g_2 * a) \\
+&= g_1 * a \\
+&= a \quad \forall\, a \in A
+\end{align*}
+$\Rightarrow g_1 g_2 \in \ker *$
+
+\noindent Also, $g_1 * a = a$
+\begin{align*}
+&\Rightarrow g_1^{-1} * (g_1 * a) = g_1^{-1} * a \\
+&\Rightarrow (g_1^{-1} g_1) * a = g_1^{-1} * a \\
+&\Rightarrow e * a = g_1^{-1} * a \\
+&\Rightarrow a = g_1^{-1} * a \\
+&\Rightarrow g_1^{-1} \in \ker *
+\end{align*}
+$\therefore \ker * \le G$.
+
+\bigskip
+\noindent \textbf{Theorem:} If $f$ is the corresponding permutation representation of $*$ then
+\[
+\ker f = \ker *
+\]
+
+\noindent \textbf{Proof:} \\
+$f : G \to \text{Sym}(A)$ \\
+$f(g) = \sigma_g$ \\
+$\sigma_g(a) = g * a$
+\begin{align*}
+\ker f &= \{g \in G \mid f(g) = I_A\} \\
+&= \{g \in G \mid \sigma_g = I_A\} \\
+&= \{g \in G \mid \sigma_g(a) = I_A(a), \; \forall\, a \in A\} \\
+&= \{g \in G \mid g * a = a, \; \forall\, a \in A\}
+\end{align*}
+So,
+\[
+\ker f = \ker *
+\]
+
+\bigskip
+\noindent \textbf{Orbit and Stabilizers}
+
+\noindent \textbf{Def:} Let $*$ be a group action of a group $G$ on a set $A$ and let $a \in A$. Then the set
+\[
+G_a = \{g \in G \mid g * a = a\}
+\]
+is called \textbf{stabilizer} of $a$ in $G$.
+
+\bigskip
+\noindent \textbf{Theorem:} $G_a \le G$.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Since $e * a = a$ for any $a \in A$ \\
+$\therefore e \in G_a \implies G_a \ne \phi$
+
+\noindent Let $g_1, g_2 \in G_a$ for any $a \in A$ \\
+$\Rightarrow g_1 * a = a$ and $g_2 * a = a$
+
+\noindent Now,
+\begin{align*}
+(g_1 g_2) * a &= g_1 * (g_2 * a) \quad (\text{as } * \text{ is group action}) \\
+&= g_1 * a \\
+&= a \tag{1}
+\end{align*}
+$\therefore g_1 g_2 \in G_a$
+
+\noindent Also, $g_1 * a = a$
+\begin{align*}
+&\Rightarrow g_1^{-1} * (g_1 * a) = g_1^{-1} * a \\
+&\Rightarrow (g_1^{-1} g_1) * a = g_1^{-1} * a \\
+&\Rightarrow e * a = g_1^{-1} * a \\
+&\Rightarrow g_1^{-1} * a = a \tag{2}
+\end{align*}
+$\therefore g_1^{-1} \in G_a$
+
+\noindent From (1) \& (2),
+\[
+G_a \le G
+\]
+
+\newpage
+% ==================== PAGE 7 ====================
+\noindent \textbf{Example:} If $G$ acts on itself by conjugation i.e.
+\[
+g * a = gag^{-1}, \quad \forall\, g \in G, \; a \in A (= G)
+\]
+Then for any $a \in A$
+\begin{align*}
+G_a &= \{g \in G \mid g * a = a\} \\
+&= \{g \in G \mid gag^{-1} = a\} \\
+&= \{g \in G \mid ga = ag\}
+\end{align*}
+$G_a = N(a)$ (Normalizer of $a$)
+
+\bigskip
+\noindent \textbf{Def:} Let $G$ be a group acting on a set $A$ under $*$. Then for any $a \in A$, the set
+\begin{align*}
+G \cdot a &= \{x \in A \mid g * a = x, \text{ for some } g \in G\} \\
+&= \{g * a \mid g \in G\}
+\end{align*}
+is known as \textbf{orbit} of $a$ in $G$ or orbit of $G$ containing $a$.
+
+\bigskip
+\noindent \textbf{Theorem (Orbit Stabilizer theorem):} Let $G$ be a group that acts on a set $A$. Let $a \in A$, then there exists a one-one onto map from $G \cdot a$ to the set of all left cosets of $G_a$ in $G$.
+
+\medskip
+\noindent \textbf{Proof:} \\
+$G \cdot a = \{g * a \mid g \in G\}$ \\
+$G_a = \{g \in G \mid g * a = a\}$ \\
+$G_a \le G$ \\
+So, $G/G_a = \text{set of all left cosets of } G_a \text{ in } G$
+
+\noindent Define: $\phi : G \cdot a \to G/G_a$ as
+\[
+\phi(g * a) = g G_a, \quad g \in G
+\]
+Let $g_1 * a = g_2 * a$
+\begin{align*}
+&\Rightarrow g_2^{-1} * (g_1 * a) = g_2^{-1} * (g_2 * a) \\
+&\Rightarrow (g_2^{-1} g_1) * a = e * a = a \\
+&\Rightarrow g_2^{-1} g_1 \in G_a \\
+&\Rightarrow g_1 G_a = g_2 G_a \\
+&\Rightarrow \phi(g_1 * a) = \phi(g_2 * a)
+\end{align*}
+$\therefore \phi$ is a well-defined map.
+
+\newpage
+% ==================== PAGE 8 ====================
+\noindent Now,
+\begin{align*}
+\phi(g_1 * a) = \phi(g_2 * a) &\Rightarrow g_1 G_a = g_2 G_a \\
+&\Rightarrow g_2^{-1} g_1 \in G_a \\
+&\Rightarrow (g_2^{-1} g_1) * a = a \\
+&\Rightarrow g_2 * ((g_2^{-1} g_1) * a) = g_2 * a \\
+&\Rightarrow (g_2 g_2^{-1} g_1) * a = g_2 * a \\
+&\Rightarrow g_1 * a = g_2 * a
+\end{align*}
+$\therefore \phi$ is one-one.
+
+\noindent Let $t \in G/G_a$
+\begin{align*}
+&\Rightarrow t = g G_a \text{ for some } g \in G \\
+&\Rightarrow g * a \in G \cdot a \text{ s.t. } \phi(g * a) = g G_a = t
+\end{align*}
+$\therefore \phi$ is onto.
+
+\bigskip
+\noindent \textbf{Note:} If $G$ is a finite group then
+\[
+|G \cdot a| = [G : G_a] = \frac{|G|}{|G_a|}
+\]
+\[
+\Rightarrow \boxed{|G| = |G \cdot a| \cdot |G_a|}
+\]
+\end{document}

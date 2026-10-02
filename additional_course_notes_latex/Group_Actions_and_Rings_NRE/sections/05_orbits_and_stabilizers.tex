@@ -1,0 +1,107 @@
+\section{Orbits and Stabilizers}
+
+\begin{definition}[Stabilizer]
+Let $*$ be a group action of a group $G$ on a set $A$, and let $a \in A$. The set
+\[
+G_a = \{g \in G \mid g * a = a\}
+\]
+is called the \textbf{stabilizer} (or isotropy group) of $a$ in $G$.
+\end{definition}
+
+\begin{theorem}
+For any $a \in A$, the stabilizer $G_a$ is a subgroup of $G$:
+\[
+G_a \le G.
+\]
+\end{theorem}
+
+\begin{proof}
+We check the subgroup criteria:
+\begin{enumerate}[label=(\roman*)]
+    \item Since $e * a = a$, we have $e \in G_a$, so $G_a \neq \emptyset$.
+    
+    \item Let $g_1, g_2 \in G_a$. Then:
+    \[
+    g_1 * a = a \quad \text{and} \quad g_2 * a = a.
+    \]
+    Now, using the fact that $*$ is a group action:
+    \[
+    (g_1 g_2) * a = g_1 * (g_2 * a) = g_1 * a = a.
+    \]
+    Therefore:
+    \[
+    g_1 g_2 \in G_a \longrightarrow (1)
+    \]
+    
+    \item Also, since $g_1 * a = a$:
+    \begin{align*}
+    g_1^{-1} * (g_1 * a) = g_1^{-1} * a &\implies (g_1^{-1} g_1) * a = g_1^{-1} * a \\
+    &\implies e * a = g_1^{-1} * a \\
+    &\implies g_1^{-1} * a = a.
+    \end{align*}
+    Therefore:
+    \[
+    g_1^{-1} \in G_a \longrightarrow (2)
+    \]
+\end{enumerate}
+From (1) and (2), we conclude that $G_a \le G$.
+\end{proof}
+
+\begin{definition}[Orbit]
+Let $*$ be a group action of $G$ on $A$, and let $a \in A$. The \textbf{orbit} of $a$ under $G$ is the set:
+\[
+G^a = \{g * a \mid g \in G\} \subseteq A.
+\]
+\end{definition}
+
+\begin{theorem}[Orbit-Stabilizer Theorem]
+Let $*$ be an action of a group $G$ on a set $A$, and let $a \in A$. There is a bijection between the orbit $G^a$ and the set of left cosets of the stabilizer, $G/G_a$.
+\end{theorem}
+
+\begin{proof}
+Define the map
+\[
+\phi : G^a \longrightarrow G/G_a \quad \text{by} \quad \phi(g * a) = g G_a.
+\]
+We show that $\phi$ is well-defined, injective, and surjective:
+
+\begin{itemize}
+    \item \textbf{Well-defined:} Let $g_1 * a = g_2 * a$. Then:
+    \begin{align*}
+    g_2^{-1} * (g_1 * a) = g_2^{-1} * (g_2 * a) &\implies (g_2^{-1} g_1) * a = (g_2^{-1} g_2) * a \\
+    &\implies (g_2^{-1} g_1) * a = e * a = a \\
+    &\implies g_2^{-1} g_1 \in G_a \\
+    &\implies g_1 G_a = g_2 G_a \\
+    &\implies \phi(g_1 * a) = \phi(g_2 * a).
+    \end{align*}
+    Therefore, $\phi$ is well-defined.
+    
+    \item \textbf{One-to-one (Injective):} Let $\phi(g_1 * a) = \phi(g_2 * a)$. Then:
+    \begin{align*}
+    g_1 G_a = g_2 G_a &\implies g_2^{-1} g_1 \in G_a \\
+    &\implies (g_2^{-1} g_1) * a = a \\
+    &\implies g_2 * ((g_2^{-1} g_1) * a) = g_2 * a \\
+    &\implies (g_2 g_2^{-1} g_1) * a = g_2 * a \\
+    &\implies g_1 * a = g_2 * a.
+    \end{align*}
+    Therefore, $\phi$ is one-to-one.
+    
+    \item \textbf{Onto (Surjective):} Let $t \in G/G_a$. Then $t = g G_a$ for some $g \in G$. For this element $g$, $g * a \in G^a$ satisfies:
+    \[
+    \phi(g * a) = g G_a = t.
+    \]
+    Therefore, $\phi$ is onto.
+\end{itemize}
+Thus, $\phi$ is a bijection between $G^a$ and $G/G_a$.
+\end{proof}
+
+\begin{note}
+If $G$ is a finite group, then:
+\[
+|G^a| = |G / G_a| = \frac{|G|}{|G_a|},
+\]
+which yields the fundamental relation:
+\[
+|G| = |G^a| \cdot |G_a|.
+\]
+\end{note}

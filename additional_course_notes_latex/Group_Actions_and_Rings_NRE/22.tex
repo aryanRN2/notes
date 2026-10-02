@@ -1,0 +1,25 @@
+- Proof: Let $F: G \to \text{Sym}(A)$ be a group homomorphism
+
+let for $g \in G$, $F(g) = \sigma_g$
+i.e. $\sigma_g : A \to A$ is a bijective map
+for $g_1, g_2 \in G$
+$F(g_1 g_2) = F(g_1) \circ F(g_2)$
+$\sigma_{g_1 g_2} = \sigma_{g_1} \circ \sigma_{g_2}$
+Define $*: G \times A \to A$ as
+$g * a = \sigma_g(a) \quad \forall g \in G, \forall a \in A$
+then $*$ is a map.
+For $g_1, g_2 \in G \ \& \ a \in A$
+$g_1 * (g_2 * a) = g_1 * (\sigma_{g_2}(a))$
+$= \sigma_{g_1}(\sigma_{g_2}(a))$
+$= (\sigma_{g_1} \circ \sigma_{g_2})(a)$
+$= \sigma_{g_1 g_2}(a)$
+$g_1 * (g_2 * a) = (g_1 g_2) * a$
+$\left. \begin{matrix} e * a = \sigma_e(a) \\ = I_A(a) \\ e * a = a \end{matrix} \right\} \left\{ \begin{matrix} F(e) = \sigma_e \\ \text{as } F \text{ is group homomorphism} \\ \text{So, } F(e) = I_A \end{matrix} \right\}$
+
+Therefore, $*$ is a group action of $G$ on $A$.
+
+Conversely, $F: G \to \text{Sym}(A)$ as
+for $g \in G$
+$F(g) = \sigma_g \ \&$
+$\sigma_g : A \to A$ is defined as
+$\sigma_g(a) = g * a \quad \forall a \in A$

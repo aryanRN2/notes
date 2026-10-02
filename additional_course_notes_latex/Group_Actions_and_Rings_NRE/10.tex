@@ -1,0 +1,23 @@
+let $a, b \in G$ such that $a \sim b$, then $\exists c \in G$ s.t.
+$a = b a b^{-1}$ $a = c b c^{-1}$
+$c^{-1} a = c b c^{-1}$
+$c^{-1} a c = b c^{-1} c$
+$c^{-1} a c = b e$
+$c^{-1} a (c^{-1})^{-1} = b$
+$\therefore b \sim a$ and $\sim$ is symmetric.
+
+let $a, b, c \in G$ s.t. $a \sim b$ and $b \sim c$
+then $\exists d_1, d_2 \in G$ s.t.
+$a = d_1 b d_1^{-1}$ $b = d_2 c d_2^{-1}$
+$a = d_1 d_2 c d_2^{-1} d_1^{-1}$ $\quad \{d_2^{-1} d_1^{-1} = (d_1 d_2)^{-1}\}$
+$a = d_1 d_2 c (d_1 d_2)^{-1}$ $\quad \{\text{as } d_1, d_2 \in G\}$
+$\therefore a \sim c$ and $\sim$ is transitive and hence equivalence.
+
+Note: By orbit stabilizer theorem $\exists$ a bijection between the set $cl(a)$ and $G/N(a)$, $\forall a \in G$.
+$\Rightarrow G = \bigcup_{a \in G} cl(a)$
+
+1. If $G$ is a finite group then
+$|cl(a)| = \left|\frac{G}{N(a)}\right|$
+$|G| = \sum_{a \in G} |cl(a)|$
+
+To Prove: $cl(a) = \{a\}$ iff $a \in Z(G)$.

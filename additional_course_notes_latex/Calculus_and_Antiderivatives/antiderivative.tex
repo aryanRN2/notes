@@ -1,0 +1,464 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=0.76in,headheight=14pt,top=0.76in,bottom=0.76in]{geometry}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{needspace}
+
+% -------------------------------------------------------------------------
+% Color Palette: Academic Executive Navy & Slate
+% -------------------------------------------------------------------------
+\definecolor{navyDark}{RGB}{18, 43, 76}
+\definecolor{navyMid}{RGB}{28, 70, 120}
+\definecolor{tealDark}{RGB}{14, 88, 82}
+\definecolor{slateDark}{RGB}{55, 65, 81}
+\definecolor{amberDark}{RGB}{150, 95, 10}
+\definecolor{purpleDark}{RGB}{88, 44, 132}
+
+\definecolor{bgThm}{RGB}{246, 249, 254}
+\definecolor{bgDef}{RGB}{244, 250, 249}
+\definecolor{bgEx}{RGB}{249, 250, 251}
+\definecolor{bgRem}{RGB}{254, 253, 247}
+\definecolor{bgProb}{RGB}{248, 246, 253}
+
+% -------------------------------------------------------------------------
+% mdframed Box Styles
+% -------------------------------------------------------------------------
+\newmdenv[
+  backgroundcolor=bgThm,
+  linecolor=navyMid,
+  linewidth=2.2pt,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  innertopmargin=5pt,
+  innerbottommargin=5pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  skipabove=5pt,
+  skipbelow=5pt,
+  nobreak=true
+]{thmbox}
+
+\newmdenv[
+  backgroundcolor=bgDef,
+  linecolor=tealDark,
+  linewidth=2.2pt,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  innertopmargin=5pt,
+  innerbottommargin=5pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  skipabove=5pt,
+  skipbelow=5pt,
+  nobreak=true
+]{defbox}
+
+\newmdenv[
+  backgroundcolor=bgRem,
+  linecolor=amberDark,
+  linewidth=2.2pt,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  innertopmargin=5pt,
+  innerbottommargin=5pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  skipabove=5pt,
+  skipbelow=5pt,
+  nobreak=true
+]{rembox}
+
+\newmdenv[
+  backgroundcolor=bgProb,
+  linecolor=purpleDark,
+  linewidth=2.2pt,
+  topline=false,
+  bottomline=false,
+  rightline=false,
+  innertopmargin=5pt,
+  innerbottommargin=5pt,
+  innerleftmargin=10pt,
+  innerrightmargin=10pt,
+  skipabove=5pt,
+  skipbelow=5pt,
+  nobreak=true
+]{probbox}
+
+% -------------------------------------------------------------------------
+% Hyperref Setup
+% -------------------------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navyMid,
+    citecolor=navyMid,
+    urlcolor=tealDark,
+    pdftitle={Evaluation of the Antiderivative of sin3(x3) + tan2(x2)},
+    pdfauthor={Mathematical Analysis Series}
+}
+
+% -------------------------------------------------------------------------
+% Header & Footer
+% -------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsf{\textbf{\color{navyDark}Advanced Calculus: Antiderivative Analysis}}}
+\fancyhead[R]{\small\textsf{\color{slateDark}Page \thepage\ of 6}}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Section Titles
+\newcommand{\sectiontitle}[1]{%
+  \vspace{0.6em}%
+  \noindent{\Large\textbf{\color{navyDark}#1}}%
+  \vspace{0.2em}\par\nopagebreak%
+  {\color{navyMid}\hrule height 1pt}%
+  \vspace{0.4em}\par\nopagebreak%
+}
+
+\newcommand{\subsectiontitle}[1]{%
+  \vspace{0.6em}%
+  \noindent{\large\textbf{\color{slateDark}#1}}%
+  \vspace{0.2em}\par\nopagebreak%
+}
+
+% Key Formula Box
+\newcommand{\keyformula}[1]{%
+  \begin{center}%
+    \fcolorbox{navyMid}{bgThm}{\parbox{0.95\linewidth}{\vspace{0.25em}\centering #1\vspace{0.25em}}}%
+  \end{center}%
+}
+
+\begin{document}
+
+% =========================================================================
+% PAGE 1: TITLE, PROBLEM STATEMENT, REMARKS & LIOUVILLE NON-ELEMENTARITY
+% =========================================================================
+\begin{center}
+    {\LARGE\textbf{\color{navyDark}Evaluation of the Antiderivative}}\\[0.25em]
+    {\Large\textbf{\color{navyMid}$I(x) = \int \left( \sin^3(x^3) + \tan^2(x^2) \right) dx$}}\\[0.5em]
+    {\small\textsf{\color{slateDark}Complete Analysis: Liouville Non-Elementarity, Hypergeometric Forms, Power Series, and Numerical Quadrature}}
+\end{center}
+\vspace{0.1em}
+{\color{navyDark}\hrule height 1.2pt}
+\vspace{0.5em}
+
+\sectiontitle{1. Problem Statement and Structural Decomposition}
+
+\begin{defbox}
+\textbf{The Indefinite Integral Problem.} Evaluate the antiderivative of the manuscript function:
+\keyformula{$\displaystyle I(x) = \int \left( \sin^3(x^3) + \tan^2(x^2) \right) dx = I_1(x) + I_2(x) + C$}
+where the integral decomposes by linearity into two distinct transcendental components:
+\[
+I_1(x) = \int \sin^3(x^3) \, dx \qquad \text{and} \qquad I_2(x) = \int \tan^2(x^2) \, dx.
+\]
+\end{defbox}
+
+\begin{rembox}
+\textbf{Remark 1.1 (Contextual Identification \& Inner Argument Powers).}
+\begin{itemize}[leftmargin=1.4em,itemsep=1pt]
+    \item \textbf{Handwritten Prompt Identification:} In the original manuscript, the handwritten problem is identified as \fbox{\textbf{8 --}} followed by $\sin^3(x^3) + \tan^2(x^2)$.
+    \item \textbf{Absence of Differential Multipliers:} Standard calculus substitution $u = g(x)$ requires an outer factor $g'(x)\,dx$. Here, the inner arguments are $x^3$ and $x^2$, but the matching differential weights ($3x^2 dx$ and $2x dx$) are completely absent. As rigorously established below, this fundamental structural absence places $I(x)$ in the class of \textbf{non-elementary functions}.
+\end{itemize}
+\end{rembox}
+
+\sectiontitle{2. Theoretical Framework: Liouville's Theorem on Elementary Integrals}
+
+\begin{thmbox}
+\textbf{Theorem 2.1 (Liouville's Theorem \& Differential Galois Theory).} \textit{An integral containing trigonometric power compositions of the form $\int x^m \sin(x^n) dx$ or $\int x^m \sec^2(x^n) dx$ can be expressed in finite closed terms of elementary functions (algebraic, exponential, logarithmic, and trigonometric) if and only if $\frac{m+1}{n} \in \mathbb{Z}$.}
+\end{thmbox}
+
+\begin{proof}[Rigorous Proof of Non-Elementarity]
+We inspect each constituent component separately:
+\begin{enumerate}[label=\textbf{\arabic*)},itemsep=2pt]
+    \item \textbf{Sine Component $I_1(x)$:} Applying the triple-angle identity $\sin^3\theta = \frac{3}{4}\sin\theta - \frac{1}{4}\sin(3\theta)$:
+    \[
+    \int \sin^3(x^3) dx = \frac{3}{4}\int \sin(x^3) dx - \frac{1}{4}\int \sin(3x^3) dx.
+    \]
+    For both sub-integrals, $m = 0$ and $n = 3$, giving $\frac{m+1}{n} = \frac{0+1}{3} = \frac{\mathbf{1}}{\mathbf{3}} \notin \mathbb{Z}$. By Liouville's theorem and the Risch algorithm, neither integral can be expressed in elementary terms.
+    
+    \item \textbf{Tangent Component $I_2(x)$:} Using the identity $\tan^2\theta = \sec^2\theta - 1$:
+    \[
+    \int \tan^2(x^2) dx = \int \sec^2(x^2) dx - \int 1 \, dx = \int \sec^2(x^2) dx - x.
+    \]
+    Here $m = 0$ and $n = 2$, which gives $\frac{m+1}{n} = \frac{0+1}{2} = \frac{\mathbf{1}}{\mathbf{2}} \notin \mathbb{Z}$. Thus, $\int \sec^2(x^2) dx$ is strictly non-elementary.
+\end{enumerate}
+\end{proof}
+
+\begin{thmbox}
+\textbf{Conclusion on Elementary Solvability:} The antiderivative $I(x) = \int (\sin^3(x^3) + \tan^2(x^2)) dx$ possesses \textbf{no elementary closed form}. It requires generalized hypergeometric functions, infinite power series, or numerical quadrature.
+\end{thmbox}
+
+\clearpage
+
+% =========================================================================
+% PAGE 2: EXACT HYPERGEOMETRIC CLOSED FORM & ANALYTIC FORMULATIONS
+% =========================================================================
+\sectiontitle{3. Exact Analytic Antiderivative via Hypergeometric Functions}
+
+Although $I(x)$ cannot be expressed in elementary functions, modern differential algebra represents such integrals in exact closed form using the \textbf{Generalized Hypergeometric Function} ${}_1F_2$.
+
+\begin{thmbox}
+\textbf{Theorem 3.1 (Hypergeometric Closed Form of $\int \sin^3(x^3) dx$).} \textit{The exact analytical antiderivative of the sine component is given identically by:}
+\keyformula{$\displaystyle \int \sin^3(x^3) \, dx = \frac{3x^4}{16} \left[ {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{x^6}{4}\right) - {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{9x^6}{4}\right) \right] + C_1$}
+\end{thmbox}
+
+\begin{proof}
+For any non-zero frequency $a$, consider the fundamental building block $J(a) = \int \sin(a x^3) dx$. Using the universal Maclaurin series for the sine function:
+\[
+\sin(a x^3) = \sum_{k=0}^\infty \frac{(-1)^k (a x^3)^{2k+1}}{(2k+1)!} = \sum_{k=0}^\infty \frac{(-1)^k a^{2k+1} x^{6k+3}}{(2k+1)!}.
+\]
+Because this power series converges uniformly on any compact subset of $\mathbb{R}$, we integrate term-by-term:
+\[
+J(a) = \int \sin(a x^3) \, dx = \sum_{k=0}^\infty \frac{(-1)^k a^{2k+1} x^{6k+4}}{(6k+4)(2k+1)!} = \frac{a x^4}{4} \sum_{k=0}^\infty \frac{(-1)^k a^{2k} x^{6k}}{(2k+1)! \cdot \frac{6k+4}{4}}.
+\]
+To express this series using the Pochhammer rising factorial $(q)_k = \frac{\Gamma(q+k)}{\Gamma(q)}$:
+\begin{align*}
+(2k+1)! &= 2^{2k} k! \left(\frac{3}{2}\right)_k, \qquad \frac{6k+4}{4} = \frac{3k+2}{2} = \frac{2/3 + k}{2/3} = \frac{(5/3)_k}{(2/3)_k}.
+\end{align*}
+Substituting these into the series expression reveals the canonical hypergeometric structure:
+\[
+\int \sin(a x^3) \, dx = \frac{a x^4}{4} \sum_{k=0}^\infty \frac{(2/3)_k}{(3/2)_k (5/3)_k} \frac{\left( -a^2 x^6 / 4 \right)^k}{k!} = \frac{a x^4}{4} \, {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{a^2 x^6}{4}\right).
+\]
+Applying this formula to $a = 1$ and $a = 3$ through the identity $\sin^3(x^3) = \frac{3}{4}\sin(x^3) - \frac{1}{4}\sin(3x^3)$:
+\begin{align*}
+\int \sin^3(x^3) \, dx &= \frac{3}{4}\left[ \frac{x^4}{4} \, {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{x^6}{4}\right) \right] - \frac{1}{4}\left[ \frac{3x^4}{4} \, {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{9x^6}{4}\right) \right] \\
+&= \frac{3x^4}{16} \left[ {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{x^6}{4}\right) - {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{9x^6}{4}\right) \right]. \qedhere
+\end{align*}
+\end{proof}
+
+\begin{thmbox}
+\textbf{Theorem 3.2 (Analytic Formulation of the Tangent Component).} \textit{The exact antiderivative of the tangent component is given analytically by:}
+\keyformula{$\displaystyle \int \tan^2(x^2) \, dx = \int \sec^2(x^2) \, dx - x + C_2$}
+\end{thmbox}
+
+\begin{defbox}
+\textbf{Unified Complete Analytic Antiderivative.}
+\keyformula{$\displaystyle I(x) = \frac{3x^4}{16} \left[ {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{x^6}{4}\right) - {}_1F_2\left(\frac{2}{3};\, \frac{3}{2}, \frac{5}{3};\, -\frac{9x^6}{4}\right) \right] + \int \sec^2(x^2) dx - x + C$}
+\end{defbox}
+
+\clearpage
+
+% =========================================================================
+% PAGE 3: POWER SERIES REPRESENTATION & CONVERGENCE ANALYSIS
+% =========================================================================
+\sectiontitle{4. Power Series Representation (Term-by-Term Integration)}
+
+For practical applications, scientific computing, and algorithmic implementation, the unified Maclaurin power series provides an exceptionally rapid, high-precision representation.
+
+\subsectiontitle{Component 1: Series for $I_1(x) = \int \sin^3(x^3) dx$}
+Recall the Maclaurin expansion of $\sin^3(u)$:
+\[
+\sin^3(u) = u^3 - \frac{1}{2}u^5 + \frac{13}{120}u^7 - \frac{41}{3024}u^9 + \frac{671}{604800}u^{11} - \dots
+\]
+Setting the composite variable $u = x^3$:
+\[
+\sin^3(x^3) = x^9 - \frac{1}{2}x^{15} + \frac{13}{120}x^{21} - \frac{41}{3024}x^{27} + \frac{671}{604800}x^{33} - \dots
+\]
+Integrating term-by-term with respect to $x$:
+\keyformula{$\displaystyle \int \sin^3(x^3) \, dx = \frac{x^{10}}{10} - \frac{x^{16}}{32} + \frac{13 x^{22}}{2640} - \frac{41 x^{28}}{84672} + \frac{671 x^{34}}{20563200} - \dots + C_1$}
+
+\subsectiontitle{Component 2: Series for $I_2(x) = \int \tan^2(x^2) dx$}
+Recall the series expansion of $\tan^2(u) = \sec^2(u) - 1$ valid for $|u| < \pi/2$:
+\[
+\tan^2(u) = u^2 + \frac{2}{3}u^4 + \frac{17}{45}u^6 + \frac{62}{315}u^8 + \frac{1382}{14175}u^{10} + \frac{21844}{467775}u^{12} + \dots
+\]
+Setting $u = x^2$:
+\[
+\tan^2(x^2) = x^4 + \frac{2}{3}x^8 + \frac{17}{45}x^{12} + \frac{62}{315}x^{16} + \frac{1382}{14175}x^{20} + \frac{21844}{467775}x^{24} + \dots
+\]
+Integrating term-by-term with respect to $x$:
+\keyformula{$\displaystyle \int \tan^2(x^2) \, dx = \frac{x^5}{5} + \frac{2 x^9}{27} + \frac{17 x^{13}}{585} + \frac{62 x^{17}}{5355} + \frac{1382 x^{21}}{297675} + \frac{21844 x^{25}}{11694375} + \dots + C_2$}
+
+\subsectiontitle{Master Unified Power Series Antiderivative}
+Merging the two series and sorting by ascending non-negative integer powers of $x$:
+
+\begin{thmbox}
+\textbf{Master Power Series Antiderivative ($|x| < \sqrt{\pi/2}$):}
+\keyformula{$\displaystyle \int \left( \sin^3(x^3) + \tan^2(x^2) \right) dx = \frac{x^5}{5} + \frac{2x^9}{27} + \frac{x^{10}}{10} + \frac{17x^{13}}{585} - \frac{x^{16}}{32} + \frac{62x^{17}}{5355} + \frac{1382x^{21}}{297675} + \frac{13x^{22}}{2640} + \dots + C$}
+\end{thmbox}
+
+\begin{rembox}
+\textbf{Convergence Domain \& Analytic Singularities:}
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+    \item The sine component $\sin^3(x^3)$ is an entire function ($R = \infty$).
+    \item The tangent component $\tan^2(x^2)$ has poles at $x^2 = \frac{\pi}{2}(2k+1)$ for $k \in \mathbb{Z}$.
+    \item The nearest singularities to the origin occur at $x = \pm \sqrt{\pi/2} \approx \pm 1.2533141$.
+    \item Therefore, the master series converges absolutely and uniformly for \textbf{$|x| < \sqrt{\pi/2} \approx 1.253314$}.
+\end{itemize}
+\end{rembox}
+
+\clearpage
+
+% =========================================================================
+% PAGE 4: THE COMPANION SUBSTITUTION PROBLEM & DERIVATIVE WEIGHTS
+% =========================================================================
+\sectiontitle{5. The Classic Companion Substitution Problem}
+
+In university calculus examinations and competitive technical tests, problems of this visual form frequently arise with the \textbf{necessary differential weights} included. It is pedagogical best practice to present the companion solvable problem alongside the non-elementary integral.
+
+\begin{probbox}
+\textbf{Standard Companion Calculus Problem (With Derivative Weights).}
+Evaluate the elementary indefinite integral:
+\keyformula{$\displaystyle I_{\text{sub}} = \int \left( x^2 \sin^3(x^3) + x \tan^2(x^2) \right) dx$}
+\end{probbox}
+
+\begin{proof}[Complete Step-by-Step Solution via Elementary Substitution]
+We evaluate the two components separately:
+
+\medskip
+\noindent \textbf{Component 1:} Consider $I_A = \int x^2 \sin^3(x^3) dx$.
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+    \item Let $u = x^3$, so that $du = 3x^2 dx \implies x^2 dx = \frac{1}{3} du$.
+    \item The integral transforms into a standard trigonometric power:
+    \[
+    I_A = \frac{1}{3} \int \sin^3(u) \, du = \frac{1}{3} \int \sin(u)(1 - \cos^2 u) \, du.
+    \]
+    \item Let $w = \cos u$, then $dw = -\sin u \, du$:
+    \[
+    I_A = -\frac{1}{3} \int (1 - w^2) \, dw = -\frac{1}{3} w + \frac{1}{9} w^3 = -\frac{1}{3}\cos(x^3) + \frac{1}{9}\cos^3(x^3).
+    \]
+\end{itemize}
+
+\medskip
+\noindent \textbf{Component 2:} Consider $I_B = \int x \tan^2(x^2) dx$.
+\begin{itemize}[leftmargin=1.4em,itemsep=2pt]
+    \item Let $v = x^2$, so that $dv = 2x dx \implies x dx = \frac{1}{2} dv$.
+    \item Applying the fundamental identity $\tan^2 v = \sec^2 v - 1$:
+    \[
+    I_B = \frac{1}{2} \int \tan^2(v) \, dv = \frac{1}{2} \int (\sec^2 v - 1) \, dv = \frac{1}{2}\left( \tan v - v \right) = \frac{1}{2}\tan(x^2) - \frac{1}{2}x^2.
+    \]
+\end{itemize}
+
+\medskip
+\noindent \textbf{Total Elementary Closed-Form Antiderivative:}
+\keyformula{$\displaystyle \int \left( x^2 \sin^3(x^3) + x \tan^2(x^2) \right) dx = -\frac{1}{3}\cos(x^3) + \frac{1}{9}\cos^3(x^3) + \frac{1}{2}\tan(x^2) - \frac{1}{2}x^2 + C$}
+\end{proof}
+
+\begin{rembox}
+\textbf{Rigorous Chain-Rule Verification.} Differentiating the closed-form result:
+\begin{align*}
+\frac{d}{dx} \left[ -\frac{1}{3}\cos(x^3) + \frac{1}{9}\cos^3(x^3) \right] &= -\frac{1}{3}(-\sin(x^3)\cdot 3x^2) + \frac{1}{9}(3\cos^2(x^3)(-\sin(x^3))\cdot 3x^2) \\
+&= x^2 \sin(x^3)\left[ 1 - \cos^2(x^3) \right] = \mathbf{x^2 \sin^3(x^3)}. \quad \checkmark \\
+\frac{d}{dx} \left[ \frac{1}{2}\tan(x^2) - \frac{1}{2}x^2 \right] &= \frac{1}{2}(\sec^2(x^2)\cdot 2x) - x = x(\sec^2(x^2) - 1) = \mathbf{x \tan^2(x^2)}. \quad \checkmark
+\end{align*}
+The derivative reproduces the integrand identically, proving correctness.
+\end{rembox}
+
+\clearpage
+
+% =========================================================================
+% PAGE 5: NUMERICAL QUADRATURE & DEFINITE INTEGRALS
+% =========================================================================
+\sectiontitle{6. Numerical Quadrature and Definite Integrals}
+
+Because the primary integral possesses no elementary antiderivative, applied mathematics and engineering problems evaluate definite integrals using numerical quadrature.
+
+\begin{thmbox}
+\textbf{High-Precision Numerical Benchmark.} Over the canonical domain $[0, 1]$:
+\keyformula{$\displaystyle \int_0^1 \left( \sin^3(x^3) + \tan^2(x^2) \right) dx \approx \mathbf{0.395706657639479}$}
+\end{thmbox}
+
+\subsectiontitle{Discretization and Function Values ($n = 4$, $h = 0.25$ on $[0, 1]$)}
+Let grid points be $x_k = 0.25 \cdot k$ for $k = 0, 1, 2, 3, 4$:
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabular}{c c c c c c}
+\toprule
+$k$ & $x_k$ & $x_k^2$ & $x_k^3$ & Expression $\sin^3(x_k^3) + \tan^2(x_k^2)$ & Discretized Value $y_k$ \\
+\midrule
+$0$ & $0.00$ & $0.0000$ & $0.000000$ & $\sin^3(0) + \tan^2(0)$ & $0.00000000$ \\
+$1$ & $0.25$ & $0.0625$ & $0.015625$ & $\sin^3(0.015625) + \tan^2(0.0625)$ & $0.00392026$ \\
+$2$ & $0.50$ & $0.2500$ & $0.125000$ & $\sin^3(0.125000) + \tan^2(0.2500)$ & $0.06713741$ \\
+$3$ & $0.75$ & $0.5625$ & $0.421875$ & $\sin^3(0.421875) + \tan^2(0.5625)$ & $0.46610662$ \\
+$4$ & $1.00$ & $1.0000$ & $1.000000$ & $\sin^3(1) + \tan^2(1)$ & $3.02134206$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsectiontitle{Comparison of Classical Quadrature Schemes}
+\begin{enumerate}[label=\textbf{\arabic*)},itemsep=3pt]
+    \item \textbf{Composite Trapezoidal Rule ($n = 4$):}
+    \begin{align*}
+        I_{\text{Trap}} &= \frac{h}{2} \left[ y_0 + 2(y_1 + y_2 + y_3) + y_4 \right] \\
+        &= \frac{0.25}{2} \left[ 0 + 2(0.53716429) + 3.02134206 \right] = \mathbf{0.51195883} \quad (\text{Error } +29.38\%).
+    \end{align*}
+    \item \textbf{Composite Simpson's $1/3$ Rule ($n = 4$):}
+    \begin{align*}
+        I_{\text{Simp}} &= \frac{h}{3} \left[ y_0 + 4(y_1 + y_3) + 2y_2 + y_4 \right] \\
+        &= \frac{0.25}{3} \left[ 4(0.47002688) + 2(0.06713741) + 3.02134206 \right] = \mathbf{0.41964370} \quad (\text{Error } +6.05\%).
+    \end{align*}
+    \item \textbf{3-Point Gauss--Legendre Quadrature:} Transforming $x = \frac{1+t}{2}$ for $t \in [-1, 1]$:
+    \[
+    I_{\text{Gauss}} = \sum_{i=1}^3 w_i f(x_i) = \mathbf{0.38366948} \quad (\text{Relative Error } \approx 3.04\%).
+    \]
+\end{enumerate}
+
+\begin{rembox}
+\textbf{Convergence Rate Analysis.} Simpson's rule provides a dramatic error reduction from $29.4\%$ down to $6.05\%$ even on a coarse grid of $n=4$, verifying its $\mathcal{O}(h^4)$ convergence order. With $n = 64$ subintervals, Simpson's rule converges to within $10^{-6}$ of the benchmark value $0.395707$.
+\end{rembox}
+
+\clearpage
+
+% =========================================================================
+% PAGE 6: SUMMARY TABLE & COMPUTATIONAL IMPLEMENTATION
+% =========================================================================
+\sectiontitle{7. Summary \& Comprehensive Results Table}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{tabular}{p{4.6cm} p{11.6cm}}
+\toprule
+\textbf{Analytical Aspect} & \textbf{Mathematical Characterization / Result} \\
+\midrule
+\textbf{Elementary Integrability} & \textbf{Non-elementary} (proven via Liouville's theorem / Risch algorithm: $\frac{m+1}{n} \notin \mathbb{Z}$). \\
+\addlinespace
+\textbf{Exact Hypergeometric Form} & $\displaystyle \frac{3x^4}{16} \left[ {}_1F_2\left(\tfrac{2}{3};\, \tfrac{3}{2}, \tfrac{5}{3};\, -\tfrac{x^6}{4}\right) - {}_1F_2\left(\tfrac{2}{3};\, \tfrac{3}{2}, \tfrac{5}{3};\, -\tfrac{9x^6}{4}\right) \right] + \int \sec^2(x^2)dx - x + C$ \\
+\addlinespace
+\textbf{Power Series Expansion} & $\displaystyle \frac{x^5}{5} + \frac{2x^9}{27} + \frac{x^{10}}{10} + \frac{17x^{13}}{585} - \frac{x^{16}}{32} + \frac{62x^{17}}{5355} + \frac{1382x^{21}}{297675} + \frac{13x^{22}}{2640} + \dots + C$ \\
+\addlinespace
+\textbf{Radius of Convergence} & $|x| < \sqrt{\pi/2} \approx 1.253314$ (governed by the first branch poles of $\tan(x^2)$). \\
+\addlinespace
+\textbf{Companion Solvable Form} & $\displaystyle \int \left( x^2 \sin^3(x^3) + x \tan^2(x^2) \right) dx = -\frac{1}{3}\cos(x^3) + \frac{1}{9}\cos^3(x^3) + \frac{1}{2}\tan(x^2) - \frac{x^2}{2} + C$ \\
+\addlinespace
+\textbf{Definite Integral on $[0, 1]$} & $\approx \mathbf{0.395706657639479}$ (quadrature benchmark). \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.3em}
+\subsectiontitle{Software Verification Implementations}
+
+\begin{probbox}
+\textbf{Algorithmic Verification Snippets in Modern Computer Algebra Systems:}
+\begin{itemize}[leftmargin=1.4em,itemsep=3pt]
+    \item \textbf{Python (\texttt{scipy.integrate.quad}):}
+    \begin{quote}
+    \texttt{import numpy as np, scipy.integrate as spi}\\
+    \texttt{f = lambda x: np.sin(x**3)**3 + np.tan(x**2)**2}\\
+    \texttt{val, err = spi.quad(f, 0, 1)  \# Output: 0.3957066576394794, err < 1e-11}
+    \end{quote}
+    \item \textbf{Wolfram Mathematica / SymPy Symbolic Series:}
+    \begin{quote}
+    \texttt{Series[Sin[x\^{}3]\^{}3 + Tan[x\^{}2]\^{}2, \{x, 0, 25\}] // Integrate[\#, x]\&}
+    \end{quote}
+\end{itemize}
+\end{probbox}
+
+\begin{thmbox}
+\textbf{Final Certification \& Conclusion.} The original manuscript question represents an intriguing interplay between modern non-elementary differential Galois theory and classical trigonometric analysis. The exact behavior is fully described by the ${}_1F_2$ hypergeometric system globally, by the Maclaurin series on $(-1.253, 1.253)$, and by high-order adaptive quadrature for engineering computation.
+\end{thmbox}
+
+\end{document}

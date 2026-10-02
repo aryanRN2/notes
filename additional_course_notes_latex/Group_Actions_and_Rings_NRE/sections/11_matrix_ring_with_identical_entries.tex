@@ -1,0 +1,88 @@
+\section{Special Matrix Ring: Identity and Inverse Computations}
+
+\begin{example}[A Commutative Matrix Ring with Non-Standard Unity]
+Consider the set:
+\[
+A = \left\{ \begin{bmatrix} x & x \\ x & x \end{bmatrix} \;\middle|\; x \in \mathbb{R} \right\}
+\]
+under standard matrix addition and multiplication.
+\end{example}
+
+\subsection{Verification of Ring Axioms}
+
+\begin{enumerate}
+    \item \textbf{$(A, +)$ is an abelian group:}
+    For any $X = \begin{bmatrix} x & x \\ x & x \end{bmatrix}$ and $Y = \begin{bmatrix} y & y \\ y & y \end{bmatrix} \in A$:
+    \[
+    X + Y = \begin{bmatrix} x+y & x+y \\ x+y & x+y \end{bmatrix} \in A.
+    \]
+    Addition is associative and commutative since addition in $\mathbb{R}$ is. The zero element is:
+    \[
+    \mathbf{0} = \begin{bmatrix} 0 & 0 \\ 0 & 0 \end{bmatrix} \in A,
+    \]
+    and the additive inverse of $X$ is $-X = \begin{bmatrix} -x & -x \\ -x & -x \end{bmatrix} \in A$.
+    
+    \item \textbf{Commutativity of multiplication in $A$:}
+    Let $X, Y \in A$ with $X = \begin{bmatrix} x & x \\ x & x \end{bmatrix}$ and $Y = \begin{bmatrix} y & y \\ y & y \end{bmatrix}$. Then:
+    \begin{align*}
+    \begin{bmatrix} x & x \\ x & x \end{bmatrix} \begin{bmatrix} y & y \\ y & y \end{bmatrix} &= \begin{bmatrix} x \cdot y + x \cdot y & x \cdot y + x \cdot y \\ x \cdot y + x \cdot y & x \cdot y + x \cdot y \end{bmatrix} \\
+    &= \begin{bmatrix} 2xy & 2xy \\ 2xy & 2xy \end{bmatrix} \\
+    &= \begin{bmatrix} 2yx & 2yx \\ 2yx & 2yx \end{bmatrix} \\
+    &= \begin{bmatrix} y & y \\ y & y \end{bmatrix} \begin{bmatrix} x & x \\ x & x \end{bmatrix}.
+    \end{align*}
+    Therefore, multiplication is commutative in $A$.
+    
+    \item \textbf{Distributivity:}
+    Matrix multiplication is always distributive over matrix addition.
+\end{enumerate}
+Thus, $(A, +, \cdot)$ is a \textbf{commutative ring}.
+
+\subsection{Finding the Unity Element}
+
+Let $E \in A$ be the multiplicative identity (unity) of $A$, so that:
+\[
+E = \begin{bmatrix} e & e \\ e & e \end{bmatrix}.
+\]
+Then $E$ must satisfy $X E = X$ for all $X \in A$:
+\[
+\begin{bmatrix} x & x \\ x & x \end{bmatrix} \begin{bmatrix} e & e \\ e & e \end{bmatrix} = \begin{bmatrix} x & x \\ x & x \end{bmatrix}.
+\]
+Performing the multiplication:
+\[
+\begin{bmatrix} 2xe & 2xe \\ 2xe & 2xe \end{bmatrix} = \begin{bmatrix} x & x \\ x & x \end{bmatrix}.
+\]
+Equating corresponding entries:
+\[
+2xe = x \implies 2e = 1 \implies e = \frac{1}{2}.
+\]
+Therefore, the identity element of the ring $A$ is:
+\[
+E = \begin{bmatrix} 1/2 & 1/2 \\ 1/2 & 1/2 \end{bmatrix}.
+\]
+\begin{remark}
+Notice that the unity element $E \in A$ is \emph{not} the standard $2 \times 2$ identity matrix $I_2 = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$ (which does not belong to $A$), yet it functions as the exact multiplicative identity on $A$.
+\end{remark}
+
+\subsection{Computation of Multiplicative Inverses}
+
+For $(A \setminus \{\mathbf{0}\}, \cdot)$ to form an abelian group (making $A$ a field), each non-zero element must possess a multiplicative inverse. Let:
+\[
+Y = X^{-1} = \begin{bmatrix} y & y \\ y & y \end{bmatrix}.
+\]
+Then $X Y = E$:
+\[
+\begin{bmatrix} x & x \\ x & x \end{bmatrix} \begin{bmatrix} y & y \\ y & y \end{bmatrix} = \begin{bmatrix} 1/2 & 1/2 \\ 1/2 & 1/2 \end{bmatrix}.
+\]
+This gives:
+\[
+\begin{bmatrix} 2xy & 2xy \\ 2xy & 2xy \end{bmatrix} = \begin{bmatrix} 1/2 & 1/2 \\ 1/2 & 1/2 \end{bmatrix},
+\]
+which implies:
+\[
+2xy = \frac{1}{2} \implies y = \frac{1}{4x} \quad (x \neq 0).
+\]
+Therefore, for any non-zero element $X \in A$, its multiplicative inverse is:
+\[
+X^{-1} = \begin{bmatrix} \dfrac{1}{4x} & \dfrac{1}{4x} \\[6pt] \dfrac{1}{4x} & \dfrac{1}{4x} \end{bmatrix}.
+\]
+Consequently, $(A \setminus \{\mathbf{0}\}, \cdot)$ is an abelian group, and $A$ is isomorphic as a field to $\mathbb{R}$.

@@ -1,0 +1,182 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\begin{document}
+% ==================== PAGE 9 ====================
+\noindent \textbf{Equivalence Class}
+
+\noindent Let $*$ be a group action of a group $G$ on $A$
+\[
+* : G \times A \to A
+\]
+for $a, b \in A$, define a relation $\sim$ on $A$ as
+\[
+a \sim b \iff a = g * b, \quad \text{for some } g \in G
+\]
+then $\sim$ is an equivalence relation on $A$.
+
+\medskip
+\noindent \textbf{Proof:} \\
+$\forall\, a \in A$
+\[
+a = e * a, \quad e \in G
+\]
+$\Rightarrow a \sim a$ \\
+$\therefore \sim$ is reflexive.
+
+\noindent Let $a, b \in A$ s.t. $a \sim b$ \\
+$\Rightarrow \exists\, g \in G$ s.t.
+\begin{align*}
+a &= g * b  \\
+\Rightarrow g^{-1} * a &= g^{-1} * (g * b)  \\
+\Rightarrow g^{-1} * a &= b  \\
+\Rightarrow b &\sim a
+\end{align*}
+$\therefore \sim$ is symmetric.
+
+\noindent Let $a, b, c \in A$ s.t. $a \sim b$ and $b \sim c$ \\
+$\Rightarrow \exists\, g_1, g_2 \in G$ s.t.
+\[
+a = g_1 * b \quad \text{and} \quad b = g_2 * c
+\]
+\[
+a = g_1 * (g_2 * c)
+\]
+\[
+a = (g_1 g_2) * c \quad (g_1 g_2 \in G)
+\]
+$\Rightarrow a \sim c$ \\
+$\therefore \sim$ is transitive and equivalence relation.
+
+\newpage
+% ==================== PAGE 10 ====================
+\noindent So, it will partition the set $A$ into it's equivalence class.
+
+\noindent Let $a \in A$
+\begin{align*}
+\text{Cl}(a) &= \{b \in A \mid a \sim b\}  \\
+&= \{b \in A \mid b = g * a, \; \forall\, g \in G\}  \\
+&= \{g * a \mid g \in G\}
+\end{align*}
+\[
+\text{Cl}(a) = G \cdot a \quad (\text{orbit of } a \text{ under } *)
+\]
+\[
+\Rightarrow A = \bigcup_{a \in A} \text{Cl}(a)
+\]
+\[
+\Rightarrow A = \bigcup_{a \in A} G \cdot a
+\]
+
+\bigskip
+\noindent \textbf{Conjugacy class}
+
+\noindent If $G$ acts on itself by conjugation, then
+\[
+G_a = \text{Normalizer of } a = N(a)
+\]
+\[
+G \cdot a = \text{Cl}(a) = \{g * a \mid g \in G\}
+\]
+\[
+= \{gag^{-1} \mid g \in G\} \quad (\text{conjugacy class of } a)
+\]
+
+\bigskip
+\noindent \textbf{H.W} \\
+Let $G$ be a group and $a, b \in G$. Then $a$ and $b$ are conjugate if $\exists\, c \in G$ such that $b = c a c^{-1}$. \\
+Prove that $\sim$ is an equivalence relation on $G$ where $a \sim b$ when $a$ is conjugate to $b$.
+
+\medskip
+\noindent \textbf{Soln:} \\
+Let $a \in G$, then
+\[
+a = e a e^{-1} \quad (\text{as } e \in G)
+\]
+$\Rightarrow a \sim a$ and $\sim$ is reflexive.
+
+\newpage
+% ==================== PAGE 11 ====================
+\noindent Let $a, b \in G$ such that $a \sim b$, then $\exists\, c \in G$ s.t.
+\begin{align*}
+a &= c b c^{-1}  \\
+c^{-1} a &= c^{-1} c b c^{-1}  \\
+c^{-1} a c &= e b c^{-1} c  \\
+c^{-1} a c &= b e  \\
+c^{-1} a (c^{-1})^{-1} &= b
+\end{align*}
+$\Rightarrow b \sim a$ and $\sim$ is symmetric.
+
+\noindent Let $a, b, c \in G$ s.t. $a \sim b$ and $b \sim c$ \\
+then $\exists\, d_1, d_2 \in G$ s.t.
+\begin{align*}
+a &= d_1 b d_1^{-1}  \\
+b &= d_2 c d_2^{-1}  \\
+a &= d_1 d_2 c d_2^{-1} d_1^{-1} \quad \{d_2^{-1} d_1^{-1} = (d_1 d_2)^{-1}\}  \\
+a &= (d_1 d_2) c (d_1 d_2)^{-1} \quad \{\text{as } d_1 d_2 \in G\}
+\end{align*}
+$\Rightarrow a \sim c$ and $\sim$ is transitive and hence equivalence.
+
+\bigskip
+\noindent \textbf{Note:} By orbit-stabilizer theorem $\exists$ a bijection between the set $\text{Cl}(a)$ and $G/N(a)$.
+\[
+G = \bigcup_{a \in G} \text{Cl}(a)
+\]
+1. If $G$ is a finite group then
+\[
+|\text{Cl}(a)| = \left|\frac{G}{N(a)}\right|
+\]
+\[
+|G| = \sum_{a \in G} |\text{Cl}(a)|
+\]
+
+\bigskip
+\noindent \textbf{To Prove:} $\text{Cl}(a) = \{a\} \iff a \in Z(G)$.
+
+\newpage
+% ==================== PAGE 12 ====================
+\noindent \textbf{Proof:} \\
+Let $\text{Cl}(a) = \{a\}$. \\
+If $g \in G$ then
+\begin{align*}
+gag^{-1} \in \text{Cl}(a) &= \{a\}  \\
+\Rightarrow gag^{-1} &= a  \\
+\Rightarrow ga &= ag
+\end{align*}
+As $g$ is arbitrary so $a \in Z(G)$.
+
+\noindent \textbf{Conversely,} let $a \in Z(G)$
+\begin{align*}
+\text{Cl}(a) &= \{gag^{-1} \mid g \in G\}  \\
+&= \{agg^{-1} \mid g \in G\}  \\
+\text{Cl}(a) &= \{a\}
+\end{align*}
+
+\bigskip
+\noindent \textbf{To Prove:} $a \in Z(G) \iff N(a) = G$
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $a \in Z(G)$
+\begin{align*}
+&\Rightarrow ag = ga \quad \forall\, g \in G  \\
+&\Rightarrow g \in N(a) \quad \forall\, g \in G  \\
+&\Rightarrow N(a) = G
+\end{align*}
+\textbf{Conversely,} let $N(a) = G$ \\
+then $\forall\, g \in G, \; g \in N(a)$
+\begin{align*}
+&\Rightarrow ag = ga \quad \forall\, g \in G  \\
+&\Rightarrow a \in Z(G)
+\end{align*}
+
+\bigskip
+\noindent \textbf{Class Equation:}
+\[
+|G| = |Z(G)| + \sum_{a \notin Z(G)} |G / N(a)|
+\]
+\end{document}

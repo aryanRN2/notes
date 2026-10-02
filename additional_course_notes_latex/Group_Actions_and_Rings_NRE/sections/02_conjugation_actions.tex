@@ -1,0 +1,86 @@
+\section{Actions by Conjugation}
+
+\begin{example}[Action by Conjugation on $G$]
+Let $G$ be a group. Take $A = G$. Define
+\[
+* : G \times A \longrightarrow A \quad \text{by} \quad g * a = gag^{-1} \quad \forall g \in G, \; \forall a \in A.
+\]
+Then $*$ is a group action on $G$, known as the \textbf{action by conjugation}.
+\begin{proof}[Verification of axioms]
+Take $g_1, g_2 \in G$ and $a \in A (= G)$:
+\begin{enumerate}[label=(\roman*)]
+    \item 
+    \begin{align*}
+    g_1 * (g_2 * a) &= g_1 * (g_2 a g_2^{-1}) \\
+    &= g_1 g_2 a g_2^{-1} g_1^{-1} \\
+    &= g_1 g_2 a (g_1 g_2)^{-1} \\
+    &= (g_1 g_2) * a.
+    \end{align*}
+    \item 
+    \[
+    e * a = eae^{-1} = a.
+    \]
+\end{enumerate}
+Therefore, the axioms hold and $*$ is a valid group action.
+\end{proof}
+\end{example}
+
+\begin{example}[Action by Conjugation on Cosets]
+Let $G$ be a group and $H \trianglelefteq G$ be a normal subgroup. Take
+\[
+A = G/H = \{aH \mid a \in G\},
+\]
+the set of all left cosets of $H$ in $G$. Define
+\[
+* : G \times A \longrightarrow A \quad \text{by} \quad g * (xH) = gxg^{-1}H \quad \forall g \in G, \; \forall xH \in A.
+\]
+\begin{proof}[Verification of axioms]
+Take $g_1, g_2 \in G$ and $xH \in A$:
+\begin{enumerate}[label=(\roman*)]
+    \item 
+    \begin{align*}
+    g_1 * (g_2 * xH) &= g_1 * (g_2 x g_2^{-1}H) \\
+    &= g_1 g_2 x g_2^{-1} g_1^{-1}H \\
+    &= g_1 g_2 x (g_1 g_2)^{-1}H \\
+    &= (g_1 g_2) * xH.
+    \end{align*}
+    \item 
+    \[
+    e * xH = exe^{-1}H = xH.
+    \]
+\end{enumerate}
+Therefore, $*$ is a group action.
+\end{proof}
+\end{example}
+
+\begin{example}[Action by Conjugation on Subgroups]
+Let $G$ be a group and let $A$ be the set of all subgroups of $G$. Define
+\[
+* : G \times A \longrightarrow A \quad \text{by} \quad g * H = gHg^{-1} \quad \forall g \in G, \; \forall H \in A.
+\]
+Then $*$ is also a group action.
+\begin{proof}[Verification of axioms]
+For $g_1, g_2 \in G$ and $H \in A$:
+\begin{enumerate}[label=(\roman*)]
+    \item 
+    \begin{align*}
+    g_1 * (g_2 * H) &= g_1 * (g_2 H g_2^{-1}) \\
+    &= g_1 g_2 H g_2^{-1} g_1^{-1} \\
+    &= g_1 g_2 H (g_1 g_2)^{-1} \\
+    &= (g_1 g_2) * H.
+    \end{align*}
+    \item 
+    \[
+    e * H = e H e^{-1} = H.
+    \]
+\end{enumerate}
+Therefore, $*$ is a group action on the set of subgroups.
+\end{proof}
+\end{example}
+
+\begin{remark}
+If $* : G \times A \to A$ is an action, then because $*$ is a map, if $x, y \in A$ such that $x = y$, then for all $g \in G$:
+\[
+(g, x) = (g, y) \implies g * x = g * y.
+\]
+\end{remark}

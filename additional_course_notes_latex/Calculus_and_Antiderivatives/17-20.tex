@@ -1,0 +1,173 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\begin{document}
+% ==================== PAGE 17 ====================
+\begin{enumerate}[resume]
+    \item $M_n(\mathbb{Z}) \to \text{set of all } n \times n \text{ matrices with integer entries is also a non-commutative ring with unity.}$
+    \item $A = \left\{ \begin{bmatrix} x & x \\ x & x \end{bmatrix} \;\middle|\; x \in \mathbb{R} \right\}$ is a commutative ring with unity.
+\end{enumerate}
+
+\noindent $(A, +)$ is an abelian group.
+
+\noindent Let $X, Y \in A$ s.t. $X = \begin{bmatrix} x & x \\ x & x \end{bmatrix}$, $Y = \begin{bmatrix} y & y \\ y & y \end{bmatrix}$
+\[
+\begin{bmatrix} x & x \\ x & x \end{bmatrix} \begin{bmatrix} y & y \\ y & y \end{bmatrix} = \begin{bmatrix} 2xy & 2xy \\ 2xy & 2xy \end{bmatrix} = \begin{bmatrix} y & y \\ y & y \end{bmatrix} \begin{bmatrix} x & x \\ x & x \end{bmatrix}
+\]
+Let $E$ be identity of $A$, s.t. $E = \begin{bmatrix} e & e \\ e & e \end{bmatrix}$
+\[
+\begin{bmatrix} x & x \\ x & x \end{bmatrix} \begin{bmatrix} e & e \\ e & e \end{bmatrix} = \begin{bmatrix} x & x \\ x & x \end{bmatrix}
+\]
+\[
+\begin{bmatrix} 2xe & 2xe \\ 2xe & 2xe \end{bmatrix} = \begin{bmatrix} x & x \\ x & x \end{bmatrix}
+\]
+\[
+2xe = x \implies e = \frac{1}{2}
+\]
+\[
+\therefore E = \begin{bmatrix} 1/2 & 1/2 \\ 1/2 & 1/2 \end{bmatrix}
+\]
+
+\noindent For making $(A, \cdot)$ abelian group: \\
+If $Y = X^{-1}$ then
+\[
+\begin{bmatrix} x & x \\ x & x \end{bmatrix} \begin{bmatrix} y & y \\ y & y \end{bmatrix} = \begin{bmatrix} 1/2 & 1/2 \\ 1/2 & 1/2 \end{bmatrix}
+\]
+\[
+2xy = \frac{1}{2} \implies y = \frac{1}{4x} \quad (x \ne 0)
+\]
+\[
+\therefore Y = \begin{bmatrix} \frac{1}{4x} & \frac{1}{4x} \\ \frac{1}{4x} & \frac{1}{4x} \end{bmatrix}
+\]
+
+\newpage
+% ==================== PAGE 18 ====================
+\noindent 8) $A = \left\{ \begin{bmatrix} x & 0 \\ 0 & 0 \end{bmatrix} \;\middle|\; x \in \mathbb{R} \right\}$ is a commutative ring with unity. \\
+Here $E = \begin{bmatrix} 1 & 0 \\ 0 & 0 \end{bmatrix}$.
+
+\bigskip
+\noindent 9) $R = \{0\}$ is a ring with unity $0$, called \textbf{trivial ring} or \textbf{zero ring}. \\
+If $R \ne \{0\}$, then $R$ is called \textbf{non-trivial ring}.
+
+\bigskip
+\noindent 10) $\mathbb{Z}[x] =$ set of all polynomials with integer coefficients. \\
+$(\mathbb{Z}[x], +, \cdot)$ is a commutative ring with unity $1$.
+
+\bigskip
+\noindent 11) $\mathbb{R}[x], \mathbb{Q}[x], \mathbb{C}[x]$ are also commutative rings with unity.
+
+\bigskip
+\noindent 12) $C[a, b] =$ set of all continuous real-valued functions defined on $[a, b]$. \\
+Define:
+\[
+(f + g)(x) = f(x) + g(x)
+\]
+\[
+(f \cdot g)(x) = f(x) \cdot g(x) \quad \forall\, x \in [a, b]
+\]
+Then $(C[a, b], +, \cdot)$ is a commutative ring with unity $e(x) = 1, \; \forall\, x \in [a, b]$.
+
+\bigskip
+\noindent \textbf{Properties of a Ring:} \\
+Let $(R, +, \cdot)$ be a ring. Then $\forall\, a, b, c \in R$:
+\begin{enumerate}
+    \item $a \cdot 0 = 0 \cdot a = 0$
+    \item $a(-b) = (-a)b = -(ab)$
+    \item $(-a)(-b) = ab$
+    \item $a(b - c) = ab - ac$
+    \item $(b - c)a = ba - ca$
+\end{enumerate}
+
+\newpage
+% ==================== PAGE 19 ====================
+\noindent \textbf{Proof of Properties:}
+\begin{enumerate}
+    \item $a \cdot 0 = a \cdot (0 + 0) = a \cdot 0 + a \cdot 0$ \\
+    $\Rightarrow a \cdot 0 + 0 = a \cdot 0 + a \cdot 0$ \\
+    $\Rightarrow a \cdot 0 = 0$ (by left cancellation in $(R, +)$). \\
+    Similarly, $0 \cdot a = 0$.
+
+    \item $a \cdot (-b) + ab = a(-b + b) = a \cdot 0 = 0$ \\
+    $\Rightarrow a(-b) = -(ab)$. \\
+    Similarly, $(-a)b = -(ab)$.
+
+    \item $(-a)(-b) = -(a(-b)) = -(-(ab)) = ab$.
+
+    \item $a(b - c) = a(b + (-c)) = ab + a(-c) = ab - ac$.
+
+    \item $(b - c)a = (b + (-c))a = ba + (-c)a = ba - ca$.
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Zero Divisors:} \\
+Let $R$ be a ring. A non-zero element $a \in R$ is said to be a \textbf{zero divisor} (or divisor of zero) if there exists a non-zero element $b \in R$ such that:
+\[
+ab = 0 \quad \text{or} \quad ba = 0
+\]
+\begin{itemize}
+    \item If $ab = 0$ with $a \ne 0, b \ne 0$, then $a$ is called a \textbf{left zero divisor} and $b$ is called a \textbf{right zero divisor}.
+\end{itemize}
+
+\bigskip
+\noindent \textbf{Examples:}
+\begin{enumerate}
+    \item In $(\mathbb{Z}_6, +_6, \times_6)$, elements $2, 3, 4$ are zero divisors:
+    \[
+    2 \times_6 3 = 0, \quad 3 \times_6 4 = 0
+    \]
+    \item In $(\mathbb{Z}, +, \cdot)$, $(\mathbb{Q}, +, \cdot)$, $(\mathbb{R}, +, \cdot)$, there are no zero divisors.
+\end{enumerate}
+
+\newpage
+% ==================== PAGE 20 ====================
+\noindent \textbf{Integral Domain:} \\
+A commutative ring $R$ with unity ($1 \ne 0$) is called an \textbf{integral domain} if it has no zero divisors. \\
+i.e., $\forall\, a, b \in R$,
+\[
+ab = 0 \implies a = 0 \quad \text{or} \quad b = 0
+\]
+
+\bigskip
+\noindent \textbf{Examples of Integral Domains:}
+\begin{enumerate}
+    \item $(\mathbb{Z}, +, \cdot)$, $(\mathbb{Q}, +, \cdot)$, $(\mathbb{R}, +, \cdot)$, $(\mathbb{C}, +, \cdot)$ are integral domains.
+    \item $(\mathbb{Z}_p, +_p, \times_p)$ is an integral domain if and only if $p$ is a prime.
+    \item $\mathbb{Z}[x], \mathbb{Q}[x], \mathbb{R}[x]$ are integral domains.
+    \item $\mathbb{Z}[i] = \{a + bi \mid a, b \in \mathbb{Z}\}$ (Gaussian integers) is an integral domain.
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Non-examples:}
+\begin{enumerate}
+    \item $(\mathbb{Z}_n, +_n, \times_n)$ where $n$ is composite is \textbf{not} an integral domain.
+    \item $M_n(\mathbb{R})$ ($n \ge 2$) is not an integral domain (neither commutative nor free of zero divisors).
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Theorem:} \\
+A commutative ring $R$ is an integral domain if and only if the cancellation law holds in $R$:
+\[
+ab = ac \quad (a \ne 0) \implies b = c
+\]
+
+\medskip
+\noindent \textbf{Proof:} \\
+$(\implies)$ Let $R$ be an integral domain and let $ab = ac$ with $a \ne 0$.
+\begin{align*}
+ab - ac = 0 &\implies a(b - c) = 0  \\
+&\implies b - c = 0 \quad (\text{since } a \ne 0 \text{ and } R \text{ has no zero divisors})  \\
+&\implies b = c
+\end{align*}
+$(\impliedby)$ Conversely, suppose the cancellation law holds in $R$. \\
+Let $ab = 0$ with $a \ne 0$. \\
+Then $ab = a \cdot 0$. \\
+Since $a \ne 0$, by cancellation law:
+\[
+b = 0
+\]
+Hence, $R$ has no zero divisors, so $R$ is an integral domain.
+\end{document}

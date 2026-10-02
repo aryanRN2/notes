@@ -1,0 +1,24 @@
+Harvard
+$cl((12)) = \{(12), (13), (14), (23), (24), (34)\} = $
+
+$cl((123))$
+
+- Theorem: If $|G| = p^n$, then where $p$ is a prime then $|Z(G)| \ge p$.
+
+Proof: Let $|Z(G)| = r$
+by class eqn
+$|G| = |Z(G)| + \sum_{a \notin Z(G)} \left(\frac{G}{N(a)}\right) \to (1)$
+
+$a \notin Z(G) \Rightarrow N(a) \neq G \Rightarrow N(a)$ is a proper subgroup of $G$
+by langrange thm. $|N(a)| \mid |G| = p^n$
+$\Rightarrow |N(a)| = p^{\alpha_a}, \alpha_a < n$
+
+$\left|\frac{G}{N(a)}\right| = \frac{|G|}{|N(a)|} \Rightarrow \frac{p^n}{p^{\alpha_a}} = p^{n - \alpha_a}, n - \alpha_a > 0$
+
+$\Rightarrow p \mid \left|\frac{G}{N(a)}\right|$
+$\Rightarrow p \mid \sum_{a \notin Z(G)} \left|\frac{G}{N(a)}\right|$
+$\Rightarrow p \mid |Z(G)| \text{ (as } |G| = p^n)$
+
+$\Rightarrow p \mid \left(|G| - \sum_{a \notin Z(G)} \left|\frac{G}{N(a)}\right|\right)$
+
+$\Rightarrow p \mid |Z(G)| = r$

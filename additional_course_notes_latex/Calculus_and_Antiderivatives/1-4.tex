@@ -1,0 +1,295 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage[margin=1in]{geometry}
+
+\begin{document}
+
+% ==================== PAGE 1 ====================
+Hence, every cycle of length 3 is in $S_4'$
+\[
+S_4' = A_4
+\]
+
+Possibilities: $I$, $V_4$, $A_4$
+
+$A_4$ is non-abelian
+\[
+A_4' \ne \{I\}
+\]
+\[
+|A_4 / V_4| = 3
+\]
+$\Rightarrow A_4 / V_4$ is abelian
+\[
+A_4' \subseteq V_4
+\]
+$\therefore A_4' = V_4$ (as $A_4' \ne \{I\}$)
+
+\bigskip
+\noindent \textbf{Group Action}
+
+\noindent Let $G$ be a group and $A$ be a non-empty set. Then $G$ is said to act on $A$ if $\exists$ a func
+\[
+* : G \times A \longrightarrow A
+\]
+s.t.
+\begin{enumerate}
+    \item $g_1 * (g_2 * a) = (g_1 g_2) * a \quad \forall\, g_1, g_2 \in G, \; \forall\, a \in A$
+    \item $e * a = a \quad \forall\, a \in A$
+\end{enumerate}
+This map is known as a group action of $G$ on $A$ and $A$ is called a $G$-set, we also say that $G$ acts on $A$.
+
+This action is also referred as action on $A$ by left or left action of $G$ on $A$.
+
+We can also define action of $G$ on $A$ from right by considering mapping
+\[
+* : A \times G \longrightarrow A
+\]
+1) $(a * g_1) * g_2 = a * (g_1 g_2)$ \\
+2) $a * e = a$
+
+\bigskip
+\noindent \textbf{Example:}
+
+\noindent 1) Let $G$, $A (\ne \phi)$ s.t. \\
+Define $* : G \times A \to A$ as
+\[
+*(g, a) = g * a = a \quad \forall\, g \in G, \; \forall\, a \in A
+\]
+Let $g_1, g_2 \in G$ \& $a \in A$ \\
+then
+\[
+g_1 * (g_2 * a) = g_1 * a = a
+\]
+and
+\[
+(g_1 g_2) * a = a
+\]
+$\Rightarrow g_1 * (g_2 * a) = (g_1 g_2) * a$ \\
+and $e * a = a$
+
+This shows that $*$ is a group action of $G$ on $A$. This action is known as trivial action.
+
+\bigskip
+\noindent 2) Take $A = G$ \\
+Define: $* : G \times A \to A$ as
+\[
+g * a = ga \in A \quad \forall\, g \in G, \; a \in A = G
+\]
+\[
+g_1 * (g_2 * a) = g_1 * (g_2 a) = g_1 g_2 a
+\]
+\[
+(g_1 g_2) * a = g_1 g_2 a
+\]
+\[
+g_1 * (g_2 * a) = (g_1 g_2) * a
+\]
+\[
+e * a = ea = a
+\]
+
+\newpage
+% ==================== PAGE 2 ====================
+$*$ is a group action of $G$ on $A (= G)$. \\
+This action of $G$ on itself is known as action by left or translation by left.
+
+\bigskip
+\noindent 3) $* : G \times A \to A$
+\[
+g * a = ag
+\]
+\[
+g_1 * (g_2 * a) = g_1 * (ag_2) = ag_2 g_1 \ne (g_1 g_2) * a
+\]
+So, $*$ is not a group action.
+
+\bigskip
+\noindent But \\
+If we define $* : G \times A \to A$ as
+\[
+g * a = ag^{-1}
+\]
+then $\forall\, g_1, g_2 \in G, \; a \in A (= G)$
+\[
+g_1 * (g_2 * a) = g_1 * (ag_2^{-1}) = ag_2^{-1} g_1^{-1} = a(g_1 g_2)^{-1} = (g_1 g_2) * a
+\]
+\[
+e * a = ae^{-1} = a
+\]
+$*$ is a group action and referred as action of $G$ by right translation or right multiplication. \\
+This action is also known as regular action of $G$ on itself.
+
+\bigskip
+\noindent 4) Let $G$ be a group. Take $A = G$ \\
+Define: $* : G \times A \longrightarrow A$ as
+\[
+g * a = gag^{-1} \quad \forall\, g \in G, \; \forall\, a \in A
+\]
+Then $*$ is a group action on $A$ and is known as action by conjugation.
+
+\noindent Take $g_1, g_2 \in G$, and $a \in A (= G)$
+\begin{align}
+g_1 * (g_2 * a) &= g_1 * (g_2 a g_2^{-1}) \nonumber \\
+&= g_1 g_2 a g_2^{-1} g_1^{-1} \nonumber \\
+&= g_1 g_2 a (g_1 g_2)^{-1} \nonumber \\
+g_1 * (g_2 * a) &= (g_1 g_2) * a \tag{1}
+\end{align}
+\begin{equation}
+e * a = eae^{-1} \implies e * a = a \tag{2}
+\end{equation}
+From (1) \& (2), $*$ is a group action.
+
+\bigskip
+\noindent 5) Let $G$ be a group and $H \le G$. Then take $A = G/H = \text{set of all left cosets of } H \text{ in } G$. \\
+i.e. $A = \{aH \mid a \in G\}$ \\
+Define $* : G \times A \to A$ by
+\[
+g * (xH) = gxH \quad \forall\, g \in G, \; xH \in A
+\]
+Take $g_1, g_2 \in G$, $xH \in A$ \\
+Then
+\begin{align*}
+g_1 * (g_2 * xH) &= g_1 * (g_2 x H) \\
+&= g_1 g_2 x H \\
+&= (g_1 g_2) * xH
+\end{align*}
+\[
+e * xH = exH = xH
+\]
+$*$ is a group action.
+
+\newpage
+% ==================== PAGE 3 ====================
+\noindent 6) Let $G$ be a group and $A$ be set of all subgroups of $G$. Define
+\[
+* : G \times A \to A
+\]
+as
+\[
+g * H = gHg^{-1} \quad \forall\, g \in G, \; \forall\, H \in A
+\]
+Then $*$ is also a group action. \\
+$\forall\, g_1, g_2 \in G$, $H \in A (\le G)$
+\begin{align}
+g_1 * (g_2 * H) &= g_1 * (g_2 H g_2^{-1}) \nonumber \\
+&= g_1 g_2 H g_2^{-1} g_1^{-1} \nonumber \\
+&= (g_1 g_2) H (g_1 g_2)^{-1} \nonumber \\
+g_1 * (g_2 * H) &= (g_1 g_2) * H \tag{1}
+\end{align}
+\begin{equation}
+e * H = eHe^{-1} = H \tag{2}
+\end{equation}
+From (1) \& (2)
+
+\bigskip
+\noindent $\bullet$ \textbf{Remark:} If $* : G \times A \to A$ is an action then \\
+if $x, y \in A$ such that $\underline{x = y}$ \\
+then $\forall\, g \in G$
+\[
+(g, x) = (g, y)
+\]
+$\Rightarrow g * x = g * y$ (as $*$ is a map) \\
+$\forall\, x, y \in A$ s.t. $\underline{x = y} \Rightarrow g * x = g * y \quad \forall\, g \in G$
+
+\bigskip
+\noindent \textbf{Theorem:} Let $G$ be any group and $A$ be a non-empty set. Then any homomorphism from $G \to \text{Sym}(A)$, the symmetric group of $A$, defines an action of $G$ on $A$. \\
+Conversely, every action of $G$ on $A$ induces a homomorphism from $G \to \text{Sym}(A)$.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $f : G \to \text{Sym}(A)$ be a group homomorphism. \\
+Let for $g \in G$, $f(g) = \sigma_g$, i.e. $\sigma_g : A \to A$ is a bijective map. \\
+For $g_1, g_2 \in G$
+\[
+f(g_1 g_2) = f(g_1) \circ f(g_2)
+\]
+\[
+\sigma_{g_1 g_2} = \sigma_{g_1} \circ \sigma_{g_2}
+\]
+Defined $* : G \times A \to A$ as
+\[
+g * a = \sigma_g(a), \quad \forall\, a \in A
+\]
+then $*$ is a map.
+
+\noindent For $g_1, g_2 \in G$, $a \in A$
+\begin{align*}
+g_1 * (g_2 * a) &= g_1 * (\sigma_{g_2}(a)) \\
+&= \sigma_{g_1}(\sigma_{g_2}(a)) \\
+&= (\sigma_{g_1} \circ \sigma_{g_2})(a) \\
+&= \sigma_{g_1 g_2}(a) \\
+g_1 * (g_2 * a) &= (g_1 g_2) * a
+\end{align*}
+$f(e) = \sigma_e$ \\
+So, $f(e) = I_A$ as $f$ is group homomorphism \\
+$e * a = \sigma_e(a) = I_A(a) \implies e * a = a$ \\
+Therefore, $*$ is a group action of $G$ on $A$.
+
+\newpage
+% ==================== PAGE 4 ====================
+\noindent \textbf{Conversely,} define $f : G \to \text{Sym}(A)$ as \\
+for $g \in G$, $f(g) = \sigma_g \in \text{Sym}(A)$ \\
+$\sigma_g : A \to A$ is defined as
+\[
+\sigma_g(a) = g * a \quad \forall\, a \in A
+\]
+First we show that $f$ is a map and for this we have to prove that $\sigma_g$ is a bijective map. \\
+Clearly, $\sigma_g$ is a map. \\
+Let $a_1, a_2 \in A$ s.t.
+\begin{align*}
+\sigma_g(a_1) = \sigma_g(a_2) &\Rightarrow g * a_1 = g * a_2 \\
+&\Rightarrow g^{-1} * (g * a_1) = g^{-1} * (g * a_2) \\
+&\Rightarrow (g^{-1} g) * a_1 = (g^{-1} g) * a_2 \quad (\text{as } * \text{ is an action}) \\
+&\Rightarrow e * a_1 = e * a_2 \quad (\text{as } * \text{ is an group action}) \\
+&\Rightarrow a_1 = a_2
+\end{align*}
+$\therefore \sigma_g$ is a one-one map.
+
+\noindent Let $a \in A \Rightarrow g^{-1} * a \in A$ and
+\begin{align*}
+\sigma_g(g^{-1} * a) &= g * (g^{-1} * a) \\
+&= (g g^{-1}) * a \\
+&= e * a = a
+\end{align*}
+$\sigma_g$ is onto map, and hence bijective. \\
+Thus $\sigma_g$ is in $\text{Sym}(A)$, hence $f$ is a map.
+
+\noindent Let $g_1, g_2 \in G$ then
+\begin{align*}
+f(g_1 g_2) &= \sigma_{g_1 g_2} \\
+&= \sigma_{g_1} \circ \sigma_{g_2} \\
+f(g_1 g_2) &= f(g_1) \circ f(g_2)
+\end{align*}
+$\sigma_{g_1 g_2} : A \to A$
+\begin{align*}
+\sigma_{g_1 g_2}(a) &= (g_1 g_2) * a \\
+&= g_1 * (g_2 * a) \\
+&= g_1 * \sigma_{g_2}(a) \\
+&= \sigma_{g_1}(\sigma_{g_2}(a)) \\
+\sigma_{g_1 g_2}(a) &= (\sigma_{g_1} \circ \sigma_{g_2})(a)
+\end{align*}
+$\sigma_{g_1 g_2} = \sigma_{g_1} \circ \sigma_{g_2}$ \\
+Hence, $f$ is a group homomorphism.
+
+\bigskip
+\noindent \textbf{Remark:} For any group action of a group $G$ on a set $A$, there is a homomorphism
+\[
+f : G \longrightarrow \text{Sym}(A)
+\]
+This homomorphism sometimes called the associated permutation representation of the given action.
+
+\bigskip
+\noindent \textbf{Corollary: (Cayley's Theorem)} Every group is isomorphic to a subgroup of it's permutation group or symmetric group.
+
+\medskip
+\noindent \textbf{Proof:} We know that any group act on itself under the action $*$ defined as
+\[
+g * a = ga \quad \forall\, g \in G, \; a \in A \quad (\text{here } A = G)
+\]
+$* : G \times A \to A$ \\
+then by previous theorem, the corresponding permutation representation to this action is given by homomorphism
+
+\end{document}

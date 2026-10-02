@@ -1,0 +1,62 @@
+\section{Kernel of an Action}
+
+\begin{definition}[Kernel of an Action]
+Let $* : G \times A \to A$ be a group action. The \textbf{kernel} of $*$ is defined as:
+\[
+\ker * = \{g \in G \mid g * a = a, \; \forall a \in A\}.
+\]
+In other words, $\ker *$ consists of all elements of $G$ that fix every element of $A$.
+\end{definition}
+
+\begin{theorem}
+Let $* : G \times A \to A$ be a group action. Then:
+\[
+\ker * \le G.
+\]
+\end{theorem}
+
+\begin{proof}
+We check the subgroup criteria:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Non-emptiness:} Since $e * a = a$ for all $a \in A$, we have $e \in \ker *$, so $\ker * \neq \emptyset$.
+    
+    \item \textbf{Closure under multiplication:} Let $g_1, g_2 \in \ker *$. Then:
+    \[
+    g_1 * a = a \quad \text{and} \quad g_2 * a = a \quad \forall a \in A.
+    \]
+    Then for any $a \in A$:
+    \[
+    (g_1 g_2) * a = g_1 * (g_2 * a) = g_1 * a = a.
+    \]
+    Thus $g_1 g_2 \in \ker *$.
+    
+    \item \textbf{Closure under inversion:} Let $g_1 \in \ker *$, so $g_1 * a = a$ for all $a \in A$. Then:
+    \begin{align*}
+    g_1^{-1} * (g_1 * a) = g_1^{-1} * a &\implies (g_1^{-1} g_1) * a = g_1^{-1} * a \\
+    &\implies e * a = g_1^{-1} * a \\
+    &\implies a = g_1^{-1} * a \quad \forall a \in A.
+    \end{align*}
+    Thus $g_1^{-1} \in \ker *$.
+\end{enumerate}
+Therefore, $\ker * \le G$.
+\end{proof}
+
+\begin{theorem}
+If $F : G \to \operatorname{Sym}(A)$ is the permutation representation corresponding to the group action $*$, then:
+\[
+\ker F = \ker *.
+\]
+\end{theorem}
+
+\begin{proof}
+Recall that $F(g) = \sigma_g$ where $\sigma_g(a) = g * a$ for all $a \in A$. By the definition of the kernel of a group homomorphism:
+\begin{align*}
+\ker F &= \{g \in G \mid F(g) = I_A\} \\
+&= \{g \in G \mid \sigma_g = \sigma_e\} \\
+&= \{g \in G \mid \sigma_g(a) = \sigma_e(a) \quad \forall a \in A\} \\
+&= \{g \in G \mid g * a = e * a \quad \forall a \in A\} \\
+&= \{g \in G \mid g * a = a \quad \forall a \in A\} \\
+&= \ker *.
+\end{align*}
+Hence, $\ker F = \ker *$.
+\end{proof}

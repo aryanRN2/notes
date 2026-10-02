@@ -1,0 +1,57 @@
+\section{Examples of Rings}
+
+\subsection{Commutative Rings with Unity}
+
+\begin{example}[Standard Number Systems]
+The sets of numbers with standard addition and multiplication:
+\[
+(\mathbb{Z}, +, \cdot), \quad (\mathbb{Q}, +, \cdot), \quad (\mathbb{R}, +, \cdot), \quad (\mathbb{C}, +, \cdot)
+\]
+are all commutative rings with unity ($1$).
+\end{example}
+
+\begin{example}[Integers Modulo $n$]
+For any positive integer $n \ge 2$, the set of congruence classes:
+\[
+(\mathbb{Z}_n, +, \cdot)
+\]
+under addition and multiplication modulo $n$ forms a commutative ring with unity ($[1]$).
+\end{example}
+
+\begin{example}[Quadratic Integer Ring]
+Let $p$ be a prime. Define the set:
+\[
+\mathbb{Z}[\sqrt{p}] = \{a + b\sqrt{p} \mid a, b \in \mathbb{Z}\}.
+\]
+Then $\mathbb{Z}[\sqrt{p}]$ is a commutative ring with unity ($1 = 1 + 0\sqrt{p}$).
+\end{example}
+
+\begin{example}[Ring of Gaussian Integers]
+The set of Gaussian integers:
+\[
+\mathbb{Z}[i] = \{a + bi \mid a, b \in \mathbb{Z}, \; i^2 = -1\}
+\]
+is a commutative ring with unity ($1 = 1 + 0i$).
+\end{example}
+
+\subsection{Non-Commutative Rings with Unity}
+
+\begin{example}[Real Matrix Ring $M_n(\mathbb{R})$]
+Let $M_n(\mathbb{R})$ denote the set of all $n \times n$ matrices with real entries:
+\begin{enumerate}[label=(\roman*)]
+    \item $(M_n(\mathbb{R}), +)$ is an abelian group with zero element the zero matrix $O_{n \times n}$.
+    \item $(M_n(\mathbb{R}), \cdot)$ is a semi-group under matrix multiplication (associativity of matrix multiplication).
+    \item The distributive laws hold:
+    \begin{align*}
+    A \cdot (B + C) &= AB + AC, \\
+    (A + B) \cdot C &= AC + BC.
+    \end{align*}
+    \item The identity matrix $I_n$ satisfies $A I_n = I_n A = A$ for all $A \in M_n(\mathbb{R})$.
+    \item Matrix multiplication is not commutative for $n \ge 2$ (in general, $AB \neq BA$).
+\end{enumerate}
+Therefore, $(M_n(\mathbb{R}), +, \cdot)$ is a \textbf{non-commutative ring with unity}.
+\end{example}
+
+\begin{example}[Integer Matrix Ring $M_n(\mathbb{Z})$]
+Similarly, let $M_n(\mathbb{Z})$ denote the set of all $n \times n$ matrices with integer entries. Then $(M_n(\mathbb{Z}), +, \cdot)$ is also a \textbf{non-commutative ring with unity}.
+\end{example}

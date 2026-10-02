@@ -1,0 +1,26 @@
+So, it will partition the set A into it's equivalence class.
+
+let $a \in A$
+$cl(a) = \{b \in A \mid a \sim b\}$
+$= \{b \in A \mid b = g * a\} \quad \forall g \in G$
+$= \{g * a \mid g \in G\}$
+$cl(a) = G^a \quad \{\text{orbit of } a \text{ under } G\}$
+
+$\Rightarrow A = \bigcup_{a \in A} cl(a)$
+
+$\Rightarrow A = \bigcup_{a \in A} G^a$
+
+- Conjugacy class
+
+If $G$ acts on itself by conjugation, then
+
+$G_a = \text{Normalizer of } a = N(a)$
+$G^a = cl(a) = \{g * a \mid g \in G\} = \{gag^{-1} \mid g \in G\} \quad \{\text{conjugacy class of } a\}$
+
+H.W
+- Let $G$ be a group and $a, b \in G$. Then $a$ and $b$ are conjugate if $\exists c \in G$ such that $b = cac^{-1}$. Prove that $\sim$ is an equivalence relation on $G$ where $a \sim b$ when $a$ is conjugate to $b$.
+
+Soln
+let $a \in G$ then $\{\text{as } e \in G \text{ (group)}\}$
+$a = e a e^{-1}$
+$\therefore a \sim a \text{ and } \sim \text{ is reflexive.}$

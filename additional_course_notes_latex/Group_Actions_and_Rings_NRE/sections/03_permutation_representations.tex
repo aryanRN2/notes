@@ -1,0 +1,114 @@
+\section{Group Actions and Permutation Representations}
+
+\begin{theorem}
+Let $G$ be any group and $A$ be a non-empty set. Then any homomorphism from $G$ to $\operatorname{Sym}(A)$, the symmetric group on $A$, defines an action of $G$ on $A$.
+
+Conversely, every action of $G$ on $A$ induces a homomorphism from $G$ to $\operatorname{Sym}(A)$.
+\end{theorem}
+
+\begin{proof}
+We establish the theorem in two parts:
+
+\paragraph{Part 1: Homomorphism induces an action.}
+Let $F : G \to \operatorname{Sym}(A)$ be a group homomorphism. For each $g \in G$, denote $F(g) = \sigma_g$, where $\sigma_g : A \to A$ is a bijective map. Since $F$ is a homomorphism, for any $g_1, g_2 \in G$:
+\[
+F(g_1 g_2) = F(g_1) \circ F(g_2) \implies \sigma_{g_1 g_2} = \sigma_{g_1} \circ \sigma_{g_2}.
+\]
+Define $* : G \times A \to A$ by:
+\[
+g * a = \sigma_g(a) \quad \forall g \in G, \; \forall a \in A.
+\]
+Then $*$ is a map. For any $g_1, g_2 \in G$ and $a \in A$:
+\begin{align*}
+g_1 * (g_2 * a) &= g_1 * (\sigma_{g_2}(a)) \\
+&= \sigma_{g_1}(\sigma_{g_2}(a)) \\
+&= (\sigma_{g_1} \circ \sigma_{g_2})(a) \\
+&= \sigma_{g_1 g_2}(a) \\
+&= (g_1 g_2) * a.
+\end{align*}
+Furthermore, since $F$ is a homomorphism, $F(e) = \sigma_e = I_A$, where $I_A$ is the identity permutation on $A$. Thus:
+\[
+e * a = \sigma_e(a) = I_A(a) = a.
+\]
+Therefore, $*$ is a group action of $G$ on $A$.
+
+\paragraph{Part 2: Action induces a homomorphism.}
+Conversely, suppose $* : G \times A \to A$ is a group action. Define $F : G \to \operatorname{Sym}(A)$ by setting $F(g) = \sigma_g$ for each $g \in G$, where $\sigma_g : A \to A$ is defined as:
+\[
+\sigma_g(a) = g * a \quad \forall a \in A.
+\]
+First, we show that $\sigma_g$ is a bijective map from $A$ to $A$:
+\begin{itemize}
+    \item \textbf{One-to-one (Injective):} Let $a_1, a_2 \in A$ such that $\sigma_g(a_1) = \sigma_g(a_2)$. Then:
+    \begin{align*}
+    g * a_1 = g * a_2 &\implies g^{-1} * (g * a_1) = g^{-1} * (g * a_2) \\
+    &\implies (g^{-1} g) * a_1 = (g^{-1} g) * a_2 \quad (\text{as } * \text{ is an action}) \\
+    &\implies e * a_1 = e * a_2 \\
+    &\implies a_1 = a_2.
+    \end{align*}
+    Hence, $\sigma_g$ is one-to-one.
+    
+    \item \textbf{Onto (Surjective):} Let $a \in A$. Then $g^{-1} * a \in A$, and:
+    \[
+    \sigma_g(g^{-1} * a) = g * (g^{-1} * a) = (g g^{-1}) * a = e * a = a.
+    \]
+    Hence, $\sigma_g$ is onto.
+\end{itemize}
+Thus $\sigma_g$ is bijective, meaning $\sigma_g \in \operatorname{Sym}(A)$, and $F$ is a well-defined map.
+
+Next, we show that $F$ is a group homomorphism. For any $g_1, g_2 \in G$ and $a \in A$:
+\begin{align*}
+\sigma_{g_1 g_2}(a) &= (g_1 g_2) * a \\
+&= g_1 * (g_2 * a) \\
+&= g_1 * \sigma_{g_2}(a) \\
+&= \sigma_{g_1}(\sigma_{g_2}(a)) \\
+&= (\sigma_{g_1} \circ \sigma_{g_2})(a).
+\end{align*}
+Therefore, $\sigma_{g_1 g_2} = \sigma_{g_1} \circ \sigma_{g_2}$, which implies:
+\[
+F(g_1 g_2) = F(g_1) \circ F(g_2).
+\]
+Hence, $F$ is a group homomorphism.
+\end{proof}
+
+\begin{remark}
+For any group action of a group $G$ on a set $A$, the induced homomorphism
+\[
+F : G \longrightarrow \operatorname{Sym}(A)
+\]
+is called the \textbf{associated permutation representation} of the given action.
+\end{remark}
+
+\begin{corollary}[Cayley's Theorem]
+Every group is isomorphic to a subgroup of its permutation group (symmetric group).
+\end{corollary}
+
+\begin{proof}
+Let $G$ be any group. We know that $G$ acts on itself ($A = G$) under the left regular action:
+\[
+* : G \times A \longrightarrow A, \quad g * a = ga \quad \forall g \in G, \; \forall a \in A = G.
+\]
+By the previous theorem, the corresponding permutation representation is the homomorphism:
+\[
+F : G \longrightarrow \operatorname{Sym}(G), \quad F(g) = \sigma_g, \quad \text{where } \sigma_g(a) = ga.
+\]
+We show that $F$ is one-to-one:
+\begin{align*}
+F(g_1) = F(g_2) &\implies \sigma_{g_1} = \sigma_{g_2} \\
+&\implies \sigma_{g_1}(a) = \sigma_{g_2}(a) \quad \forall a \in G \\
+&\implies g_1 a = g_2 a \quad \forall a \in G.
+\end{align*}
+Choosing $a = e$:
+\[
+g_1 e = g_2 e \implies g_1 = g_2.
+\]
+Therefore, $F$ is one-to-one, which means:
+\[
+\ker F = \{e\}.
+\]
+By the Fundamental Theorem of Group Homomorphisms (First Isomorphism Theorem):
+\[
+\frac{G}{\ker F} \cong F(G) \implies \frac{G}{\{e\}} \cong F(G) \implies G \cong F(G).
+\]
+Since $F(G) \le \operatorname{Sym}(G)$, every group $G$ is isomorphic to a subgroup of $\operatorname{Sym}(G)$.
+\end{proof}

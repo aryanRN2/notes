@@ -1,0 +1,13 @@
+$\left. \begin{matrix} \sigma_{g_1 g_2} : A \to A \\ \sigma_{g_1 g_2}(a) = (g_1 g_2) * a \\ = g_1 * (g_2 * a) \\ = g_1 * \sigma_{g_2}(a) \\ = \sigma_{g_1}(\sigma_{g_2}(a)) \\ \sigma_{g_1 g_2}(a) = (\sigma_{g_1} \circ \sigma_{g_2})(a) \\ \sigma_{g_1 g_2} = \sigma_{g_1} \circ \sigma_{g_2} \end{matrix} \right\}$
+
+Hence, $F$ is a group homomorphism.
+
+- Remark: For any group action of a group $G$ on a set $A$, there is a homomorphism
+$F: G \to \text{Sym}(A)$
+This homomorphism sometimes called the associated permutation representation of the given action.
+
+- Corollary: (Cayley's Theorem) Every group is isomorphic to a subgroup of it's permutation group or symmetric group.
+
+Proof: We know that any group $G$ act on itself under the action $*$ defined as $g * a = g_a \quad \forall g \in G, \forall a \in A \quad (\text{here } A = G)$
+$*: G \times A \to A$
+then by previous theorem, the corresponding permutation representation to this action is given by homomorphism.

@@ -1,0 +1,221 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Essential Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{hyperref}
+\usepackage{bookmark}
+
+% --- Color Palette ---
+\definecolor{primary}{RGB}{20, 42, 68}       % Deep Navy
+\definecolor{secondary}{RGB}{38, 80, 120}    % Slate Blue
+\definecolor{accentteal}{RGB}{24, 112, 116}  % Dark Teal
+\definecolor{accentgold}{RGB}{165, 105, 30}  % Warm Gold
+\definecolor{darkgray}{RGB}{50, 50, 50}
+
+% Box background tints
+\definecolor{thmbg}{RGB}{244, 248, 253}
+\definecolor{thmfr}{RGB}{38, 80, 120}
+
+\definecolor{defbg}{RGB}{243, 249, 248}
+\definecolor{deffr}{RGB}{24, 112, 116}
+
+\definecolor{exbg}{RGB}{252, 250, 246}
+\definecolor{exfr}{RGB}{165, 105, 30}
+
+\definecolor{notebg}{RGB}{248, 249, 250}
+\definecolor{notefr}{RGB}{110, 120, 130}
+
+% --- Hyperref Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=secondary,
+    citecolor=accentteal,
+    urlcolor=secondary,
+    pdfauthor={Aryan Maurya},
+    pdftitle={Abstract Algebra: Group Actions, Permutations and Ring Theory},
+    pdfsubject={Lecture Notes in Abstract Algebra},
+    bookmarksnumbered=true
+}
+
+% --- Custom Environments using tcolorbox ---
+\newtcolorbox{theorembox}[1][]{
+    colback=thmbg,
+    colframe=thmfr,
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.6pt,
+    leftrule=3.5pt,
+    top=6pt,
+    bottom=6pt,
+    left=8pt,
+    right=8pt,
+    title={#1}
+}
+
+\newtcolorbox{defbox}[1][]{
+    colback=defbg,
+    colframe=deffr,
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.6pt,
+    leftrule=3.5pt,
+    top=6pt,
+    bottom=6pt,
+    left=8pt,
+    right=8pt,
+    title={#1}
+}
+
+\newtcolorbox{exbox}[1][]{
+    colback=exbg,
+    colframe=exfr,
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.6pt,
+    leftrule=3.5pt,
+    top=6pt,
+    bottom=6pt,
+    left=8pt,
+    right=8pt,
+    title={#1}
+}
+
+\newtcolorbox{notebox}[1][]{
+    colback=notebg,
+    colframe=notefr,
+    coltitle=white,
+    fonttitle=\bfseries,
+    arc=2mm,
+    boxrule=0.6pt,
+    leftrule=3pt,
+    top=5pt,
+    bottom=5pt,
+    left=8pt,
+    right=8pt,
+    title={#1}
+}
+
+% --- Counter and Environment Definitions ---
+\newcounter{thmcount}
+\counterwithin{thmcount}{section}
+
+\newenvironment{theorem}[1][]%
+{\refstepcounter{thmcount}\begin{theorembox}[Theorem \thethmcount\ifx&#1&\else: #1\fi]}%
+{\end{theorembox}}
+
+\newenvironment{proposition}[1][]%
+{\refstepcounter{thmcount}\begin{theorembox}[Proposition \thethmcount\ifx&#1&\else: #1\fi]}%
+{\end{theorembox}}
+
+\newenvironment{corollary}[1][]%
+{\refstepcounter{thmcount}\begin{theorembox}[Corollary \thethmcount\ifx&#1&\else: #1\fi]}%
+{\end{theorembox}}
+
+\newenvironment{definition}[1][]%
+{\refstepcounter{thmcount}\begin{defbox}[Definition \thethmcount\ifx&#1&\else: #1\fi]}%
+{\end{defbox}}
+
+\newenvironment{example}[1][]%
+{\refstepcounter{thmcount}\begin{exbox}[Example \thethmcount\ifx&#1&\else: #1\fi]}%
+{\end{exbox}}
+
+\newenvironment{exercise}[1][]%
+{\refstepcounter{thmcount}\begin{exbox}[Exercise \thethmcount\ifx&#1&\else: #1\fi]}%
+{\end{exbox}}
+
+\newenvironment{note}[1][]%
+{\begin{notebox}[\textbf{Note}\ifx&#1&\else: #1\fi]}%
+{\end{notebox}}
+
+\newenvironment{remark}[1][]%
+{\begin{notebox}[\textbf{Remark}\ifx&#1&\else: #1\fi]}%
+{\end{notebox}}
+
+% --- Proof Customization ---
+\renewcommand{\qedsymbol}{$\blacksquare$}
+
+% --- Header and Footer Styling ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textcolor{secondary}{\nouppercase{\leftmark}}}
+\fancyhead[R]{\small\textcolor{darkgray}{Abstract Algebra Notes}}
+\fancyfoot[C]{\small\textcolor{darkgray}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Section Titles Styling
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{primary}}{\thesection}{1em}{}[\color{secondary}\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{secondary}}{\thesubsection}{1em}{}
+
+% --- Document Metadata ---
+\title{
+    \vspace{-1.5cm}
+    {\normalsize\scshape\color{accentteal} Advanced Pure Mathematics \textbar\ Abstract Algebra}\\[0.4cm]
+    {\Huge\bfseries\color{primary} Group Actions, Permutations \\ \& Introduction to Ring Theory}\\[0.3cm]
+    {\large\color{darkgray} Master Calibrated Lecture Notes and Comprehensive Mathematical Exposition}
+}
+\author{\textbf{Aryan Maurya}}
+\date{\today}
+
+\begin{document}
+
+\pagenumbering{roman}
+\maketitle
+\thispagestyle{empty}
+
+\begin{center}
+\begin{minipage}{0.92\textwidth}
+\small\itshape
+\centering
+These notes provide a unified and rigorous exposition of group actions, conjugation, permutation representations, Cayley's theorem, orbit-stabilizer theory, the class equation, $p$-groups, conjugacy classes in symmetric groups, and introductory ring theory with matrix ring constructions.
+\end{minipage}
+\end{center}
+
+\vspace{0.3cm}
+\tableofcontents
+\vspace{0.6cm}
+\hrule
+\vspace{0.8cm}
+
+\newpage
+\pagenumbering{arabic}
+
+% =============================================================================
+% PART I: GROUP ACTIONS & PERMUTATION REPRESENTATIONS
+% =============================================================================
+\part*{Part I: Group Actions and Permutation Representations}
+\addcontentsline{toc}{part}{Part I: Group Actions and Permutation Representations}
+
+\input{sections/01_group_actions_intro.tex}
+\input{sections/02_conjugation_actions.tex}
+\input{sections/03_permutation_representations.tex}
+\input{sections/04_kernel_of_action.tex}
+\input{sections/05_orbits_and_stabilizers.tex}
+\input{sections/06_orbits_as_equivalence_classes.tex}
+\input{sections/07_class_equation_and_p_groups.tex}
+\input{sections/08_conjugacy_classes_in_Sn.tex}
+
+\newpage
+% =============================================================================
+% PART II: INTRODUCTION TO RING THEORY
+% =============================================================================
+\part*{Part II: Introduction to Ring Theory}
+\addcontentsline{toc}{part}{Part II: Introduction to Ring Theory}
+
+\input{sections/09_intro_to_rings.tex}
+\input{sections/10_ring_examples.tex}
+\input{sections/11_matrix_ring_with_identical_entries.tex}
+
+\end{document}

@@ -1,0 +1,25 @@
+$Ker F = \{g \in G \mid g * a = a, \forall a \in A\}$
+$Ker F = Ker *$
+
+- Orbit and Stabilzers
+
+Def: let $*$ be a group action of a group $G$ on a set $A$ and let $a \in A$. Then the set
+$G_a = \{g \in G \mid g * a = a\}$ is called stabilizer of $a$ in $G$.
+
+- Theorem: $G_a \le G$
+
+Proof: $\because e \in Ker*$ For any $a \in A$
+$\because e * a = a$
+$\because e \in G_a \Rightarrow G_a \neq \phi$
+Let $g_1, g_2 \in G_a$ for any $a \in A$
+$\Rightarrow g_1 * a = a$ and $g_2 * a = a$
+$\Rightarrow$ now, $(g_1 g_2) * a = g_1 * (g_2 * a) \quad (\text{as } * \text{ is group action})$
+$\Rightarrow (g_1 g_2) * a = g_1 * a$
+$\Rightarrow g_1 g_2 * a = a \longrightarrow (1)$
+$\therefore g_1 g_2 \in G_a \longrightarrow (2)$
+Also, $g_1 * a = a$
+$\Rightarrow g_1^{-1} * g_1 * a = g_1^{-1} * a$
+$\Rightarrow (g_1^{-1} g_1) * a = g_1^{-1} * a$
+$\Rightarrow e * a = g_1^{-1} * a$
+$\Rightarrow g_1^{-1} * a = a \longrightarrow (2)$
+From (1) & (2) $\therefore G_a \le G$

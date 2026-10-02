@@ -1,0 +1,118 @@
+\section{The Class Equation and Center of \texorpdfstring{$p$-Groups}{p-Groups}}
+
+\subsection{Orbit-Stabilizer Applied to Conjugation}
+
+By the Orbit-Stabilizer Theorem, for any $a \in G$, there exists a bijection between the conjugacy class $\operatorname{cl}(a)$ and the set of cosets $G/N(a)$, for all $a \in G$. Consequently:
+\[
+G = \bigcup_{a \in G} \operatorname{cl}(a).
+\]
+If $G$ is a finite group, then:
+\begin{align*}
+|\operatorname{cl}(a)| &= \left|\frac{G}{N(a)}\right| = \frac{|G|}{|N(a)|}, \\
+|G| &= \sum_{a \in G} |\operatorname{cl}(a)|.
+\end{align*}
+
+\begin{proposition}
+For any element $a \in G$:
+\[
+\operatorname{cl}(a) = \{a\} \iff a \in Z(G),
+\]
+where $Z(G) = \{z \in G \mid zg = gz \; \forall g \in G\}$ is the center of $G$.
+\end{proposition}
+
+\begin{proof}
+By definition of the conjugacy class:
+\begin{align*}
+\operatorname{cl}(a) = \{a\} &\iff gag^{-1} = a \quad \forall g \in G \\
+&\iff ga = ag \quad \forall g \in G \\
+&\iff a \in Z(G).
+\end{align*}
+\end{proof}
+
+\subsection{The Class Equation}
+
+Separating the central elements (for which $|\operatorname{cl}(a)| = 1$) from the non-central elements yields the \textbf{Class Equation}:
+\[
+|G| = |Z(G)| + \sum_{a \notin Z(G)} \left|\frac{G}{N(a)}\right| \longrightarrow (1)
+\]
+
+\begin{theorem}
+If $|G| = p^n$, where $p$ is a prime and $n \ge 1$, then:
+\[
+|Z(G)| \ge p.
+\]
+In other words, every non-trivial finite $p$-group has a non-trivial center.
+\end{theorem}
+
+\begin{proof}
+Let $|Z(G)| = r$. By the class equation (1):
+\[
+|G| = |Z(G)| + \sum_{a \notin Z(G)} \left|\frac{G}{N(a)}\right|.
+\]
+For any $a \notin Z(G)$, $N(a) \neq G$, meaning $N(a)$ is a proper subgroup of $G$. By Lagrange's Theorem, $|N(a)|$ divides $|G| = p^n$, so:
+\[
+|N(a)| = p^{\alpha_a} \quad \text{with } \alpha_a < n.
+\]
+Then:
+\[
+\left|\frac{G}{N(a)}\right| = \frac{|G|}{|N(a)|} = \frac{p^n}{p^{\alpha_a}} = p^{n - \alpha_a}, \quad \text{where } n - \alpha_a > 0.
+\]
+This implies:
+\[
+p \mid p^{n - \alpha_a} \implies p \mid \left|\frac{G}{N(a)}\right| \implies p \mid \sum_{a \notin Z(G)} \left|\frac{G}{N(a)}\right|.
+\]
+Since $|G| = p^n$, we also have $p \mid |G|$. Rewriting the class equation:
+\[
+|Z(G)| = |G| - \sum_{a \notin Z(G)} \left|\frac{G}{N(a)}\right|.
+\]
+Since $p$ divides both terms on the right-hand side:
+\[
+p \mid |Z(G)| \implies p \mid r.
+\]
+Since the identity element $e \in Z(G)$, the center is never empty, so $|Z(G)| \ge 1$. Because $p$ divides $r$, we must have:
+\[
+r \ge p \implies |Z(G)| \ge p.
+\]
+\end{proof}
+
+\begin{theorem}
+A group of order $p^2$, where $p$ is prime, is abelian.
+\end{theorem}
+
+\begin{proof}
+Let $|G| = p^2$. By the previous theorem:
+\[
+|Z(G)| \ge p.
+\]
+By Lagrange's Theorem, $|Z(G)|$ must divide $|G| = p^2$. Therefore, the only possibilities are:
+\[
+|Z(G)| = p \quad \text{or} \quad |Z(G)| = p^2.
+\]
+If $|Z(G)| = p$, then:
+\[
+\frac{|G|}{|Z(G)|} = \frac{p^2}{p} = p.
+\]
+Since any group of prime order is cyclic, the quotient group $G/Z(G)$ is cyclic. But it is a standard result that:
+\[
+G/Z(G) \text{ is cyclic} \implies G \text{ is abelian}.
+\]
+If $G$ is abelian, every element commutes with all other elements, so:
+\[
+G = Z(G) \implies |G| = |Z(G)| = p^2,
+\]
+which contradicts the assumption that $|Z(G)| = p$.
+
+Therefore:
+\[
+|Z(G)| \neq p \quad \text{(contradiction)}.
+\]
+So we must have:
+\[
+|Z(G)| = p^2 = |G| \implies G = Z(G).
+\]
+Hence, $G$ is abelian.
+\end{proof}
+
+\begin{remark}
+If $H \le G$ such that $H \subseteq Z(G)$, then $H \trianglelefteq G$ (any subgroup contained in the center is normal in $G$).
+\end{remark}

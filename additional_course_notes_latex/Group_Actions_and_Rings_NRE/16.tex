@@ -1,0 +1,25 @@
+First we show that $F$ is a map and for this we have to prove that $\sigma_g$ is a bijective map.
+Clearly, $\sigma_g$ is a map.
+
+let $a_1, a_2 \in A$ s.t.
+$\sigma_g(a_1) = \sigma_g(a_2)$
+$\Rightarrow g * a_1 = g * a_2$
+$g^{-1} * (g * a_1) = g^{-1} * (g * a_2)$
+$\Rightarrow (g^{-1} g) * a_1 = (g^{-1} g) * a_2 \quad (\text{as } * \text{ is a action})$
+$\Rightarrow e * a_1 = e * a_2$
+$\Rightarrow a_1 = a_2 \quad (\text{as } * \text{ is an group action})$
+$\therefore \sigma_g$ is a one-one map.
+
+let $a \in A$
+$\Rightarrow g^{-1} * a \in A$ and
+$\sigma_g(g^{-1} * a) = g * (g^{-1} * a)$
+$= (g g^{-1}) * a$
+$= e * a$
+$\sigma_g(g^{-1} * a) = a$
+$\therefore \sigma_g$ is a onto map, and hence bijective.
+Thus $\sigma_g$ is in $\text{Sym}(A)$ $\&$ hence
+$F$ is a map.
+let $g_1, g_2 \in G$ then
+$F(g_1 g_2) = \sigma_{g_1 g_2}$
+$= \sigma_{g_1} \circ \sigma_{g_2}$
+$F(g_1 g_2) = F(g_1) \circ F(g_2)$

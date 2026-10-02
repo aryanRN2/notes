@@ -1,0 +1,119 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\begin{document}
+% ==================== PAGE 13 ====================
+\noindent \textbf{Theorem:} If $\vert{}G\vert{} = p^n$, where $p$ is a prime then $\vert{}Z(G)\vert{} \ge p$.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $\vert{}Z(G)\vert{} = r$. \\
+By class equation:
+\[\vert{}G\vert{} = \vert{}Z(G)\vert{} + \sum_{a \notin Z(G)} \left\vert{}\frac{G}{N(a)}\right\vert{} \tag{A}\]
+$a \notin Z(G) \implies N(a) \ne G$ \\
+$\implies N(a)$ is a proper subgroup of $G$. \\
+By Lagrange's theorem, $\vert{}N(a)\vert{} \mid \vert{}G\vert{}$
+\[\Rightarrow \vert{}N(a)\vert{} = p^{\alpha_a}, \quad \alpha_a < n\]
+\[\left\vert{}\frac{G}{N(a)}\right\vert{} = \frac{\vert{}G\vert{}}{\vert{}N(a)\vert{}} = \frac{p^n}{p^{\alpha_a}} = p^{n - \alpha_a}, \quad n - \alpha_a > 0\]
+\[\Rightarrow p  \mid  \left\vert{}\frac{G}{N(a)}\right\vert{}\]
+\[\Rightarrow p  \mid  \sum_{a \notin Z(G)} \left\vert{}\frac{G}{N(a)}\right\vert{}\]
+Also, $p \mid \vert{}G\vert{}$ (as $\vert{}G\vert{} = p^n$)
+\[\Rightarrow p  \mid  \left(\vert{}G\vert{} - \sum_{a \notin Z(G)} \left\vert{}\frac{G}{N(a)}\right\vert{}\right)\]
+From (A):
+\[\Rightarrow p \mid \vert{}Z(G)\vert{}\]
+Since $e \in Z(G) \implies \vert{}Z(G)\vert{} \ge 1$. \\
+$\therefore p \le \vert{}Z(G)\vert{} \implies \vert{}Z(G)\vert{} \ge p$.
+
+\bigskip
+\noindent $\text{Cl}((12)) = \{(12), (13), (14), (23), (24), (34)\}$ \\
+$\text{Cl}((123))$
+
+\newpage
+% ==================== PAGE 14 ====================
+\noindent \textbf{Theorem:} A group of order $p^2$, $p$ is prime, is abelian.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $\vert{}G\vert{} = p^2$. \\
+$\Rightarrow \vert{}Z(G)\vert{} \ge p$. \\
+So, $\vert{}Z(G)\vert{} = p$ or $p^2$.
+
+\noindent If $\vert{}Z(G)\vert{} = p$, then
+\[\left\vert{}\frac{G}{Z(G)}\right\vert{} = \frac{p^2}{p} = p\]
+$\Rightarrow G/Z(G)$ is cyclic \\
+$\Rightarrow G$ is abelian \\
+$\Rightarrow G = Z(G) \implies \vert{}G\vert{} = \vert{}Z(G)\vert{} = p^2$. \\
+$\therefore \vert{}Z(G)\vert{} \ne p$ (contradiction).
+
+\noindent So, $\vert{}Z(G)\vert{} = p^2 = \vert{}G\vert{}$ \\
+$\Rightarrow G = Z(G)$ \\
+$\therefore G$ is abelian.
+
+\bigskip
+\noindent \textbf{Note:} If $H \le G$ s.t. $H \le Z(G)$ then $H \trianglelefteq G$.
+
+\bigskip
+\noindent \textbf{Theorem:} Let $\sigma$ be a permutation in $S_n$ and let $m_1, m_2, \dots, m_r$ be the distinct integers which appear in the cycle type of $\sigma$ (including 1-cycles). Assume that $\sigma$ has $k_i$ cycles of length $m_i$ for each $i = 1, 2, \dots, r$ so that $\sum_{i=1}^r k_i m_i = n$. \\
+Then number of conjugates of $\sigma$ is
+\[\frac{n!}{(k_1! \, m_1^{k_1})(k_2! \, m_2^{k_2}) \cdots (k_r! \, m_r^{k_r})}\]
+
+\newpage
+% ==================== PAGE 15 ====================
+\noindent \textbf{Example:} In $S_4$ \\
+No. of cycles of 2 length in $S_4$:
+\[\frac{4!}{(1! \, 2^1)(2! \, 1^2)} = \frac{24}{2 \times 2} = 6\]
+No. of cycles of length 3:
+\[\frac{4!}{(1! \, 3^1)(1! \, 1^1)} = \frac{24}{3} = 8\]
+In $S_5$:
+\[5! = 5 \times 4 \times 3 \times 2 \times 1 = 120\]
+\[(3! \, 1^3)(1! \, 2^1) = 6 \times 2 = 12 \implies \frac{120}{12} = 10\]
+
+\bigskip
+\noindent \textbf{Ring:} A system $(R, +, \cdot)$ consisting of a non-empty set $R$ and two internal binary operations `$+$' and `$\cdot$' in $R$ is called a \textbf{ring} if:
+\begin{enumerate}
+    \item $(R, +)$ is an abelian group
+    \item $(R, \cdot)$ is a semi-group
+    \item Distributive laws hold:
+    \begin{align*}
+    a \cdot (b + c) &= a \cdot b + a \cdot c \\
+    (a + b) \cdot c &= a \cdot c + b \cdot c \quad \forall\, a, b, c \in R
+    \end{align*}
+\end{enumerate}
+
+\noindent If $(R, \cdot)$ has identity $\implies$ \textbf{Ring with unity}. \\
+If $(R, \cdot)$ is abelian $\implies$ \textbf{Commutative ring}.
+
+\bigskip
+\noindent \textbf{Note:}
+\begin{enumerate}
+    \item `$+$' is usually called addition and `$\cdot$' is usually called multiplication.
+    \item Identity of $(R, +)$ is called the \textbf{zero element} of ring and is denoted as $0$.
+    \item The identity w.r.t. `$\cdot$' is known as \textbf{unity} (identity element) of the ring and is denoted as $1$.
+\end{enumerate}
+
+\newpage
+% ==================== PAGE 16 ====================
+\begin{enumerate}[resume]
+    \item If `$\cdot$' is commutative then $R$ is called as \textbf{commutative ring}.
+    \item If the identity exists in $R$ then $R$ is called as \textbf{ring with identity} or \textbf{ring with unity}.
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Example:}
+\begin{enumerate}
+    \item $(\mathbb{Z}, +, \cdot)$, $(\mathbb{Q}, +, \cdot)$, $(\mathbb{R}, +, \cdot)$, $(\mathbb{C}, +, \cdot)$ all are commutative ring with unity.
+    \item $(\mathbb{Z}_n, +, \cdot)$ is a commutative ring with unity.
+    \item $\mathbb{Z}[\sqrt{p}] = \{a + b\sqrt{p} \mid a, b \in \mathbb{Z}, \; p \text{ is prime}\}$. Then it is a commutative ring with unity.
+    \item $\mathbb{Z}[i] = \{a + bi \mid a, b \in \mathbb{Z}\}$ is also a commutative ring with unity (\textbf{Ring of Gaussian Integers}).
+    \item $M_n(\mathbb{R}) = \text{set of all } n \times n \text{ matrices with real entries}$. \\
+    $(M_n(\mathbb{R}), +)$ is group. \\
+    $(M_n(\mathbb{R}), \cdot)$ is a semi-group. \\
+    $A \cdot (B + C) = AB + AC$ \\
+    $(A + B) \cdot C = AC + BC$ \\
+    $\therefore (M_n(\mathbb{R}), +, \cdot)$ is a non-commutative ring with unity.
+\end{enumerate}
+\end{document}

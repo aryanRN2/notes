@@ -1,0 +1,179 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\begin{document}
+% ==================== PAGE 21 ====================
+\noindent \textbf{Field:} \\
+A commutative ring $(F, +, \cdot)$ with unity ($1 \ne 0$) is called a \textbf{field} if every non-zero element of $F$ has a multiplicative inverse in $F$. \\
+i.e., $\forall\, a \in F \setminus \{0\}$, $\exists\, a^{-1} \in F$ such that:
+\[
+a \cdot a^{-1} = a^{-1} \cdot a = 1
+\]
+
+\bigskip
+\noindent In other words, $(F, +, \cdot)$ is a field if:
+\begin{enumerate}
+    \item $(F, +)$ is an abelian group
+    \item $(F \setminus \{0\}, \cdot)$ is an abelian group
+    \item Distributive laws hold
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Examples of Fields:}
+\begin{enumerate}
+    \item $(\mathbb{Q}, +, \cdot)$, $(\mathbb{R}, +, \cdot)$, $(\mathbb{C}, +, \cdot)$ are fields.
+    \item $(\mathbb{Z}_p, +_p, \times_p)$ is a field if and only if $p$ is prime.
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Non-examples:}
+\begin{enumerate}
+    \item $(\mathbb{Z}, +, \cdot)$ is not a field (only $\pm 1$ have multiplicative inverses).
+    \item $(\mathbb{Z}_n, +_n, \times_n)$ where $n$ is composite is not a field.
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Skew-Field / Division Ring:} \\
+A ring $(R, +, \cdot)$ with unity ($1 \ne 0$) is called a \textbf{division ring} (or \textbf{skew-field}) if every non-zero element has a multiplicative inverse in $R$ (multiplication need not be commutative).
+
+\bigskip
+\noindent \textbf{Theorem:} \\
+Every field is an integral domain.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $F$ be a field. Then $F$ is a commutative ring with unity. \\
+To show $F$ is an integral domain, we must show it has no zero divisors. \\
+Let $a, b \in F$ such that:
+\[
+ab = 0
+\]
+If $a = 0$, then there is nothing to prove. \\
+If $a \ne 0$, then since $F$ is a field, $a^{-1} \in F$ exists. \\
+Multiplying both sides by $a^{-1}$:
+\begin{align*}
+a^{-1}(ab) &= a^{-1} \cdot 0 \\
+(a^{-1}a)b &= 0 \\
+1 \cdot b &= 0 \\
+b &= 0
+\end{align*}
+Thus, $ab = 0 \implies a = 0$ or $b = 0$. \\
+Hence, $F$ has no zero divisors, so $F$ is an integral domain.
+
+\newpage
+% ==================== PAGE 22 ====================
+\noindent \textbf{Remark:} \\
+The converse of the above theorem is not true in general. \\
+For example, $(\mathbb{Z}, +, \cdot)$ is an integral domain but not a field.
+
+\bigskip
+\noindent \textbf{Theorem:} \\
+Every finite integral domain is a field.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $D$ be a finite integral domain. \\
+Let $D = \{x_1, x_2, \dots, x_n\}$ where all elements are distinct. \\
+Let $a \in D$ such that $a \ne 0$. \\
+Consider the set:
+\[
+aD = \{a x_1, a x_2, \dots, a x_n\}
+\]
+Since $D$ is closed under multiplication, $aD \subseteq D$. \\
+Now we show all elements of $aD$ are distinct: \\
+Let $a x_i = a x_j$ for $i \ne j$. \\
+Since $D$ is an integral domain and $a \ne 0$, by cancellation law:
+\[
+x_i = x_j
+\]
+which is a contradiction since elements of $D$ are distinct. \\
+Thus, $aD$ contains $n$ distinct elements of $D$. \\
+Since $D$ has exactly $n$ elements, we have:
+\[
+aD = D
+\]
+Since $1 \in D$ (as $D$ has unity), $\exists\, x_k \in D$ such that:
+\[
+a x_k = 1
+\]
+Since $D$ is commutative:
+\[
+a x_k = x_k a = 1
+\]
+$\Rightarrow x_k = a^{-1}$. \\
+Thus, every non-zero element of $D$ has a multiplicative inverse in $D$. \\
+Hence, $D$ is a field.
+
+\bigskip
+\noindent \textbf{Corollary:} \\
+$(\mathbb{Z}_p, +_p, \times_p)$ is a field if and only if $p$ is a prime.
+
+\newpage
+% ==================== PAGE 23 ====================
+\noindent \textbf{Characteristic of a Ring:} \\
+Let $(R, +, \cdot)$ be a ring. If there exists a least positive integer $n$ such that:
+\[
+n \cdot a = \underbrace{a + a + \dots + a}_{n \text{ times}} = 0 \quad \forall\, a \in R
+\]
+then $n$ is called the \textbf{characteristic} of the ring $R$, denoted as $\text{char}(R) = n$. \\
+If no such positive integer exists, then $R$ is said to be of \textbf{characteristic zero} (or infinite).
+
+\bigskip
+\noindent \textbf{Examples:}
+\begin{enumerate}
+    \item $\text{char}(\mathbb{Z}) = 0$, $\text{char}(\mathbb{Q}) = 0$, $\text{char}(\mathbb{R}) = 0$, $\text{char}(\mathbb{C}) = 0$.
+    \item $\text{char}(\mathbb{Z}_n) = n$.
+    \item $\text{char}(\mathbb{Z}_p) = p$.
+\end{enumerate}
+
+\bigskip
+\noindent \textbf{Theorem:} \\
+Let $R$ be a ring with unity $1$.
+\begin{enumerate}
+    \item If the order of $1$ under addition is finite, say $n$, then $\text{char}(R) = n$.
+    \item If the order of $1$ under addition is infinite, then $\text{char}(R) = 0$.
+\end{enumerate}
+
+\medskip
+\noindent \textbf{Proof:} \\
+1) Let $O(1) = n$ in $(R, +)$. \\
+Then $n \cdot 1 = 0$, and $n$ is the least positive integer with this property. \\
+For any $a \in R$:
+\[
+n \cdot a = a + a + \dots + a = (1 + 1 + \dots + 1)a = (n \cdot 1)a = 0 \cdot a = 0
+\]
+Thus, $n \cdot a = 0$ for all $a \in R$. \\
+Since $n$ is the least positive integer for which $n \cdot 1 = 0$, it is also the least positive integer for all elements. \\
+$\therefore \text{char}(R) = n$.
+
+\medskip
+\noindent 2) If $O(1)$ is infinite, then there is no positive integer $n$ such that $n \cdot 1 = 0$. \\
+Hence, no such $n$ exists for all elements, so $\text{char}(R) = 0$.
+
+\bigskip
+\noindent \textbf{Theorem:} \\
+The characteristic of an integral domain (or a field) is either $0$ or a prime number.
+
+\medskip
+\noindent \textbf{Proof:} \\
+Let $D$ be an integral domain. If $\text{char}(D) = 0$, then we are done. \\
+Suppose $\text{char}(D) = n > 0$. We need to show that $n$ is a prime. \\
+If possible, let $n$ be composite, so $n = n_1 n_2$, where $1 < n_1, n_2 < n$. \\
+Then:
+\begin{align*}
+n \cdot 1 = 0 &\implies (n_1 n_2) \cdot 1 = 0 \\
+&\implies (n_1 \cdot 1)(n_2 \cdot 1) = 0
+\end{align*}
+Since $D$ is an integral domain (no zero divisors):
+\[
+n_1 \cdot 1 = 0 \quad \text{or} \quad n_2 \cdot 1 = 0
+\]
+This contradicts the fact that $n$ is the least positive integer such that $n \cdot 1 = 0$ (since $n_1, n_2 < n$). \\
+Hence, $n$ cannot be composite. \\
+$\therefore n$ must be a prime number.
+
+\end{document}

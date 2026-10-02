@@ -1,0 +1,21 @@
+6) Let $G$ be a group and $A$ be set of all subgroup of $G$. Define
+$*: G \times A \to A$ as
+$g * H = gHg^{-1} \quad \forall g \in G, \forall x \in A$
+Then $*$ is also a group action.
+$g_1 * (g_2 * H) = g_1 * (g_2 H g_2^{-1}) \quad \forall g_1, g_2 \in G,$
+$= g_1 g_2 H g_2^{-1} g_1^{-1} \quad (H \in A (\subseteq G))$
+$= g_1 g_2 H (g_1 g_2)^{-1}$
+$g_1 * (g_2 * H) = (g_1 g_2) * H \longrightarrow (1)$
+$e * H = e H e^{-1} = H \longrightarrow (2)$
+
+- Remark: If $*: G \times A \to A$ is an action then
+if $x, y \in A$ s.t. $x = y$
+then $\forall g \in G$
+$(g, x) = (g, y)$
+$\Rightarrow g * x = g * y \quad (\text{as } * \text{ is a map})$
+$\forall x, y \in A$ s.t.
+$x = y$
+$\Rightarrow g * x = g * y \quad \forall g \in G$
+
+- Theorem: Let $G$ be any group and $A$ be a non-empty set. Then any homomorphism from $G \to \text{sym}(A)$, the symmetric group of $A$, defines an action of $G$ on $A$.
+Conversely, every action of $G$ on $A$ induces a homomorphism from $G \to \text{sym}(A)$.

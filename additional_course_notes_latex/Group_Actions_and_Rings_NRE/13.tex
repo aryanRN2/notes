@@ -1,0 +1,28 @@
+- Equivalence Class
+
+Let $*$ be a group action of a group $G$ on $A$
+$* : G \times A \to A$
+
+define a relation $\sim$ on $A$ as
+for $a, b \in A$, $a \sim b$ iff $a = g * b$, for some $g \in G$
+then $\sim$ is an equivalence relation on $A$.
+
+Proof: $\forall a \in A$, $a = e * a$, $e \in G$
+$\Rightarrow a \sim a$
+$\therefore \sim$ is reflexive.
+
+let $a, b \in G$ s.t. $a \sim b$
+$\Rightarrow \exists g \in G$ s.t.
+$a = g * b$
+$\Rightarrow g^{-1} * a = g^{-1} * g * b$
+$\Rightarrow g^{-1} * a = b$, $g^{-1} \in G$
+$\Rightarrow b \sim a$
+$\therefore \sim$ is symmetric.
+
+let $a, b, c \in A$ s.t. $a \sim b$ and $b \sim c$.
+$\Rightarrow \exists g_1, g_2 \in G$ s.t.
+$a = g_1 * b \quad \& \quad b = g_2 * c$
+$a = g_1 * (g_2 * c)$
+$a = (g_1 g_2) * c \quad g_1 g_2 \in G$
+$\Rightarrow a \sim c$
+$\therefore \sim$ is transitive and equivalence relation.

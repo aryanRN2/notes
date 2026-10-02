@@ -1,0 +1,86 @@
+\section{Group Actions: Left and Right Actions}
+
+\begin{definition}[Left Group Action]
+Let $G$ be a group and $A$ a non-empty set. A \textbf{left group action} of $G$ on $A$ is a mapping
+\[
+* : G \times A \longrightarrow A, \quad (g, a) \longmapsto g * a
+\]
+satisfying the following two axioms:
+\begin{enumerate}[label=(\roman*)]
+    \item $g_1 * (g_2 * a) = (g_1 g_2) * a \quad \forall g_1, g_2 \in G, \; \forall a \in A$,
+    \item $e * a = a \quad \forall a \in A$, where $e$ is the identity element of $G$.
+\end{enumerate}
+This action is also referred to as an action on $A$ by left, or a \textbf{left action of $G$ on $A$}.
+\end{definition}
+
+\begin{definition}[Right Group Action]
+We can also define an action of $G$ on $A$ from the right by considering a mapping
+\[
+* : A \times G \longrightarrow A, \quad (a, g) \longmapsto a * g
+\]
+satisfying:
+\begin{enumerate}[label=(\roman*)]
+    \item $(a * g_1) * g_2 = a * (g_1 g_2) \quad \forall g_1, g_2 \in G, \; \forall a \in A$,
+    \item $a * e = a \quad \forall a \in A$.
+\end{enumerate}
+\end{definition}
+
+\subsection{Fundamental Examples}
+
+\begin{example}[Trivial $G$-Action]
+Let $G$ be any group and $A \neq \emptyset$. Define
+\[
+* : G \times A \longrightarrow A \quad \text{by} \quad g * a = a \quad \forall g \in G, \; \forall a \in A.
+\]
+Let $g_1, g_2 \in G$ and $a \in A$. Then:
+\begin{align*}
+g_1 * (g_2 * a) &= g_1 * a = a, \\
+(g_1 g_2) * a &= a.
+\end{align*}
+Thus $g_1 * (g_2 * a) = (g_1 g_2) * a$, and clearly $e * a = a$.
+This shows that $*$ is a group action of $G$ on $A$, known as the \textbf{trivial $G$-action}.
+\end{example}
+
+\begin{example}[Left Regular Action / Translation by Left]
+Take $A = G$. Define
+\[
+* : G \times A \longrightarrow A \quad \text{by} \quad g * a = ga \in A \quad \forall g \in G, \; \forall a \in A = G.
+\]
+Verification of axioms:
+\begin{enumerate}[label=(\roman*)]
+    \item For $g_1, g_2 \in G$ and $a \in A$:
+    \[
+    g_1 * (g_2 * a) = g_1 * (g_2 a) = g_1(g_2 a) = (g_1 g_2)a = (g_1 g_2) * a.
+    \]
+    \item $e * a = ea = a$.
+\end{enumerate}
+Therefore, $*$ is a group action of $G$ on $A (= G)$. This action of $G$ on itself is known as the \textbf{action by left} or \textbf{translation by left}.
+\end{example}
+
+\begin{example}[Action by Right Translation]
+Consider again $A = G$ and a mapping $* : G \times A \to A$.
+\begin{itemize}
+    \item If we define $g * a = ag$, then for $g_1, g_2 \in G$ and $a \in A$:
+    \[
+    g_1 * (g_2 * a) = g_1 * (ag_2) = (ag_2)g_1 = a(g_2 g_1) \neq a(g_1 g_2) = (g_1 g_2) * a.
+    \]
+    So this does \emph{not} define a left group action in general.
+    \item However, if we define $* : G \times A \to A$ as
+    \[
+    g * a = ag^{-1} \quad \forall g \in G, \; \forall a \in A = G,
+    \]
+    then for all $g_1, g_2 \in G$ and $a \in A$:
+    \begin{align*}
+    g_1 * (g_2 * a) &= g_1 * (ag_2^{-1}) \\
+    &= (ag_2^{-1})g_1^{-1} \\
+    &= a(g_2^{-1} g_1^{-1}) \\
+    &= a(g_1 g_2)^{-1} \\
+    &= (g_1 g_2) * a,
+    \end{align*}
+    and
+    \[
+    e * a = ae^{-1} = a.
+    \]
+    Therefore, $*$ is a group action, referred to as the \textbf{action of $G$ by right translation} (or right multiplication). This is also known as the \textbf{regular action of $G$ on itself}.
+\end{itemize}
+\end{example}

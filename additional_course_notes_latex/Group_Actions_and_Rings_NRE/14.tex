@@ -1,0 +1,27 @@
+- $Ker* \le G$
+
+Proof: $e \in Ker* \Rightarrow Ker* \neq \phi$
+Let $g_1, g_2 \in Ker*$. Then
+$\left. \begin{matrix} g_1 * a = a \\ g_2 * a = a \end{matrix} \right\} \forall a \in A$
+$(g_1 g_2) * a = g_1 * (g_2 * a)$
+$= g_1 * a$
+$= a \quad \forall a \in A$
+
+$\Rightarrow g_1 g_2 \in Ker*$
+Also, $g_1 * a = a$
+$\Rightarrow g_1^{-1} * (g_1 * a) = g_1^{-1} * a$
+$\Rightarrow (g_1^{-1} g_1) * a = g_1^{-1} * a$
+$\Rightarrow e * a = g_1^{-1} * a$
+$\Rightarrow a = g_1^{-1} * a$
+$\Rightarrow g_1^{-1} \in Ker*$
+$\therefore Ker* \le G$
+
+- Theorem: If $F$ is the corresponding permutation representation of $*$ then $Ker F = Ker *$
+
+Proof: $F: G \to \text{Sym} A$
+$F(g) = \sigma_g$
+$\sigma_g(a) = g * a$
+$Ker F = \{g \in G \mid F(g) = I_A\}$
+$= \{g \in G \mid \sigma_g = \sigma_e\}$
+$= \{g \in G \mid \sigma_g(a) = \sigma_e(a), \forall a \in A\}$
+$= \{g * a = e * a, a \in A\}$

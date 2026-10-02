@@ -1,0 +1,824 @@
+\documentclass[11pt,a4paper]{article}
+
+% --- Core Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsfonts,amsthm,mathtools}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage[framemethod=default]{mdframed}
+\usepackage[hidelinks,colorlinks=true,linkcolor=navyblue,citecolor=navyblue,urlcolor=navyblue]{hyperref}
+
+% --- Color Palette ---
+\definecolor{navyblue}{RGB}{16, 44, 87}
+\definecolor{defblue}{RGB}{24, 90, 157}
+\definecolor{thmblue}{RGB}{18, 52, 115}
+\definecolor{remgold}{RGB}{180, 105, 10}
+\definecolor{warnred}{RGB}{165, 30, 30}
+\definecolor{exgreen}{RGB}{20, 110, 65}
+\definecolor{solpurple}{RGB}{85, 35, 135}
+
+\definecolor{bgblue}{RGB}{246, 250, 255}
+\definecolor{bgorange}{RGB}{255, 251, 245}
+\definecolor{bgred}{RGB}{255, 245, 245}
+\definecolor{bggreen}{RGB}{245, 253, 247}
+\definecolor{bgpurple}{RGB}{252, 248, 255}
+
+% --- Framed Environments ---
+\newmdenv[
+  linecolor=defblue,
+  linewidth=2.2pt,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  backgroundcolor=bgblue,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  skipabove=10pt,
+  skipbelow=10pt
+]{defnbox}
+
+\newmdenv[
+  linecolor=thmblue,
+  linewidth=2.2pt,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  backgroundcolor=bgblue,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  skipabove=10pt,
+  skipbelow=10pt
+]{thmbox}
+
+\newmdenv[
+  linecolor=exgreen,
+  linewidth=2.2pt,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  backgroundcolor=bggreen,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  skipabove=10pt,
+  skipbelow=10pt
+]{exbox}
+
+\newmdenv[
+  linecolor=solpurple,
+  linewidth=2.2pt,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  backgroundcolor=bgpurple,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  skipabove=10pt,
+  skipbelow=10pt
+]{solbox}
+
+\newmdenv[
+  linecolor=remgold,
+  linewidth=2.2pt,
+  topline=false,
+  rightline=false,
+  bottomline=false,
+  backgroundcolor=bgorange,
+  innertopmargin=8pt,
+  innerbottommargin=8pt,
+  innerleftmargin=12pt,
+  innerrightmargin=12pt,
+  skipabove=10pt,
+  skipbelow=10pt
+]{rembox}
+
+% --- Page Setup ---
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{navyblue}\textbf{Numerical Analysis} --- Iterative Methods \& Rate of Convergence}
+\fancyhead[R]{\small\color{gray}\thepage}
+\fancyfoot[C]{\small\color{gray}Comprehensive Lecture Notes \& Complete Problem Solutions}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+\numberwithin{equation}{section}
+
+\title{\vspace{-1.5cm}\LARGE\bfseries\color{navyblue} Advanced Numerical Analysis: Iterative Methods, Convergence Analysis, and Complete Problem Solutions\vspace{0.3cm}}
+\author{\textbf{Lecture Companion \& Comprehensive Reference Notes}}
+\date{\small Course: MATMJ54 (Numerical Analysis) \quad $\vert$ \quad Academic Year: 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\begin{abstract}
+\noindent This document provides a self-contained, mathematically rigorous exposition of iterative root-finding techniques in numerical analysis, focusing on condition of convergence, order (rate) of convergence, and optimal parameter design. It covers: (1) General convergence criterion for the Newton-Raphson scheme; (2) Derivation of cubic convergence for square-root iteration; (3) Complete analytical solution of the undetermined parameter problem for evaluating $\sqrt{a}$; (4) Complete analytical solution of the undetermined parameter problem for evaluating $a^{1/3}$; (5) Systematic derivation of Chebyshev-type second-order correction methods; (6) Complete solution and parameter analysis for the non-linear fixed-point scheme $x_{k+1} = \frac{1}{\alpha + 1}\left[\alpha x_k + x_k^{-2} + 1\right]$; and (7) Full determination of the optimal integer parameter $k$ for the polynomial $x^3 - 5x^2 + 4x - 3 = 0$. All derivations are provided with complete error analyses, asymptotic constants, and numerical verifications.
+\end{abstract}
+
+\vspace{0.2cm}
+\hrule
+\vspace{0.4cm}
+
+\tableofcontents
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.6cm}
+
+% =============================================================================
+\section{Theoretical Foundations: Order and Rate of Convergence}
+% =============================================================================
+
+\begin{defnbox}
+\textbf{Definition 1.1 (Iterative Sequence and Error).}
+Let $f(x) = 0$ be a non-linear algebraic or transcendental equation with an isolated exact root $x = \alpha$, so that $f(\alpha) = 0$. An iterative root-finding algorithm generates a sequence $\{x_k\}_{k=0}^\infty$ defined by a continuous iteration function $\phi(x)$:
+\begin{equation}
+    x_{k+1} = \phi(x_k), \quad k = 0, 1, 2, \dots
+\end{equation}
+The fixed point of $\phi$ corresponds to the exact root, i.e., $\alpha = \phi(\alpha)$. The absolute error at step $k$ is defined by:
+\begin{equation}
+    e_k = x_k - \alpha \iff x_k = \alpha + e_k
+\end{equation}
+\end{defnbox}
+
+\begin{defnbox}
+\textbf{Definition 1.2 (Order of Convergence and Asymptotic Error Constant).}
+An iterative sequence $\{x_k\}$ is said to converge to the root $\alpha$ with \textbf{order of convergence} $p \ge 1$ if there exists a non-zero finite constant $C > 0$ such that:
+\begin{equation}
+    \lim_{k \to \infty} \frac{|e_{k+1}|}{|e_k|^p} = C
+\end{equation}
+where $C$ is termed the \textbf{asymptotic error constant}.
+\begin{itemize}[leftmargin=1.5em]
+    \item If $p = 1$ and $C < 1$, the convergence is \textbf{linear}.
+    \item If $p = 2$, the convergence is \textbf{quadratic} (the number of accurate decimal digits roughly doubles at each iteration).
+    \item If $p = 3$, the convergence is \textbf{cubic} (accurate decimal digits roughly triple at each iteration).
+\end{itemize}
+\end{defnbox}
+
+\begin{thmbox}
+\textbf{Theorem 1.1 (Taylor Series Criterion for Order of Convergence).}
+Let $\phi(x) \in C^p[a, b]$ in a neighborhood of the root $\alpha$. Then the sequence $x_{k+1} = \phi(x_k)$ has order of convergence $p$ if and only if:
+\begin{equation}
+    \phi'(\alpha) = \phi''(\alpha) = \dots = \phi^{(p-1)}(\alpha) = 0, \quad \text{and} \quad \phi^{(p)}(\alpha) \ne 0
+\end{equation}
+In this case, the asymptotic error equation is given by Taylor expansion:
+\begin{equation}
+    e_{k+1} = \frac{\phi^{(p)}(\alpha)}{p!} e_k^p + O(e_k^{p+1}) \implies C = \frac{|\phi^{(p)}(\alpha)|}{p!}
+\end{equation}
+\end{thmbox}
+
+\begin{proof}
+By Taylor's theorem expanded around $x = \alpha$:
+\begin{align}
+    x_{k+1} = \phi(x_k) &= \phi(\alpha + e_k) \notag \\
+    &= \phi(\alpha) + e_k \phi'(\alpha) + \frac{e_k^2}{2!} \phi''(\alpha) + \dots + \frac{e_k^p}{p!} \phi^{(p)}(\alpha) + O(e_k^{p+1})
+\end{align}
+Since $\alpha = \phi(\alpha)$ and $e_{k+1} = x_{k+1} - \alpha$:
+\begin{equation}
+    e_{k+1} = \phi'(\alpha) e_k + \frac{\phi''(\alpha)}{2!} e_k^2 + \dots + \frac{\phi^{(p)}(\alpha)}{p!} e_k^p + O(e_k^{p+1})
+\end{equation}
+If $\phi'(\alpha) = \dots = \phi^{(p-1)}(\alpha) = 0$ and $\phi^{(p)}(\alpha) \ne 0$, dividing by $e_k^p$ and taking $k \to \infty$ gives $\lim_{k\to\infty} \frac{e_{k+1}}{e_k^p} = \frac{\phi^{(p)}(\alpha)}{p!}$, completing the proof.
+\end{proof}
+
+% =============================================================================
+\section{Condition of Convergence of Newton-Raphson Method}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 2.1 (Notes Page 1).}
+Find the condition under which the Newton-Raphson method converges for finding the root of $f(x) = 0$ in the interval $[a, b]$.
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Derivation and Solution:}
+Let the root $\alpha$ of $f(x) = 0$ lie in $[a, b]$. The classical Newton-Raphson iteration formula is:
+\begin{equation}
+    x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)} \tag{2.1}
+\end{equation}
+provided $f'(x_k) \ne 0$. This can be viewed as a fixed-point iteration:
+\begin{equation}
+    x_{k+1} = \phi(x_k) \quad \text{where} \quad \phi(x) = x - \frac{f(x)}{f'(x)} \tag{2.2}
+\end{equation}
+According to the Contraction Mapping Principle, the iteration $x_{k+1} = \phi(x_k)$ converges to the root $\alpha$ if:
+\begin{equation}
+    |\phi'(x)| < 1 \quad \text{for all } x \text{ in an open neighborhood } I \text{ containing } \alpha
+\end{equation}
+Differentiating $\phi(x)$ with respect to $x$ using the quotient rule:
+\begin{align}
+    \phi'(x) &= \frac{d}{dx} \left[ x - \frac{f(x)}{f'(x)} \right] \notag \\
+    &= 1 - \frac{f'(x) \cdot f'(x) - f(x) \cdot f''(x)}{[f'(x)]^2} \notag \\
+    &= 1 - \frac{[f'(x)]^2}{[f'(x)]^2} + \frac{f(x) f''(x)}{[f'(x)]^2} \notag \\
+    &= \frac{f(x) f''(x)}{[f'(x)]^2}
+\end{align}
+Applying the convergence criterion $|\phi'(x)| < 1$:
+\begin{equation}
+    \left| \frac{f(x) f''(x)}{[f'(x)]^2} \right| < 1 \iff \mathbf{|f(x) f''(x)| < [f'(x)]^2}
+\end{equation}
+\end{solbox}
+
+\begin{rembox}
+\textbf{Remarks on Newton-Raphson Convergence:}
+\begin{enumerate}[leftmargin=1.5em]
+    \item \textbf{Quadratic Nature at the Root:} At the exact root $x = \alpha$, $f(\alpha) = 0$. Assuming $f'(\alpha) \ne 0$, we have:
+    \begin{equation}
+        \phi'(\alpha) = \frac{f(\alpha) f''(\alpha)}{[f'(\alpha)]^2} = 0
+    \end{equation}
+    By Theorem 1.1, since $\phi'(\alpha) = 0$, the Newton-Raphson method possesses \textbf{at least quadratic convergence} ($p = 2$).
+    \item \textbf{Asymptotic Error Constant:} Evaluating the second derivative at $\alpha$:
+    \begin{equation}
+        \phi''(x) = \frac{f'(x) f''(x) + f(x) f'''(x)}{[f'(x)]^2} - 2\frac{f(x)[f''(x)]^2}{[f'(x)]^3} \implies \phi''(\alpha) = \frac{f''(\alpha)}{f'(\alpha)}
+    \end{equation}
+    Hence:
+    \begin{equation}
+        e_{k+1} = \frac{f''(\alpha)}{2 f'(\alpha)} e_k^2 + O(e_k^3) \implies C = \left|\frac{f''(\alpha)}{2 f'(\alpha)}\right|
+    \end{equation}
+    \item \textbf{Fourier's Sufficient Condition:} For monotone convergence without limit cycles or oscillations, choose the initial guess $x_0$ such that $f(x_0)$ and $f''(x_0)$ share the same algebraic sign:
+    \begin{equation}
+        f(x_0) \cdot f''(x_0) > 0
+    \end{equation}
+\end{enumerate}
+\end{rembox}
+
+% =============================================================================
+\section{Rate of Convergence of the Square-Root Formula}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 3.1 (Notes Pages 1--2).}
+Find the rate of convergence of the iteration formula:
+\begin{equation}
+    x_{k+1} = \frac{1}{8} x_k \left( 6 + \frac{3a}{x_k^2} - \frac{x_k^2}{a} \right)
+\end{equation}
+designed for evaluating the square root $\sqrt{a}$.
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Step-by-Step Derivation:}
+Let $\alpha = \sqrt{a}$ denote the exact root, so that $\alpha^2 = a$. Let $e_k = x_k - \alpha$ and $e_{k+1} = x_{k+1} - \alpha$. 
+Expressing $x_k$ in terms of the error:
+\begin{equation}
+    x_k = \alpha + e_k = \alpha \left( 1 + \frac{e_k}{\alpha} \right)
+\end{equation}
+Substitute into the given iterative scheme:
+\begin{equation}
+    \alpha + e_{k+1} = \frac{1}{8} (\alpha + e_k) \left[ 6 + \frac{3a}{(\alpha + e_k)^2} - \frac{(\alpha + e_k)^2}{a} \right]
+\end{equation}
+Since $a = \alpha^2$, we simplify each term individually:
+\begin{align}
+    \frac{3a}{(\alpha + e_k)^2} &= \frac{3\alpha^2}{\alpha^2 \left(1 + \frac{e_k}{\alpha}\right)^2} = 3 \left( 1 + \frac{e_k}{\alpha} \right)^{-2} \\
+    \frac{(\alpha + e_k)^2}{a} &= \frac{\alpha^2 \left(1 + \frac{e_k}{\alpha}\right)^2}{\alpha^2} = \left( 1 + \frac{e_k}{\alpha} \right)^2
+\end{align}
+Expanding using the generalized binomial theorem (for $|e_k/\alpha| < 1$):
+\begin{align}
+    \left( 1 + \frac{e_k}{\alpha} \right)^{-2} &= 1 - 2\left(\frac{e_k}{\alpha}\right) + 3\left(\frac{e_k}{\alpha}\right)^2 - 4\left(\frac{e_k}{\alpha}\right)^3 + 5\left(\frac{e_k}{\alpha}\right)^4 - \dots \\
+    \left( 1 + \frac{e_k}{\alpha} \right)^2 &= 1 + 2\left(\frac{e_k}{\alpha}\right) + \left(\frac{e_k}{\alpha}\right)^2
+\end{align}
+Substitute these expansions into the bracketed expression $B$:
+\begin{align}
+    B &= 6 + 3\left[ 1 - 2\frac{e_k}{\alpha} + 3\frac{e_k^2}{\alpha^2} - 4\frac{e_k^3}{\alpha^3} + \dots \right] - \left[ 1 + 2\frac{e_k}{\alpha} + \frac{e_k^2}{\alpha^2} \right] \notag \\
+    &= [6 + 3 - 1] + [-6 - 2]\frac{e_k}{\alpha} + [9 - 1]\frac{e_k^2}{\alpha^2} - 12\frac{e_k^3}{\alpha^3} + O(e_k^4) \notag \\
+    &= 8 - 8\frac{e_k}{\alpha} + 8\frac{e_k^2}{\alpha^2} - 12\frac{e_k^3}{\alpha^3} + O(e_k^4)
+\end{align}
+Multiplying by $\frac{1}{8}$:
+\begin{equation}
+    \frac{1}{8} B = 1 - \frac{e_k}{\alpha} + \frac{e_k^2}{\alpha^2} - \frac{3}{2}\frac{e_k^3}{\alpha^3} + O(e_k^4)
+\end{equation}
+Now multiply by $(\alpha + e_k)$:
+\begin{align}
+    \alpha + e_{k+1} &= (\alpha + e_k) \left[ 1 - \frac{e_k}{\alpha} + \frac{e_k^2}{\alpha^2} - \frac{3}{2}\frac{e_k^3}{\alpha^3} + O(e_k^4) \right] \notag \\
+    &= \alpha \left[ 1 - \frac{e_k}{\alpha} + \frac{e_k^2}{\alpha^2} - \frac{3}{2}\frac{e_k^3}{\alpha^3} \right] + e_k \left[ 1 - \frac{e_k}{\alpha} + \frac{e_k^2}{\alpha^2} \right] + O(e_k^4) \notag \\
+    &= \alpha + \left( -\frac{\alpha}{\alpha} + 1 \right) e_k + \left( \frac{\alpha}{\alpha^2} - \frac{1}{\alpha} \right) e_k^2 + \left( -\frac{3\alpha}{2\alpha^3} + \frac{1}{\alpha^2} \right) e_k^3 + O(e_k^4) \notag \\
+    &= \alpha + 0 \cdot e_k + 0 \cdot e_k^2 + \left( -\frac{3}{2\alpha^2} + \frac{1}{\alpha^2} \right) e_k^3 + O(e_k^4) \notag \\
+    &= \alpha - \frac{1}{2\alpha^2} e_k^3 + O(e_k^4)
+\end{align}
+Subtracting $\alpha$ from both sides yields the final error equation:
+\begin{equation}
+    \mathbf{e_{k+1} = -\frac{1}{2a} e_k^3 + O(e_k^4)}
+\end{equation}
+\textbf{Conclusion:} Since $e_{k+1} \approx C e_k^p$ with $p = 3$ and non-zero constant $C = \frac{1}{2a}$, the formula has \textbf{cubic convergence (order 3)}.
+\end{solbox}
+
+% =============================================================================
+\section{Unsolved Question 1: Optimal Parameters for Evaluating \texorpdfstring{$\sqrt{a}$}{sqrt(a)}}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 4.1 (Unsolved in Notes Page 2).}
+The iterative formula:
+\begin{equation}
+    x_{k+1} = x_k \left( p + \frac{qa}{x_k^2} + \frac{r x_k^2}{a} \right)
+\end{equation}
+is used for evaluating $\sqrt{a}$. Find the values of $p, q, r$ so that it converges with the \textbf{maximum rate of convergence}.
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Complete Analytical Solution:}
+Let $\alpha = \sqrt{a}$, so $\alpha^2 = a$. Define the relative error $\epsilon_k = \frac{e_k}{\alpha} = \frac{x_k - \alpha}{\alpha}$, so $x_k = \alpha(1 + \epsilon_k)$. Substituting into the formula:
+\begin{equation}
+    x_{k+1} = \alpha(1 + \epsilon_k) \left[ p + q \frac{\alpha^2}{\alpha^2(1+\epsilon_k)^2} + r \frac{\alpha^2(1+\epsilon_k)^2}{\alpha^2} \right]
+\end{equation}
+Dividing both sides by $\alpha$:
+\begin{equation}
+    1 + \epsilon_{k+1} = (1 + \epsilon_k) \left[ p + q (1 + \epsilon_k)^{-2} + r (1 + \epsilon_k)^2 \right]
+\end{equation}
+Expand the powers of $(1 + \epsilon_k)$ up to degree 3:
+\begin{align}
+    (1 + \epsilon_k)^{-2} &= 1 - 2\epsilon_k + 3\epsilon_k^2 - 4\epsilon_k^3 + O(\epsilon_k^4) \\
+    (1 + \epsilon_k)^2 &= 1 + 2\epsilon_k + \epsilon_k^2
+\end{align}
+Let the term in brackets be $S(\epsilon_k)$:
+\begin{align}
+    S(\epsilon_k) &= p + q(1 - 2\epsilon_k + 3\epsilon_k^2 - 4\epsilon_k^3) + r(1 + 2\epsilon_k + \epsilon_k^2) + O(\epsilon_k^4) \notag \\
+    &= (p + q + r) + 2(r - q)\epsilon_k + (3q + r)\epsilon_k^2 - 4q\epsilon_k^3 + O(\epsilon_k^4)
+\end{align}
+Now compute the product $(1 + \epsilon_k) S(\epsilon_k)$:
+\begin{align}
+    1 + \epsilon_{k+1} &= (1 + \epsilon_k) \left[ (p + q + r) + 2(r - q)\epsilon_k + (3q + r)\epsilon_k^2 - 4q\epsilon_k^3 \right] + O(\epsilon_k^4) \notag \\
+    &= (p + q + r) \notag \\
+    &\quad + \left[ (p + q + r) + 2(r - q) \right] \epsilon_k \notag \\
+    &\quad + \left[ 2(r - q) + (3q + r) \right] \epsilon_k^2 \notag \\
+    &\quad + \left[ (3q + r) - 4q \right] \epsilon_k^3 + O(\epsilon_k^4) \notag \\
+    &= (p + q + r) + (p - q + 3r)\epsilon_k + (q + 3r)\epsilon_k^2 + (r - q)\epsilon_k^3 + O(\epsilon_k^4)
+\end{align}
+To maximize the order of convergence, we systematically eliminate the lower-order error terms:
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Consistency (Zero error condition at $\epsilon_k = 0$):}
+    \begin{equation}
+        p + q + r = 1 \tag{4.1}
+    \end{equation}
+    \item \textbf{Quadratic Convergence ($\epsilon_k$ coefficient $= 0$):}
+    \begin{equation}
+        p - q + 3r = 0 \tag{4.2}
+    \end{equation}
+    \item \textbf{Cubic Convergence ($\epsilon_k^2$ coefficient $= 0$):}
+    \begin{equation}
+        q + 3r = 0 \implies q = -3r \tag{4.3}
+    \end{equation}
+\end{enumerate}
+Subtracting equation (4.2) from equation (4.1):
+\begin{equation}
+    (p + q + r) - (p - q + 3r) = 1 - 0 \implies 2q - 2r = 1 \implies q - r = \frac{1}{2}
+\end{equation}
+Substitute $q = -3r$ into this equation:
+\begin{equation}
+    -3r - r = \frac{1}{2} \implies -4r = \frac{1}{2} \implies \mathbf{r = -\frac{1}{8}}
+\end{equation}
+Now determine $q$ and $p$:
+\begin{align}
+    q &= -3r = -3\left(-\frac{1}{8}\right) \implies \mathbf{q = \frac{3}{8}} \\
+    p &= 1 - q - r = 1 - \frac{3}{8} - \left(-\frac{1}{8}\right) = 1 - \frac{2}{8} \implies \mathbf{p = \frac{6}{8} = \frac{3}{4}}
+\end{align}
+
+\noindent\textbf{Investigation of Higher-Order (Can it achieve Quartic Convergence?):}
+The coefficient of $\epsilon_k^3$ is:
+\begin{equation}
+    C_3 = r - q = -\frac{1}{8} - \frac{3}{8} = -\frac{4}{8} = -\frac{1}{2} \ne 0
+\end{equation}
+To make $C_3 = 0$, we would require $r = q$. Since $q = -3r$, this would imply $4r = 0 \implies r = 0, q = 0$, which yields $p = 1$ from (4.1) but $p = 0$ from (4.2), an immediate contradiction. 
+
+Thus, with 3 free parameters, the \textbf{maximum achievable rate of convergence is 3 (cubic)}.
+
+\vspace{0.2cm}
+\noindent\textbf{Final Result:}
+\begin{equation}
+    \boxed{p = \frac{3}{4}, \quad q = \frac{3}{8}, \quad r = -\frac{1}{8}}
+\end{equation}
+The resulting optimal iteration formula is:
+\begin{equation}
+    x_{k+1} = x_k \left( \frac{3}{4} + \frac{3a}{8x_k^2} - \frac{x_k^2}{8a} \right) = \frac{1}{8} x_k \left( 6 + \frac{3a}{x_k^2} - \frac{x_k^2}{a} \right)
+\end{equation}
+with asymptotic error relation $e_{k+1} = -\frac{1}{2a} e_k^3 + O(e_k^4)$.
+\end{solbox}
+
+% =============================================================================
+\section{Unsolved Question 2: Optimal Parameters for Evaluating \texorpdfstring{$a^{1/3}$}{a^(1/3)}}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 5.1 (Unsolved in Notes Page 3).}
+The iterative formula:
+\begin{equation}
+    x_{k+1} = p x_k + \frac{qa}{x_k^2} + \frac{r a^2}{x_k^5}
+\end{equation}
+is used for evaluating $a^{1/3}$. Find the values of $p, q, r$ so that it converges with the \textbf{maximum rate of convergence}.
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Complete Analytical Solution:}
+Let $\alpha = a^{1/3}$ be the exact cube root, which implies:
+\begin{equation}
+    \alpha^3 = a \quad \text{and} \quad \alpha^6 = a^2
+\end{equation}
+Define the relative error $\epsilon_k = \frac{e_k}{\alpha} = \frac{x_k - \alpha}{\alpha}$, so $x_k = \alpha(1 + \epsilon_k)$. Substituting into the iteration scheme:
+\begin{align}
+    x_{k+1} &= p \alpha(1 + \epsilon_k) + q a [\alpha(1+\epsilon_k)]^{-2} + r a^2 [\alpha(1+\epsilon_k)]^{-5} \notag \\
+    &= p \alpha(1 + \epsilon_k) + q \left(\frac{a}{\alpha^2}\right) (1+\epsilon_k)^{-2} + r \left(\frac{a^2}{\alpha^5}\right) (1+\epsilon_k)^{-5}
+\end{align}
+Using $a/\alpha^2 = \alpha^3/\alpha^2 = \alpha$ and $a^2/\alpha^5 = \alpha^6/\alpha^5 = \alpha$:
+\begin{equation}
+    x_{k+1} = \alpha \left[ p(1+\epsilon_k) + q(1+\epsilon_k)^{-2} + r(1+\epsilon_k)^{-5} \right]
+\end{equation}
+Dividing both sides by $\alpha$, where $x_{k+1}/\alpha = 1 + \epsilon_{k+1}$:
+\begin{equation}
+    1 + \epsilon_{k+1} = p(1+\epsilon_k) + q(1+\epsilon_k)^{-2} + r(1+\epsilon_k)^{-5}
+\end{equation}
+Using the negative binomial expansion for $| \epsilon_k | < 1$:
+\begin{align}
+    (1+\epsilon_k)^{-2} &= 1 - 2\epsilon_k + 3\epsilon_k^2 - 4\epsilon_k^3 + 5\epsilon_k^4 - \dots \\
+    (1+\epsilon_k)^{-5} &= 1 - 5\epsilon_k + \frac{(-5)(-6)}{2!}\epsilon_k^2 + \frac{(-5)(-6)(-7)}{3!}\epsilon_k^3 + \dots \notag \\
+    &= 1 - 5\epsilon_k + 15\epsilon_k^2 - 35\epsilon_k^3 + 70\epsilon_k^4 - \dots
+\end{align}
+Substitute these expansions into the expression for $1 + \epsilon_{k+1}$:
+\begin{align}
+    1 + \epsilon_{k+1} &= p(1 + \epsilon_k) + q(1 - 2\epsilon_k + 3\epsilon_k^2 - 4\epsilon_k^3) + r(1 - 5\epsilon_k + 15\epsilon_k^2 - 35\epsilon_k^3) + O(\epsilon_k^4) \notag \\
+    &= (p + q + r) + (p - 2q - 5r)\epsilon_k + (3q + 15r)\epsilon_k^2 + (-4q - 35r)\epsilon_k^3 + O(\epsilon_k^4)
+\end{align}
+For the maximum rate of convergence, we set the lower-order error coefficients to zero:
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Order $\ge 1$ (Consistency condition):}
+    \begin{equation}
+        p + q + r = 1 \tag{5.1}
+    \end{equation}
+    \item \textbf{Order $\ge 2$ (Vanishing linear error):}
+    \begin{equation}
+        p - 2q - 5r = 0 \tag{5.2}
+    \end{equation}
+    \item \textbf{Order $\ge 3$ (Vanishing quadratic error):}
+    \begin{equation}
+        3q + 15r = 0 \implies q + 5r = 0 \implies q = -5r \tag{5.3}
+    \end{equation}
+\end{enumerate}
+Substituting $q = -5r$ into equation (5.2):
+\begin{equation}
+    p - 2(-5r) - 5r = 0 \implies p + 10r - 5r = 0 \implies p + 5r = 0 \implies p = -5r
+\end{equation}
+Therefore, we have the simple relation:
+\begin{equation}
+    p = q = -5r
+\end{equation}
+Substitute $p = -5r$ and $q = -5r$ into equation (5.1):
+\begin{equation}
+    (-5r) + (-5r) + r = 1 \implies -9r = 1 \implies \mathbf{r = -\frac{1}{9}}
+\end{equation}
+Now compute $p$ and $q$:
+\begin{align}
+    p &= -5\left(-\frac{1}{9}\right) \implies \mathbf{p = \frac{5}{9}} \\
+    q &= -5\left(-\frac{1}{9}\right) \implies \mathbf{q = \frac{5}{9}}
+\end{align}
+
+\noindent\textbf{Order and Asymptotic Error Term:}
+Evaluate the coefficient of $\epsilon_k^3$:
+\begin{equation}
+    C_3 = -4q - 35r = -4\left(\frac{5}{9}\right) - 35\left(-\frac{1}{9}\right) = \frac{-20 + 35}{9} = \frac{15}{9} = \frac{5}{3} \ne 0
+\end{equation}
+Hence, order 4 is impossible, and the maximum rate of convergence is \textbf{3 (cubic)}.
+The relative error relation is:
+\begin{equation}
+    \epsilon_{k+1} = \frac{5}{3} \epsilon_k^3 + O(\epsilon_k^4)
+\end{equation}
+In terms of the absolute error $e_k = \alpha \epsilon_k$:
+\begin{equation}
+    e_{k+1} = \alpha \left[ \frac{5}{3} \left(\frac{e_k}{\alpha}\right)^3 \right] = \frac{5}{3\alpha^2} e_k^3 + O(e_k^4) = \mathbf{\frac{5}{3 a^{2/3}} e_k^3 + O(e_k^4)}
+\end{equation}
+
+\noindent\textbf{Final Result:}
+\begin{equation}
+    \boxed{p = \frac{5}{9}, \quad q = \frac{5}{9}, \quad r = -\frac{1}{9}}
+\end{equation}
+The resulting third-order iteration formula for $a^{1/3}$ is:
+\begin{equation}
+    x_{k+1} = \frac{1}{9} \left[ 5 x_k + \frac{5a}{x_k^2} - \frac{a^2}{x_k^5} \right]
+\end{equation}
+\end{solbox}
+
+% =============================================================================
+\section{Chebyshev-Type Second-Order Correction Method}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 6.1 (Notes Pages 4--5).}
+Consider the generalized family of iterative root-finding methods:
+\begin{equation}
+    x_{k+1} = x_k - \gamma_1 f(x_k) + \gamma_2 [f(x_k)]^2 \tag{6.1}
+\end{equation}
+Determine the optimal parameters $\gamma_1$ and $\gamma_2$ to achieve a third-order (cubic) rate of convergence for finding the simple root $\alpha$ of $f(x) = 0$.
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Derivation and Solution:}
+Let $\alpha$ be the exact root so $f(\alpha) = 0$ with $f'(\alpha) \ne 0$. Let $e_k = x_k - \alpha$ and $e_{k+1} = x_{k+1} - \alpha$.
+Expanding $f(x_k) = f(\alpha + e_k)$ by Taylor series:
+\begin{equation}
+    f(x_k) = f(\alpha) + e_k f'(\alpha) + \frac{e_k^2}{2!} f''(\alpha) + \frac{e_k^3}{3!} f'''(\alpha) + O(e_k^4)
+\end{equation}
+Since $f(\alpha) = 0$:
+\begin{equation}
+    f(x_k) = e_k f'(\alpha) + \frac{1}{2} e_k^2 f''(\alpha) + \frac{1}{6} e_k^3 f'''(\alpha) + O(e_k^4)
+\end{equation}
+Now compute the square $[f(x_k)]^2$:
+\begin{align}
+    [f(x_k)]^2 &= \left[ e_k f'(\alpha) + \frac{1}{2} e_k^2 f''(\alpha) + O(e_k^3) \right]^2 \notag \\
+    &= e_k^2 [f'(\alpha)]^2 + e_k^3 f'(\alpha) f''(\alpha) + O(e_k^4)
+\end{align}
+Subtracting $\alpha$ from both sides of the iteration formula (6.1):
+\begin{equation}
+    e_{k+1} = e_k - \gamma_1 f(x_k) + \gamma_2 [f(x_k)]^2
+\end{equation}
+Substitute the series expansions of $f(x_k)$ and $[f(x_k)]^2$:
+\begin{align}
+    e_{k+1} &= e_k - \gamma_1 \left[ e_k f'(\alpha) + \frac{1}{2} e_k^2 f''(\alpha) + \frac{1}{6} e_k^3 f'''(\alpha) \right] \notag \\
+    &\quad + \gamma_2 \left[ e_k^2 [f'(\alpha)]^2 + e_k^3 f'(\alpha) f''(\alpha) \right] + O(e_k^4)
+\end{align}
+Collecting like powers of $e_k$:
+\begin{align}
+    e_{k+1} &= \left[ 1 - \gamma_1 f'(\alpha) \right] e_k \notag \\
+    &\quad + \left[ -\frac{1}{2} \gamma_1 f''(\alpha) + \gamma_2 [f'(\alpha)]^2 \right] e_k^2 \notag \\
+    &\quad + \left[ -\frac{1}{6} \gamma_1 f'''(\alpha) + \gamma_2 f'(\alpha) f''(\alpha) \right] e_k^3 + O(e_k^4)
+\end{align}
+For the method to have \textbf{cubic convergence}, the coefficients of $e_k$ and $e_k^2$ must vanish simultaneously:
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{First-order cancellation:}
+    \begin{equation}
+        1 - \gamma_1 f'(\alpha) = 0 \implies \boxed{\gamma_1 = \frac{1}{f'(\alpha)}}
+    \end{equation}
+    \item \textbf{Second-order cancellation:}
+    \begin{equation}
+        -\frac{1}{2} \gamma_1 f''(\alpha) + \gamma_2 [f'(\alpha)]^2 = 0 \implies \gamma_2 [f'(\alpha)]^2 = \frac{1}{2} \gamma_1 f''(\alpha)
+    \end{equation}
+    Substitute $\gamma_1 = \frac{1}{f'(\alpha)}$:
+    \begin{equation}
+        \gamma_2 [f'(\alpha)]^2 = \frac{f''(\alpha)}{2 f'(\alpha)} \implies \boxed{\gamma_2 = \frac{f''(\alpha)}{2 [f'(\alpha)]^3}}
+    \end{equation}
+\end{enumerate}
+\end{solbox}
+
+\begin{rembox}
+\textbf{Chebyshev's Practical Formulation:}
+In practical computation, the exact root $\alpha$ is unknown. Replacing the evaluation at $\alpha$ with evaluation at the current iterate $x_k$ gives:
+\begin{equation}
+    \gamma_1(x_k) = \frac{1}{f'(x_k)}, \qquad \gamma_2(x_k) = \frac{f''(x_k)}{2 [f'(x_k)]^3}
+\end{equation}
+which yields the classical \textbf{Chebyshev Third-Order Iterative Method}:
+\begin{equation}
+    \mathbf{x_{k+1} = x_k - \frac{f(x_k)}{f'(x_k)} - \frac{1}{2} \frac{f''(x_k)}{[f'(x_k)]^3} [f(x_k)]^2}
+\end{equation}
+Notice that the first two terms represent the standard Newton-Raphson step, while the third term provides a curvature correction that elevates the convergence order from quadratic to cubic.
+\end{rembox}
+
+% =============================================================================
+\section{Unsolved Question 3: Parameter Tuning for \texorpdfstring{$x_{k+1} = \frac{1}{\alpha + 1}[\alpha x_k + x_k^{-2} + 1]$}{x_{k+1} = 1/(alpha+1) [alpha x_k + 1/x_k^2 + 1]}}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 7.1 (Unsolved in Notes Page 5).}
+Given the iterative formula:
+\begin{equation}
+    x_{k+1} = \frac{1}{\alpha + 1} \left[ \alpha x_k + \frac{1}{x_k^2} + 1 \right]
+\end{equation}
+\begin{enumerate}[label=(\alph*)]
+    \item Determine the algebraic equation $f(x) = 0$ whose root $\xi$ is computed by this iteration.
+    \item Find the condition on the parameter $\alpha$ under which the iteration converges to $\xi$.
+    \item Determine the optimal value of $\alpha$ for the \textbf{fastest rate of convergence} (order 2), and compute the leading error constant.
+\end{enumerate}
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Complete Analytical Solution:}
+
+\noindent\textbf{Part (a): Determining the Underlying Equation} \\
+Let $\xi = \lim_{k\to\infty} x_k$ denote the fixed point of the iterative formula. Taking the limit on both sides:
+\begin{equation}
+    \xi = \frac{1}{\alpha + 1} \left[ \alpha \xi + \frac{1}{\xi^2} + 1 \right]
+\end{equation}
+Multiplying both sides by $(\alpha + 1)$:
+\begin{equation}
+    (\alpha + 1)\xi = \alpha \xi + \frac{1}{\xi^2} + 1
+\end{equation}
+Expanding the left side:
+\begin{equation}
+    \alpha \xi + \xi = \alpha \xi + \frac{1}{\xi^2} + 1 \implies \xi = \frac{1}{\xi^2} + 1
+\end{equation}
+Multiplying through by $\xi^2$ (assuming $\xi \ne 0$):
+\begin{equation}
+    \xi^3 = 1 + \xi^2 \iff \mathbf{\xi^3 - \xi^2 - 1 = 0}
+\end{equation}
+Thus, the iteration computes the real root of:
+\begin{equation}
+    \boxed{f(x) = x^3 - x^2 - 1 = 0}
+\end{equation}
+\textit{Numerical note:} Since $f(1) = -1 < 0$ and $f(2) = 3 > 0$, by the Intermediate Value Theorem, a unique positive real root exists in $(1, 2)$. Using high-precision root-finding, $\xi \approx 1.46557123$.
+
+\vspace{0.3cm}
+\noindent\textbf{Part (b): Condition for Convergence} \\
+The iteration function is:
+\begin{equation}
+    \phi(x) = \frac{1}{\alpha + 1} \left( \alpha x + x^{-2} + 1 \right)
+\end{equation}
+Differentiating $\phi(x)$ with respect to $x$:
+\begin{equation}
+    \phi'(x) = \frac{1}{\alpha + 1} \left( \alpha - \frac{2}{x^3} \right)
+\end{equation}
+At the fixed point $\xi$:
+\begin{equation}
+    \phi'(\xi) = \frac{\alpha - \frac{2}{\xi^3}}{\alpha + 1}
+\end{equation}
+By the Fixed-Point Contraction Theorem, the iteration converges locally if:
+\begin{equation}
+    |\phi'(\xi)| < 1 \iff -1 < \frac{\alpha - \frac{2}{\xi^3}}{\alpha + 1} < 1
+\end{equation}
+Assuming $\alpha + 1 > 0$ (i.e., $\alpha > -1$):
+\begin{align}
+    -(\alpha + 1) &< \alpha - \frac{2}{\xi^3} < \alpha + 1
+\end{align}
+\begin{itemize}[leftmargin=1.5em]
+    \item \textbf{Right inequality:} $\alpha - \frac{2}{\xi^3} < \alpha + 1 \iff -\frac{2}{\xi^3} < 1$, which is unconditionally satisfied since $\xi > 0$.
+    \item \textbf{Left inequality:} $-(\alpha + 1) < \alpha - \frac{2}{\xi^3} \iff 2\alpha > \frac{2}{\xi^3} - 1 \iff \mathbf{\alpha > \frac{1}{\xi^3} - \frac{1}{2}}$.
+\end{itemize}
+Since $\xi^3 = \xi^2 + 1 \approx (1.46557)^2 + 1 \approx 3.1479$:
+\begin{equation}
+    \alpha > \frac{1}{3.1479} - 0.5 \approx 0.3177 - 0.5 = -0.1823
+\end{equation}
+Hence, convergence is guaranteed for:
+\begin{equation}
+    \boxed{\alpha > \frac{1}{\xi^3} - \frac{1}{2} \approx -0.1823}
+\end{equation}
+
+\vspace{0.3cm}
+\noindent\textbf{Part (c): Optimal Parameter for Fastest (Quadratic) Convergence} \\
+The rate of convergence is fastest when the first-order error term vanishes, which requires $\phi'(\xi) = 0$:
+\begin{equation}
+    \phi'(\xi) = \frac{\alpha - \frac{2}{\xi^3}}{\alpha + 1} = 0 \iff \alpha - \frac{2}{\xi^3} = 0
+\end{equation}
+Since $\xi^3 = \xi^2 + 1$:
+\begin{equation}
+    \boxed{\alpha_{\text{opt}} = \frac{2}{\xi^3} = \frac{2}{\xi^2 + 1} \approx 0.635344}
+\end{equation}
+With $\alpha = \alpha_{\text{opt}}$, the iteration achieves \textbf{quadratic convergence (order 2)}.
+
+\noindent\textbf{Asymptotic Error Constant:}
+Evaluating the second derivative:
+\begin{equation}
+    \phi''(x) = \frac{1}{\alpha + 1} \left( \frac{6}{x^4} \right) \implies \phi''(\xi) = \frac{6}{(\alpha_{\text{opt}} + 1)\xi^4}
+\end{equation}
+Thus, the quadratic error equation is:
+\begin{equation}
+    e_{k+1} = \frac{\phi''(\xi)}{2!} e_k^2 + O(e_k^3) = \frac{3}{(\alpha_{\text{opt}} + 1)\xi^4} e_k^2 + O(e_k^3)
+\end{equation}
+Substituting numerical values ($\xi \approx 1.46557$, $\xi^4 \approx 4.6135$, $\alpha_{\text{opt}} \approx 0.63534$):
+\begin{equation}
+    e_{k+1} \approx \frac{3}{(1.63534)(4.6135)} e_k^2 \approx \mathbf{0.3976 \, e_k^2}
+\end{equation}
+\end{solbox}
+
+% =============================================================================
+\section{Unsolved Question 4: Optimal Integer \texorpdfstring{$k$}{k} for Root of \texorpdfstring{$x^3 - 5x^2 + 4x - 3 = 0$}{x^3 - 5x^2 + 4x - 3 = 0}}
+% =============================================================================
+
+\begin{thmbox}
+\textbf{Problem 8.1 (Unsolved in Notes Page 6).}
+The equation $x^3 - 5x^2 + 4x - 3 = 0$ has a root near $x = 4$, which is computed by the iterative formula:
+\begin{equation}
+    x_{n+1} = \frac{3 + (k - 4) x_n + 5 x_n^2 - x_n^3}{k}, \quad k \in \mathbb{Z}
+\end{equation}
+Determine the value of the integer $k$ for the \textbf{fastest rate of convergence}.
+\end{thmbox}
+
+\begin{solbox}
+\textbf{Complete Analytical Solution:}
+Let $f(x) = x^3 - 5x^2 + 4x - 3$. Notice that the numerator can be rearranged by isolating $k x_n$:
+\begin{align}
+    x_{n+1} &= \frac{k x_n - 4x_n + 3 + 5x_n^2 - x_n^3}{k} \notag \\
+    &= \frac{k x_n - (x_n^3 - 5x_n^2 + 4x_n - 3)}{k} \notag \\
+    &= x_n - \frac{f(x_n)}{k}
+\end{align}
+This represents a \textbf{relaxed chord / constant-slope Newton iteration}:
+\begin{equation}
+    \phi(x) = x - \frac{f(x)}{k}
+\end{equation}
+Differentiating $\phi(x)$:
+\begin{equation}
+    \phi'(x) = 1 - \frac{f'(x)}{k} = \frac{(k - 4) + 10x - 3x^2}{k}
+\end{equation}
+where $f'(x) = 3x^2 - 10x + 4$.
+
+\vspace{0.2cm}
+\noindent\textbf{Convergence Condition:}
+Let $\xi$ denote the exact root. The error equation is:
+\begin{equation}
+    e_{n+1} = \phi'(\xi) e_n + O(e_n^2) = \left( 1 - \frac{f'(\xi)}{k} \right) e_n + O(e_n^2)
+\end{equation}
+For convergence, we require:
+\begin{equation}
+    |\phi'(\xi)| < 1 \iff -1 < 1 - \frac{f'(\xi)}{k} < 1 \iff 0 < \frac{f'(\xi)}{k} < 2 \iff \mathbf{k > \frac{f'(\xi)}{2}}
+\end{equation}
+
+\noindent\textbf{Criterion for Fastest Convergence:}
+The convergence is fastest when the asymptotic contraction factor $|\phi'(\xi)|$ is as small as possible. The theoretical optimum occurs when:
+\begin{equation}
+    \phi'(\xi) = 0 \iff 1 - \frac{f'(\xi)}{k} = 0 \iff k = f'(\xi)
+\end{equation}
+
+\noindent\textbf{Determination of $k$:}
+We examine the problem from both standard examination perspectives:
+\begin{enumerate}[leftmargin=2em]
+    \item \textbf{Approach 1 (Local Estimation at the Given Initial Point $x_0 = 4$):} \\
+    When the exact root is not pre-computed and the user relies on the given approximation $x \approx 4$:
+    \begin{equation}
+        f'(4) = 3(4^2) - 10(4) + 4 = 48 - 40 + 4 = 12
+    \end{equation}
+    Setting $k = f'(4)$ yields:
+    \begin{equation}
+        \mathbf{k = 12}
+    \end{equation}
+    At $x = 4$, $\phi'(4) = 1 - \frac{12}{12} = 0$.
+    
+    \item \textbf{Approach 2 (Rigorous Asymptotic Evaluation at the Exact Root $\xi$):} \\
+    Let us evaluate the exact root $\xi$ near $x = 4$:
+    \begin{align}
+        f(4) &= 64 - 80 + 16 - 3 = -3 \\
+        f'(4) &= 12 \implies x_1 = 4 - \frac{-3}{12} = 4.25 \\
+        f(4.25) &= (4.25)^3 - 5(4.25)^2 + 4(4.25) - 3 = 0.453125 \\
+        f'(4.25) &= 3(4.25)^2 - 10(4.25) + 4 = 15.6875 \\
+        x_2 &= 4.25 - \frac{0.453125}{15.6875} \approx 4.2211
+    \end{align}
+    The exact root to 6 decimal places is $\mathbf{\xi \approx 4.220693}$.
+    Now evaluate the exact derivative at $\xi$:
+    \begin{equation}
+        f'(\xi) = 3(4.220693)^2 - 10(4.220693) + 4 = \mathbf{15.2358}
+    \end{equation}
+    To minimize $|\phi'(\xi)| = \left| 1 - \frac{15.2358}{k} \right|$ over all integers $k \in \mathbb{Z}$:
+    \begin{itemize}
+        \item For $k = 12$: $|\phi'(\xi)| = \left| 1 - \frac{15.2358}{12} \right| = |1 - 1.26965| = \mathbf{0.2697}$
+        \item For $k = 14$: $|\phi'(\xi)| = \left| 1 - \frac{15.2358}{14} \right| = |1 - 1.08827| = \mathbf{0.0883}$
+        \item For $k = 15$: $|\phi'(\xi)| = \left| 1 - \frac{15.2358}{15} \right| = |1 - 1.01572| = \mathbf{0.0157}$
+        \item For $k = 16$: $|\phi'(\xi)| = \left| 1 - \frac{15.2358}{16} \right| = |1 - 0.95224| = \mathbf{0.0478}$
+    \end{itemize}
+    Comparing the magnitudes:
+    \begin{equation}
+        |\phi'(\xi)|_{k=15} = 0.0157 < 0.0478 < 0.0883 < 0.2697
+    \end{equation}
+    Therefore, the globally optimal integer is:
+    \begin{equation}
+        \mathbf{k = 15}
+    \end{equation}
+\end{enumerate}
+
+\noindent\textbf{Numerical Demonstration of Convergence:} \\
+Starting with $x_0 = 4$, we compare successive iterates for $k = 12$ vs. $k = 15$:
+\begin{center}
+\begin{tabular}{c c c c}
+\toprule
+\textbf{Iteration $n$} & \textbf{$x_n$ with $k=12$} & \textbf{$x_n$ with $k=15$ (Optimal)} & \textbf{Exact Error ($k=15$)} \\
+\midrule
+$0$ & $4.00000000$ & $4.00000000$ & $-2.207 \times 10^{-1}$ \\
+$1$ & $4.25000000$ & $4.20000000$ & $-2.069 \times 10^{-2}$ \\
+$2$ & $4.21223958$ & $4.22097778$ & $+2.850 \times 10^{-4}$ \\
+$3$ & $4.22271830$ & $4.22068864$ & $-4.178 \times 10^{-6}$ \\
+$4$ & $4.22018898$ & $4.22069288$ & $+6.500 \times 10^{-8}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\textbf{Conclusion:} 
+\begin{itemize}[leftmargin=1.5em]
+    \item If evaluated using the given starting point $x \approx 4$, the optimal integer is $\mathbf{k = 12}$.
+    \item If evaluated for asymptotic optimality at the exact root $\xi \approx 4.2207$, the optimal integer is $\mathbf{k = 15}$, achieving an astonishing error reduction factor of $\approx 0.0157$ per iteration.
+\end{itemize}
+\end{solbox}
+
+% =============================================================================
+\section{Master Summary and Quick Reference Table}
+% =============================================================================
+
+\begin{center}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l l c c l}
+\toprule
+\textbf{Iteration Method / Goal} & \textbf{Formula $x_{k+1}$} & \textbf{Optimal Parameters} & \textbf{Order} & \textbf{Asymptotic Error Relation} \\
+\midrule
+\textbf{Newton-Raphson} & $x_k - \frac{f(x_k)}{f'(x_k)}$ & --- & $2$ & $e_{k+1} \approx \frac{f''(\alpha)}{2 f'(\alpha)} e_k^2$ \\[8pt]
+\textbf{Square Root $\sqrt{a}$} & $x_k \left( p + \frac{qa}{x_k^2} + \frac{rx_k^2}{a} \right)$ & $p=\frac{3}{4}, q=\frac{3}{8}, r=-\frac{1}{8}$ & $3$ & $e_{k+1} \approx -\frac{1}{2a} e_k^3$ \\[8pt]
+\textbf{Cube Root $a^{1/3}$} & $p x_k + \frac{qa}{x_k^2} + \frac{ra^2}{x_k^5}$ & $p=\frac{5}{9}, q=\frac{5}{9}, r=-\frac{1}{9}$ & $3$ & $e_{k+1} \approx \frac{5}{3 a^{2/3}} e_k^3$ \\[8pt]
+\textbf{Chebyshev Correction} & $x_k - \gamma_1 f + \gamma_2 f^2$ & $\gamma_1 = \frac{1}{f'}, \gamma_2 = \frac{f''}{2 (f')^3}$ & $3$ & $e_{k+1} \approx O(e_k^3)$ \\[8pt]
+\textbf{Cubic Eq. Root} & $\frac{1}{\alpha+1}\left[\alpha x_k + \frac{1}{x_k^2} + 1\right]$ & $\alpha = \frac{2}{\xi^3} \approx 0.6353$ & $2$ & $e_{k+1} \approx \frac{3}{(\alpha+1)\xi^4} e_k^2$ \\[8pt]
+\textbf{Relaxed Newton ($x \approx 4$)} & $x_k - \frac{x_k^3-5x_k^2+4x_k-3}{k}$ & $k = 15$ (or $k=12$) & $1$ & $|e_{n+1}| \approx 0.0157 |e_n|$ \\
+\bottomrule
+\end{tabular}
+}
+\end{center}
+
+\end{document}

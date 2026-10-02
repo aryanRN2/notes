@@ -1,0 +1,41 @@
+\section{Introduction to Ring Theory: Definitions and Axioms}
+
+\begin{definition}[Ring]
+A algebraic system $(R, +, \cdot)$ consisting of a non-empty set $R$ equipped with two internal binary operations, denoted `$+$' (addition) and `$\cdot$' (multiplication), is called a \textbf{ring} if it satisfies the following three conditions:
+\begin{enumerate}
+    \item \textbf{$(R, +)$ is an abelian group:}
+    \begin{itemize}
+        \item \emph{Closure:} $a + b \in R$ for all $a, b \in R$.
+        \item \emph{Associativity:} $(a + b) + c = a + (b + c)$ for all $a, b, c \in R$.
+        \item \emph{Identity:} There exists an element $0 \in R$ such that $a + 0 = 0 + a = a$ for all $a \in R$.
+        \item \emph{Inverse:} For each $a \in R$, there exists $-a \in R$ such that $a + (-a) = (-a) + a = 0$.
+        \item \emph{Commutativity:} $a + b = b + a$ for all $a, b \in R$.
+    \end{itemize}
+    
+    \item \textbf{$(R, \cdot)$ is a semi-group:}
+    \begin{itemize}
+        \item \emph{Closure:} $a \cdot b \in R$ for all $a, b \in R$.
+        \item \emph{Associativity:} $(a \cdot b) \cdot c = a \cdot (b \cdot c)$ for all $a, b, c \in R$.
+    \end{itemize}
+    
+    \item \textbf{Distributive Laws hold:} Multiplication distributes over addition from both left and right:
+    \begin{align*}
+    a \cdot (b + c) &= a \cdot b + a \cdot c \quad \forall a, b, c \in R, \\
+    (a + b) \cdot c &= a \cdot c + b \cdot c \quad \forall a, b, c \in R.
+    \end{align*}
+\end{enumerate}
+\end{definition}
+
+\subsection{Terminology and Ring Properties}
+
+\begin{enumerate}
+    \item The operation `$+$' is usually referred to as \textbf{addition}, and `$\cdot$' is usually referred to as \textbf{multiplication}.
+    
+    \item The identity element of the abelian group $(R, +)$ is called the \textbf{zero element} of the ring and is denoted as $0$.
+    
+    \item The identity element with respect to multiplication `$\cdot$' (if it exists) is known as the \textbf{identity element of the ring} or \textbf{unity}, and is denoted as $1$.
+    
+    \item If the multiplication operation `$\cdot$' is commutative, i.e., $a \cdot b = b \cdot a$ for all $a, b \in R$, then $R$ is called a \textbf{commutative ring}.
+    
+    \item If the multiplicative identity exists in $R$, then $R$ is called a \textbf{ring with identity} or \textbf{ring with unity}.
+\end{enumerate}

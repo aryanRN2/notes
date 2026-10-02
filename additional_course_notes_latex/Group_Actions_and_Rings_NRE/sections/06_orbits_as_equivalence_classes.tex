@@ -1,0 +1,116 @@
+\section{Orbits as Equivalence Classes and Conjugacy Classes}
+
+\subsection{Equivalence Relation Induced by an Action}
+
+\begin{theorem}
+Let $*$ be a group action of a group $G$ on a set $A$, $* : G \times A \to A$. Define a relation $\sim$ on $A$ by:
+\[
+a \sim b \iff a = g * b \quad \text{for some } g \in G.
+\]
+Then $\sim$ is an equivalence relation on $A$.
+\end{theorem}
+
+\begin{proof}
+We verify the three equivalence relation properties:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Reflexive:} For all $a \in A$, since $e \in G$ is the identity:
+    \[
+    a = e * a \implies a \sim a.
+    \]
+    Therefore, $\sim$ is reflexive.
+    
+    \item \textbf{Symmetric:} Let $a, b \in A$ such that $a \sim b$. Then there exists $g \in G$ such that:
+    \[
+    a = g * b.
+    \]
+    Applying $g^{-1} \in G$ to both sides:
+    \begin{align*}
+    g^{-1} * a &= g^{-1} * (g * b) \\
+    &= (g^{-1} g) * b \\
+    &= e * b = b.
+    \end{align*}
+    Since $g^{-1} \in G$, we have $b \sim a$. Therefore, $\sim$ is symmetric.
+    
+    \item \textbf{Transitive:} Let $a, b, c \in A$ such that $a \sim b$ and $b \sim c$. Then there exist $g_1, g_2 \in G$ such that:
+    \[
+    a = g_1 * b \quad \text{and} \quad b = g_2 * c.
+    \]
+    Substituting $b$ into the expression for $a$:
+    \[
+    a = g_1 * (g_2 * c) = (g_1 g_2) * c.
+    \]
+    Since $g_1 g_2 \in G$, we have $a \sim c$. Therefore, $\sim$ is transitive.
+\end{enumerate}
+Hence, $\sim$ is an equivalence relation on $A$.
+\end{proof}
+
+\subsection{Partition of the Set into Orbits}
+
+Since $\sim$ is an equivalence relation on $A$, it partitions the set $A$ into its equivalence classes. For any $a \in A$, the equivalence class of $a$ is:
+\begin{align*}
+\operatorname{cl}(a) &= \{b \in A \mid a \sim b\} \\
+&= \{b \in A \mid b = g * a \text{ for some } g \in G\} \\
+&= \{g * a \mid g \in G\} \\
+&= G^a \quad \text{(the orbit of $a$ under $G$)}.
+\end{align*}
+Consequently, the set $A$ decomposes as a disjoint union of its orbits:
+\[
+A = \bigcup_{a \in A} \operatorname{cl}(a) = \bigcup_{a \in A} G^a.
+\]
+
+\subsection{Conjugacy Classes}
+
+If $G$ acts on itself ($A = G$) by conjugation, where $g * a = gag^{-1}$:
+\begin{itemize}
+    \item The stabilizer of $a$ is the \textbf{normalizer} (or centralizer) of $a$:
+    \[
+    G_a = N(a) = \{g \in G \mid gag^{-1} = a\} = \{g \in G \mid ga = ag\}.
+    \]
+    \item The orbit of $a$ is the \textbf{conjugacy class} of $a$:
+    \[
+    G^a = \operatorname{cl}(a) = \{g * a \mid g \in G\} = \{gag^{-1} \mid g \in G\}.
+    \]
+\end{itemize}
+
+\begin{exercise}
+Let $G$ be a group and $a, b \in G$. Then $a$ and $b$ are conjugate if there exists $c \in G$ such that $b = cac^{-1}$. Prove that this conjugacy relation $\sim$ is an equivalence relation on $G$.
+\end{exercise}
+
+\begin{proof}[Solution]
+We check the three properties:
+\begin{enumerate}[label=(\roman*)]
+    \item \textbf{Reflexive:} Let $a \in G$. Since $e \in G$, we have:
+    \[
+    a = e a e^{-1}.
+    \]
+    Therefore, $a \sim a$, so $\sim$ is reflexive.
+    
+    \item \textbf{Symmetric:} Let $a, b \in G$ such that $a \sim b$. Then there exists $c \in G$ such that:
+    \[
+    a = c b c^{-1}.
+    \]
+    Multiplying on the left by $c^{-1}$ and on the right by $c$:
+    \begin{align*}
+    c^{-1} a &= c^{-1}(c b c^{-1}) = b c^{-1}, \\
+    c^{-1} a c &= b c^{-1} c = b e = b.
+    \end{align*}
+    Writing $c = (c^{-1})^{-1}$, this gives:
+    \[
+    c^{-1} a (c^{-1})^{-1} = b.
+    \]
+    Since $c^{-1} \in G$, this shows $b \sim a$. Therefore, $\sim$ is symmetric.
+    
+    \item \textbf{Transitive:} Let $a, b, c \in G$ such that $a \sim b$ and $b \sim c$. Then there exist $d_1, d_2 \in G$ such that:
+    \[
+    a = d_1 b d_1^{-1} \quad \text{and} \quad b = d_2 c d_2^{-1}.
+    \]
+    Substituting $b$ into the first equation:
+    \begin{align*}
+    a &= d_1 (d_2 c d_2^{-1}) d_1^{-1} \\
+    &= d_1 d_2 c d_2^{-1} d_1^{-1} \quad \{d_2^{-1} d_1^{-1} = (d_1 d_2)^{-1}\} \\
+    &= (d_1 d_2) c (d_1 d_2)^{-1}.
+    \end{align*}
+    Since $d_1, d_2 \in G \implies d_1 d_2 \in G$, it follows that $a \sim c$.
+\end{enumerate}
+Therefore, $\sim$ is transitive, and hence an equivalence relation on $G$.
+\end{proof}
