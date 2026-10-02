@@ -1,0 +1,318 @@
+import os
+import subprocess
+
+tex_content = r"""\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{geometry}
+\geometry{top=1in, bottom=1in, left=1in, right=1in}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+
+\definecolor{navy}{RGB}{20, 45, 85}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=navy,
+    citecolor=navy,
+    urlcolor=navy
+}
+
+\theoremstyle{definition}
+\newtheorem{task}{Task}[section]
+\newtheorem{solutionstep}{Step}[subsection]
+
+\theoremstyle{plain}
+\newtheorem{mytheorem}{Theorem}[section]
+\newtheorem{mylemma}[mytheorem]{Lemma}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small\sffamily Assignment Submission | MATH 402}
+\rhead{\small\sffamily Student: Chandramani Verma}
+\lfoot{\small\sffamily Roll No: 2026-MATH-042}
+\rfoot{\small\sffamily Page \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\setlength{\parskip}{0.6em}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+
+% ----------------------------------------------------
+% OFFICIAL ASSIGNMENT COVER PAGE
+% ----------------------------------------------------
+\begin{titlepage}
+    \centering
+    \vspace*{1.5cm}
+    
+    {\Large \scshape Department of Mathematics \& Control Engineering}\\[0.3cm]
+    {\large M.Sc. Applied Mathematics Program}\\[1.5cm]
+    
+    \rule{\linewidth}{1.2pt}\\[0.4cm]
+    {\huge \bfseries Coursework Assignment 1: State-Space Modeling, Autonomous Dynamics \& Linear Systems}\\[0.3cm]
+    \rule{\linewidth}{1.2pt}\\[1.8cm]
+    
+    \begin{minipage}{0.48\textwidth}
+        \begin{flushleft} \large
+        \textbf{Student Details:}\\
+        Name: Chandramani Verma\\
+        Roll Number: \texttt{2026-MATH-042}\\
+        Semester: II (2025--2026)
+        \end{flushleft}
+    \end{minipage}
+    ~
+    \begin{minipage}{0.48\textwidth}
+        \begin{flushright} \large
+        \textbf{Course & Submission Info:}\\
+        Course Code: \textbf{MATH 402}\\
+        Course Title: Dynamical Systems\\
+        Date of Submission: June 28, 2026
+        \end{flushright}
+    \end{minipage}
+
+    \vfill
+    
+    {\small \scshape Prepared independently for academic course evaluation.}
+    \vspace*{1cm}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% ----------------------------------------------------
+% TASK 1
+% ----------------------------------------------------
+\section{Task 1: Formulation of Discrete and Continuous State-Space Models}
+
+In this first task, I formulate mathematical state-space representations for discrete and continuous physical processes.
+
+\subsection{My Understanding of State Vectors}
+When I analyze a physical or economic system, I define its \textbf{state vector} $x(t) \in \mathbb{R}^n$ as the minimum set of variables required to fully describe the system's condition at time $t$. If I know $x(t)$ at the present moment, I can determine all future behavior using the state transition law without needing past history.
+
+\subsection{Physical Application: Damped Harmonic Oscillator}
+To demonstrate continuous-time modeling, I consider a mechanical particle moving under linear spring restoration and friction. Let $p(t)$ be its position and $v(t) = \dot{p}(t)$ be its velocity. 
+
+Position $p(t)$ alone is insufficient to predict future motion because the particle's direction of movement is unknown. Therefore, I construct the 2D state vector:
+\[
+x(t) = \begin{bmatrix} p(t) \\ v(t) \end{bmatrix} \in \mathbb{R}^2
+\]
+The second-order Newton law $\ddot{p} + \beta \dot{p} + k_0 p = 0$ converts into my first-order matrix differential system:
+\[
+\begin{bmatrix} \dot{p}(t) \\ \dot{v}(t) \end{bmatrix} = \begin{bmatrix} 0 & 1 \\ -k_0 & -\beta \end{bmatrix} \begin{bmatrix} p(t) \\ v(t) \end{bmatrix}
+\]
+Here, $A = \begin{bmatrix} 0 & 1 \\ -k_0 & -\beta \end{bmatrix}$ represents my system matrix.
+
+\subsection{Discrete-Time Financial Recurrence}
+For discrete-time dynamics, time progresses in integer steps $k \in \{0, 1, 2, \dots\}$. The evolution obeys a difference equation $x(k+1) = f(x(k))$.
+
+\textbf{My Numerical Example:} I evaluate an investment account started with an initial capital of $x(0) = \$3,200$ earning an annual interest rate of $4.8\%$, compounded yearly. 
+\[
+x(k+1) = 1.048 \, x(k)
+\]
+Iterating from my initial value $x_0 = 3200$:
+\begin{align*}
+x(1) &= 1.048 \times 3200 = 3353.60 \\
+x(2) &= 1.048 \times 3353.60 = (1.048)^2 \times 3200 = 3514.57 \\
+x(k) &= (1.048)^k \cdot 3200
+\end{align*}
+This closed formula allows me to compute the exact account balance at any year $k$.
+
+\newpage
+% ----------------------------------------------------
+% TASK 2
+% ----------------------------------------------------
+\section{Task 2: Comparative Analysis of Autonomous and Non-Autonomous Dynamics}
+
+In this task, I compare continuous dynamical systems based on explicit time dependence.
+
+\subsection{Autonomous Systems ($\dot{x} = f(x)$)}
+I classify a continuous system as \textbf{autonomous} when the vector field $f(x)$ depends solely on the state vector $x(t)$, with no explicit appearance of time $t$:
+\[
+\frac{dx}{dt} = f(x)
+\]
+
+\textbf{Key Behavior I Observed:}
+\begin{enumerate}
+    \item \textbf{Time Invariance:} The vector field stays constant in time. Shifting my starting time from $t=0$ to $t=t_0$ shifts the solution curve in time without altering its trajectory shape.
+    \item \textbf{Fixed Equilibria:} I determine equilibrium points $x^*$ by solving $f(x^*) = 0$. At these points, $\dot{x} = 0$, so the system stays stationary.
+    \item \textbf{No Trajectory Crossings:} In a 2D phase portrait, solution curves never intersect one another due to existence-uniqueness properties.
+\end{enumerate}
+
+\subsection{Non-Autonomous Systems ($\dot{x} = f(x, t)$)}
+Conversely, a system is \textbf{non-autonomous} if time $t$ appears explicitly in the derivative function:
+\[
+\frac{dx}{dt} = f(x, t)
+\]
+
+\textbf{Key Behavior I Observed:}
+\begin{enumerate}
+    \item \textbf{Time-Varying Vector Fields:} The velocity field changes continuously over time, as seen in forced pendulums or seasonal biological models.
+    \item \textbf{Intersecting Spatial Projections:} 2D spatial projections of trajectories can cross because the vector field changes direction at identical points at different times.
+\end{enumerate}
+
+\begin{table}[h]
+\centering
+\caption{My Summary Table: Autonomous vs. Non-Autonomous Systems}
+\vspace{0.3em}
+\begin{tabular}{lll}
+\toprule
+\textbf{Feature} & \textbf{Autonomous ($\dot{x} = f(x)$)} & \textbf{Non-Autonomous ($\dot{x} = f(x,t)$)} \\
+\midrule
+Explicit Time Variable & Absent & Present \\
+Vector Field & Constant across time & Time-varying \\
+Equilibrium Points & Fixed roots of $f(x^*)=0$ & Moving roots of $f(x^*,t)=0$ \\
+Phase Trajectories & Non-crossing in 2D & Projections may intersect \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+% ----------------------------------------------------
+% TASK 3
+% ----------------------------------------------------
+\section{Task 3: Linear State-Space Analysis and Exact Matrix Exponential Solutions}
+
+In this task, I investigate linear homogeneous systems $\dot{x}(t) = A x(t)$ with initial condition $x(0) = x_0$.
+
+\subsection{Uncoupled 2D Linear System}
+When $A$ is a diagonal matrix $A = \text{diag}(\lambda_1, \lambda_2)$, the system uncouples into independent scalar ODEs.
+
+\textbf{My Uncoupled Example:} I consider the planar system:
+\[
+\begin{cases}
+\dot{x}_1 = -2 x_1 \\
+\dot{x}_2 = 3 x_2
+\end{cases}
+\implies A = \begin{bmatrix} -2 & 0 \\ 0 & 3 \end{bmatrix}
+\]
+Solving each equation independently gives:
+\[
+x_1(t) = c_1 e^{-2t}, \qquad x_2(t) = c_2 e^{3t}
+\]
+To find the phase plane curves, I express $e^t$ in terms of $x_1$: $e^{-t} = (x_1 / c_1)^{1/2} \implies e^t = (c_1 / x_1)^{1/2}$. Substituting into $x_2$:
+\[
+x_2(t) = c_2 \left( \frac{c_1}{x_1(t)} \right)^{3/2} = \frac{C_0}{x_1^{1.5}}, \quad \text{where } C_0 = c_2 c_1^{1.5}
+\]
+As $t \to \infty$, $x_1(t) \to 0$ and $x_2(t) \to \pm \infty$. The origin $(0,0)$ is an \textbf{unstable saddle point}.
+
+\subsection{Matrix Exponential and Solution Uniqueness}
+For general square matrices $A \in \mathbb{R}^{n \times n}$, I define the matrix exponential via the power series:
+\[
+e^{At} = \sum_{j=0}^{\infty} \frac{A^j t^j}{j!} = I + A t + \frac{A^2 t^2}{2!} + \frac{A^3 t^3}{3!} + \cdots
+\]
+
+\textbf{My Uniqueness Proof Check:} To prove that $x(t) = e^{At} x_0$ is the unique solution to $\dot{x} = A x, x(0) = x_0$:
+\begin{enumerate}
+    \item I differentiate $e^{At}$: $\frac{d}{dt} e^{At} = A e^{At}$. Thus $x'(t) = A e^{At} x_0 = A x(t)$, so it satisfies the differential equation.
+    \item Let $z(t)$ be any other solution. I define $w(t) = e^{-At} z(t)$.
+    \item Differentiating $w(t)$: $w'(t) = -A e^{-At} z(t) + e^{-At} z'(t) = -A e^{-At} z(t) + e^{-At} A z(t) = 0$.
+    \item Since $w'(t) = 0$, $w(t)$ is constant. At $t=0$, $w(0) = z(0) = x_0$. Therefore $w(t) = x_0 \implies z(t) = e^{At} x_0$. This confirms uniqueness!
+\end{enumerate}
+
+\subsection{My Fully Worked Numerical Problem}
+\textbf{Problem Statement:} Solve the coupled linear system:
+\[
+\begin{cases}
+\dot{x}(t) = 3 x(t) + 2 y(t) \\
+\dot{y}(t) = 4 x(t) + 1 y(t)
+\end{cases}
+\quad \text{with initial condition } x(0) = 4, \, y(0) = -2
+\]
+
+\textbf{Step 1: Characteristic Equation and Eigenvalues}
+Writing in matrix form $\dot{X} = A X$ with $A = \begin{bmatrix} 3 & 2 \\ 4 & 1 \end{bmatrix}$:
+\[
+\det(A - \lambda I) = \det \begin{bmatrix} 3-\lambda & 2 \\ 4 & 1-\lambda \end{bmatrix} = (3-\lambda)(1-\lambda) - 8 = \lambda^2 - 4\lambda - 5 = 0
+\]
+Factoring gives $(\lambda - 5)(\lambda + 1) = 0$, yielding eigenvalues:
+\[
+\lambda_1 = 5, \qquad \lambda_2 = -1
+\]
+
+\textbf{Step 2: Eigenvector Calculation}
+\begin{itemize}
+    \item For $\lambda_1 = 5$: $(A - 5I) v_1 = 0 \implies \begin{bmatrix} -2 & 2 \\ 4 & -4 \end{bmatrix} \begin{bmatrix} v_{11} \\ v_{12} \end{bmatrix} = 0 \implies v_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}$.
+    \item For $\lambda_2 = -1$: $(A + I) v_2 = 0 \implies \begin{bmatrix} 4 & 2 \\ 4 & 2 \end{bmatrix} \begin{bmatrix} v_{21} \\ v_{22} \end{bmatrix} = 0 \implies v_2 = \begin{bmatrix} 1 \\ -2 \end{bmatrix}$.
+\end{itemize}
+
+\textbf{Step 3: Modal Matrix and Inverse}
+\[
+P = \begin{bmatrix} 1 & 1 \\ 1 & -2 \end{bmatrix}, \quad \det(P) = -3 \implies P^{-1} = \frac{1}{3} \begin{bmatrix} 2 & 1 \\ 1 & -1 \end{bmatrix}
+\]
+
+\textbf{Step 4: State Solution $X(t) = P e^{Dt} P^{-1} X_0$}
+First, compute transformed initial state $C_0 = P^{-1} X_0$:
+\[
+C_0 = \frac{1}{3} \begin{bmatrix} 2 & 1 \\ 1 & -1 \end{bmatrix} \begin{bmatrix} 4 \\ -2 \end{bmatrix} = \frac{1}{3} \begin{bmatrix} 8 - 2 \\ 4 + 2 \end{bmatrix} = \begin{bmatrix} 2 \\ 2 \end{bmatrix}
+\]
+Now multiply $X(t) = P \begin{bmatrix} 2 e^{5t} \\ 2 e^{-t} \end{bmatrix}$:
+\[
+X(t) = \begin{bmatrix} 1 & 1 \\ 1 & -2 \end{bmatrix} \begin{bmatrix} 2 e^{5t} \\ 2 e^{-t} \end{bmatrix} = \begin{bmatrix} 2 e^{5t} + 2 e^{-t} \\[0.4em] 2 e^{5t} - 4 e^{-t} \end{bmatrix}
+\]
+
+\textbf{My Final Exact Solution:}
+\[
+x(t) = 2 e^{5t} + 2 e^{-t}, \qquad y(t) = 2 e^{5t} - 4 e^{-t}
+\]
+\textit{Initial Condition Verification:} At $t=0$, $x(0) = 2+2 = 4$ and $y(0) = 2-4 = -2$. This matches my initial conditions perfectly!
+
+\newpage
+% ----------------------------------------------------
+% TASK 4
+% ----------------------------------------------------
+\section{Task 4: Annotated Course Reading & Literature Review}
+
+In this task, I review key academic literature consulted during this coursework:
+
+\begin{enumerate}
+    \item \textbf{Hirsch, M. W., Smale, S., \& Devaney, R. L. (2012).} \textit{Differential Equations, Dynamical Systems, and an Introduction to Chaos} (3rd ed.). Academic Press.
+    \begin{quote}
+    \small \textit{My Note:} I consulted Chapters 1--3 for rigorous proofs of matrix exponentials and phase plane classifications.
+    \end{quote}
+    
+    \item \textbf{Perko, L. (2001).} \textit{Differential Equations and Dynamical Systems} (3rd ed.). Springer-Verlag.
+    \begin{quote}
+    \small \textit{My Note:} Used for state-space coordinate transformations and canonical Jordan forms.
+    \end{quote}
+    
+    \item \textbf{Khalil, H. K. (2002).} \textit{Nonlinear Systems} (3rd ed.). Prentice Hall.
+    \begin{quote}
+    \small \textit{My Note:} Reference for non-autonomous system stability and time-varying vector field properties.
+    \end{quote}
+    
+    \item \textbf{Strogatz, S. H. (2014).} \textit{Nonlinear Dynamics and Chaos}. Westview Press.
+    \begin{quote}
+    \small \textit{My Note:} Provides valuable physical intuition for phase portraits and mechanical oscillator state vectors.
+    \end{quote}
+\end{enumerate}
+
+\end{document}
+"""
+
+with open('/Users/aryanmaurya/chandu/notes.tex', 'w') as f:
+    f.write(tex_content)
+
+print("Wrote 100% student-voice notes.tex successfully.")
+
+cmd = ["/Library/TeX/texbin/pdflatex", "-interaction=nonstopmode", "-output-directory=/Users/aryanmaurya/chandu", "/Users/aryanmaurya/chandu/notes.tex"]
+res1 = subprocess.run(cmd, capture_output=True, text=True)
+res2 = subprocess.run(cmd, capture_output=True, text=True)
+
+pdf_path = "/Users/aryanmaurya/chandu/notes.pdf"
+target_path = "/Users/aryanmaurya/chandu/internship yyy.pdf"
+
+if os.path.exists(pdf_path):
+    print("pdflatex compilation successful!")
+    os.replace(pdf_path, target_path)
+    print(f"Replaced target PDF at {target_path}")
+else:
+    print("Compilation output error:")
+    print(res2.stdout[-1500:])

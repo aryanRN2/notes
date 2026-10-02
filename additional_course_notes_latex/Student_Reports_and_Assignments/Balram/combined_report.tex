@@ -1,0 +1,776 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Matrix Exponentials and Linear Differential Systems},
+    pdfpagemode=FullScreen,
+}
+
+% Theorem Environments
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+\numberwithin{equation}{chapter}
+\renewcommand{\bibname}{References}
+
+\begin{document}
+
+% Title Page
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge\bfseries Matrix Exponentials and Linear \\ Differential Systems \par}
+    \vspace{1.5cm}
+    
+    {\Large\bfseries Balram Kumar \par}
+    \vspace{0.5cm}
+    {\large Internship Project Report \par}
+    
+    \vspace{2cm}
+    {\large Under the Supervision of: \par}
+    \vspace{0.2cm}
+    {\Large\bfseries Jai prakash sir \par}
+    
+    \vfill
+    {\large Banaras Hindu University \par}
+    {\large Varanasi, Uttar Pradesh \par}
+    \vspace{1cm}
+    {\large \today \par}
+\end{titlepage}
+
+% Abstract
+\begin{abstract}
+This report presents a comprehensive overview of matrix exponentials and their application in solving linear differential systems. It details the transformation of higher-order differential equations into first-order linear systems, introduces essential vector and matrix notations, and establishes the foundational calculus and norms of matrix functions. Furthermore, it explores the definition, fundamental properties, and practical computation of the exponential matrix, including the classic diagonalization approach. 
+
+To expand the computational toolkit, we also present the Cayley-Hamilton Theorem along with its proof and direct applications (such as finding higher powers and inverses of matrices), and Putzer's Method, which provides an alternative framework to compute matrix exponentials without requiring the construction of eigenvectors. This unified report serves as a complete reference for analyzing and solving homogeneous and nonhomogeneous linear differential systems.
+\end{abstract}
+
+\tableofcontents
+
+% Chapter 1
+\chapter{Introduction to Linear Systems}
+
+\section{Matrix Exponential Overview}
+The matrix exponential is an extension of the ordinary exponential function from real numbers to matrices. Exponential functions of the form $e^{\alpha t}$ play an important role in growth, decay, and many natural phenomena.
+
+Existence theory for differential equations of higher order can be reduced to the first-order case by the introduction of systems of equations. For example, consider the second-order equation:
+\begin{equation}
+y'' + 2ty' - y = e^t
+\end{equation}
+This can be transformed to a system of two first-order equations by introducing two unknown functions $y_1$ and $y_2$, where:
+\begin{equation}
+\begin{aligned}
+y_1 &= y \\
+y_2 &= y'_1
+\end{aligned}
+\end{equation}
+Then we have $y'_2 = y''_1 = y''$. So the initial equation can be written as a system of two first-order equations:
+\begin{equation}
+\begin{aligned}
+y'_1 &= y_2 \\
+y'_2 &= y_1 - 2ty_2 + e^t
+\end{aligned}
+\end{equation}
+
+\section{Systems of Linear Differential Equations}
+We consider systems consisting of $n$ linear differential equations of the first order involving $n$ unknown functions $y_1, \ldots, y_n$. These systems have the form:
+\begin{equation}
+\begin{aligned}
+y'_1 &= p_{11}(t)y_1 + p_{12}(t)y_2 + \cdots + p_{1n}(t)y_n + q_1(t) \\
+y'_2 &= p_{21}(t)y_1 + p_{22}(t)y_2 + \cdots + p_{2n}(t)y_n + q_2(t) \\
+     &\ \ \vdots \\
+y'_n &= p_{n1}(t)y_1 + p_{n2}(t)y_2 + \cdots + p_{nn}(t)y_n + q_n(t)
+\end{aligned}
+\end{equation}
+The functions $p_{ik}$ and $q_i$ are considered as given functions defined on a given interval $J$. The functions $y_1, \ldots, y_n$ are unknown functions to be determined. Systems of this type are called first-order linear systems. In general, each equation in the system involves more than one unknown function, so the equations cannot be solved separately.
+
+A linear differential equation of order $n$ can always be transformed into a linear system. Suppose the given $n$-th order equation is:
+\begin{equation}
+y^{(n)} + a_1y^{(n-1)} + \cdots + a_n y = R(t)
+\end{equation}
+where the coefficients $a_i$ are given functions. To transform this to a system, we introduce new unknown functions for each successive derivative of $y$. That is, we put:
+\begin{equation}
+y_1 = y, \quad y_2 = y'_1, \quad y_3 = y'_2, \quad \dots, \quad y_n = y'_{n-1}
+\end{equation}
+and rewrite it as the system:
+\begin{equation}
+\begin{aligned}
+y'_1 &= y_2 \\
+y'_2 &= y_3 \\
+     &\ \ \vdots \\
+y'_{n-1} &= y_n \\
+y'_n &= -a_n y_1 - a_{n-1} y_2 - \cdots - a_1 y_n + R(t)
+\end{aligned}
+\end{equation}
+
+\section{Vector and Matrix Notation}
+The discussion of systems may be simplified considerably by the use of vector and matrix notation. Consider the general system and introduce vector-valued functions:
+\begin{equation}
+Y = \begin{bmatrix}
+y_1 \\ \vdots \\ y_n
+\end{bmatrix}, \quad 
+Q = \begin{bmatrix}
+q_1 \\ \vdots \\ q_n
+\end{bmatrix}
+\end{equation}
+and a matrix-valued function $P(t) = [p_{ij}]$ defined for each $t$ in $J$. We regard $Y$ and $Q$ as $n \times 1$ column matrices and write the system in the simpler form:
+\begin{equation}
+Y'(t) = P(t)Y + Q(t)
+\end{equation}
+For example, in the system $y'' + 2ty' - y = e^t$, we have:
+\begin{equation}
+Y = \begin{bmatrix}
+y_1 \\ y_2
+\end{bmatrix}, \quad 
+P(t) = \begin{bmatrix}
+0 & 1 \\
+1 & -2t
+\end{bmatrix}, \quad 
+Q(t) = \begin{bmatrix}
+0 \\ e^t
+\end{bmatrix}
+\end{equation}
+An initial-value problem for the system is to find a vector-valued function $Y$ which satisfies the equation and an initial condition of the form $Y(a) = B$, where $B = (b_1, b_2, \ldots, b_n)^T$ is a given vector. For the case $n = 1$, if $p$ and $q$ are continuous on $J$, all solutions are given by the explicit formula:
+\begin{equation}
+y(x) = e^{A(x)}y(a) + e^{A(x)} \int_a^x e^{-A(t)}Q(t)dt
+\end{equation}
+
+
+% Chapter 2
+\chapter{Calculus and Norms of Matrix Functions}
+
+\section{Calculus of Matrix Functions}
+To assign a meaning to integrals of matrices and to exponential matrices, we briefly discuss the calculus of matrix functions. The concepts of integral and derivatives for matrix functions are straightforward generalizations.
+
+For a matrix function $P(t) = [p_{ij}(t)]$, we define the integral $\int_a^b P(t)dt$ by the equation:
+\begin{equation}
+\int_a^b P(t)dt = \left[ \int_a^b p_{ij}(t)dt \right]
+\end{equation}
+The integral of a matrix $P(t)$ is the matrix obtained by integrating each entry $p_{ij}(t)$, assuming each entry is integrable on $[a, b]$.
+
+Continuity and differentiability of matrix functions are also defined in terms of the entries. We say a matrix function $P(t)$ is continuous at $t$ if each entry $p_{ij}$ is continuous at $t$. The derivative is defined by differentiating each entry:
+\begin{equation}
+P'(t) = [p'_{ij}(t)]
+\end{equation}
+whenever all derivatives $p'_{ij}(t)$ exist.
+
+It is easy to verify the basic differentiation rules for sum and product. If $P$ and $Q$ are differentiable matrix functions of the same size, we have:
+\begin{equation}
+(P + Q)' = P' + Q'
+\end{equation}
+If the product $PQ$ is defined, we also have:
+\begin{equation}
+(PQ)' = PQ' + P'Q
+\end{equation}
+The chain rule also holds. If $F(t) = P[g(t)]$, where $P$ is a differentiable matrix function and $g$ is a differentiable scalar function, then:
+\begin{equation}
+F'(t) = g'(t)P'[g(t)]
+\end{equation}
+
+\section{Norm of a Matrix}
+\begin{definition}
+If $A = [a_{ij}]$ is an $m \times n$ matrix of real or complex entries, the norm of $A$, denoted by $\|A\|$, is defined to be the nonnegative number given by the formula:
+\begin{equation}
+\|A\| = \sum_{i=1}^m \sum_{j=1}^n |a_{ij}|
+\end{equation}
+\end{definition}
+
+\subsection*{Fundamental Properties of Norms}
+For rectangular matrices $A$ and $B$, and all real or complex scalars $c$, we have:
+\begin{align}
+\|A + B\| &\le \|A\| + \|B\| \\
+\|AB\| &\le \|A\|\|B\| \\
+\|cA\| &= |c|\|A\|
+\end{align}
+
+\begin{proof}[Proof of sub-multiplicativity $\|AB\| \le \|A\|\|B\|$]
+Assuming $A$ is $m \times n$ and $B$ is $n \times p$. Writing $A = [a_{ik}]$ and $B = [b_{kj}]$, we have:
+\begin{equation}
+AB = \left[ \sum_{k=1}^n a_{ik}b_{kj} \right]
+\end{equation}
+Calculating the norm:
+\begin{equation}
+\begin{aligned}
+\|AB\| &= \sum_{i=1}^m \sum_{j=1}^p \left| \sum_{k=1}^n a_{ik}b_{kj} \right| \\
+&\le \sum_{i=1}^m \sum_{j=1}^p \sum_{k=1}^n |a_{ik}||b_{kj}| \\
+&= \sum_{i=1}^m \sum_{k=1}^n |a_{ik}| \sum_{j=1}^p |b_{kj}|
+\end{aligned}
+\end{equation}
+Since for any fixed $k$, $\sum_{j=1}^p |b_{kj}| \le \sum_{s=1}^n \sum_{j=1}^p |b_{sj}| = \|B\|$, we have:
+\begin{equation}
+\|AB\| \le \sum_{i=1}^m \sum_{k=1}^n |a_{ik}| \|B\| = \left( \sum_{i=1}^m \sum_{k=1}^n |a_{ik}| \right) \|B\| = \|A\|\|B\|
+\end{equation}
+\end{proof}
+
+Note that in the special case $B = A$, the inequality for $\|AB\|$ becomes $\|A^2\| \le \|A\|^2$. By induction, we also have:
+\begin{equation}
+\|A^k\| \le \|A\|^k \quad \text{for } k = 1, 2, \ldots
+\end{equation}
+\hfill $\square$
+
+\section{Convergent Series of Matrices}
+\begin{definition}
+Given an infinite sequence of $n \times n$ matrices $C_k$ whose entries are real or complex numbers, denote the $ij$-entry of $C_k$ by $c_{ij}^{(k)}$ ($i = 1, \ldots, m$; $j = 1, \ldots, n$). If the series:
+\begin{equation}
+\sum_{k=1}^\infty c_{ij}^{(k)}
+\end{equation}
+are convergent, then we say that the series of matrices $\sum_{k=1}^\infty C_k$ is convergent. Its sum is defined to be the $m \times n$ matrix whose $ij$-entry is the convergent sum.
+\end{definition}
+
+\subsection*{Test for Convergence of a Matrix Series}
+If $C_k$ is a sequence of $m \times n$ matrices such that $\sum_{k=1}^\infty \|C_k\|$ converges, then the matrix series $\sum_{k=1}^\infty C_k$ also converges.
+
+\begin{proof}
+Let the $ij$-entry of $C_k$ be denoted by $c_{ij}^{(k)}$. Since $|c_{ij}^{(k)}| \le \|C_k\|$, convergence of the real series $\sum_{k=1}^\infty \|C_k\|$ implies absolute convergence of each entry's scalar series $\sum_{k=1}^\infty c_{ij}^{(k)}$. Hence, each series $\sum_{k=1}^\infty c_{ij}^{(k)}$ is convergent, which by definition means the matrix series $\sum_{k=1}^\infty C_k$ is convergent.
+\end{proof}
+\hfill $\square$
+
+
+% Chapter 3
+\chapter{The Exponential Matrix}
+
+\section{Definition and Basic Properties}
+We wish to define the exponential $e^{tA}$ in such a way that it possesses some of the fundamental properties of the ordinary real or complex-valued exponential. We shall require the law of exponents:
+\begin{equation}
+e^{tA}e^{sA} = e^{(t+s)A} \quad \text{for all real } t \text{ and } s
+\end{equation}
+
+\begin{definition}
+For any $n \times n$ matrix $A$ with real or complex entries, we define the exponential $e^A$ to be the $n \times n$ matrix given by the convergent series:
+\begin{equation}
+e^A = \sum_{k=0}^\infty \frac{A^k}{k!}
+\end{equation}
+\end{definition}
+The matrix series $\sum_{k=0}^\infty \frac{A^k}{k!}$ converges for every square matrix $A$ with real or complex entries. The norm of each term satisfies the inequality:
+\begin{equation}
+\left\| \frac{A^k}{k!} \right\| \le \frac{\|A\|^k}{k!}
+\end{equation}
+Since the scalar series $\sum \frac{\|A\|^k}{k!}$ converges (to $e^{\|A\|}$) for every real $\|A\|$, the matrix series converges absolutely for every square matrix $A$.
+
+\begin{theorem}
+For every real $t$, the matrix function $E$ defined by $E(t) = e^{tA}$ satisfies the matrix differential equation:
+\begin{equation}
+E'(t) = E(t)A = AE(t)
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+From the definition of the matrix series, let $c_{ij}^{(k)}$ denote the $ij$-entry of $A^k$. Then the $ij$-entry of $\frac{t^k A^k}{k!}$ is $\frac{t^k c_{ij}^{(k)}}{k!}$. Hence:
+\begin{equation}
+\sum_{k=0}^\infty \frac{t^k A^k}{k!} = \left[ \sum_{k=0}^\infty \frac{t^k}{k!} c_{ij}^{(k)} \right]
+\end{equation}
+Each entry on the right is a power series in $t$, convergent for all $t$. Therefore, its derivative exists for all $t$ and is given by the term-by-term differentiated series:
+\begin{equation}
+\sum_{k=1}^\infty \frac{k t^{k-1}}{k!} c_{ij}^{(k)} = \sum_{k=0}^\infty \frac{t^k}{k!} c_{ij}^{(k+1)}
+\end{equation}
+This shows that the derivative $E'(t)$ exists and is given by the matrix series:
+\begin{equation}
+E'(t) = \sum_{k=0}^\infty \frac{t^k A^{k+1}}{k!} = \left( \sum_{k=0}^\infty \frac{t^k A^k}{k!} \right) A = E(t)A
+\end{equation}
+By factoring $A$ to the left instead of the right, we similarly obtain $E'(t) = AE(t)$.
+\end{proof}
+\hfill $\square$
+
+\section{The Inverse and Law of Exponents}
+\begin{theorem}
+For any $n \times n$ matrix $A$ and any scalar $t$, we have:
+\begin{equation}
+e^{tA}e^{-tA} = I
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let $F$ be the matrix function defined for all real $t$ by the equation $F(t) = e^{tA}e^{-tA}$. We shall prove that $F(t)$ is the identity matrix $I$ by showing that its derivative $F'(t)$ is the zero matrix. Differentiating as a product, using the result of the previous theorem, we find:
+\begin{equation}
+\begin{aligned}
+F'(t) &= e^{tA}(e^{-tA})' + (e^{tA})'e^{-tA} \\
+      &= e^{tA}(-Ae^{-tA}) + Ae^{tA}e^{-tA} \\
+      &= -Ae^{tA}e^{-tA} + Ae^{tA}e^{-tA} \\
+      &= 0
+\end{aligned}
+\end{equation}
+since $A$ commutes with $e^{tA}$. Therefore, by the zero derivative theorem, $F(t)$ is a constant matrix. Since $F(0) = e^0 e^0 = I \cdot I = I$, it must be that $F(t) = I$ for all $t$. Hence, $e^{tA}$ is nonsingular and its inverse is $e^{-tA}$.
+\end{proof}
+\hfill $\square$
+
+\subsection*{The Law of Exponents for Exponential Matrices}
+The law of exponents $e^{A+B} = e^A e^B$ is not always true for matrix exponentials. However, if $A$ and $B$ are two $n \times n$ matrices which commute ($AB = BA$), then:
+\begin{equation}
+e^{A+B} = e^A e^B
+\end{equation}
+
+\begin{proof}
+From the equation $AB = BA$, we find $A^2 B = A(BA) = (AB)A = BA^2$. By induction, $B$ commutes with every power of $A$. By writing $e^{tA}$ as a power series, it follows that $B$ also commutes with $e^{tA}$ for every real $t$.
+
+Now let $F$ be the matrix function defined by:
+\begin{equation}
+F(t) = e^{t(A+B)} - e^{tA}e^{tB}
+\end{equation}
+Differentiating $F(t)$ with respect to $t$, using the fact that $B$ commutes with $e^{tA}$ (and thus $e^{tA}$ commutes with $B$ and $e^{tB}$), we find:
+\begin{equation}
+\begin{aligned}
+F'(t) &= (A+B)e^{t(A+B)} - Ae^{tA}e^{tB} - e^{tA} B e^{tB} \\
+      &= (A+B)e^{t(A+B)} - (A+B)e^{tA}e^{tB} \\
+      &= (A+B)F(t)
+\end{aligned}
+\end{equation}
+Since $F(0) = e^0 - e^0 e^0 = 0$, the uniqueness theorem for linear differential equations implies that $F(t) = 0$ for all $t$. Hence, $e^{t(A+B)} = e^{tA}e^{tB}$. Setting $t=1$ yields the desired result.
+\end{proof}
+\hfill $\square$
+
+\section{Special Cases of Matrix Exponentials}
+In this section, we discuss two special cases of matrix exponentials that frequently arise in applications, utilizing direct series calculations.
+
+\subsection{Standard Skew-Symmetric 2x2 Matrix}
+Let $A = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix}$. We wish to prove that:
+\begin{equation}
+e^{tA} = \begin{bmatrix} \cos t & \sin t \\ -\sin t & \cos t \end{bmatrix}
+\end{equation}
+
+\begin{proof}
+First, let us calculate the successive powers of $A$:
+\begin{align*}
+A^0 &= I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \\
+A^1 &= A = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix} \\
+A^2 &= A \cdot A = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix} \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix} = \begin{bmatrix} -1 & 0 \\ 0 & -1 \end{bmatrix} = -I \\
+A^3 &= A^2 \cdot A = -I \cdot A = -A \\
+A^4 &= A^2 \cdot A^2 = (-I)(-I) = I
+\end{align*}
+Thus, the powers of $A$ repeat in a cycle of length 4: $I, A, -I, -A, I, A, -I, -A, \ldots$. Generally, for any integer $k \ge 0$:
+\begin{equation}
+A^{2k} = (-1)^k I, \quad A^{2k+1} = (-1)^k A
+\end{equation}
+Substituting these into the Taylor series expansion for the matrix exponential, we obtain:
+\begin{equation}
+\begin{aligned}
+e^{tA} &= \sum_{m=0}^\infty \frac{t^m A^m}{m!} \\
+      &= \sum_{k=0}^\infty \frac{t^{2k} A^{2k}}{(2k)!} + \sum_{k=0}^\infty \frac{t^{2k+1} A^{2k+1}}{(2k+1)!} \\
+      &= \sum_{k=0}^\infty \frac{t^{2k} (-1)^k I}{(2k)!} + \sum_{k=0}^\infty \frac{t^{2k+1} (-1)^k A}{(2k+1)!} \\
+      &= I \left( \sum_{k=0}^\infty (-1)^k \frac{t^{2k}}{(2k)!} \right) + A \left( \sum_{k=0}^\infty (-1)^k \frac{t^{2k+1}}{(2k+1)!} \right)
+\end{aligned}
+\end{equation}
+Recognizing the Taylor series expansion of the scalar functions $\cos t$ and $\sin t$:
+\begin{align}
+\cos t &= 1 - \frac{t^2}{2!} + \frac{t^4}{4!} - \dots = \sum_{k=0}^\infty (-1)^k \frac{t^{2k}}{(2k)!} \\
+\sin t &= t - \frac{t^3}{3!} + \frac{t^5}{5!} - \dots = \sum_{k=0}^\infty (-1)^k \frac{t^{2k+1}}{(2k+1)!}
+\end{align}
+We can substitute these series back to find:
+\begin{equation}
+e^{tA} = I \cos t + A \sin t
+\end{equation}
+Writing this in matrix form:
+\begin{equation}
+e^{tA} = \cos t \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} + \sin t \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix} = \begin{bmatrix} \cos t & \sin t \\ -\sin t & \cos t \end{bmatrix}
+\end{equation}
+\end{proof}
+\hfill $\square$
+
+\subsection{General Rotate-and-Scale 2x2 Matrix}
+Let $A = \begin{bmatrix} a & b \\ -b & a \end{bmatrix}$ for $a, b \in \mathbb{R}$. We wish to find a formula for $e^{tA}$.
+
+\begin{proof}
+We can decompose $A$ into a sum of diagonal and skew-symmetric parts:
+\begin{equation}
+A = \begin{bmatrix} a & 0 \\ 0 & a \end{bmatrix} + \begin{bmatrix} 0 & b \\ -b & 0 \end{bmatrix} = a I + b J
+\end{equation}
+where $I = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$ and $J = \begin{bmatrix} 0 & 1 \\ -1 & 0 \end{bmatrix}$. 
+
+Notice that the identity matrix $I$ commutes with any matrix, including $J$. Thus, the matrices $atI$ and $btJ$ commute. Applying the law of exponents:
+\begin{equation}
+e^{tA} = e^{t(aI + bJ)} = e^{atI} e^{btJ}
+\end{equation}
+We compute each factor separately:
+\begin{equation}
+e^{atI} = \sum_{k=0}^\infty \frac{(atI)^k}{k!} = I \sum_{k=0}^\infty \frac{(at)^k}{k!} = e^{at} I
+\end{equation}
+Using the result of the previous subsection, we have:
+\begin{equation}
+e^{btJ} = \begin{bmatrix} \cos bt & \sin bt \\ -\sin bt & \cos bt \end{bmatrix}
+\end{equation}
+Combining these:
+\begin{equation}
+e^{tA} = (e^{at} I) \begin{bmatrix} \cos bt & \sin bt \\ -\sin bt & \cos bt \end{bmatrix} = \begin{bmatrix} e^{at}\cos bt & e^{at}\sin bt \\ -e^{at}\sin bt & e^{at}\cos bt \end{bmatrix}
+\end{equation}
+\end{proof}
+\hfill $\square$
+
+
+% Chapter 4
+\chapter{Homogeneous Linear Systems}
+
+\section{Existence and Uniqueness Theorem}
+The vector differential equation $Y'(t) = AY(t)$, where $A$ is an $n \times n$ constant matrix and $Y$ is an $n$-dimensional vector function, is called a homogeneous linear system with constant coefficients. We shall use the exponential matrix to give an explicit formula for the solution of such a system.
+
+\begin{theorem}
+Let $A$ be a given $n \times n$ constant matrix and let $B$ be a given $n$-dimensional vector. Then the initial value problem:
+\begin{equation}
+\begin{aligned}
+Y'(t) &= AY(t) \\
+Y(0) &= B
+\end{aligned}
+\end{equation}
+has a unique solution on the interval $-\infty < t < +\infty$. This solution is given by the formula:
+\begin{equation}
+Y(t) = e^{tA}B
+\end{equation}
+More generally, the unique solution of the initial value problem $Y'(t) = AY(t)$, $Y(a) = B$, is $Y(t) = e^{(t-a)A}B$.
+\end{theorem}
+
+\begin{proof}
+First, we verify that $Y(t) = e^{tA}B$ is indeed a solution. Since $Y(0) = e^0 B = I B = B$, the initial condition is satisfied. Differentiating $Y(t)$, we obtain:
+\begin{equation}
+Y'(t) = \frac{d}{dt} \left( e^{tA}B \right) = \left( \frac{d}{dt} e^{tA} \right) B = \left( A e^{tA} \right) B = A \left( e^{tA}B \right) = AY(t)
+\end{equation}
+Thus, $Y(t)$ satisfies the differential equation.
+
+Now we prove uniqueness. Let $F(t)$ be any solution of the initial value problem, so $F'(t) = AF(t)$ and $F(0) = B$. Consider the auxiliary vector function:
+\begin{equation}
+G(t) = e^{-tA}F(t)
+\end{equation}
+Differentiating $G(t)$ using the product rule:
+\begin{equation}
+\begin{aligned}
+G'(t) &= \left( \frac{d}{dt} e^{-tA} \right) F(t) + e^{-tA} F'(t) \\
+      &= -A e^{-tA} F(t) + e^{-tA} A F(t)
+\end{aligned}
+\end{equation}
+Since $A$ commutes with $e^{-tA}$, we can rewrite the second term to get:
+\begin{equation}
+G'(t) = -A e^{-tA} F(t) + A e^{-tA} F(t) = 0
+\end{equation}
+Therefore, $G'(t)$ is the zero vector for all $t$, which implies $G(t)$ is a constant vector. Evaluating $G$ at $t = 0$:
+\begin{equation}
+G(0) = e^0 F(0) = I B = B
+\end{equation}
+Hence, $G(t) = B$ for all $t$. Re-substituting $G(t) = e^{-tA}F(t) = B$ and multiplying both sides on the left by $e^{tA}$:
+\begin{equation}
+F(t) = e^{tA} B
+\end{equation}
+This completes the proof of uniqueness.
+\end{proof}
+\hfill $\square$
+
+\begin{remark}
+Similarly, $F(t) = B e^{tA}$ is the only solution of the matrix initial value problem $F'(t) = F(t)A$, $F(0) = B$, where $B$ and $F(t)$ are matrices.
+\end{remark}
+
+
+% Chapter 5
+\chapter{The Cayley-Hamilton Theorem}
+
+\section{Statement and Proof of the Theorem}
+The Cayley-Hamilton Theorem is a fundamental result in linear algebra stating that every square matrix satisfies its own characteristic equation.
+
+\begin{theorem}[Cayley-Hamilton]
+Let $A$ be an $n \times n$ matrix with characteristic polynomial:
+\begin{equation}
+F(\lambda) = \det(\lambda I - A) = \lambda^n + c_{n-1}\lambda^{n-1} + \dots + c_1\lambda + c_0
+\end{equation}
+Then, substituting the matrix $A$ for $\lambda$ and $c_0 I$ for $c_0$, we have:
+\begin{equation}
+F(A) = A^n + c_{n-1}A^{n-1} + \dots + c_1 A + c_0 I = 0
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+We recall the adjugate matrix identity for any square matrix $M$:
+\begin{equation}
+M \cdot \text{adj}(M) = \det(M) I
+\end{equation}
+Let us replace $M$ by the matrix polynomial $\lambda I - A$. This yields:
+\begin{equation}\label{eq:ch_identity}
+(\lambda I - A) \cdot \text{adj}(\lambda I - A) = \det(\lambda I - A) I = F(\lambda) I
+\end{equation}
+The entries of $\text{adj}(\lambda I - A)$ are the cofactors of the entries of $\lambda I - A$. Since each cofactor is a determinant of an $(n-1) \times (n-1)$ submatrix of $\lambda I - A$, each entry of $\text{adj}(\lambda I - A)$ is a polynomial in $\lambda$ of degree at most $n-1$. Therefore, we can write the adjugate matrix as a matrix polynomial:
+\begin{equation}
+\text{adj}(\lambda I - A) = B_{n-1}\lambda^{n-1} + B_{n-2}\lambda^{n-2} + \dots + B_1\lambda + B_0
+\end{equation}
+where $B_{n-1}, \ldots, B_0$ are constant $n \times n$ matrices. Substituting this expression back into equation \eqref{eq:ch_identity}:
+\begin{equation}
+(\lambda I - A) \left( B_{n-1}\lambda^{n-1} + B_{n-2}\lambda^{n-2} + \dots + B_0 \right) = \left( \lambda^n + c_{n-1}\lambda^{n-1} + \dots + c_0 \right) I
+\end{equation}
+Expanding the left-hand side:
+\begin{equation}
+B_{n-1}\lambda^n + \sum_{k=1}^{n-1} (B_{k-1} - AB_k)\lambda^k - AB_0 = I\lambda^n + \sum_{k=1}^{n-1} c_k I \lambda^k + c_0 I
+\end{equation}
+By equating the coefficients of corresponding powers of $\lambda$ on both sides, we obtain the system of matrix equations:
+\begin{align}
+B_{n-1} &= I \\
+B_{n-2} - AB_{n-1} &= c_{n-1} I \\
+B_{n-3} - AB_{n-2} &= c_{n-2} I \\
+&\ \ \vdots \\
+B_0 - AB_1 &= c_1 I \\
+-AB_0 &= c_0 I
+\end{align}
+To eliminate the unknown matrices $B_k$, we multiply the first equation by $A^n$, the second by $A^{n-1}$, the third by $A^{n-2}$, ..., the second-to-last by $A$, and the last by $I$ on the left. This yields:
+\begin{align}
+A^n B_{n-1} &= A^n \\
+A^{n-1}B_{n-2} - A^n B_{n-1} &= c_{n-1} A^{n-1} \\
+A^{n-2}B_{n-3} - A^{n-1} B_{n-2} &= c_{n-2} A^{n-2} \\
+&\ \ \vdots \\
+AB_0 - A^2 B_1 &= c_1 A \\
+-AB_0 &= c_0 I
+\end{align}
+We sum all of these equations. The left-hand side forms a telescoping sum:
+\begin{equation}
+(A^n B_{n-1} - A^n B_{n-1}) + (A^{n-1}B_{n-2} - A^{n-1}B_{n-2}) + \dots + (AB_0 - AB_0) = 0
+\end{equation}
+Thus, summing the right-hand sides yields:
+\begin{equation}
+A^n + c_{n-1}A^{n-1} + c_{n-2}A^{n-2} + \dots + c_1 A + c_0 I = 0
+\end{equation}
+\end{proof}
+\hfill $\square$
+
+\section{Applications of the Theorem}
+The Cayley-Hamilton Theorem provides powerful shortcuts in matrix theory, particularly for the following operations:
+
+\subsection{Finding Higher Powers of a Matrix}
+Since $A^n = -c_{n-1}A^{n-1} - \dots - c_0 I$, we can express the $n$-th power of $A$ as a linear combination of lower powers. By multiplying this relation by $A$, we get:
+\begin{equation}
+A^{n+1} = -c_{n-1}A^n - \dots - c_0 A
+\end{equation}
+Substituting the expression for $A^n$ back into this equation yields $A^{n+1}$ in terms of $\{I, A, \ldots, A^{n-1}\}$. Repeating this process, any higher power $A^m$ ($m \ge n$) can be simplified to a polynomial in $A$ of degree at most $n-1$.
+
+\subsection{Finding the Matrix Inverse}
+If the constant term $c_0 \ne 0$ (which is equivalent to $\det(A) = (-1)^n c_0 \ne 0$), the matrix $A$ is invertible. We can rewrite the Cayley-Hamilton equation as:
+\begin{equation}
+A \left( A^{n-1} + c_{n-1}A^{n-2} + \dots + c_1 I \right) = -c_0 I
+\end{equation}
+Multiplying both sides by $-\frac{1}{c_0} A^{-1}$ yields:
+\begin{equation}
+A^{-1} = -\frac{1}{c_0} \left( A^{n-1} + c_{n-1}A^{n-2} + \dots + c_1 I \right)
+\end{equation}
+
+\section{Numerical Example: 3x3 Matrix}
+Consider the matrix:
+\begin{equation}
+A = \begin{bmatrix}
+5 & 4 & 0 \\
+1 & 2 & 0 \\
+1 & 2 & 2
+\end{bmatrix}
+\end{equation}
+We wish to compute its characteristic polynomial, verify the Cayley-Hamilton Theorem, and find formulas for $A^4$ and $A^{-1}$.
+
+\subsection*{Step 1: Characteristic Polynomial}
+The characteristic polynomial $F(\lambda) = \det(\lambda I - A)$ is given by:
+\begin{equation}
+F(\lambda) = \det \begin{bmatrix}
+\lambda - 5 & -4 & 0 \\
+-1 & \lambda - 2 & 0 \\
+-1 & -2 & \lambda - 2
+\end{bmatrix}
+\end{equation}
+Expanding along the third column:
+\begin{equation}
+\begin{aligned}
+F(\lambda) &= (\lambda - 2) \det \begin{bmatrix} \lambda - 5 & -4 \\ -1 & \lambda - 2 \end{bmatrix} \\
+           &= (\lambda - 2) \left[ (\lambda - 5)(\lambda - 2) - 4 \right] \\
+           &= (\lambda - 2) \left[ \lambda^2 - 7\lambda + 6 \right] \\
+           &= (\lambda - 2)(\lambda - 1)(\lambda - 6) \\
+           &= \lambda^3 - 9\lambda^2 + 20\lambda - 12
+\end{aligned}
+\end{equation}
+The eigenvalues are $\lambda_1 = 1$, $\lambda_2 = 2$, and $\lambda_3 = 6$.
+
+\subsection*{Step 2: Verification of Cayley-Hamilton}
+By the Cayley-Hamilton Theorem, $A$ must satisfy:
+\begin{equation}\label{eq:ch_3x3}
+A^3 - 9A^2 + 20A - 12I = 0
+\end{equation}
+This allows us to express $A^3$ as:
+\begin{equation}
+A^3 = 9A^2 - 20A + 12I
+\end{equation}
+
+\subsection*{Step 3: Calculating $A^4$}
+To find $A^4$, we multiply $A^3$ by $A$:
+\begin{equation}
+A^4 = A(A^3) = A(9A^2 - 20A + 12I) = 9A^3 - 20A^2 + 12A
+\end{equation}
+Now, substituting the expression for $A^3$ back into the equation:
+\begin{equation}
+\begin{aligned}
+A^4 &= 9(9A^2 - 20A + 12I) - 20A^2 + 12A \\
+    &= 81A^2 - 180A + 108I - 20A^2 + 12A \\
+    &= 61A^2 - 168A + 108I
+\end{aligned}
+\end{equation}
+Thus, the fourth power of $A$ is successfully reduced to a quadratic expression in $A$.
+
+\subsection*{Step 4: Calculating $A^{-1}$}
+Since the constant coefficient $c_0 = -12 \ne 0$, the inverse exists. Multiplying equation \eqref{eq:ch_3x3} by $A^{-1}$ yields:
+\begin{equation}
+A^2 - 9A + 20I - 12A^{-1} = 0 \implies 12A^{-1} = A^2 - 9A + 20I
+\end{equation}
+Thus, we find the formula:
+\begin{equation}
+A^{-1} = \frac{1}{12} \left( A^2 - 9A + 20I \right)
+\end{equation}
+
+
+% Chapter 6
+\chapter{Putzer's Method and Computational Techniques}
+
+\section{Putzer's Method Formulation}
+Putzer's Method is a highly efficient technique used to evaluate the matrix exponential $e^{tA}$ for any $n \times n$ matrix $A$ using only its eigenvalues, avoiding the need to compute eigenvectors. This is particularly advantageous when $A$ has repeated eigenvalues or is non-diagonalizable.
+
+Let $\lambda_1, \lambda_2, \ldots, \lambda_n$ be the eigenvalues of $A$ (listed in any order, with multiplicities). Putzer's theorem states that:
+\begin{equation}
+e^{tA} = \sum_{k=0}^{n-1} r_{k+1}(t) P_k(A)
+\end{equation}
+where the matrix polynomials $P_k(A)$ are defined by:
+\begin{equation}
+\begin{aligned}
+P_0(A) &= I \\
+P_k(A) &= (A - \lambda_k I)P_{k-1}(A) = \prod_{m=1}^k (A - \lambda_m I) \quad \text{for } k = 1, \ldots, n-1
+\end{aligned}
+\end{equation}
+The scalar coefficient functions $r_1(t), r_2(t), \ldots, r_n(t)$ are determined recursively by solving the following triangular system of initial value problems:
+\begin{align}
+r'_1(t) &= \lambda_1 r_1(t), & r_1(0) &= 1 \\
+r'_{k+1}(t) &= \lambda_{k+1} r_{k+1}(t) + r_k(t), & r_{k+1}(0) &= 0 \quad \text{for } k = 1, \ldots, n-1
+\end{align}
+
+\section{Example: 2x2 Matrix with Repeated Eigenvalue}
+Let $A$ be a $2 \times 2$ matrix with a repeated eigenvalue $\lambda_1 = \lambda_2 = \lambda$. We wish to find a formula for $e^{tA}$.
+
+\subsection*{Step 1: Compute Matrix Polynomials}
+Following the definition of $P_k(A)$:
+\begin{equation}
+\begin{aligned}
+P_0(A) &= I \\
+P_1(A) &= A - \lambda I
+\end{aligned}
+\end{equation}
+
+\subsection*{Step 2: Solve for Coefficient Functions}
+We solve the recursive system of differential equations.
+For $r_1(t)$:
+\begin{equation}
+r'_1(t) = \lambda r_1(t), \quad r_1(0) = 1 \implies r_1(t) = e^{\lambda t}
+\end{equation}
+For $r_2(t)$:
+\begin{equation}
+r'_2(t) = \lambda r_2(t) + r_1(t) \implies r'_2(t) = \lambda r_2(t) + e^{\lambda t}, \quad r_2(0) = 0
+\end{equation}
+Using the method of integrating factors, we multiply by $e^{-\lambda t}$:
+\begin{equation}
+e^{-\lambda t} \left( r'_2(t) - \lambda r_2(t) \right) = 1 \implies \frac{d}{dt} \left( r_2(t) e^{-\lambda t} \right) = 1
+\end{equation}
+Integrating from $0$ to $t$ with $r_2(0) = 0$:
+\begin{equation}
+r_2(t) e^{-\lambda t} = t \implies r_2(t) = t e^{\lambda t}
+\end{equation}
+
+\subsection*{Step 3: Assemble the Matrix Exponential}
+Using Putzer's formula:
+\begin{equation}
+\begin{aligned}
+e^{tA} &= r_1(t) P_0(A) + r_2(t) P_1(A) \\
+      &= e^{\lambda t} I + t e^{\lambda t} (A - \lambda I)
+\end{aligned}
+\end{equation}
+This provides a simple and direct formula for any $2 \times 2$ matrix with a repeated eigenvalue $\lambda$.
+
+\section{Diagonalization Method}
+When a matrix $A$ is diagonalizable, we can calculate $e^{tA}$ by finding a nonsingular matrix $C$ of eigenvectors such that $C^{-1}AC = D$, where $D$ is a diagonal matrix containing the eigenvalues. Then:
+\begin{equation}
+A = CDC^{-1} \implies A^k = CD^k C^{-1}
+\end{equation}
+Substituting this into the series expansion:
+\begin{equation}
+e^{tA} = \sum_{k=0}^\infty \frac{t^k A^k}{k!} = C \left( \sum_{k=0}^\infty \frac{t^k D^k}{k!} \right) C^{-1} = C e^{tD} C^{-1}
+\end{equation}
+where $e^{tD} = \text{diag}(e^{t\lambda_1}, \ldots, e^{t\lambda_n})$.
+
+\subsection{Detailed Diagonalization Example and Discrepancy Analysis}
+Calculate $e^{tA}$ for the $2 \times 2$ matrix:
+\begin{equation}
+A = \begin{bmatrix} 5 & 4 \\ 1 & 2 \end{bmatrix}
+\end{equation}
+
+\subsubsection*{Characteristic Equation and Eigenvalues}
+We find the eigenvalues by solving $\det(A - \lambda I) = 0$:
+\begin{equation}
+\begin{aligned}
+\det \begin{bmatrix} 5 - \lambda & 4 \\ 1 & 2 - \lambda \end{bmatrix} &= 0 \\
+(5-\lambda)(2-\lambda) - 4 &= 0 \\
+\lambda^2 - 7\lambda + 6 &= 0 \\
+(\lambda-6)(\lambda-1) &= 0
+\end{aligned}
+\end{equation}
+The eigenvalues are $\lambda_1 = 6$ and $\lambda_2 = 1$, meaning $D = \begin{bmatrix} 6 & 0 \\ 0 & 1 \end{bmatrix}$.
+
+\subsubsection*{Eigenvectors and Discrepancy Discussion}
+We want to find $C = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$ such that $AC = CD$, which expands to:
+\begin{equation}
+\begin{bmatrix} 5 & 4 \\ 1 & 2 \end{bmatrix} \begin{bmatrix} a & b \\ c & d \end{bmatrix} = \begin{bmatrix} a & b \\ c & d \end{bmatrix} \begin{bmatrix} 6 & 0 \\ 0 & 1 \end{bmatrix} \implies \begin{bmatrix} 5a+4c & 5b+4d \\ a+2c & b+2d \end{bmatrix} = \begin{bmatrix} 6a & b \\ 6c & d \end{bmatrix}
+\end{equation}
+This gives us the relations:
+\begin{enumerate}
+    \item $5a + 4c = 6a \implies a = 4c$ (eigenvector for $\lambda = 6$ is $\begin{bmatrix} 4 \\ 1 \end{bmatrix} c$)
+    \item $5b + 4d = b \implies 4b = -4d \implies b = -d$ (eigenvector for $\lambda = 1$ is $\begin{bmatrix} -1 \\ 1 \end{bmatrix} d$)
+\end{enumerate}
+If we take $c = d = 1$, we get the correct eigenvector matrix:
+\begin{equation}
+C_{\text{correct}} = \begin{bmatrix} 4 & -1 \\ 1 & 1 \end{bmatrix}
+\end{equation}
+*Discrepancy Note:* In certain draft notes, the eigenvector matrix was written with an incorrect sign as:
+\begin{equation}
+C_{\text{draft}} = \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix}
+\end{equation}
+If one uses this incorrect $C_{\text{draft}}$, the inverse is computed as:
+\begin{equation}
+C_{\text{draft}}^{-1} = \frac{1}{5}\begin{bmatrix} 1 & 1 \\ -1 & 4 \end{bmatrix}
+\end{equation}
+Leading to the incorrect computation:
+\begin{equation}
+\begin{aligned}
+e^{tA}_{\text{incorrect}} &= C_{\text{draft}} e^{tD} C_{\text{draft}}^{-1} \\
+&= \frac{1}{5} \begin{bmatrix} 4 & 1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} e^{6t} & 0 \\ 0 & e^t \end{bmatrix} \begin{bmatrix} 1 & 1 \\ -1 & 4 \end{bmatrix} \\
+&= \frac{1}{5} \begin{bmatrix} 4e^{6t} - e^t & 4e^{6t} + 4e^t \\ e^{6t} - e^t & e^{6t} + 4e^t \end{bmatrix}
+\end{aligned}
+\end{equation}
+
+For mathematical accuracy, we carry out the computation using the correct eigenvector matrix $C_{\text{correct}}$ and its inverse $C_{\text{correct}}^{-1} = \frac{1}{5} \begin{bmatrix} 1 & 1 \\ -1 & 4 \end{bmatrix}$:
+\begin{equation}
+\begin{aligned}
+e^{tA} &= C_{\text{correct}} e^{tD} C_{\text{correct}}^{-1} \\
+&= \begin{bmatrix} 4 & -1 \\ 1 & 1 \end{bmatrix} \begin{bmatrix} e^{6t} & 0 \\ 0 & e^t \end{bmatrix} \left( \frac{1}{5} \begin{bmatrix} 1 & 1 \\ -1 & 4 \end{bmatrix} \right) \\
+&= \frac{1}{5} \begin{bmatrix} 4e^{6t} & -e^t \\ e^{6t} & e^t \end{bmatrix} \begin{bmatrix} 1 & 1 \\ -1 & 4 \end{bmatrix} \\
+&= \frac{1}{5} \begin{bmatrix} 4e^{6t} + e^t & 4e^{6t} - 4e^t \\ e^{6t} - e^t & e^{6t} + 4e^t \end{bmatrix}
+\end{aligned}
+\end{equation}
+This final matrix represents the mathematically correct $e^{tA}$ for the given system.
+
+
+% References
+\begin{thebibliography}{9}
+\bibitem{apostol}
+Apostol, T. M. \emph{Calculus, Vol. II: Multi-Variable Calculus and Linear Algebra with Applications to Differential Equations and Probability}. 2nd ed., John Wiley \& Sons, 1969.
+
+\bibitem{boyce}
+Boyce, W. E., and DiPrima, R. C. \emph{Elementary Differential Equations and Boundary Value Problems}. 11th ed., John Wiley \& Sons, 2017.
+
+\bibitem{strang}
+Strang, G. \emph{Linear Algebra and Its Applications}. 4th ed., Cengage Learning, 2005.
+\end{thebibliography}
+
+\end{document}

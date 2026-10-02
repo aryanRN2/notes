@@ -1,0 +1,332 @@
+BANARAS HINDU
+UNIVERSITY
+INSTITUTE OF SCIENCE
+Department of Mathematics
+
+Mathematical Renaissance
+(A Model for India)
+Submitted by:
+Akshit Agarwal
+Roll No: 24220MAT024
+Enrollment No: 475073
+
+Guided by:
+Prof. Ashish Kumar
+Upadhyay Sir
+
+Academic Year 2025-2026
+May 15, 2026
+
+Acknowledgement
+May 15, 2026
+
+I would like to express my sincere gratitute to my respected supervisor and professor, Dr. Ashish Kumar Upadhayay, for his valuable
+guidance and encouragement throughout the completion of this internship report on ”A Mathematical model for India’s Mathematical
+Renaissance” His suggestions and motivation greatly helped me in
+understanding the topic and completing the work successfully.
+
+1
+
+Mathematical Renaissance
+Akshit Agarwal
+May 2026
+
+1
+
+Introduction
+
+Biologically humans are born with only two fears, the fear of loud noises and
+fear of falling, rest other fears are a response to external stimuli and taught
+by people around us .The fear of reptiles, arachnids and others are some-what
+induced in us.
+One such fear among people is the fear of Mathematics . The fear of mathematics, when logically analyzed is merely irrational and arise due to misunderstanding and poor knowledge of intricacies and beauty of Mathematics.
+In the article, ”The nation that fears Numbers”,” the author provided qualitative diagnosis of India’s Civilizational phobia of Mathematics. This could
+also be traced back to the later Vedic period, when females and lower classes
+of society were not allowed the privilege of education thus developing lower scientific attitude among people, which further (a possibility) may have lead to
+the development of fear of mathematics . As suggested by a scientific study , a
+new born inherits their thinking potential from their mother, which explains a
+lot. So, the anxiety generated from mathematics is not developed , but passed
+on from generations to generations as a non-linear dynamical system. When
+a student asks their mentor for a query but are left with a not that satisfactory explanation a psychological statement could be stuck in their head ” Is
+Mathematics really that tough”.
+This analysis provides us with the fact that phobia of mathematics is not
+internally developed but is transmitted from our mentors like teachers, parents,
+classmates, peers, seniors and others. The system of mathematical anxiety
+has two stable equilibria: a low-mathematics trap (the current state, in which
+anxiety self-perpetuates through teacher transmission and parental messaging)
+and a high-mathematics attractor (the desired state, in which mathematical
+confidence self-reinforces). We characterize the unstable saddle point (the tipping threshold) separating the two basins of teacher transformation, attraction,
+and we identify the three intervention classes that can shift the system early
+
+1
+
+childhood investment, and institutional revaluation across the tipping threshold most efficiently. We derive quantitative targets, timelines, and investment
+requirements for each intervention, and construct a composite ”Mathematical
+Health Index” (MHI) for India that can be tracked annually and compared internationally. The model predicts that a sustained, correctly sequenced investment
+program can move India across the tipping threshold in 12-15 years and achieve
+a high-mathematics equilibrium within 25 years — the window required for India to lead rather than follow the mathematics- intensive technologies of the
+mid-21st century.
+
+2
+
+The Quantitative Action Plan
+Akshit Agarwal
+May 2026
+
+1
+
+10 concrete action in 10 years
+1.1
+
+ASER + Anxiety Survey
+
+• What is proposed?
+Add a mathematics anxiety test to the annual ASER education survey.
+Measure: fear of maths, confidence, learning level, district-wise performance.
+• Why?
+Many students fail in maths because of fear and anxiety, not intelligence.
+The government needs data to track improvement.
+• Goal
+Create a baseline measurement for all districts. Use it like a feedback
+system to monitor reforms.
+• Cost
+INR 50 crore (Year 1)
+
+1.2
+
+500 Mathematics Transformation Centres
+
+• What is proposed?
+Create 500 teacher-training mathematics centres across India. Each centre
+trains about 200 teachers every year.
+• Training focus
+Conceptual understanding Problem solving Deep mathematical thinking
+Residential 6-week programmes
+• Why?
+Poor maths teaching is one of the biggest causes of weak learning. Better
+teachers → better students.
+1
+
+• Managed by
+University mathematics departments Funded by DST-SERB
+• Cost
+INR 2,500 crore capital INR 300 crore/year operational
+
+1.3
+
+NCERT Curriculum Rewrite
+
+• What is proposed?
+Rewrite Classes 1–5 maths curriculum. Done by mathematicians, not only
+administrators.
+• Key change
+Reduce unnecessary syllabus by 30%. Increase conceptual depth.
+• Why?
+Current system emphasizes memorization. Students don’t understand
+concepts properly.
+• Goal
+Fewer topics but deeper understanding.
+• Cost
+INR25 crore
+
+1.4
+
+Diagnostic Assessment System
+
+• What is proposed?
+Create annual diagnostic tests for every primary student. Tablet-based +
+paper version.
+• Purpose
+Identify exact conceptual weaknesses.
+• Important idea
+The report says: “Output is not a grade; it is a repair prescription.”
+Meaning: Test should help fix weaknesses, not just give marks.
+• Why important?
+Traditional exams only rank students. This system would diagnose learning gaps early.
+• Cost
+INR100 crore development INR30 crore/year operation
+2
+
+1.5
+
+Triple DST Mathematics Funding
+
+• What is proposed?
+Increase mathematics research funding from: INR120 crore → INR400
+crore annually. Fill 4,000 vacant faculty positions.
+• Why?
+India underinvests in pure mathematics research. Lack of professors and
+researchers weakens innovation.
+• Goal
+Strengthen university mathematics ecosystem.
+• Cost
+INR280 crore additional/year INR500 crore/year for faculty salaries
+
+1.6
+
+“I Am a Maths Person” National Campaign
+
+• What is proposed?
+National awareness campaign to change public attitude toward mathematics.
+• Main idea
+The report says maths anxiety is often socially created: parents say “maths
+is hard,” teachers spread fear, society labels children early.
+• Campaign target groups
+Parents, Teachers, and Students
+• Inspired by
+“Beti Bachao Beti Padhao”
+• Goal
+Reduce transmission of maths fear by parents by 30%.
+• Cost
+INR200 crore
+
+1.7
+
+Stream Destreaming
+
+• What is proposed?
+Make quantitative reasoning compulsory for all Class 11–12 students regardless of stream. Includes: logical thinking, statistics, quantitative reasoning.
+3
+
+• Why?
+Currently: Arts students avoid maths, Commerce students avoid advanced
+reasoning, Science students dominate quantitative fields. This creates
+division and fear.
+• Goal
+Basic mathematical literacy for everyone.
+• Cost
+Negligible
+
+1.8
+
+Five New Mathematics Research Clusters
+
+• What is proposed?
+Create 5 major regional mathematics research centres.
+• Model
+Based on ICTS Bangalore.
+• Functions
+Fundamental research Teacher engagement Collaboration Advanced mathematics training
+• Why?
+India lacks world-class mathematics hubs.
+• Goal
+Create regional centres of excellence.
+• Cost
+INR1,000 crore capital INR150 crore/year operation
+
+1.9
+
+Mathematician in Society Fellowship
+
+• What is proposed?
+1,000 fellowships for mathematicians to work outside academia.
+• Areas
+Government ministries Media organizations Industry
+• Roles
+Data analysis Quantitative policy work Mathematical consulting
+
+4
+
+• Why?
+Mathematics should influence real-world decision-making.
+• Goal
+Make mathematical thinking visible in society.
+• Cost
+INR200 crore/year
+
+1.10
+
+Fields Medal Preparatory Track
+
+• What is proposed?
+Identify 50 exceptionally talented students every year after Class 11.
+• Provide
+Olympiad pathway, Elite mentoring and PhD/postdoctoral guidance
+• Goal
+Prepare India for its first Fields Medal within 20 years.
+• What is Fields Medal?
+The highest international award in mathematics (similar to Nobel Prize
+for maths).
+• Cost
+INR20 crore/year
+
+2
+
+Important Comparison Given
+
+India’s annual education budget = INR1.48 lakh crore. Entire 10-year maths
+reform plan costs only: 1.4% of one year’s education budget. Meaning: The
+author argues this transformation is financially very feasible.
+
+5
+
+2.1 Total Investment and Return
+Program
+Capital Annual Opex
+(Rs. Cr.)
+2500
+25
+100
+–
+–
+–
+1000
+–
+–
+50
+3675
+
+Teacher Transformation Centers
+NCERT Curriculum Rewrite
+Diagnostic Assessment System
+DST Mathematics Funding Increase
+Faculty Hiring (4000 posts)
+National Campaign
+Mathematics Research Cluster(5)
+Mathematician in Society Fellowship
+Fields Medal Preparatory track
+ASER Anxiety Survey
+
+TOTAL
+2.2
+
+(Rs. Cr.)
+300
+–
+30
+280
+500
+200
+150
+200
+20
+15
+1695
+
+Overall core Idea of the Document
+
+The author believes India’s mathematics crisis is NOT because students are
+incapable. Main problems are: maths anxiety, weak conceptual teaching, rote
+learning, poor teacher training, low research funding, social fear of mathematics. The plan tries to solve all of these together: Better teachers Better curriculum Better diagnostics Better research ecosystem Better public attitude toward
+maths
+
+2.3
+
+To summarize in one line
+
+The thesis proposes a national mathematical renaissance where India treats
+mathematics as a strategic national capability, similar to science, technology, or
+infrastructure.
+
+6
+
+References
+May 15, 2026
+
+The content of this works were taken from the research
+paper ”A Mathematical Model for India’s Mathematical
+Renaissance”.
+
+1
+
+

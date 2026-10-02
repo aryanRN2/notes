@@ -1,0 +1,2 @@
+when i gave this pdf to my teach for submit my assignment he started criticizing on the font and cover page
+he use some kind of plagrisim software which detect 70 percent plagrism how can i make my project so that it should not be detected by any software 
